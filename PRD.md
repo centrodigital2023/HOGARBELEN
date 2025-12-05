@@ -1,133 +1,174 @@
 # Planning Guide
 
-A comprehensive platform for discovering and validating healthcare professionals in Colombia, featuring real-time availability tracking, AI-powered credential validation, and direct WhatsApp contact integration.
+Hogar Belén is an integrated SaaS platform connecting families with elder care services through a day care center (Centro de Vida) and a network of verified healthcare professionals. The platform combines in-person care, home services, AI-assisted health monitoring, and family coordination tools.
 
 **Experience Qualities**:
-1. **Trustworthy** - Users need to feel confident in the credentials and availability of healthcare professionals through transparent ratings, schedules, and AI validation
-2. **Efficient** - Quick filtering and instant availability status help users find the right professional without delays
-3. **Connected** - Seamless WhatsApp integration enables immediate communication between patients and professionals
+1. **Compassionate** - Design should evoke warmth, trust, and family connection while maintaining professionalism in healthcare services
+2. **Integrated** - Seamlessly connects day care activities, professional services, and family communication in one ecosystem
+3. **Intelligent** - AI-powered care recommendations, health monitoring, and professional matching that feels proactive and helpful
 
-**Complexity Level**: Light Application (multiple features with basic state)
-The application manages professional data, implements real-time availability calculations, integrates with external APIs (Gemini AI, WhatsApp), and provides sophisticated filtering and sorting mechanisms.
+**Complexity Level**: Complex Application (advanced functionality with multiple views)
+The application manages user authentication (families/professionals), day care center services, professional directory with booking, AI care assistant, health monitoring dashboard, messaging system, and service plan management.
 
 ## Essential Features
 
-### Professional Directory Grid
-- **Functionality**: Displays healthcare professionals with photos, credentials, ratings, and real-time availability
-- **Purpose**: Provides comprehensive information to help users make informed decisions about healthcare providers
-- **Trigger**: Page load and filter changes
-- **Progression**: User lands on page → sees grid of professionals → views detailed cards → assesses availability → takes action
-- **Success criteria**: All professional information clearly displayed, images load properly, availability status calculated accurately
+### Home Page with Hero & Services
+- **Functionality**: Landing page showcasing day care center services, professional network, testimonials, and value proposition
+- **Purpose**: Educate visitors about integrated care model and drive registrations
+- **Trigger**: Initial page load or navigation to home
+- **Progression**: Hero with background image → Services carousel (Centro Vida/Professionals/Technology) → Trust badges → Testimonials → Inspirational quotes
+- **Success criteria**: Clear value proposition, compelling visuals, strong CTAs to register or explore services
+
+### User Authentication System
+- **Functionality**: Registration and login for families and professionals with role-based access
+- **Purpose**: Personalize experience and gate dashboard features
+- **Trigger**: Click "Registrarse" or "Ingresar" buttons
+- **Progression**: User selects role (family/professional) → fills form → creates account → redirected to appropriate dashboard
+- **Success criteria**: Smooth registration flow, persistent authentication, role-appropriate dashboard access
+
+### Family Dashboard
+- **Functionality**: Centralized control panel for families showing health metrics, appointments, activities, and quick actions
+- **Purpose**: Give families visibility and control over their loved one's care
+- **Trigger**: Login as family member
+- **Progression**: Overview tab (health metrics, upcoming appointments, recent activity) → Professionals tab (search/filter/contact) → Appointments → Reports → Messages
+- **Success criteria**: All relevant information at-a-glance, easy navigation between sections, quick action buttons functional
+
+### Professional Directory with Search & Filters
+- **Functionality**: Browse healthcare professionals by specialty, availability, ratings, with search and filtering
+- **Purpose**: Help families find and connect with appropriate care professionals
+- **Trigger**: Navigate to Professionals section in dashboard or landing page
+- **Progression**: View all professionals → Apply filters (specialty, availability, rating) → Search by name → View details → Contact
+- **Success criteria**: Fast filtering, clear professional cards, availability status accurate, smooth contact flow
+
+### Day Care Center (Centro de Vida) Services
+- **Functionality**: Display integrated day care services including therapeutic activities, nutrition, garden therapy, guided exercise
+- **Purpose**: Showcase the comprehensive daily care program available at the physical center
+- **Trigger**: Navigate to Services page or view service carousel
+- **Progression**: View service categories → Explore details → See pricing plans → Request information
+- **Success criteria**: Clear service descriptions, appealing visuals, easy plan comparison
+
+### AI Care Assistant
+- **Functionality**: Intelligent assistant that analyzes health situations and recommends appropriate professionals/services
+- **Purpose**: Help families make informed care decisions through AI-powered analysis
+- **Trigger**: Click "Evaluación IA" button from hero or dashboard
+- **Progression**: Describe situation → AI analyzes → Receives recommendations → View suggested professionals/plan → Book service
+- **Success criteria**: Natural language input, relevant recommendations, smooth handoff to booking
+
+### Service Plans & Pricing
+- **Functionality**: Display three tier plans (Básico, Integral Conectado, Premium Total) with features and pricing
+- **Purpose**: Clear pricing transparency and plan comparison to drive conversions
+- **Trigger**: Navigate to pricing page or click plan CTAs
+- **Progression**: View plans side-by-side → Compare features → Select plan → Contact or register
+- **Success criteria**: Clear feature differentiation, popular plan highlighted, easy contact for custom plans
 
 ### Real-Time Availability System
-- **Functionality**: Calculates current availability status based on professional schedules and current time
-- **Purpose**: Shows users which professionals are available right now versus occupied or off-duty
-- **Trigger**: Continuous calculation based on browser time and schedule data
-- **Progression**: System reads schedule → parses time slots → compares to current time → displays status badge
-- **Success criteria**: Accurate status display (Disponible, Ocupado, Ausente, Urgencias), updates reflect actual schedule
-
-### Category Filtering
-- **Functionality**: Filter professionals by category (Enfermería, Cuidadores, Terapia, Médicos, Otros) or availability status
-- **Purpose**: Helps users quickly narrow down to relevant professionals
-- **Trigger**: User clicks filter button
-- **Progression**: User views all professionals → selects filter → grid updates → relevant professionals shown
-- **Success criteria**: Instant filtering, maintains sort order, "Disponible Ahora" shows only currently available
-
-### AI Validation System
-- **Functionality**: Generates AI-powered summaries using Gemini API with grounding sources about professional credentials and salary ranges
-- **Purpose**: Provides additional validation and context about healthcare professionals in Colombia
-- **Trigger**: User clicks "Validación IA" button on a professional card
-- **Progression**: User clicks button → API call initiated → loading state shown → summary generated with sources → displayed in card
-- **Success criteria**: Relevant summary generated, grounding sources displayed, graceful error handling, fallback simulation if no API key
+- **Functionality**: Calculate and display professional availability based on schedules and current time
+- **Purpose**: Show families which professionals can help immediately
+- **Trigger**: Continuous calculation on professional cards
+- **Progression**: Parse schedule → Compare to current time → Display status badge → Update dynamically
+- **Success criteria**: Accurate status (Disponible, Ocupado, Ausente, Urgencias), real-time updates
 
 ### WhatsApp Contact Integration
-- **Functionality**: Opens WhatsApp chat with pre-filled context-aware message to professional
-- **Purpose**: Enables immediate, convenient communication between users and professionals
-- **Trigger**: User clicks "Contactar por WhatsApp" button
-- **Progression**: User clicks button → WhatsApp opens in new tab → message pre-filled → user can send
-- **Success criteria**: Correct phone number dialed, appropriate message based on status (urgencias vs normal), opens in new window
+- **Functionality**: Direct WhatsApp messaging to professionals with context-aware pre-filled messages
+- **Purpose**: Enable immediate communication between families and care providers
+- **Trigger**: Click contact button on professional card
+- **Progression**: Click button → WhatsApp opens → Message pre-filled with context → Send message
+- **Success criteria**: Correct number, appropriate message based on availability status, new window opens
 
 ## Edge Case Handling
-- **Empty Filter Results**: Display friendly message indicating no professionals match the criteria with suggestion to try different filter
-- **AI API Failure**: Show error message, implement exponential backoff retry logic, provide simulated fallback response if API key missing
-- **Invalid Schedule Data**: Handle parsing errors gracefully, default to "Estado Desconocido" status
-- **Missing Images**: Fallback to placeholder with professional's initials and category color
-- **Disabled Actions**: Disable WhatsApp button when professional is unavailable (except for urgencias status)
-- **Loading States**: Show spinner and "Analizando..." text during AI generation
+- **No Search Results**: Friendly empty state with suggestion to adjust filters or try different search terms
+- **Unauthenticated Access**: Redirect to login when trying to access dashboard, preserve intended destination
+- **Missing User Data**: Graceful fallbacks for avatar, name fields with placeholder values
+- **API Failures**: Toast notifications for errors, simulated responses for AI assistant if needed
+- **Invalid Schedule Data**: Default to "Estado Desconocido" with graceful error handling
+- **Image Loading Errors**: Fallback to color-coded placeholder with initials
+- **Mobile Navigation**: Collapsible menu with smooth animations, touch-friendly tap targets
 
 ## Design Direction
-The design should feel modern, professional, and tech-forward while maintaining approachability. It should evoke trust through clean information hierarchy, use of validation badges, and transparent display of credentials. The interface should feel efficient and data-rich without overwhelming users.
+The design should feel warm, trustworthy, and family-oriented while maintaining healthcare professionalism. It should evoke compassion through soft colors, rounded corners, and welcoming imagery of seniors in care settings. The interface balances emotional connection (family photos, testimonials) with functional healthcare tools (dashboards, metrics, professional credentials).
 
 ## Color Selection
-A professional, tech-forward palette centered around indigo/purple tones that communicate trust, intelligence, and healthcare professionalism.
+A warm, trustworthy palette centered around teal/turquoise tones that communicate healthcare, compassion, and vitality.
 
-- **Primary Color**: Indigo (oklch(0.55 0.2 265)) - Represents professionalism, trust, and healthcare technology
+- **Primary Color**: Teal (oklch(0.55 0.15 200)) - Represents healthcare trust, calmness, and professional care
 - **Secondary Colors**: 
-  - Light Gray (oklch(0.97 0.005 240)) - Clean, minimal background
-  - Purple Accent (oklch(0.68 0.25 305)) - For AI/tech features
-- **Accent Color**: Various status colors - Green for available, Yellow for occupied, Red for absent/urgencias
+  - Soft Gray (oklch(0.97 0.005 240)) - Clean, peaceful background
+  - Warm Orange (oklch(0.68 0.18 50)) - Energy, warmth for accent elements
+- **Accent Color**: 
+  - Indigo/Purple (oklch(0.55 0.2 270)) - For AI/tech features
+  - Status colors: Green (available), Yellow (busy), Red (unavailable/urgent)
 - **Foreground/Background Pairings**:
-  - Light Background (oklch(0.97 0.005 240)): Dark text (oklch(0.2 0.02 250)) - Ratio 14.2:1 ✓
-  - Indigo Primary (oklch(0.55 0.2 265)): White text (oklch(0.99 0 0)) - Ratio 7.8:1 ✓
-  - Purple Accent (oklch(0.68 0.25 305)): White text (oklch(0.99 0 0)) - Ratio 5.1:1 ✓
-  - Green Success: White text - Status indicators
-  - Red Warning: White text - Urgencias/unavailable indicators
+  - Soft Gray Background (oklch(0.97 0.005 240)): Dark text (oklch(0.15 0.02 200)) - Ratio 15.1:1 ✓
+  - Teal Primary (oklch(0.55 0.15 200)): White text (oklch(0.99 0 0)) - Ratio 6.8:1 ✓
+  - Indigo AI Accent (oklch(0.55 0.2 270)): White text (oklch(0.99 0 0)) - Ratio 7.8:1 ✓
+  - Warm Orange Accent (oklch(0.68 0.18 50)): Dark text (oklch(0.2 0.02 250)) - Ratio 8.2:1 ✓
 
 ## Font Selection
-Inter as the sole typeface provides a modern, tech-forward aesthetic with excellent readability across all weights and maintains professional credibility.
+Inter as the primary typeface provides modern professionalism with warmth through its rounded forms. It maintains excellent readability for healthcare content while feeling approachable for families.
 
-- **Primary**: Inter for all text - modern, highly legible, tech-industry standard
+- **Primary**: Inter for all text - modern, humanist, highly legible across all devices
 
 **Typographic Hierarchy**:
-- H1 (Page Title): Inter ExtraBold/36-48px/tight letter spacing
-- H3 (Professional Name): Inter ExtraBold/20px/normal spacing
-- Body (Role/Details): Inter Regular/14-16px/relaxed line height
-- Labels: Inter Medium/12-14px/normal spacing
-- Badges: Inter SemiBold/12px/uppercase for categories
+- H1 (Hero Title): Inter Bold/56-72px/tight letter spacing (-0.02em)
+- H2 (Section Headers): Inter Bold/36-48px/tight letter spacing
+- H3 (Card Titles): Inter Bold/20-24px/normal spacing
+- Body (Descriptions): Inter Regular/16-18px/relaxed line height (1.6)
+- Small (Labels/Metadata): Inter Medium/14px/normal spacing
+- Badges: Inter SemiBold/12px/slight uppercase
 
 ## Animations
-Animations should feel snappy and purposeful, reinforcing the tech-forward nature of the platform. Card entries use scale + fade for polish. Layout shifts when filtering use Framer Motion's layout animations for smooth repositioning. Loading states use spinning indicators. AI summary reveals use slide-up motion to feel like information appearing. All hover states include subtle scale transforms and shadow increases.
+Animations should feel gentle and reassuring, never jarring. Page transitions use subtle fade-ins. Card reveals stagger slightly for polish. Hover states include gentle lifts and scale. The AI assistant uses a pulsing indicator during analysis. Dashboard metrics count up on reveal. All animations respect prefers-reduced-motion.
 
 ## Component Selection
 - **Components**: 
-  - Card (shadcn) - Professional profile cards with extensive customization
-  - Button (shadcn) - Primary actions (contact, AI validation), secondary (filters)
-  - Badge (shadcn) - Category labels, status indicators, schedule chips
-  - Framer Motion AnimatePresence/motion.div - For smooth filtering animations
-  - Lucide Icons - Status icons (CheckCircle, XCircle, MinusCircle, Zap), feature icons (Star, MapPin, MessageCircle)
+  - Button (shadcn) - Primary actions, ghost buttons for nav, AI variant with gradient
+  - Card (shadcn) - Professional cards, service cards, dashboard widgets
+  - Badge (shadcn) - Status indicators, category labels, plan features
+  - Input (shadcn) - Search bars, forms with floating labels
+  - Avatar (shadcn) - User profiles, professional photos with fallbacks
+  - Tabs (shadcn) - Dashboard navigation between sections
+  - Toast (sonner) - Notifications for actions, errors, success messages
+  - Framer Motion - Page transitions, card animations, layout shifts
   
 - **Customizations**: 
-  - Professional cards with image headers, status badges, schedule displays
-  - Custom filter bar with sticky positioning
-  - AI summary expansion with source citations
-  - Status calculation system with time parsing
+  - Hero section with background image overlay
+  - Service carousel with category tabs
+  - Professional cards with availability badges
+  - Dashboard with quick action tiles
+  - AI assistant chat-like interface with gradient background
+  - Testimonial cards with quote styling
   
 - **States**: 
-  - Buttons: Disabled state for unavailable professionals, loading state with spinner for AI
-  - Cards: Hover shadow lift, smooth layout repositioning during filter changes
-  - Filter buttons: Active state (filled indigo), inactive (gray), "Disponible Ahora" (green accent)
-  - AI Summary: Collapsed by default, expands on generation with sources list
+  - Buttons: Default, hover (lift), active, disabled (for unavailable), loading (spinner)
+  - Navigation: Active page highlighted, mobile menu animated slide-in
+  - Professional cards: Hover shadow lift, availability badge color-coded
+  - Form inputs: Focus ring (teal), error state (red), success (green)
+  - Dashboard tabs: Active underline, inactive muted
   
 - **Icon Selection**: 
-  - CheckCircle - Available status
-  - MinusCircle - Occupied status
-  - XCircle - Absent status
-  - Zap - Urgencias status and AI features
-  - Star - Ratings display
-  - MapPin - Location
-  - MessageCircle - WhatsApp contact
-  - UserCheck - Main app icon
-  - Loader2 - Loading states
+  - Heart - Logo, love/care features
+  - Users - Team, professionals
+  - Home - Day care center
+  - Brain/Bot - AI assistant
+  - Shield - Security, verification
+  - Calendar - Appointments
+  - MessageCircle - Messaging/WhatsApp
+  - Star - Ratings
+  - CheckCircle/XCircle/MinusCircle - Availability status
+  - Stethoscope, Activity - Healthcare services
+  - Music, Utensils, Sprout - Day care activities
   
 - **Spacing**: 
-  - Grid: gap-6 between professional cards
-  - Card internal: p-6 with mb-4 between sections
-  - Filter bar: gap-2 between buttons, p-4 container padding
-  - Page wrapper: p-4 sm:p-8
+  - Page wrapper: max-w-7xl mx-auto px-4 py-12
+  - Section gaps: space-y-20 between major sections
+  - Grid: gap-6 for cards, gap-8 for feature blocks
+  - Card internal: p-6 with space-y-4
+  - Button spacing: px-6 py-3 for large, px-4 py-2 for medium
   
 - **Mobile**: 
-  - Grid: 1 column mobile → 2 columns tablet → 3 columns desktop
-  - Cards: Full width on mobile with stacked action buttons
-  - Filter bar: Wraps buttons on smaller screens, remains sticky
-  - Header: Text scales down appropriately
-  - Status badges: Remain visible but may stack on very small screens
+  - Navigation: Hamburger menu with slide-in drawer
+  - Hero: Single column with stacked content, smaller text
+  - Service carousel: Horizontal scroll on mobile
+  - Professional grid: 1 column mobile → 2 tablet → 3 desktop
+  - Dashboard: Tabs scroll horizontally, cards stack
+  - Forms: Full width inputs with larger touch targets (min 44px)

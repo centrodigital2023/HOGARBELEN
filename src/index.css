@@ -8,33 +8,36 @@
 }
 
 :root {
-  --background: oklch(0.99 0 0);
-  --foreground: oklch(0.15 0.02 250);
+  --background: oklch(0.99 0.005 240);
+  --foreground: oklch(0.15 0.02 200);
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0.02 250);
+  --card-foreground: oklch(0.15 0.02 200);
 
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.02 250);
+  --popover-foreground: oklch(0.15 0.02 200);
 
-  --primary: oklch(0.55 0.22 270);
+  --primary: oklch(0.55 0.15 200);
   --primary-foreground: oklch(0.99 0 0);
 
-  --secondary: oklch(0.94 0.01 250);
-  --secondary-foreground: oklch(0.15 0.02 250);
+  --secondary: oklch(0.94 0.01 240);
+  --secondary-foreground: oklch(0.15 0.02 200);
 
-  --muted: oklch(0.96 0.01 250);
-  --muted-foreground: oklch(0.48 0.02 250);
+  --muted: oklch(0.96 0.01 240);
+  --muted-foreground: oklch(0.48 0.02 200);
 
-  --accent: oklch(0.62 0.24 295);
+  --accent: oklch(0.68 0.18 50);
   --accent-foreground: oklch(0.99 0 0);
 
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(1 0 0);
 
-  --border: oklch(0.92 0.01 250);
-  --input: oklch(0.92 0.01 250);
-  --ring: oklch(0.55 0.22 270);
+  --border: oklch(0.92 0.01 240);
+  --input: oklch(0.92 0.01 240);
+  --ring: oklch(0.55 0.15 200);
+
+  --ai-gradient-from: oklch(0.55 0.2 270);
+  --ai-gradient-to: oklch(0.62 0.24 295);
 
   --radius: 1rem;
 }
@@ -76,16 +79,32 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Inter', sans-serif;
-  font-weight: 800;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 56px;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 1.3;
 }
 
 @media (max-width: 768px) {
   h1 {
-    font-size: 28px;
+    font-size: 36px;
   }
   
   h2 {
-    font-size: 24px;
+    font-size: 28px;
   }
   
   h3 {
