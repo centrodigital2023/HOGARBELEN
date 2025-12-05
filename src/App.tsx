@@ -11,7 +11,20 @@ import {
   XCircle, 
   MinusCircle, 
   UserCheck, 
-  Calendar 
+  Calendar,
+  Heart,
+  Shield,
+  Users,
+  TrendingUp,
+  Play,
+  ArrowRight,
+  Check,
+  Menu,
+  X as XIcon,
+  Mail,
+  Phone,
+  Globe,
+  UserPlus
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -136,7 +149,7 @@ const initialProfessionals: Professional[] = [
     rating: 5.0, 
     reviews: 155, 
     location: "Bogotá", 
-    image: "https://placehold.co/200x200/6366F1/FFFFFF?text=MFR", 
+    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop", 
     whatsappNumber: "+573101234567", 
     initialStatus: 'Disponible', 
     schedule: ['Lun 8-12', 'Mar 2-6', 'Vie 8-4'] 
@@ -149,7 +162,7 @@ const initialProfessionals: Professional[] = [
     rating: 4.8, 
     reviews: 78, 
     location: "Medellín", 
-    image: "https://placehold.co/200x200/6366F1/FFFFFF?text=JDG", 
+    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop", 
     whatsappNumber: "+573112345678", 
     initialStatus: 'Ocupado', 
     schedule: ['Mar 9-5', 'Jue 9-5'] 
@@ -162,7 +175,7 @@ const initialProfessionals: Professional[] = [
     rating: 5.0, 
     reviews: 210, 
     location: "Cali", 
-    image: "https://placehold.co/200x200/10B981/FFFFFF?text=LSC", 
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=400&fit=crop", 
     whatsappNumber: "+573123456789", 
     initialStatus: 'Ausente', 
     schedule: ['Lun a Vie 7-7'] 
@@ -175,7 +188,7 @@ const initialProfessionals: Professional[] = [
     rating: 4.9, 
     reviews: 92, 
     location: "Barranquilla", 
-    image: "https://placehold.co/200x200/10B981/FFFFFF?text=AFS", 
+    image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&h=400&fit=crop", 
     whatsappNumber: "+573134567890", 
     initialStatus: 'Disponible', 
     schedule: ['Sáb 8-1', 'Dom 8-1'] 
@@ -188,7 +201,7 @@ const initialProfessionals: Professional[] = [
     rating: 4.7, 
     reviews: 45, 
     location: "Bogotá", 
-    image: "https://placehold.co/200x200/F59E0B/FFFFFF?text=MLR", 
+    image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&h=400&fit=crop", 
     whatsappNumber: "+573145678901", 
     initialStatus: 'Ocupado', 
     schedule: ['Lun 9-3', 'Mie 9-3', 'Vie 9-3'] 
@@ -201,7 +214,7 @@ const initialProfessionals: Professional[] = [
     rating: 4.8, 
     reviews: 68, 
     location: "Medellín", 
-    image: "https://placehold.co/200x200/F59E0B/FFFFFF?text=CEP", 
+    image: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400&h=400&fit=crop", 
     whatsappNumber: "+573156789012", 
     initialStatus: 'Disponible', 
     schedule: ['Lun a Jue 1-7'] 
@@ -214,7 +227,7 @@ const initialProfessionals: Professional[] = [
     rating: 5.0, 
     reviews: 121, 
     location: "Cali", 
-    image: "https://placehold.co/200x200/EF4444/FFFFFF?text=RP", 
+    image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&h=400&fit=crop", 
     whatsappNumber: "+573167890123", 
     initialStatus: 'Disponible', 
     schedule: ['Solo Urgencias'] 
@@ -227,36 +240,10 @@ const initialProfessionals: Professional[] = [
     rating: 4.9, 
     reviews: 88, 
     location: "Barranquilla", 
-    image: "https://placehold.co/200x200/EF4444/FFFFFF?text=EC", 
+    image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&h=400&fit=crop", 
     whatsappNumber: "+573178901234", 
     initialStatus: 'Ausente', 
     schedule: ['Lun, Mie, Vie 8-12'] 
-  },
-  { 
-    id: 9, 
-    name: "Juan Camilo Restrepo", 
-    role: "Nutricionista Dietista", 
-    category: "Otros", 
-    rating: 4.6, 
-    reviews: 30, 
-    location: "Bogotá", 
-    image: "https://placehold.co/200x200/8B5CF6/FFFFFF?text=JCR", 
-    whatsappNumber: "+573189012345", 
-    initialStatus: 'Disponible', 
-    schedule: ['Lun a Vie 1-5'] 
-  },
-  { 
-    id: 10, 
-    name: "Dra. Paula Andrea Vélez", 
-    role: "Psicóloga Clínica", 
-    category: "Otros", 
-    rating: 4.9, 
-    reviews: 105, 
-    location: "Medellín", 
-    image: "https://placehold.co/200x200/8B5CF6/FFFFFF?text=PAV", 
-    whatsappNumber: "+573190123456", 
-    initialStatus: 'Ocupado', 
-    schedule: ['Mar, Jue 2-7a.m.'] 
   },
 ];
 
@@ -291,6 +278,8 @@ interface AISummary {
 }
 
 function App() {
+  const [activeSection, setActiveSection] = useState('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [professionalsList] = useState(initialProfessionals);
   const [filter, setFilter] = useState('Todos');
   const [aiSummary, setAiSummary] = useState<AISummary | null>(null);
@@ -339,98 +328,24 @@ function App() {
     window.open(`https://wa.me/${number}?text=${message}`, '_blank');
   };
 
-  const exponentialBackoffFetch = async (url: string, options: RequestInit, maxRetries = 5): Promise<Response> => {
-    for (let i = 0; i < maxRetries; i++) {
-      try {
-        const response = await fetch(url, options);
-        if (response.ok) return response;
-        if (response.status === 429 || response.status >= 500) {
-          const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
-          await new Promise(resolve => setTimeout(resolve, delay));
-          continue;
-        }
-        throw new Error(`API returned status ${response.status}`);
-      } catch (error) {
-        if (i === maxRetries - 1) throw error;
-      }
-    }
-    throw new Error('Max retries reached');
-  };
-
   const generateProfessionalSummary = async (pro: Professional) => {
     setLoadingId(pro.id);
     setAiSummary(null);
     setError(null);
 
-    const systemPrompt = "Actúa como un experto en recursos humanos y salud en Colombia. Genera un resumen conciso y fáctico, en un solo párrafo, sobre el rol, las certificaciones clave y las expectativas salariales aproximadas (rangos) del profesional de la salud. Incluye la localización.";
+    toast.info(`Generando perfil detallado para ${pro.name}...`);
     
-    const userQuery = `Analiza la información del siguiente profesional en Colombia: Nombre: ${pro.name}, Rol: ${pro.role}, Categoría: ${pro.category}, Ciudad: ${pro.location}, Rating: ${pro.rating}. Genera el resumen solicitado.`;
-    
-    const apiKey = "";
-    
-    if (!apiKey) {
-      toast.error("API key no configurada. Simularemos un resumen de IA.");
+    setTimeout(() => {
+      setAiSummary({
+        text: `${pro.name} es ${pro.role} con base en ${pro.location}, Colombia. Con una calificación de ${pro.rating}/5.0 basada en ${pro.reviews} evaluaciones, se especializa en ${pro.category}. Los profesionales en esta categoría típicamente requieren certificaciones específicas del sector salud y tienen un rango salarial competitivo en el mercado colombiano, dependiendo de la experiencia y ubicación geográfica.`,
+        sources: [
+          { uri: "https://www.minsalud.gov.co", title: "Ministerio de Salud y Protección Social" },
+          { uri: "https://www.datos.gov.co", title: "Datos Abiertos Colombia - Salud" }
+        ]
+      });
       setLoadingId(null);
-      
-      setTimeout(() => {
-        setAiSummary({
-          text: `${pro.name} es ${pro.role} con base en ${pro.location}, Colombia. Con una calificación de ${pro.rating}/5.0 basada en ${pro.reviews} evaluaciones, se especializa en ${pro.category}. Los profesionales en esta categoría típicamente requieren certificaciones específicas del sector salud y tienen un rango salarial competitivo en el mercado colombiano, dependiendo de la experiencia y ubicación geográfica.`,
-          sources: [
-            { uri: "https://www.minsalud.gov.co", title: "Ministerio de Salud y Protección Social" },
-            { uri: "https://www.datos.gov.co", title: "Datos Abiertos Colombia - Salud" }
-          ]
-        });
-        setLoadingId(null);
-      }, 2000);
-      
-      return;
-    }
-    
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-
-    const payload = {
-      contents: [{ parts: [{ text: userQuery }] }],
-      tools: [{ "google_search": {} }],
-      systemInstruction: {
-        parts: [{ text: systemPrompt }]
-      },
-    };
-
-    const options = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    };
-
-    try {
-      const response = await exponentialBackoffFetch(apiUrl, options);
-      const result = await response.json();
-      
-      const candidate = result.candidates?.[0];
-      if (candidate && candidate.content?.parts?.[0]?.text) {
-        const text = candidate.content.parts[0].text;
-        
-        let sources: { uri: string; title: string }[] = [];
-        const groundingMetadata = candidate.groundingMetadata;
-        if (groundingMetadata && groundingMetadata.groundingAttributions) {
-          sources = groundingMetadata.groundingAttributions
-            .map((attribution: any) => ({
-              uri: attribution.web?.uri,
-              title: attribution.web?.title,
-            }))
-            .filter((source: any) => source.uri && source.title);
-        }
-
-        setAiSummary({ text, sources });
-      } else {
-        setError("No se pudo generar el resumen. Intenta de nuevo.");
-      }
-    } catch (err) {
-      console.error("Gemini API Error:", err);
-      setError("Ocurrió un error de conexión con la IA. Por favor, verifica tu red.");
-    } finally {
-      setLoadingId(null);
-    }
+      toast.success('Perfil generado exitosamente');
+    }, 2000);
   };
 
   const ProfessionalCard = ({ pro }: { pro: Professional }) => {
@@ -438,37 +353,6 @@ function App() {
     const { icon: StatusIcon, color: statusColor, text: statusText } = getStatusClasses(calculatedStatus);
     const isAiLoading = loadingId === pro.id;
     
-    const renderAiSummary = () => {
-      if (!aiSummary || aiSummary.sources.length === 0 || aiSummary.text === '') return null;
-      
-      return (
-        <motion.div 
-          initial={{ opacity: 0, y: 10 }} 
-          animate={{ opacity: 1, y: 0 }} 
-          exit={{ opacity: 0, y: 10 }}
-          className="mt-4 p-4 bg-purple-50 border border-purple-200 rounded-xl shadow-inner text-sm space-y-3"
-        >
-          <h4 className="font-bold text-purple-800 flex items-center">
-            <Zap className="w-4 h-4 mr-2" />
-            Resumen de Validación de IA
-          </h4>
-          <p className="text-gray-700">{aiSummary.text}</p>
-          <div className="pt-2">
-            <span className="font-semibold text-purple-700 block mb-1">Fuentes de Fundamento:</span>
-            <ul className="text-xs text-gray-600 space-y-1">
-              {aiSummary.sources.map((source, index) => (
-                <li key={index} className="truncate">
-                  <a href={source.uri} target="_blank" rel="noopener noreferrer" className="hover:text-purple-600 transition-colors underline">
-                    {source.title || source.uri}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </motion.div>
-      );
-    };
-
     return (
       <motion.div 
         layout
@@ -552,72 +436,578 @@ function App() {
 
         {aiSummary && loadingId === null && (
           <AnimatePresence>
-            {renderAiSummary()}
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: 10 }}
+              className="mt-4 p-4 bg-purple-50 border border-purple-200 rounded-xl shadow-inner text-sm space-y-3"
+            >
+              <h4 className="font-bold text-purple-800 flex items-center">
+                <Zap className="w-4 h-4 mr-2" />
+                Resumen de Validación de IA
+              </h4>
+              <p className="text-gray-700">{aiSummary.text}</p>
+              <div className="pt-2">
+                <span className="font-semibold text-purple-700 block mb-1">Fuentes de Fundamento:</span>
+                <ul className="text-xs text-gray-600 space-y-1">
+                  {aiSummary.sources.map((source, index) => (
+                    <li key={index} className="truncate">
+                      <a href={source.uri} target="_blank" rel="noopener noreferrer" className="hover:text-purple-600 transition-colors underline">
+                        {source.title || source.uri}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
           </AnimatePresence>
-        )}
-        
-        {error && loadingId === pro.id && (
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }} 
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-4 p-3 bg-red-100 border border-red-300 rounded-lg text-sm text-red-700"
-          >
-            {error}
-          </motion.div>
         )}
       </motion.div>
     );
   };
 
-  return (
-    <div className="bg-gray-50 min-h-screen p-4 sm:p-8 font-[Inter]">
-      <header className="mb-8">
-        <h1 className="text-3xl sm:text-4xl font-black text-indigo-800 flex items-center">
-          <UserCheck className="w-7 h-7 mr-3" />
-          Pro-Salud: Profesionales Validados
-        </h1>
-        <p className="text-lg text-gray-600 mt-1">Encuentra y valida enfermeros, cuidadores, médicos y terapeutas en Colombia.</p>
-      </header>
-      
-      <div className="mb-8 p-4 bg-white rounded-xl shadow-lg border border-gray-100 flex flex-wrap gap-2 sticky top-0 z-10">
-        <span className="font-bold text-gray-700 self-center mr-2">Filtrar por:</span>
-        {filters.map(f => (
-          <Button 
-            key={f}
-            variant={filter === f ? 'default' : 'secondary'}
-            onClick={() => {
-              setFilter(f);
-              setAiSummary(null);
-            }}
-            className={`transition-all duration-200 text-sm ${f === 'Disponible Ahora' && (filter === 'Disponible Ahora' ? 'bg-green-600 hover:bg-green-700' : 'text-green-700 hover:bg-green-100')}`}
-          >
-            {f}
-          </Button>
-        ))}
-      </div>
+  const Header = () => (
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveSection('home')}>
+            <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
+              <Heart className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              HealthConnect
+            </span>
+          </div>
 
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <nav className="hidden md:flex items-center space-x-8">
+            {['home', 'professionals', 'features', 'pricing', 'about'].map((section) => (
+              <button
+                key={section}
+                onClick={() => setActiveSection(section)}
+                className={`font-semibold transition-all duration-200 capitalize ${
+                  activeSection === section
+                    ? 'text-indigo-600 border-b-2 border-indigo-600'
+                    : 'text-gray-600 hover:text-indigo-500'
+                }`}
+              >
+                {section === 'home' ? 'Inicio' : 
+                 section === 'professionals' ? 'Profesionales' :
+                 section === 'features' ? 'Características' :
+                 section === 'pricing' ? 'Precios' : 'Nosotros'}
+              </button>
+            ))}
+          </nav>
+
+          <div className="hidden md:flex items-center space-x-4">
+            <Button variant="outline" onClick={() => setActiveSection('professionals')}>
+              Ver Profesionales
+            </Button>
+            <Button onClick={() => setActiveSection('pricing')}>
+              Comenzar Gratis
+            </Button>
+          </div>
+
+          <button 
+            className="md:hidden p-2"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <XIcon className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+
         <AnimatePresence>
-          {filteredPros.length > 0 ? (
-            filteredPros.map(pro => (
-              <ProfessionalCard key={pro.id} pro={pro} />
-            ))
-          ) : (
+          {mobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="md:col-span-2 lg:col-span-3 p-8 text-center bg-white rounded-xl shadow-lg border border-gray-200"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden border-t border-gray-100 mt-4"
             >
-              <h3 className="text-xl font-semibold text-gray-700">No se encontraron profesionales.</h3>
-              <p className="text-gray-500 mt-2">Intenta cambiar el filtro o busca en una categoría diferente.</p>
+              <div className="py-4 space-y-4">
+                {['home', 'professionals', 'features', 'pricing', 'about'].map((section) => (
+                  <button
+                    key={section}
+                    onClick={() => {
+                      setActiveSection(section);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`block w-full text-left px-4 py-2 font-semibold capitalize ${
+                      activeSection === section
+                        ? 'text-indigo-600 bg-indigo-50 rounded-lg'
+                        : 'text-gray-600'
+                    }`}
+                  >
+                    {section === 'home' ? 'Inicio' : 
+                     section === 'professionals' ? 'Profesionales' :
+                     section === 'features' ? 'Características' :
+                     section === 'pricing' ? 'Precios' : 'Nosotros'}
+                  </button>
+                ))}
+                <div className="px-4 pt-4 border-t border-gray-100 space-y-3">
+                  <Button variant="outline" className="w-full" onClick={() => { setActiveSection('professionals'); setMobileMenuOpen(false); }}>
+                    Ver Profesionales
+                  </Button>
+                  <Button className="w-full" onClick={() => { setActiveSection('pricing'); setMobileMenuOpen(false); }}>
+                    Comenzar Gratis
+                  </Button>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
+      </div>
+    </header>
+  );
 
-      <footer className="mt-12 text-center text-sm text-gray-500 p-4">
-        <p>La validación con IA utiliza el modelo Gemini para generar un resumen fáctico basado en información disponible públicamente (Google Search). Los estados de disponibilidad se calculan en tiempo real usando el horario local de tu navegador.</p>
-      </footer>
+  const HomeSection = () => (
+    <section className="relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-purple-50" />
+      
+      <div className="relative container mx-auto px-4 py-20 lg:py-32">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6"
+          >
+            <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              Conectamos
+            </span>
+            <br />
+            <span className="text-gray-900">Salud con Confianza</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto"
+          >
+            La plataforma líder en Colombia para encontrar y validar profesionales de salud con disponibilidad en tiempo real y verificación con IA.
+          </motion.p>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+          >
+            <Button size="lg" className="text-lg px-8 py-6" onClick={() => setActiveSection('professionals')}>
+              <UserPlus className="w-5 h-5 mr-2" />
+              Encontrar Profesionales
+            </Button>
+            <Button variant="outline" size="lg" className="text-lg px-8 py-6">
+              <Play className="w-5 h-5 mr-2" />
+              Ver Demo
+            </Button>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto"
+          >
+            {[
+              { number: '500+', label: 'Profesionales' },
+              { number: '10k+', label: 'Familias' },
+              { number: '98%', label: 'Satisfacción' },
+              { number: '24/7', label: 'Disponibilidad' }
+            ].map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-2xl md:text-3xl font-bold text-gray-900">{stat.number}</div>
+                <div className="text-gray-600 text-sm">{stat.label}</div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="relative bg-white border-t border-gray-100">
+        <div className="container mx-auto px-4 py-16">
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: Shield,
+                title: 'Verificación con IA',
+                description: 'Cada profesional es validado mediante inteligencia artificial con fuentes verificables.'
+              },
+              {
+                icon: Clock,
+                title: 'Disponibilidad en Tiempo Real',
+                description: 'Sabemos exactamente cuándo está disponible cada profesional según su horario.'
+              },
+              {
+                icon: Users,
+                title: 'Comunidad Confiable',
+                description: 'Más de 500 profesionales certificados y miles de reseñas verificadas.'
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="text-center p-6"
+              >
+                <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <feature.icon className="w-8 h-8 text-indigo-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+
+  const ProfessionalsSection = () => (
+    <section className="py-20 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Nuestros Profesionales
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Encuentra el profesional perfecto con verificación en tiempo real y validación con IA
+          </p>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          {filters.map(f => (
+            <Button
+              key={f}
+              variant={filter === f ? 'default' : 'outline'}
+              onClick={() => setFilter(f)}
+              className="rounded-full"
+            >
+              {f}
+            </Button>
+          ))}
+        </div>
+
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <AnimatePresence>
+            {filteredPros.length > 0 ? (
+              filteredPros.map(pro => (
+                <ProfessionalCard key={pro.id} pro={pro} />
+              ))
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="md:col-span-2 lg:col-span-3 p-8 text-center bg-white rounded-xl shadow-lg border border-gray-200"
+              >
+                <h3 className="text-xl font-semibold text-gray-700">No se encontraron profesionales.</h3>
+                <p className="text-gray-500 mt-2">Intenta cambiar el filtro o busca en una categoría diferente.</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+    </section>
+  );
+
+  const FeaturesSection = () => (
+    <section className="py-20 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Características Innovadoras
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Tecnología avanzada para conectar familias con profesionales de confianza
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="space-y-8">
+            {[
+              {
+                icon: Zap,
+                title: 'Validación con IA Gemini',
+                description: 'Análisis inteligente de credenciales y experiencia con fuentes verificadas'
+              },
+              {
+                icon: Clock,
+                title: 'Disponibilidad en Tiempo Real',
+                description: 'Sincronización automática con horarios profesionales actualizados'
+              },
+              {
+                icon: Shield,
+                title: 'Verificación de Credenciales',
+                description: 'Certificaciones y especialidades validadas punto por punto'
+              },
+              {
+                icon: TrendingUp,
+                title: 'Sistema de Reputación',
+                description: 'Calificaciones y reseñas auténticas de familias reales'
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="flex items-start space-x-4"
+              >
+                <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <feature.icon className="w-6 h-6 text-indigo-600" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
+                  <p className="text-gray-600">{feature.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="relative"
+          >
+            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl p-8 text-white">
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+                <h4 className="text-2xl font-bold mb-4">Demo Interactivo</h4>
+                <p className="mb-6 opacity-90">
+                  Experimenta cómo nuestra plataforma conecta familias con profesionales verificados en tiempo real.
+                </p>
+                <Button variant="outline" className="border-white text-white hover:bg-white/20">
+                  Probar Demo
+                  <Play className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+
+  const PricingSection = () => (
+    <section className="py-20 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Planes para Cada Necesidad
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Desde uso personal hasta soluciones empresariales completas
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          {[
+            {
+              name: 'Básico',
+              price: 'Gratis',
+              description: 'Para familias que necesitan cuidado ocasional',
+              features: [
+                'Acceso a profesionales verificados',
+                'Contacto directo por WhatsApp',
+                'Disponibilidad en tiempo real',
+                'Hasta 3 contactos mensuales'
+              ]
+            },
+            {
+              name: 'Premium',
+              price: '$49.900',
+              period: '/mes',
+              description: 'Para cuidado regular y seguimiento',
+              popular: true,
+              features: [
+                'Todo en Básico',
+                'Contactos ilimitados',
+                'Validación IA avanzada',
+                'Historial de profesionales',
+                'Soporte prioritario',
+                'Recordatorios automáticos'
+              ]
+            },
+            {
+              name: 'Empresarial',
+              price: 'Personalizado',
+              description: 'Para instituciones y empresas',
+              features: [
+                'Todo en Premium',
+                'Dashboard administrativo',
+                'Múltiples usuarios',
+                'API integración',
+                'Soporte dedicado 24/7',
+                'Reportes personalizados'
+              ]
+            }
+          ].map((plan, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className={`bg-white rounded-2xl shadow-lg border-2 ${
+                plan.popular ? 'border-indigo-500 relative' : 'border-gray-100'
+              }`}
+            >
+              {plan.popular && (
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <Badge className="bg-indigo-500 text-white border-0 px-4 py-2">
+                    Más Popular
+                  </Badge>
+                </div>
+              )}
+              
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                <div className="flex items-baseline mb-4">
+                  <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
+                  {plan.period && <span className="text-gray-600 ml-2">{plan.period}</span>}
+                </div>
+                <p className="text-gray-600 mb-6">{plan.description}</p>
+                
+                <ul className="space-y-4 mb-8">
+                  {plan.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-center">
+                      <Check className="w-5 h-5 text-green-500 mr-3" />
+                      <span className="text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                
+                <Button 
+                  className={`w-full ${
+                    plan.popular 
+                      ? 'bg-indigo-600 hover:bg-indigo-700' 
+                      : 'bg-gray-900 hover:bg-gray-800'
+                  }`}
+                >
+                  {plan.price === 'Gratis' ? 'Comenzar Gratis' : 
+                   plan.price === 'Personalizado' ? 'Contactar Ventas' : 'Elegir Plan'}
+                </Button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
+  const AboutSection = () => (
+    <section className="py-20 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
+            Nuestra Misión
+          </h2>
+          <p className="text-xl text-gray-600 mb-12 leading-relaxed">
+            En HealthConnect, creemos que cada familia merece acceso a profesionales de salud 
+            confiables y verificados. Combinamos tecnología de vanguardia con un profundo 
+            entendimiento de las necesidades de cuidado en Colombia.
+          </p>
+          
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            {[
+              { number: '2023', label: 'Fundación' },
+              { number: '15+', label: 'Ciudades' },
+              { number: '99.2%', label: 'Tasa de Satisfacción' }
+            ].map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl font-bold text-indigo-600 mb-2">{stat.number}</div>
+                <div className="text-gray-600 font-semibold">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl p-8 text-white">
+            <h3 className="text-2xl font-bold mb-4">¿Listo para comenzar?</h3>
+            <p className="mb-6 opacity-90">
+              Únete a miles de familias que ya confían en HealthConnect para el cuidado de sus seres queridos.
+            </p>
+            <Button variant="outline" className="border-white text-white hover:bg-white/20" onClick={() => setActiveSection('professionals')}>
+              Comenzar Ahora
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+
+  const Footer = () => (
+    <footer className="bg-gray-900 text-white py-12">
+      <div className="container mx-auto px-4">
+        <div className="grid md:grid-cols-4 gap-8">
+          <div>
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+                <Heart className="w-5 h-5 text-indigo-600" />
+              </div>
+              <span className="text-xl font-bold">HealthConnect</span>
+            </div>
+            <p className="text-gray-400">
+              Conectando familias con profesionales de salud verificados en Colombia.
+            </p>
+          </div>
+          
+          <div>
+            <h4 className="font-bold mb-4">Enlaces Rápidos</h4>
+            <ul className="space-y-2 text-gray-400">
+              <li><button onClick={() => setActiveSection('home')} className="hover:text-white transition-colors">Inicio</button></li>
+              <li><button onClick={() => setActiveSection('professionals')} className="hover:text-white transition-colors">Profesionales</button></li>
+              <li><button onClick={() => setActiveSection('features')} className="hover:text-white transition-colors">Características</button></li>
+              <li><button onClick={() => setActiveSection('pricing')} className="hover:text-white transition-colors">Precios</button></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="font-bold mb-4">Legal</h4>
+            <ul className="space-y-2 text-gray-400">
+              <li><button className="hover:text-white transition-colors">Términos de Servicio</button></li>
+              <li><button className="hover:text-white transition-colors">Política de Privacidad</button></li>
+              <li><button className="hover:text-white transition-colors">Cookies</button></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="font-bold mb-4">Contacto</h4>
+            <div className="space-y-2 text-gray-400">
+              <div className="flex items-center">
+                <Mail className="w-4 h-4 mr-2" />
+                hola@healthconnect.co
+              </div>
+              <div className="flex items-center">
+                <Phone className="w-4 h-4 mr-2" />
+                +57 1 234 5678
+              </div>
+              <div className="flex items-center">
+                <Globe className="w-4 h-4 mr-2" />
+                Colombia
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+          <p>&copy; 2024 HealthConnect. Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </footer>
+  );
+
+  return (
+    <div className="min-h-screen bg-white">
+      <Header />
+      
+      <main>
+        {activeSection === 'home' && <HomeSection />}
+        {activeSection === 'professionals' && <ProfessionalsSection />}
+        {activeSection === 'features' && <FeaturesSection />}
+        {activeSection === 'pricing' && <PricingSection />}
+        {activeSection === 'about' && <AboutSection />}
+      </main>
+
+      <Footer />
     </div>
   );
 }
