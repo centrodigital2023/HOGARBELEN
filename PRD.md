@@ -1,124 +1,133 @@
 # Planning Guide
 
-A welcoming, professional website for Hogar Belén that provides information about the facility, services, and contact details while creating an atmosphere of warmth, care, and community.
+A comprehensive platform for discovering and validating healthcare professionals in Colombia, featuring real-time availability tracking, AI-powered credential validation, and direct WhatsApp contact integration.
 
 **Experience Qualities**:
-1. **Welcoming** - The site should feel like an invitation, making visitors feel comfortable and cared for from the first moment
-2. **Trustworthy** - Professional presentation that instills confidence in the quality of care and services provided
-3. **Accessible** - Clear information architecture that makes it easy for families and individuals to find what they need quickly
+1. **Trustworthy** - Users need to feel confident in the credentials and availability of healthcare professionals through transparent ratings, schedules, and AI validation
+2. **Efficient** - Quick filtering and instant availability status help users find the right professional without delays
+3. **Connected** - Seamless WhatsApp integration enables immediate communication between patients and professionals
 
-**Complexity Level**: Content Showcase (information-focused)
-This is primarily an informational website designed to communicate services, values, and facilitate contact with Hogar Belén.
+**Complexity Level**: Light Application (multiple features with basic state)
+The application manages professional data, implements real-time availability calculations, integrates with external APIs (Gemini AI, WhatsApp), and provides sophisticated filtering and sorting mechanisms.
 
 ## Essential Features
 
-### Hero Section
-- **Functionality**: Presents the main message and visual identity of Hogar Belén
-- **Purpose**: Creates immediate emotional connection and communicates core mission
-- **Trigger**: Page load
-- **Progression**: User lands on page → sees hero image/message → understands organization's purpose → scrolls or clicks CTA
-- **Success criteria**: Clear value proposition visible above fold, compelling call-to-action present
+### Professional Directory Grid
+- **Functionality**: Displays healthcare professionals with photos, credentials, ratings, and real-time availability
+- **Purpose**: Provides comprehensive information to help users make informed decisions about healthcare providers
+- **Trigger**: Page load and filter changes
+- **Progression**: User lands on page → sees grid of professionals → views detailed cards → assesses availability → takes action
+- **Success criteria**: All professional information clearly displayed, images load properly, availability status calculated accurately
 
-### About Section
-- **Functionality**: Describes the history, mission, and values of Hogar Belén
-- **Purpose**: Builds trust and emotional connection with visitors
-- **Trigger**: User scrolls down from hero or clicks navigation link
-- **Progression**: User views hero → scrolls to about → reads mission/history → understands organization values
-- **Success criteria**: Compelling narrative that communicates care philosophy clearly
+### Real-Time Availability System
+- **Functionality**: Calculates current availability status based on professional schedules and current time
+- **Purpose**: Shows users which professionals are available right now versus occupied or off-duty
+- **Trigger**: Continuous calculation based on browser time and schedule data
+- **Progression**: System reads schedule → parses time slots → compares to current time → displays status badge
+- **Success criteria**: Accurate status display (Disponible, Ocupado, Ausente, Urgencias), updates reflect actual schedule
 
-### Services Section
-- **Functionality**: Details the specific services and care options available
-- **Purpose**: Informs potential residents and families about what's offered
-- **Trigger**: User navigates to services section or scrolls naturally
-- **Progression**: User seeks information → views service cards → understands offerings → considers next steps
-- **Success criteria**: Clear categorization of services with descriptive details
+### Category Filtering
+- **Functionality**: Filter professionals by category (Enfermería, Cuidadores, Terapia, Médicos, Otros) or availability status
+- **Purpose**: Helps users quickly narrow down to relevant professionals
+- **Trigger**: User clicks filter button
+- **Progression**: User views all professionals → selects filter → grid updates → relevant professionals shown
+- **Success criteria**: Instant filtering, maintains sort order, "Disponible Ahora" shows only currently available
 
-### Gallery/Visual Section
-- **Functionality**: Showcases facilities, activities, and community life through images
-- **Purpose**: Provides visual proof of quality and creates emotional appeal
-- **Trigger**: User scrolls through page or clicks gallery navigation
-- **Progression**: User curious about environment → views photos → visualizes life at facility → builds confidence
-- **Success criteria**: High-quality images displaying various aspects of daily life and facilities
+### AI Validation System
+- **Functionality**: Generates AI-powered summaries using Gemini API with grounding sources about professional credentials and salary ranges
+- **Purpose**: Provides additional validation and context about healthcare professionals in Colombia
+- **Trigger**: User clicks "Validación IA" button on a professional card
+- **Progression**: User clicks button → API call initiated → loading state shown → summary generated with sources → displayed in card
+- **Success criteria**: Relevant summary generated, grounding sources displayed, graceful error handling, fallback simulation if no API key
 
-### Contact Section
-- **Functionality**: Provides multiple ways to get in touch (phone, email, address, form)
-- **Purpose**: Facilitates inquiries and visits from interested families
-- **Trigger**: User ready to reach out after reviewing information
-- **Progression**: User interested → scrolls to contact → chooses method → initiates communication
-- **Success criteria**: Multiple contact methods clearly displayed, optional contact form that's easy to use
+### WhatsApp Contact Integration
+- **Functionality**: Opens WhatsApp chat with pre-filled context-aware message to professional
+- **Purpose**: Enables immediate, convenient communication between users and professionals
+- **Trigger**: User clicks "Contactar por WhatsApp" button
+- **Progression**: User clicks button → WhatsApp opens in new tab → message pre-filled → user can send
+- **Success criteria**: Correct phone number dialed, appropriate message based on status (urgencias vs normal), opens in new window
 
 ## Edge Case Handling
-- **Empty Form Submission**: Validate required fields and show helpful error messages
-- **Long Content**: Implement smooth scrolling and clear section breaks for easy navigation
-- **Mobile Navigation**: Collapse navigation into hamburger menu on smaller screens
-- **Image Loading**: Show graceful placeholders while images load
-- **Failed Form Submission**: Display user-friendly error message with retry option
+- **Empty Filter Results**: Display friendly message indicating no professionals match the criteria with suggestion to try different filter
+- **AI API Failure**: Show error message, implement exponential backoff retry logic, provide simulated fallback response if API key missing
+- **Invalid Schedule Data**: Handle parsing errors gracefully, default to "Estado Desconocido" status
+- **Missing Images**: Fallback to placeholder with professional's initials and category color
+- **Disabled Actions**: Disable WhatsApp button when professional is unavailable (except for urgencias status)
+- **Loading States**: Show spinner and "Analizando..." text during AI generation
 
 ## Design Direction
-The design should evoke feelings of warmth, safety, and professionalism - like a caring home rather than an institutional facility. The aesthetic should balance modern web design trends with timeless, accessible elements that appeal to both elderly residents and their adult children making decisions about care.
+The design should feel modern, professional, and tech-forward while maintaining approachability. It should evoke trust through clean information hierarchy, use of validation badges, and transparent display of credentials. The interface should feel efficient and data-rich without overwhelming users.
 
 ## Color Selection
-A warm, inviting palette that balances professionalism with comfort, using nature-inspired tones that suggest peace and healing.
+A professional, tech-forward palette centered around indigo/purple tones that communicate trust, intelligence, and healthcare professionalism.
 
-- **Primary Color**: Soft Sage Green (oklch(0.75 0.08 150)) - Communicates growth, health, and tranquility while maintaining professionalism
+- **Primary Color**: Indigo (oklch(0.55 0.2 265)) - Represents professionalism, trust, and healthcare technology
 - **Secondary Colors**: 
-  - Warm Cream (oklch(0.96 0.02 80)) - Creates a soft, welcoming background
-  - Terracotta Accent (oklch(0.65 0.15 35)) - Adds warmth and energy without overwhelming
-- **Accent Color**: Golden Amber (oklch(0.72 0.14 75)) - For CTAs and important elements, suggesting care and value
+  - Light Gray (oklch(0.97 0.005 240)) - Clean, minimal background
+  - Purple Accent (oklch(0.68 0.25 305)) - For AI/tech features
+- **Accent Color**: Various status colors - Green for available, Yellow for occupied, Red for absent/urgencias
 - **Foreground/Background Pairings**:
-  - Background Cream (oklch(0.96 0.02 80)): Dark Slate text (oklch(0.25 0.01 220)) - Ratio 12.5:1 ✓
-  - Primary Sage (oklch(0.75 0.08 150)): White text (oklch(1 0 0)) - Ratio 5.2:1 ✓
-  - Accent Amber (oklch(0.72 0.14 75)): Dark Slate text (oklch(0.25 0.01 220)) - Ratio 6.8:1 ✓
-  - Terracotta (oklch(0.65 0.15 35)): White text (oklch(1 0 0)) - Ratio 4.6:1 ✓
+  - Light Background (oklch(0.97 0.005 240)): Dark text (oklch(0.2 0.02 250)) - Ratio 14.2:1 ✓
+  - Indigo Primary (oklch(0.55 0.2 265)): White text (oklch(0.99 0 0)) - Ratio 7.8:1 ✓
+  - Purple Accent (oklch(0.68 0.25 305)): White text (oklch(0.99 0 0)) - Ratio 5.1:1 ✓
+  - Green Success: White text - Status indicators
+  - Red Warning: White text - Urgencias/unavailable indicators
 
 ## Font Selection
-Typography should feel both professional and approachable - sophisticated enough for credibility but warm enough to feel personal and caring.
+Inter as the sole typeface provides a modern, tech-forward aesthetic with excellent readability across all weights and maintains professional credibility.
 
-- **Primary**: Newsreader for headings - elegant serif that communicates tradition and trust
-- **Secondary**: Outfit for body text - clean, modern sans-serif with excellent readability
+- **Primary**: Inter for all text - modern, highly legible, tech-industry standard
 
 **Typographic Hierarchy**:
-- H1 (Hero Title): Newsreader Bold/48px/tight letter spacing/-1px
-- H2 (Section Headers): Newsreader SemiBold/36px/normal letter spacing
-- H3 (Subsections): Newsreader Medium/24px/normal letter spacing
-- Body Text: Outfit Regular/17px/relaxed line height (1.7)
-- Small Text/Captions: Outfit Regular/14px/normal line height
+- H1 (Page Title): Inter ExtraBold/36-48px/tight letter spacing
+- H3 (Professional Name): Inter ExtraBold/20px/normal spacing
+- Body (Role/Details): Inter Regular/14-16px/relaxed line height
+- Labels: Inter Medium/12-14px/normal spacing
+- Badges: Inter SemiBold/12px/uppercase for categories
 
 ## Animations
-Animations should be gentle and purposeful, reinforcing the sense of calm and care. Use subtle fade-ins as sections enter viewport to create a sense of discovery without overwhelming visitors. Hover states on interactive elements should feel responsive but not aggressive - gentle scale transforms and color transitions. Navigation scrolling should be smooth and natural.
+Animations should feel snappy and purposeful, reinforcing the tech-forward nature of the platform. Card entries use scale + fade for polish. Layout shifts when filtering use Framer Motion's layout animations for smooth repositioning. Loading states use spinning indicators. AI summary reveals use slide-up motion to feel like information appearing. All hover states include subtle scale transforms and shadow increases.
 
 ## Component Selection
 - **Components**: 
-  - Card (for services display with gentle shadows and rounded corners)
-  - Button (primary for CTAs, secondary for less critical actions)
-  - Separator (to create visual breaks between sections)
-  - Sheet (for mobile navigation drawer)
-  - Textarea/Input (for contact form with proper labels and validation)
+  - Card (shadcn) - Professional profile cards with extensive customization
+  - Button (shadcn) - Primary actions (contact, AI validation), secondary (filters)
+  - Badge (shadcn) - Category labels, status indicators, schedule chips
+  - Framer Motion AnimatePresence/motion.div - For smooth filtering animations
+  - Lucide Icons - Status icons (CheckCircle, XCircle, MinusCircle, Zap), feature icons (Star, MapPin, MessageCircle)
+  
 - **Customizations**: 
-  - Custom hero section with overlaid text on background image/gradient
-  - Custom gallery grid with responsive columns
-  - Custom footer with multi-column layout for information organization
+  - Professional cards with image headers, status badges, schedule displays
+  - Custom filter bar with sticky positioning
+  - AI summary expansion with source citations
+  - Status calculation system with time parsing
+  
 - **States**: 
-  - Buttons: subtle lift on hover (translateY(-2px)), pressed state with slight scale
-  - Form inputs: gentle border color change on focus with smooth transition
-  - Cards: subtle shadow increase on hover
-  - Navigation links: underline animation on hover with color transition
+  - Buttons: Disabled state for unavailable professionals, loading state with spinner for AI
+  - Cards: Hover shadow lift, smooth layout repositioning during filter changes
+  - Filter buttons: Active state (filled indigo), inactive (gray), "Disponible Ahora" (green accent)
+  - AI Summary: Collapsed by default, expands on generation with sources list
+  
 - **Icon Selection**: 
-  - Phone (for contact)
-  - MapPin (for address)
-  - Envelope (for email)
-  - Heart (for mission/care emphasis)
-  - Users (for community)
-  - Home (for facilities)
-  - Sparkle (for services highlight)
+  - CheckCircle - Available status
+  - MinusCircle - Occupied status
+  - XCircle - Absent status
+  - Zap - Urgencias status and AI features
+  - Star - Ratings display
+  - MapPin - Location
+  - MessageCircle - WhatsApp contact
+  - UserCheck - Main app icon
+  - Loader2 - Loading states
+  
 - **Spacing**: 
-  - Section padding: py-16 lg:py-24
-  - Container: max-w-7xl with px-6 lg:px-8
-  - Card padding: p-6 lg:p-8
-  - Gap between elements: gap-6 for related items, gap-12 for distinct groups
+  - Grid: gap-6 between professional cards
+  - Card internal: p-6 with mb-4 between sections
+  - Filter bar: gap-2 between buttons, p-4 container padding
+  - Page wrapper: p-4 sm:p-8
+  
 - **Mobile**: 
-  - Single column layouts stack naturally
-  - Navigation collapses to sheet drawer with hamburger icon
-  - Hero text scales down appropriately (text-4xl to text-2xl)
-  - Service cards flow from 3 columns → 2 columns → 1 column
-  - Contact form maintains full width on mobile with adjusted spacing
+  - Grid: 1 column mobile → 2 columns tablet → 3 columns desktop
+  - Cards: Full width on mobile with stacked action buttons
+  - Filter bar: Wraps buttons on smaller screens, remains sticky
+  - Header: Text scales down appropriately
+  - Status badges: Remain visible but may stack on very small screens
