@@ -10,9 +10,10 @@ import SettingsTab from '../panel/SettingsTab';
 interface PanelDeControlProfesionalProps {
   user: any;
   userData?: any;
+  setPage?: (page: string) => void;
 }
 
-const PanelDeControlProfesional = ({ user, userData }: PanelDeControlProfesionalProps) => {
+const PanelDeControlProfesional = ({ user, userData, setPage }: PanelDeControlProfesionalProps) => {
   return (
     <div className="min-h-screen bg-muted/30 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -61,7 +62,7 @@ const PanelDeControlProfesional = ({ user, userData }: PanelDeControlProfesional
             </TabsContent>
 
             <TabsContent value="configuracion">
-              <SettingsTab />
+              <SettingsTab setPage={setPage} />
             </TabsContent>
           </Tabs>
         </div>

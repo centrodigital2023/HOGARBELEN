@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '../components/ui/badge';
 import PaymentModal from '../components/PaymentModal';
 import PlanComparison from '../components/PlanComparison';
+import PublicPromoCodes from '../components/PublicPromoCodes';
 import { useAuth } from '../contextos/SupabaseAuthContext';
 
 interface PricingPageProps {
@@ -105,6 +106,9 @@ export default function PricingPage({ setPage }: PricingPageProps) {
             Desde uso personal hasta soluciones empresariales completas
           </p>
         </div>
+
+        {/* Public Promo Codes Section */}
+        <PublicPromoCodes />
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
           {plans.map((plan, index) => (

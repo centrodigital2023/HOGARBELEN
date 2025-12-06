@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CreditCard, Lock, X, Check, AlertCircle } from 'lucide-react';
+import { CreditCard, Lock, X, Check, AlertCircle, Tag, Sparkles } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -30,10 +30,25 @@ interface CardData {
   email: string;
 }
 
+interface PromoCode {
+  id: string;
+  code: string;
+  discountType: 'percentage' | 'fixed';
+  discountValue: number;
+  description: string;
+  expiryDate: string;
+  maxUses: number;
+  usedCount: number;
+  isActive: boolean;
+  applicablePlans: string[];
+  createdDate: string;
+}
+
 export default function PaymentModal({ isOpen, onClose, plan }: PaymentModalProps) {
   const { user, userData } = useAuth();
   const [subscriptions, setSubscriptions] = useKV<any[]>('hogar-belen-subscriptions', []);
   const [paymentHistory, setPaymentHistory] = useKV<any[]>('hogar-belen-payment-history', []);
+  const [promoCodes, setPromoCodes] = useKV<PromoCode[]>('hogar-belen-promo-codes', []);
   
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentStep, setPaymentStep] = useState<'form' | 'processing' | 'success'>('form');
@@ -48,6 +63,10 @@ export default function PaymentModal({ isOpen, onClose, plan }: PaymentModalProp
   });
 
   const [errors, setErrors] = useState<Partial<CardData>>({});
+  
+  const [promoCodeInput, setPromoCodeInput] = useState('');
+  const [appliedPromo, setAppliedPromo] = useState<PromoCode | null>(null);
+  const [promoError, setPromoError] = useState('');
 
   const validateCardNumber = (number: string) => {
     const cleaned = number.replace(/\s/g, '');
@@ -60,6 +79,97 @@ export default function PaymentModal({ isOpen, onClose, plan }: PaymentModalProp
 
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const applyPromoCode = () => {
+    if (!promoCodeInput.trim()) {
+      setPromoError('Ingresa un código promocional');
+      return;
+    }
+
+    const code = (promoCodes || []).find(
+      c => c.code.toUpperCase() === promoCodeInput.toUpperCase()
+    );
+
+    if (!code) {
+      setPromoError('Código inválido');
+      return;
+    }
+
+    if (!code.isActive) {
+      setPromoError('Este código no está activo');
+      return;
+    }
+
+    if (new Date(code.expiryDate) < new Date()) {
+      setPromoError('Este código ha expirado');
+      return;
+    }
+
+    if (code.usedCount >= code.maxUses) {
+      setPromoError('Este código ha alcanzado su límite de usos');
+      return;
+    }
+
+    if (!code.applicablePlans.includes(plan.name)) {
+      setPromoError(`Este código no es válido para el plan ${plan.name}`);
+      return;
+    }
+
+    setAppliedPromo(code);
+    setPromoError('');
+    toast.success(`¡Código ${code.code} aplicado! ${getDiscountText(code)}`);
+  };
+
+  const removePromoCode = () => {
+    setAppliedPromo(null);
+    setPromoCodeInput('');
+    setPromoError('');
+  };
+
+  const getDiscountText = (code: PromoCode) => {
+    if (code.discountType === 'percentage') {
+      return `${code.discountValue}% de descuento`;
+    } else {
+      return `$${code.discountValue.toLocaleString()} COP de descuento`;
+    }
+  };
+
+  const calculateFinalPrice = () => {
+    const priceMatch = plan.price.match(/\$([\d,]+)/);
+    if (!priceMatch) return { 
+      original: plan.price, 
+      discount: '$0 COP', 
+      final: plan.price, 
+      finalNumber: 0 
+    };
+
+    const basePrice = parseInt(priceMatch[1].replace(/,/g, ''));
+    
+    if (!appliedPromo) {
+      const formatted = `$${basePrice.toLocaleString()} COP`;
+      return {
+        original: formatted,
+        discount: '$0 COP',
+        final: formatted,
+        finalNumber: basePrice
+      };
+    }
+
+    let discount = 0;
+    if (appliedPromo.discountType === 'percentage') {
+      discount = (basePrice * appliedPromo.discountValue) / 100;
+    } else {
+      discount = appliedPromo.discountValue;
+    }
+
+    const finalPrice = Math.max(0, basePrice - discount);
+    return {
+      original: `$${basePrice.toLocaleString()} COP`,
+      discount: `$${discount.toLocaleString()} COP`,
+      final: `$${finalPrice.toLocaleString()} COP`,
+      finalNumber: finalPrice
+    };
   };
 
   const formatCardNumber = (value: string) => {
@@ -133,33 +243,49 @@ export default function PaymentModal({ isOpen, onClose, plan }: PaymentModalProp
     const subscriptionId = `SUB-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
     const transactionId = `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
     
+    const priceCalc = calculateFinalPrice();
+    const finalPrice = priceCalc.final;
+    
     const newSubscription = {
       id: subscriptionId,
       userId: user?.id || user?.uid || 'guest',
       plan: plan.name,
-      price: plan.price,
+      price: finalPrice,
       period: plan.period,
       status: 'active',
       startDate: new Date().toISOString(),
       nextBillingDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
       cardLastFour: cardData.cardNumber.slice(-4),
-      features: plan.features
+      features: plan.features,
+      promoCode: appliedPromo?.code || null
     };
 
     const newTransaction = {
       id: transactionId,
       subscriptionId,
       userId: user?.id || user?.uid || 'guest',
-      amount: plan.price,
+      amount: finalPrice,
       plan: plan.name,
       status: 'completed',
       date: new Date().toISOString(),
       paymentMethod: 'Tarjeta ****' + cardData.cardNumber.slice(-4),
-      email: cardData.email
+      email: cardData.email,
+      promoCode: appliedPromo?.code || null,
+      discount: appliedPromo ? priceCalc.discount : null
     };
 
     setSubscriptions(current => [...(current || []), newSubscription]);
     setPaymentHistory(current => [...(current || []), newTransaction]);
+
+    if (appliedPromo) {
+      setPromoCodes(current =>
+        (current || []).map(code =>
+          code.id === appliedPromo.id
+            ? { ...code, usedCount: code.usedCount + 1 }
+            : code
+        )
+      );
+    }
 
     setPaymentStep('success');
     toast.success('¡Pago procesado exitosamente!');
@@ -182,6 +308,9 @@ export default function PaymentModal({ isOpen, onClose, plan }: PaymentModalProp
     setErrors({});
     setIsProcessing(false);
     setPaymentStep('form');
+    setPromoCodeInput('');
+    setAppliedPromo(null);
+    setPromoError('');
   };
 
   const handleClose = () => {
@@ -211,9 +340,26 @@ export default function PaymentModal({ isOpen, onClose, plan }: PaymentModalProp
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg">Plan {plan.name}</CardTitle>
-                    <Badge className="bg-primary text-primary-foreground">
-                      {plan.price}{plan.period}
-                    </Badge>
+                    {appliedPromo ? (
+                      <div className="flex flex-col items-end gap-1">
+                        <Badge className="bg-green-600 text-white">
+                          <Sparkles className="w-3 h-3 mr-1" />
+                          {getDiscountText(appliedPromo)}
+                        </Badge>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm text-muted-foreground line-through">
+                            {calculateFinalPrice().original}
+                          </span>
+                          <Badge className="bg-primary text-primary-foreground">
+                            {calculateFinalPrice().final}{plan.period}
+                          </Badge>
+                        </div>
+                      </div>
+                    ) : (
+                      <Badge className="bg-primary text-primary-foreground">
+                        {plan.price}{plan.period}
+                      </Badge>
+                    )}
                   </div>
                   <CardDescription>
                     Renovación automática cada mes
@@ -228,6 +374,78 @@ export default function PaymentModal({ isOpen, onClose, plan }: PaymentModalProp
                       </div>
                     ))}
                   </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-dashed">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Tag className="w-4 h-4 text-primary" />
+                    Código Promocional
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {appliedPromo ? (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg">
+                        <div className="flex items-center gap-2">
+                          <Check className="w-5 h-5 text-green-600" />
+                          <div>
+                            <p className="font-semibold text-green-900">{appliedPromo.code}</p>
+                            <p className="text-xs text-green-700">{appliedPromo.description}</p>
+                          </div>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={removePromoCode}
+                          className="text-green-700 hover:text-green-900"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="bg-green-50 p-3 rounded-lg">
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-muted-foreground">Subtotal:</span>
+                          <span>{calculateFinalPrice().original}</span>
+                        </div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-green-700 font-semibold">Descuento:</span>
+                          <span className="text-green-700 font-semibold">-{calculateFinalPrice().discount}</span>
+                        </div>
+                        <div className="flex justify-between text-base font-bold pt-2 border-t">
+                          <span>Total:</span>
+                          <span className="text-green-700">{calculateFinalPrice().final}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="CODIGO2024"
+                          value={promoCodeInput}
+                          onChange={(e) => {
+                            setPromoCodeInput(e.target.value.toUpperCase());
+                            setPromoError('');
+                          }}
+                          className={`font-mono ${promoError ? 'border-destructive' : ''}`}
+                        />
+                        <Button
+                          variant="outline"
+                          onClick={applyPromoCode}
+                        >
+                          Aplicar
+                        </Button>
+                      </div>
+                      {promoError && (
+                        <p className="text-sm text-destructive flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
+                          {promoError}
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 
@@ -355,7 +573,7 @@ export default function PaymentModal({ isOpen, onClose, plan }: PaymentModalProp
                   className="flex-1"
                 >
                   <Lock className="w-4 h-4 mr-2" />
-                  Pagar {plan.price}
+                  Pagar {calculateFinalPrice().final}
                 </Button>
               </div>
             </div>

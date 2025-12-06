@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../componentes/ui/tarjeta';
 import Button from '../componentes/ui/botón';
-import { Bell, Lock, Eye, EyeSlash } from '@phosphor-icons/react';
+import { Bell, Lock, Eye, EyeSlash, Tag } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 
-const SettingsTab = () => {
+interface SettingsTabProps {
+  setPage?: (page: string) => void;
+}
+
+const SettingsTab = ({ setPage }: SettingsTabProps) => {
   const [notifications, setNotifications] = useState({
     emailNotifications: true,
     smsNotifications: false,
@@ -39,6 +43,36 @@ const SettingsTab = () => {
 
   return (
     <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <Tag size={20} className="text-primary" />
+            <CardTitle>Gestión de Promociones</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-medium text-foreground mb-1">
+                Códigos Promocionales
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Crea y gestiona códigos de descuento para atraer más clientes
+              </p>
+            </div>
+            {setPage && (
+              <Button 
+                onClick={() => setPage('admin-promo-codes')}
+                className="gap-2"
+              >
+                <Tag size={16} />
+                Gestionar Códigos
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">

@@ -13,6 +13,7 @@ import BelenConectaRegister from './páginas/BelenConectaRegister';
 import FamilyDashboard from './páginas/FamilyDashboard';
 import PanelDeControlProfesional from './páginas/PanelDeControlProfesional';
 import AICareAssistant from './páginas/AICareAssistant';
+import AdminPromoCodes from './páginas/AdminPromoCodes';
 
 export interface User {
   id: string;
@@ -54,8 +55,9 @@ const MainApp = () => {
       case 'login': return <BelenConectaLogin setPage={setCurrentPage} />;
       case 'register': return <BelenConectaRegister setPage={setCurrentPage} />;
       case 'dashboard-family': return <FamilyDashboard user={user} setPage={setCurrentPage} />;
-      case 'dashboard-pro': return <PanelDeControlProfesional user={user} userData={userData} />;
+      case 'dashboard-pro': return <PanelDeControlProfesional user={user} userData={userData} setPage={setCurrentPage} />;
       case 'ai-assistant': return <AICareAssistant setPage={setCurrentPage} />;
+      case 'admin-promo-codes': return <AdminPromoCodes setPage={setCurrentPage} />;
       default: return <PáginaPrincipal setPage={setCurrentPage} />;
     }
   };

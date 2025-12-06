@@ -75,6 +75,20 @@ The application manages user authentication (families/professionals), day care c
 - **Progression**: View active subscription details → See next billing date → Review payment method → Download invoices → Cancel if needed with confirmation
 - **Success criteria**: Clear subscription status, payment history visible, invoice downloads functional, cancel flow with confirmation, data persisted correctly
 
+### Promotional Code System
+- **Functionality**: Create, manage, and apply discount codes with percentage or fixed amount discounts
+- **Purpose**: Enable marketing campaigns and customer acquisition through promotional offers
+- **Trigger**: Admin creates codes in dashboard, users apply during checkout
+- **Progression**: Admin creates code → Sets parameters (discount, expiry, max uses, applicable plans) → Code displayed publicly if desired → User enters code at checkout → System validates → Discount applied → Usage tracked
+- **Success criteria**: Code validation works correctly, discounts calculate accurately, usage limits enforced, expired codes rejected, public display of active codes, admin can edit/deactivate codes
+
+### Public Promotional Display
+- **Functionality**: Showcase active promotional codes on public pages to drive conversions
+- **Purpose**: Increase visibility of offers and encourage plan purchases
+- **Trigger**: User views pricing or home page
+- **Progression**: Active codes fetched → Displayed in attractive cards → Show discount amount, expiry, and usage limits → User copies code for checkout
+- **Success criteria**: Only active, non-expired codes shown, urgency indicators for expiring/limited codes, responsive grid layout
+
 ### Real-Time Availability System
 - **Functionality**: Calculate and display professional availability based on schedules and current time
 - **Purpose**: Show families which professionals can help immediately
@@ -98,6 +112,10 @@ The application manages user authentication (families/professionals), day care c
 - **Image Loading Errors**: Fallback to color-coded placeholder with initials
 - **Mobile Navigation**: Collapsible menu with smooth animations, touch-friendly tap targets
 - **Payment Form Validation**: Real-time validation with clear error messages for card number, expiry, CVV, and email
+- **Invalid Promo Codes**: Clear error messages for expired, exhausted, inactive, or non-existent codes
+- **Discount Calculation**: Handle edge cases where discount exceeds price (never go below $0)
+- **Concurrent Usage**: Track promo code usage to prevent exceeding max uses
+- **Plan Restrictions**: Validate promo codes against applicable plans before applying
 - **Card Expiration**: Prevent submission of expired cards with clear feedback
 - **Payment Processing Errors**: Graceful error handling with retry option and support contact
 - **Duplicate Subscriptions**: Prevent multiple active subscriptions for same user
