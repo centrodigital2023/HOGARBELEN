@@ -27,11 +27,11 @@ The application manages user authentication (families/professionals), day care c
 - **Success criteria**: Smooth registration flow, persistent authentication, role-appropriate dashboard access
 
 ### Family Dashboard
-- **Functionality**: Centralized control panel for families showing health metrics, appointments, activities, and quick actions
-- **Purpose**: Give families visibility and control over their loved one's care
+- **Functionality**: Centralized control panel for families showing health metrics, appointments, activities, subscription management, and quick actions
+- **Purpose**: Give families visibility and control over their loved one's care and subscription
 - **Trigger**: Login as family member
-- **Progression**: Overview tab (health metrics, upcoming appointments, recent activity) → Professionals tab (search/filter/contact) → Appointments → Reports → Messages
-- **Success criteria**: All relevant information at-a-glance, easy navigation between sections, quick action buttons functional
+- **Progression**: Overview tab (health metrics, upcoming appointments, recent activity) → Professionals tab (search/filter/contact) → Appointments → Subscription (manage plan, view payments) → Reports → Messages
+- **Success criteria**: All relevant information at-a-glance, easy navigation between sections, quick action buttons functional, subscription management seamless
 
 ### Professional Directory with Search & Filters
 - **Functionality**: Browse healthcare professionals by specialty, availability, ratings, with search and filtering
@@ -55,11 +55,25 @@ The application manages user authentication (families/professionals), day care c
 - **Success criteria**: Natural language input, relevant recommendations, smooth handoff to booking
 
 ### Service Plans & Pricing
-- **Functionality**: Display three tier plans (Básico, Integral Conectado, Premium Total) with features and pricing
-- **Purpose**: Clear pricing transparency and plan comparison to drive conversions
+- **Functionality**: Display three tier plans (Básico, Premium, Empresarial) with features and pricing, integrated online payment system
+- **Purpose**: Clear pricing transparency and plan comparison to drive conversions with seamless payment processing
 - **Trigger**: Navigate to pricing page or click plan CTAs
-- **Progression**: View plans side-by-side → Compare features → Select plan → Contact or register
-- **Success criteria**: Clear feature differentiation, popular plan highlighted, easy contact for custom plans
+- **Progression**: View plans side-by-side → Compare features → Select plan → Complete secure payment form → Instant subscription activation → Access premium features
+- **Success criteria**: Clear feature differentiation, popular plan highlighted, secure payment processing, instant activation, subscription management dashboard
+
+### Online Payment System
+- **Functionality**: Secure credit card payment processing for Premium plans with validation, encryption, and instant activation
+- **Purpose**: Enable seamless subscription purchases with professional payment experience
+- **Trigger**: Click "Suscribirse Ahora" on Premium plan
+- **Progression**: User authenticated → Payment modal opens → Enter card details → Validate form → Process payment → Show success confirmation → Activate subscription → Update user access
+- **Success criteria**: Form validation, secure data handling, payment confirmation, subscription stored in KV, email confirmation displayed, instant access to premium features
+
+### Subscription Management
+- **Functionality**: Complete dashboard for managing active subscriptions, viewing payment history, and canceling plans
+- **Purpose**: Give users full control and transparency over their subscription lifecycle
+- **Trigger**: Navigate to Suscripción tab in Family Dashboard
+- **Progression**: View active subscription details → See next billing date → Review payment method → Download invoices → Cancel if needed with confirmation
+- **Success criteria**: Clear subscription status, payment history visible, invoice downloads functional, cancel flow with confirmation, data persisted correctly
 
 ### Real-Time Availability System
 - **Functionality**: Calculate and display professional availability based on schedules and current time
@@ -77,12 +91,18 @@ The application manages user authentication (families/professionals), day care c
 
 ## Edge Case Handling
 - **No Search Results**: Friendly empty state with suggestion to adjust filters or try different search terms
-- **Unauthenticated Access**: Redirect to login when trying to access dashboard, preserve intended destination
+- **Unauthenticated Access**: Redirect to login when trying to access dashboard or payments, preserve intended destination
 - **Missing User Data**: Graceful fallbacks for avatar, name fields with placeholder values
 - **API Failures**: Toast notifications for errors, simulated responses for AI assistant if needed
 - **Invalid Schedule Data**: Default to "Estado Desconocido" with graceful error handling
 - **Image Loading Errors**: Fallback to color-coded placeholder with initials
 - **Mobile Navigation**: Collapsible menu with smooth animations, touch-friendly tap targets
+- **Payment Form Validation**: Real-time validation with clear error messages for card number, expiry, CVV, and email
+- **Card Expiration**: Prevent submission of expired cards with clear feedback
+- **Payment Processing Errors**: Graceful error handling with retry option and support contact
+- **Duplicate Subscriptions**: Prevent multiple active subscriptions for same user
+- **No Active Subscription**: Show upgrade prompts with clear benefits in subscription manager
+- **Invoice Generation**: Handle missing data gracefully in invoice downloads
 
 ## Design Direction
 The design should feel warm, trustworthy, and family-oriented while maintaining healthcare professionalism. It should evoke compassion through soft colors, rounded corners, and welcoming imagery of seniors in care settings. The interface balances emotional connection (family photos, testimonials) with functional healthcare tools (dashboards, metrics, professional credentials).

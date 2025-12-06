@@ -16,6 +16,7 @@ import {
   XCircle,
   Zap,
   Loader2,
+  CreditCard,
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
@@ -23,6 +24,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Input } from '../components/ui/input';
+import SubscriptionManager from '../components/SubscriptionManager';
+import UpgradeBanner from '../components/UpgradeBanner';
 import type { User } from '../App';
 
 interface FamilyDashboardProps {
@@ -175,7 +178,7 @@ export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps)
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <Tabs defaultValue="overview" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:inline-grid">
+          <TabsList className="grid w-full grid-cols-6 lg:w-auto lg:inline-grid">
             <TabsTrigger value="overview" className="gap-2">
               <Heart size={16} />
               <span className="hidden sm:inline">Resumen</span>
@@ -188,6 +191,10 @@ export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps)
               <Calendar size={16} />
               <span className="hidden sm:inline">Citas</span>
             </TabsTrigger>
+            <TabsTrigger value="subscription" className="gap-2">
+              <CreditCard size={16} />
+              <span className="hidden sm:inline">Suscripción</span>
+            </TabsTrigger>
             <TabsTrigger value="reports" className="gap-2">
               <FileText size={16} />
               <span className="hidden sm:inline">Reportes</span>
@@ -199,6 +206,9 @@ export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps)
           </TabsList>
 
           <TabsContent value="overview" className="space-y-8">
+            {/* Upgrade Banner */}
+            <UpgradeBanner onUpgrade={() => setPage('pricing')} />
+
             {/* Quick Actions */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
@@ -375,6 +385,10 @@ export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps)
                 <CardDescription>Próximamente: Sistema completo de gestión de citas</CardDescription>
               </CardHeader>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="subscription">
+            <SubscriptionManager />
           </TabsContent>
 
           <TabsContent value="reports">

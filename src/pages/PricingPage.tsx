@@ -1,13 +1,20 @@
-import { Check, Home, Users, Shield } from 'lucide-react';
+import { useState } from 'react';
+import { Check, Home, Users, Shield, CreditCard, Zap } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
+import PaymentModal from '../components/PaymentModal';
+import PlanComparison from '../components/PlanComparison';
+import { useAuth } from '../contextos/SupabaseAuthContext';
 
 interface PricingPageProps {
   setPage: (page: string) => void;
 }
 
 export default function PricingPage({ setPage }: PricingPageProps) {
+  const { user } = useAuth();
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const plans = [
     {
       name: 'Básico',
@@ -16,6 +23,7 @@ export default function PricingPage({ setPage }: PricingPageProps) {
       description: 'Para familias que necesitan cuidado ocasional',
       icon: Home,
       popular: false,
+      isPaid: false,
       features: [
         'Acceso a profesionales verificados',
         'Contacto directo por WhatsApp',
@@ -30,6 +38,7 @@ export default function PricingPage({ setPage }: PricingPageProps) {
       description: 'Para cuidado regular y seguimiento',
       icon: Users,
       popular: true,
+      isPaid: true,
       features: [
         'Todo en Básico',
         'Contactos ilimitados',
@@ -37,6 +46,8 @@ export default function PricingPage({ setPage }: PricingPageProps) {
         'Historial de profesionales',
         'Soporte prioritario',
         'Recordatorios automáticos',
+        'Agenda de citas integrada',
+        'Notificaciones personalizadas',
       ],
     },
     {
@@ -46,6 +57,7 @@ export default function PricingPage({ setPage }: PricingPageProps) {
       description: 'Para instituciones y empresas',
       icon: Shield,
       popular: false,
+      isPaid: false,
       features: [
         'Todo en Premium',
         'Dashboard administrativo',
@@ -53,9 +65,34 @@ export default function PricingPage({ setPage }: PricingPageProps) {
         'API integración',
         'Soporte dedicado 24/7',
         'Reportes personalizados',
+        'Facturación centralizada',
+        'Capacitación del equipo',
       ],
     },
   ];
+
+  const handleSelectPlan = (plan: any) => {
+    if (!user) {
+      setPage('login');
+      return;
+    }
+
+    if (plan.isPaid && plan.price !== 'Personalizado') {
+      setSelectedPlan(plan);
+      setShowPaymentModal(true);
+    } else if (plan.price === 'Personalizado') {
+      setPage('contact');
+    } else {
+      setPage('register');
+    }
+  };
+
+  const handleSelectPlanByName = (planName: string) => {
+    const plan = plans.find(p => p.name === planName);
+    if (plan) {
+      handleSelectPlan(plan);
+    }
+  };
 
   return (
     <div className="py-20 bg-muted/50">
@@ -110,13 +147,17 @@ export default function PricingPage({ setPage }: PricingPageProps) {
                 <Button
                   className="w-full"
                   variant={plan.popular ? 'default' : 'outline'}
-                  onClick={() => setPage('register')}
+                  onClick={() => handleSelectPlan(plan)}
                 >
+                  {plan.isPaid && plan.price !== 'Personalizado' && (
+                    <CreditCard className="w-4 h-4 mr-2" />
+                  )}
+                  {plan.popular && <Zap className="w-4 h-4 mr-2" />}
                   {plan.price === 'Gratis'
                     ? 'Comenzar Gratis'
                     : plan.price === 'Personalizado'
                     ? 'Contactar Ventas'
-                    : 'Elegir Plan'}
+                    : 'Suscribirse Ahora'}
                 </Button>
               </CardFooter>
             </Card>
@@ -137,7 +178,54 @@ export default function PricingPage({ setPage }: PricingPageProps) {
             </CardContent>
           </Card>
         </div>
+
+        {/* Info Section */}
+        <div className="max-w-4xl mx-auto mt-12 grid md:grid-cols-3 gap-6">
+          <Card className="text-center">
+            <CardContent className="pt-6">
+              <Shield className="w-12 h-12 text-primary mx-auto mb-3" />
+              <h4 className="font-semibold mb-2">Pagos Seguros</h4>
+              <p className="text-sm text-muted-foreground">
+                Encriptación SSL de nivel bancario
+              </p>
+            </CardContent>
+          </Card>
+          <Card className="text-center">
+            <CardContent className="pt-6">
+              <CreditCard className="w-12 h-12 text-primary mx-auto mb-3" />
+              <h4 className="font-semibold mb-2">Sin Compromisos</h4>
+              <p className="text-sm text-muted-foreground">
+                Cancela cuando quieras, sin penalizaciones
+              </p>
+            </CardContent>
+          </Card>
+          <Card className="text-center">
+            <CardContent className="pt-6">
+              <Zap className="w-12 h-12 text-primary mx-auto mb-3" />
+              <h4 className="font-semibold mb-2">Activación Inmediata</h4>
+              <p className="text-sm text-muted-foreground">
+                Acceso instantáneo a todas las funciones
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Plan Comparison Table */}
+        <div className="mt-16">
+          <PlanComparison onSelectPlan={handleSelectPlanByName} />
+        </div>
       </div>
+
+      {selectedPlan && (
+        <PaymentModal
+          isOpen={showPaymentModal}
+          onClose={() => {
+            setShowPaymentModal(false);
+            setSelectedPlan(null);
+          }}
+          plan={selectedPlan}
+        />
+      )}
     </div>
   );
 }
