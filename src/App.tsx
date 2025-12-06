@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Toaster } from 'sonner';
-import { useKV } from '@github/spark/hooks';
-import Navigation from './components/Navigation';
-import Footer from './components/Footer';
-import HomePage from './pages/HomePage';
-import ServicesPage from './pages/ServicesPage';
-import PricingPage from './pages/PricingPage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import FamilyDashboard from './pages/FamilyDashboard';
-import AICareAssistant from './pages/AICareAssistant';
+import { AuthProvider, useAuth } from './contextos/SupabaseAuthContext';
+import Navegación from './componentes/Navegación';
+import PieDePágina from './componentes/PieDePágina';
+import PáginaPrincipal from './páginas/PáginaPrincipal';
+import AboutPage from './páginas/AboutPage';
+import PáginaDePrecios from './páginas/PáginaDePrecios';
+import PáginaDeServicios from './páginas/PáginaDeServicios';
+import ContactPage from './páginas/ContactPage';
+import BelenConectaLogin from './páginas/BelenConectaLogin';
+import BelenConectaRegister from './páginas/BelenConectaRegister';
+import FamilyDashboard from './páginas/FamilyDashboard';
+import PanelDeControlProfesional from './páginas/PanelDeControlProfesional';
+import AICareAssistant from './páginas/AICareAssistant';
 
 export interface User {
   id: string;
@@ -22,66 +23,59 @@ export interface User {
   photoUrl?: string;
 }
 
-function App() {
+const MainApp = () => {
+  const { user, userData, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState('home');
-  const [user, setUser] = useKV<User | null>('hogar-belen-user', null);
-  
-  // Ensure user is never undefined
-  const currentUser = user ?? null;
 
   useEffect(() => {
-    if (currentUser && (currentPage === 'login' || currentPage === 'register')) {
-      setCurrentPage('dashboard');
+    if (user) {
+      if (currentPage === 'login' || currentPage === 'register') {
+        setCurrentPage(userData?.role === 'professional' ? 'dashboard-pro' : 'dashboard-family');
+      }
     }
-  }, [currentUser, currentPage]);
+  }, [user, userData, currentPage]);
 
-  const handleSetUser = (newUser: User | null) => {
-    setUser(newUser);
-  };
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center text-primary-600">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+        <span className="ml-3 text-lg">Cargando Hogar Belén...</span>
+      </div>
+    );
+  }
 
   const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <HomePage setPage={setCurrentPage} />;
-      case 'services':
-        return <ServicesPage />;
-      case 'pricing':
-        return <PricingPage setPage={setCurrentPage} />;
-      case 'about':
-        return <AboutPage />;
-      case 'contact':
-        return <ContactPage />;
-      case 'login':
-        return <LoginPage setPage={setCurrentPage} setUser={handleSetUser} />;
-      case 'register':
-        return <RegisterPage setPage={setCurrentPage} setUser={handleSetUser} />;
-      case 'dashboard':
-        return <FamilyDashboard user={currentUser} setPage={setCurrentPage} />;
-      case 'ai-assistant':
-        return <AICareAssistant setPage={setCurrentPage} />;
-      default:
-        return <HomePage setPage={setCurrentPage} />;
+    switch(currentPage) {
+      case 'home': return <PáginaPrincipal setPage={setCurrentPage} />;
+      case 'about': return <AboutPage />;
+      case 'pricing': return <PáginaDePrecios setPage={setCurrentPage} />;
+      case 'services': return <PáginaDeServicios />;
+      case 'contact': return <ContactPage />;
+      case 'login': return <BelenConectaLogin setPage={setCurrentPage} />;
+      case 'register': return <BelenConectaRegister setPage={setCurrentPage} />;
+      case 'dashboard-family': return <FamilyDashboard user={user} setPage={setCurrentPage} />;
+      case 'dashboard-pro': return <PanelDeControlProfesional user={user} userData={userData} />;
+      case 'ai-assistant': return <AICareAssistant setPage={setCurrentPage} />;
+      default: return <PáginaPrincipal setPage={setCurrentPage} />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <Navigation 
-        setPage={setCurrentPage} 
-        user={currentUser} 
-        setUser={handleSetUser}
-        currentPage={currentPage}
-      />
-      
-      <main className="flex-1">
+    <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+      <Navegación setPage={setCurrentPage} user={user} userData={userData} />
+      <main className="fade-in-page">
         {renderPage()}
       </main>
-
-      <Footer setPage={setCurrentPage} />
-      
+      <PieDePágina setPage={setCurrentPage} />
       <Toaster position="bottom-right" />
     </div>
   );
-}
+};
 
-export default App;
+const BelenConectaApp = () => (
+  <AuthProvider>
+    <MainApp />
+  </AuthProvider>
+);
+
+export default BelenConectaApp;
