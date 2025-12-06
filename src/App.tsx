@@ -14,6 +14,10 @@ import FamilyDashboard from './páginas/FamilyDashboard';
 import PanelDeControlProfesional from './páginas/PanelDeControlProfesional';
 import AICareAssistant from './páginas/AICareAssistant';
 import AdminPromoCodes from './páginas/AdminPromoCodes';
+import CentroVida from './páginas/CentroVida';
+import OfertasDeTrabajo from './páginas/OfertasDeTrabajo';
+import BelenConectaFamilias from './páginas/BelenConectaFamilias';
+import BelenConectaProfesionales from './páginas/BelenConectaProfesionales';
 
 export interface User {
   id: string;
@@ -52,6 +56,10 @@ const MainApp = () => {
       case 'pricing': return <PáginaDePrecios setPage={setCurrentPage} />;
       case 'services': return <PáginaDeServicios />;
       case 'contact': return <ContactPage />;
+      case 'centro-vida': return <CentroVida setPage={setCurrentPage} />;
+      case 'jobs': return <OfertasDeTrabajo setPage={setCurrentPage} />;
+      case 'belen-familias': return <BelenConectaFamilias setPage={setCurrentPage} />;
+      case 'belen-profesionales': return <BelenConectaProfesionales setPage={setCurrentPage} />;
       case 'login': return <BelenConectaLogin setPage={setCurrentPage} />;
       case 'register': return <BelenConectaRegister setPage={setCurrentPage} />;
       case 'dashboard-family': return <FamilyDashboard user={user} setPage={setCurrentPage} />;
