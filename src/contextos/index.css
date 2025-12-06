@@ -1,0 +1,59 @@
+@import 'tailwindcss';
+
+.toast-container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.toast {
+  min-width: 300px;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  background: white;
+  border: 1px solid oklch(0.92 0.01 240);
+  animation: slideIn 0.3s ease-out;
+}
+
+.toast-success {
+  border-left: 4px solid oklch(0.55 0.15 150);
+}
+
+.toast-error {
+  border-left: 4px solid oklch(0.577 0.245 27.325);
+}
+
+.toast-warning {
+  border-left: 4px solid oklch(0.68 0.18 50);
+}
+
+.toast-info {
+  border-left: 4px solid oklch(0.55 0.15 200);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}

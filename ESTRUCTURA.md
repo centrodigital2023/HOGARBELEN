@@ -1,6 +1,6 @@
 # Estructura de Archivos - Hogar Belén
 
-Este documento describe la estructura organizativa del proyecto Hogar Belén, una plataforma SaaS que conecta familias con servicios de cuidado para adultos mayores.
+Este documento describe la estructura organizativa completa del proyecto Hogar Belén, una plataforma SaaS que conecta familias con servicios de cuidado para adultos mayores.
 
 ## 📁 Estructura Principal
 
@@ -8,8 +8,19 @@ Este documento describe la estructura organizativa del proyecto Hogar Belén, un
 src/
 ├── componentes/           # Componentes reutilizables de UI
 │   ├── ui/               # Componentes base de interfaz
+│   │   ├── botón.tsx
+│   │   ├── input.tsx
+│   │   ├── textarea.tsx
+│   │   ├── avatar.tsx
+│   │   ├── insignia.tsx
+│   │   ├── tarjeta.tsx
+│   │   ├── select.tsx
+│   │   ├── pestañas.tsx
+│   │   └── toast.tsx
 │   ├── Navegación.tsx    # Barra de navegación principal
 │   ├── PieDePágina.tsx   # Footer del sitio
+│   ├── HeroSection.tsx   # Sección hero genérica
+│   ├── PropuestaDeValor.tsx # Sección de valores
 │   ├── ServiciosCarousel.tsx
 │   ├── TrustSection.tsx
 │   └── SecciónDeTestimonios.tsx
@@ -24,15 +35,36 @@ src/
 │   ├── BelenConectaRegister.tsx
 │   ├── FamilyDashboard.tsx
 │   ├── PanelDeControlProfesional.tsx
+│   ├── PerfilProfesional.tsx
+│   ├── ResultadosDeBúsqueda.tsx
 │   └── AICareAssistant.tsx
 │
 ├── página principal/     # Componentes específicos del hero/homepage
 │   ├── HeroNarrative.tsx
 │   ├── PromiseSection.tsx
-│   └── SoulCarousel.tsx
+│   ├── SoulCarousel.tsx
+│   └── CronologíaInclusiva.tsx
+│
+├── panel de control familiar/  # Componentes del dashboard familiar
+│   ├── FamilyDashboardHeader.tsx
+│   ├── BarraDeBúsqueda.tsx
+│   ├── SecciónDeFiltro.tsx
+│   ├── TarjetaProfesional.tsx
+│   └── ListaDeProfesionales.tsx
+│
+├── panel/                # Componentes del dashboard profesional
+│   ├── ResumenDelPerfil.tsx
+│   ├── ProfileTab.tsx
+│   ├── PestañaCitas.tsx
+│   ├── PestañaMensajes.tsx
+│   └── SettingsTab.tsx
 │
 ├── contextos/           # React Context providers
-│   └── SupabaseAuthContext.tsx
+│   ├── SupabaseAuthContext.tsx
+│   ├── ToastContext.tsx
+│   ├── use-toast.ts
+│   ├── tostadora.tsx
+│   └── index.css
 │
 ├── pages/               # Páginas originales (mantenidas para compatibilidad)
 ├── components/          # Componentes originales (mantenidos)
@@ -47,8 +79,13 @@ src/
 ### componentes/ui/
 - **botón.tsx**: Componente de botón con variantes (primary, secondary, outline, ghost, ai)
 - **input.tsx**: Campo de entrada de formulario con labels y manejo de errores
+- **textarea.tsx**: Área de texto para formularios
 - **avatar.tsx**: Avatar de usuario con imagen o placeholder
 - **insignia.tsx**: Badges para estados y categorías
+- **tarjeta.tsx**: Componente Card con header, content, footer
+- **select.tsx**: Selector dropdown con Radix UI
+- **pestañas.tsx**: Componente Tabs para navegación
+- **toast.tsx**: Componente de notificación simple
 
 ## 📄 Páginas Principales
 
@@ -58,6 +95,7 @@ src/
 - **ContactPage**: Formulario de contacto
 - **PáginaDeServicios**: Catálogo de servicios disponibles
 - **PáginaDePrecios**: Planes y precios
+- **ResultadosDeBúsqueda**: Búsqueda y filtrado de profesionales
 
 ### Autenticación
 - **BelenConectaLogin**: Página de inicio de sesión
@@ -66,6 +104,7 @@ src/
 ### Dashboards
 - **FamilyDashboard**: Panel de control para familias
 - **PanelDeControlProfesional**: Panel para profesionales de salud
+- **PerfilProfesional**: Perfil completo del profesional con tabs
 - **AICareAssistant**: Asistente de IA para recomendaciones de cuidado
 
 ## 🔧 Contextos
@@ -79,17 +118,44 @@ Maneja la autenticación y estado del usuario usando el sistema de persistencia 
 - `loading`: Estado de carga
 - `signOut()`: Función para cerrar sesión
 
+### ToastContext
+Sistema de notificaciones toast alternativo (nota: el proyecto usa principalmente Sonner).
+
+### use-toast
+Hook personalizado para manejo de notificaciones.
+
 ## 🎯 Componentes de Homepage
 
 ### página principal/
 - **HeroNarrative**: Hero section con imagen de fondo y llamadas a la acción
 - **PromiseSection**: Sección de promesas y valores de Hogar Belén
 - **SoulCarousel**: Carrusel de citas inspiracionales
+- **CronologíaInclusiva**: Timeline de la historia de Hogar Belén
 
 ### componentes/
+- **HeroSection**: Hero section genérico reutilizable
+- **PropuestaDeValor**: Grid de valores y beneficios
 - **ServiciosCarousel**: Grid de categorías de servicios
 - **TrustSection**: Indicadores de confianza y credenciales
 - **SecciónDeTestimonios**: Testimonios de familias
+
+## 👨‍⚕️ Componentes de Dashboard Familiar
+
+### panel de control familiar/
+- **FamilyDashboardHeader**: Cabecera del dashboard con avatar y notificaciones
+- **BarraDeBúsqueda**: Barra de búsqueda de profesionales
+- **SecciónDeFiltro**: Filtros por especialidad y disponibilidad
+- **TarjetaProfesional**: Card de profesional individual con datos
+- **ListaDeProfesionales**: Grid de tarjetas de profesionales
+
+## 💼 Componentes de Dashboard Profesional
+
+### panel/
+- **ResumenDelPerfil**: Vista de resumen del perfil profesional
+- **ProfileTab**: Tab de edición de perfil
+- **PestañaCitas**: Tab de gestión de citas
+- **PestañaMensajes**: Tab de mensajería con pacientes
+- **SettingsTab**: Tab de configuración y notificaciones
 
 ## 🎨 Sistema de Diseño
 
