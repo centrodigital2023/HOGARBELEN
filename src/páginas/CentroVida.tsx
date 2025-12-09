@@ -1,12 +1,75 @@
 import { Heart, Users, Calendar, Home, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import ServiceGallery from '@/components/ServiceGallery';
 
 interface CentroVidaProps {
   setPage: (page: string) => void;
 }
 
 const CentroVida = ({ setPage }: CentroVidaProps) => {
+  const centroVidaGallery = [
+    {
+      url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop',
+      alt: 'Entrada principal Centro de Vida Hogar Belén',
+      caption: 'Bienvenido a nuestro acogedor Centro de Vida'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&auto=format&fit=crop',
+      alt: 'Sala común del Centro de Vida',
+      caption: 'Espacios amplios y confortables para la convivencia'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1599045118441-c8b9d0457db4?w=800&auto=format&fit=crop',
+      alt: 'Actividades recreativas grupales',
+      caption: 'Actividades diseñadas para el bienestar y la socialización'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?w=800&auto=format&fit=crop',
+      alt: 'Comedor del Centro de Vida',
+      caption: 'Alimentación balanceada en un ambiente familiar'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&auto=format&fit=crop',
+      alt: 'Huerta terapéutica',
+      caption: 'Huerta terapéutica: conexión con la naturaleza'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1574887427561-d3d5d58c9273?w=800&auto=format&fit=crop',
+      alt: 'Sala de terapias físicas',
+      caption: 'Salas equipadas para fisioterapia y rehabilitación'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1546953304-5d96f43c2e94?w=800&auto=format&fit=crop',
+      alt: 'Sesión de musicoterapia',
+      caption: 'Musicoterapia para estimulación cognitiva'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&auto=format&fit=crop',
+      alt: 'Clase de ejercicio adaptado',
+      caption: 'Ejercicio adaptado para todas las capacidades'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?w=800&auto=format&fit=crop',
+      alt: 'Jardines exteriores',
+      caption: 'Hermosos jardines para disfrutar al aire libre'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1587850450970-61a7fc4f0c59?w=800&auto=format&fit=crop',
+      alt: 'Atención personalizada',
+      caption: 'Cuidado individualizado con profesionales capacitados'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?w=800&auto=format&fit=crop',
+      alt: 'Sala de lectura y relajación',
+      caption: 'Espacios tranquilos para lectura y descanso'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&auto=format&fit=crop',
+      alt: 'Terapia ocupacional',
+      caption: 'Terapias ocupacionales para mantener la autonomía'
+    }
+  ];
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -21,6 +84,15 @@ const CentroVida = ({ setPage }: CentroVidaProps) => {
             Un espacio seguro, cálido y estimulante donde tus seres queridos reciben atención profesional 
             mientras tú te ocupas de tus actividades diarias.
           </p>
+        </div>
+
+        <div className="mb-16">
+          <ServiceGallery
+            title="Conoce Nuestras Instalaciones"
+            description="Un recorrido visual por nuestro Centro de Vida, donde cada espacio está diseñado pensando en el bienestar y la comodidad de nuestros residentes."
+            images={centroVidaGallery}
+            columns={4}
+          />
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 mb-16">

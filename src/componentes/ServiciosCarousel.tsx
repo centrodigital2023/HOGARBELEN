@@ -10,31 +10,36 @@ const ServiciosCarousel = ({ setPage }: ServiciosCarouselProps) => {
       id: 'medicos', 
       label: 'Médicos', 
       icon: Stethoscope, 
-      description: 'Atención médica especializada en casa.' 
+      description: 'Atención médica especializada en casa.',
+      image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&auto=format&fit=crop'
     },
     { 
       id: 'enfermeria', 
       label: 'Enfermería', 
       icon: Activity, 
-      description: 'Cuidados clínicos y paliativos.' 
+      description: 'Cuidados clínicos y paliativos.',
+      image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=400&auto=format&fit=crop'
     },
     { 
       id: 'terapia', 
       label: 'Terapia', 
       icon: User, 
-      description: 'Rehabilitación física y respiratoria.' 
+      description: 'Rehabilitación física y respiratoria.',
+      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&auto=format&fit=crop'
     },
     { 
       id: 'cuidadores', 
       label: 'Cuidadores', 
       icon: Heart, 
-      description: 'Acompañamiento y cuidado diario.' 
+      description: 'Acompañamiento y cuidado diario.',
+      image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=400&auto=format&fit=crop'
     },
     { 
       id: 'otros', 
       label: 'Otros', 
       icon: Briefcase, 
-      description: 'Psicología, Nutrición y más.' 
+      description: 'Psicología, Nutrición y más.',
+      image: 'https://images.unsplash.com/photo-1551135049-8a33b5883817?w=400&auto=format&fit=crop'
     },
   ];
 
@@ -55,14 +60,26 @@ const ServiciosCarousel = ({ setPage }: ServiciosCarouselProps) => {
           {categories.map((category) => (
             <div
               key={category.id}
-              onClick={() => setPage('dashboard-family')}
-              className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all cursor-pointer group border border-gray-100"
+              onClick={() => setPage('services')}
+              className="relative bg-white rounded-xl shadow-sm hover:shadow-lg transition-all cursor-pointer group border border-gray-100 overflow-hidden"
             >
-              <div className="w-12 h-12 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <category.icon size={24} />
+              <div className="relative h-40 overflow-hidden">
+                <img 
+                  src={category.image} 
+                  alt={category.label}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-3 left-3 right-3">
+                  <div className="w-10 h-10 bg-white/90 text-primary-600 rounded-lg flex items-center justify-center mb-2">
+                    <category.icon size={20} />
+                  </div>
+                </div>
               </div>
-              <h3 className="font-bold text-gray-900 mb-2">{category.label}</h3>
-              <p className="text-sm text-gray-600">{category.description}</p>
+              <div className="p-4">
+                <h3 className="font-bold text-gray-900 mb-2">{category.label}</h3>
+                <p className="text-sm text-gray-600">{category.description}</p>
+              </div>
             </div>
           ))}
         </div>
