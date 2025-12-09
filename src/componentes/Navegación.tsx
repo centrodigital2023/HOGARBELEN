@@ -62,7 +62,7 @@ const Navegación = ({ setPage, user, userData }: NavegaciónProps) => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-56">
                 <DropdownMenuItem onClick={() => setPage('centro-vida')} className="cursor-pointer py-3">
-                  <span className="font-medium">Centro de Día</span>
+                  <span className="font-medium">Centro Vida</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setPage('services')} className="cursor-pointer py-3">
                   <span className="font-medium">Profesionales</span>
