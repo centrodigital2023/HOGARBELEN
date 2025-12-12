@@ -26,6 +26,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
 import { Input } from '../components/ui/input';
 import SubscriptionManager from '../components/SubscriptionManager';
 import UpgradeBanner from '../components/UpgradeBanner';
+import { BookingCalendar } from '../components/BookingCalendar';
+import { AppointmentsView } from '../components/AppointmentsView';
 import type { User } from '../App';
 
 interface FamilyDashboardProps {
@@ -52,6 +54,7 @@ interface Professional {
 export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
+  const [bookingProfessional, setBookingProfessional] = useState<Professional | null>(null);
 
   const professionals: Professional[] = [
     {
@@ -356,12 +359,12 @@ export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps)
                       ))}
                     </div>
                     <div className="flex gap-2">
-                      <Button className="flex-1" disabled={!pro.available}>
-                        <MessageCircle size={16} className="mr-2" />
-                        Contactar
+                      <Button className="flex-1" onClick={() => setBookingProfessional(pro)}>
+                        <Calendar size={16} className="mr-2" />
+                        Reservar Cita
                       </Button>
-                      <Button variant="outline">
-                        <FileText size={16} />
+                      <Button variant="outline" disabled={!pro.available}>
+                        <MessageCircle size={16} />
                       </Button>
                     </div>
                   </CardContent>
@@ -379,12 +382,7 @@ export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps)
           </TabsContent>
 
           <TabsContent value="appointments">
-            <Card>
-              <CardHeader>
-                <CardTitle>Gestión de Citas</CardTitle>
-                <CardDescription>Próximamente: Sistema completo de gestión de citas</CardDescription>
-              </CardHeader>
-            </Card>
+            <AppointmentsView />
           </TabsContent>
 
           <TabsContent value="subscription">
@@ -410,6 +408,18 @@ export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps)
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Booking Calendar Modal */}
+      {bookingProfessional && (
+        <BookingCalendar
+          professionalId={bookingProfessional.id.toString()}
+          professionalName={bookingProfessional.name}
+          professionalRole={bookingProfessional.specialty}
+          schedule={bookingProfessional.availability}
+          open={!!bookingProfessional}
+          onClose={() => setBookingProfessional(null)}
+        />
+      )}
     </div>
   );
 }

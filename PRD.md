@@ -61,6 +61,27 @@ The application manages user authentication (families/professionals), day care c
 - **Progression**: View plans side-by-side → Compare features → Select plan → Complete secure payment form → Instant subscription activation → Access premium features
 - **Success criteria**: Clear feature differentiation, popular plan highlighted, secure payment processing, instant activation, subscription management dashboard
 
+### Interactive Service Booking Calendar
+- **Functionality**: Full calendar interface for booking appointments with professionals, showing real availability based on professional schedules
+- **Purpose**: Enable families to easily schedule appointments and professionals to manage their availability
+- **Trigger**: Click "Reservar Cita" button on professional card in Family Dashboard
+- **Progression**: Opens calendar modal → Select available date → View time slots for that date → Choose time → Review booking details → Confirm reservation → Booking saved to KV store → Success notification
+- **Success criteria**: Calendar shows only available dates, time slots filtered by professional schedule, past dates disabled, bookings persist in KV, appointments appear in appointments view, professionals see booked slots in their availability manager
+
+### Appointments Management View
+- **Functionality**: Comprehensive view of all bookings with filtering by status (upcoming, completed, cancelled) and statistics
+- **Purpose**: Give families visibility into all their scheduled and past appointments
+- **Trigger**: Navigate to Appointments tab in Family Dashboard
+- **Progression**: View statistics dashboard → Filter by appointment status → See upcoming appointments with contact options → Review past appointments
+- **Success criteria**: All bookings displayed accurately, filters work correctly, statistics update in real-time, booking details clear and complete
+
+### Professional Availability Manager
+- **Functionality**: Interactive weekly schedule grid where professionals can enable/disable time slots and view bookings
+- **Purpose**: Allow professionals to control when they are available for bookings
+- **Trigger**: Professional navigates to availability management section
+- **Progression**: View weekly schedule grid → Toggle individual time slots on/off → Use quick actions to enable/disable entire days → View booked slots (non-editable) → Changes auto-save to KV
+- **Success criteria**: Grid shows all time slots, toggle functionality works smoothly, booked slots are locked, day-level enable/disable works, changes persist correctly
+
 ### Online Payment System
 - **Functionality**: Secure credit card payment processing for Premium plans with validation, encryption, and instant activation
 - **Purpose**: Enable seamless subscription purchases with professional payment experience
@@ -121,6 +142,13 @@ The application manages user authentication (families/professionals), day care c
 - **Duplicate Subscriptions**: Prevent multiple active subscriptions for same user
 - **No Active Subscription**: Show upgrade prompts with clear benefits in subscription manager
 - **Invoice Generation**: Handle missing data gracefully in invoice downloads
+- **Past Date Booking**: Prevent booking in past dates with error toast notification
+- **No Available Time Slots**: Show helpful message when professional has no availability for selected date
+- **Conflicting Bookings**: Prevent double-booking same time slot across multiple users
+- **Empty Appointments List**: Show encouraging message to book first appointment with CTA to professionals section
+- **Professional Schedule Parsing**: Handle various schedule formats (ranges, individual days, 24-hour format)
+- **Availability Grid State**: Preserve scroll position when toggling slots in availability manager
+- **Booked Slot Protection**: Prevent professionals from disabling already-booked time slots
 
 ## Design Direction
 The design should feel warm, trustworthy, and family-oriented while maintaining healthcare professionalism. It should evoke compassion through soft colors, rounded corners, and welcoming imagery of seniors in care settings. The interface balances emotional connection (family photos, testimonials) with functional healthcare tools (dashboards, metrics, professional credentials).
