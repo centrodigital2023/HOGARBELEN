@@ -54,7 +54,7 @@ const PanelDeControlProfesional = ({ user, userData, setPage }: PanelDeControlPr
             </TabsContent>
 
             <TabsContent value="citas">
-              <PestañaCitas />
+              <PestañaCitas professionalId={user?.uid || '1'} userData={userData} />
             </TabsContent>
 
             <TabsContent value="mensajes">

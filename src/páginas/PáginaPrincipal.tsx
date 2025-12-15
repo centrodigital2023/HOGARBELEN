@@ -1,4 +1,4 @@
-import HeroNarrative from '../página principal/HeroNarrative';
+import EnhancedHeroSection from '../página principal/EnhancedHeroSection';
 import PromiseSection from '../página principal/PromiseSection';
 import SoulCarousel from '../página principal/SoulCarousel';
 import TrustSection from '../componentes/TrustSection';
@@ -12,12 +12,8 @@ interface PáginaPrincipalProps {
 const PáginaPrincipal = ({ setPage }: PáginaPrincipalProps) => {
   return (
     <div>
-      <HeroNarrative setPage={setPage} />
-      <PromiseSection />
-      <ServiciosCarousel setPage={setPage} />
-      <TrustSection />
+      <EnhancedHeroSection setPage={setPage} />
       <SecciónDeTestimonios />
-      <SoulCarousel />
     </div>
   );
 };
