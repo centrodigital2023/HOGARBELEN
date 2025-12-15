@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Heart, Menu, X, LogOut } from 'lucide-react';
+import { Heart, Menu, X, LogOut, ChevronDown, Home, Users, Briefcase, Building, UserPlus } from 'lucide-react';
 import { Button } from './ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { toast } from 'sonner';
@@ -14,6 +14,8 @@ interface NavigationProps {
 
 export default function Navigation({ setPage, user, setUser, currentPage }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [serviciosDropdownOpen, setServiciosDropdownOpen] = useState(false);
+  const [belenConectaDropdownOpen, setBelenConectaDropdownOpen] = useState(false);
 
   const handleLogout = () => {
     setUser(null);
@@ -22,12 +24,15 @@ export default function Navigation({ setPage, user, setUser, currentPage }: Navi
     setMobileMenuOpen(false);
   };
 
-  const navLinks = [
-    { id: 'home', label: 'Inicio' },
-    { id: 'about', label: 'Nosotros' },
-    { id: 'services', label: 'Servicios' },
-    { id: 'pricing', label: 'Planes' },
-    { id: 'contact', label: 'Contacto' },
+  const serviciosMenu = [
+    { id: 'centro-vida', label: 'Centro Vida', icon: Home },
+    { id: 'professionals', label: 'Profesionales', icon: Users },
+    { id: 'jobs', label: 'Ofertas de Trabajo', icon: Briefcase },
+  ];
+
+  const belenConectaMenu = [
+    { id: 'family-platform', label: 'Para Familias', icon: Heart },
+    { id: 'professional-platform', label: 'Para Profesionales', icon: UserPlus },
   ];
 
   return (
@@ -47,20 +52,101 @@ export default function Navigation({ setPage, user, setUser, currentPage }: Navi
           </button>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
+          <div className="hidden md:flex items-center gap-6">
+            <button
+              onClick={() => setPage('home')}
+              className={`text-sm font-medium transition-colors ${
+                currentPage === 'home'
+                  ? 'text-primary border-b-2 border-primary'
+                  : 'text-muted-foreground hover:text-primary'
+              }`}
+            >
+              Inicio
+            </button>
+
+            <button
+              onClick={() => setPage('about')}
+              className={`text-sm font-medium transition-colors ${
+                currentPage === 'about'
+                  ? 'text-primary border-b-2 border-primary'
+                  : 'text-muted-foreground hover:text-primary'
+              }`}
+            >
+              Nosotros
+            </button>
+
+            {/* Servicios Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setServiciosDropdownOpen(true)}
+              onMouseLeave={() => setServiciosDropdownOpen(false)}
+            >
               <button
-                key={link.id}
-                onClick={() => setPage(link.id)}
-                className={`text-sm font-medium transition-colors ${
-                  currentPage === link.id
-                    ? 'text-primary border-b-2 border-primary'
-                    : 'text-muted-foreground hover:text-primary'
-                }`}
+                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
               >
-                {link.label}
+                Servicios
+                <ChevronDown size={16} className={`transition-transform ${serviciosDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
-            ))}
+              {serviciosDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-border py-2 animate-in fade-in slide-in-from-top-2">
+                  {serviciosMenu.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setPage(item.id);
+                        setServiciosDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-3 text-sm hover:bg-muted transition-colors flex items-center gap-3"
+                    >
+                      <item.icon size={18} className="text-primary" />
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <button
+              onClick={() => setPage('pricing')}
+              className={`text-sm font-medium transition-colors ${
+                currentPage === 'pricing'
+                  ? 'text-primary border-b-2 border-primary'
+                  : 'text-muted-foreground hover:text-primary'
+              }`}
+            >
+              Planes
+            </button>
+
+            {/* Belén Conecta Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setBelenConectaDropdownOpen(true)}
+              onMouseLeave={() => setBelenConectaDropdownOpen(false)}
+            >
+              <button
+                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+              >
+                Belén Conecta
+                <ChevronDown size={16} className={`transition-transform ${belenConectaDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {belenConectaDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-border py-2 animate-in fade-in slide-in-from-top-2">
+                  {belenConectaMenu.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setPage(item.id);
+                        setBelenConectaDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-3 text-sm hover:bg-muted transition-colors flex items-center gap-3"
+                    >
+                      <item.icon size={18} className="text-primary" />
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {user ? (
               <div className="flex items-center gap-4 border-l pl-4 ml-4">
@@ -116,26 +202,74 @@ export default function Navigation({ setPage, user, setUser, currentPage }: Navi
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t py-4 space-y-3 animate-in slide-in-from-top">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => {
-                  setPage(link.id);
-                  setMobileMenuOpen(false);
-                }}
-                className={`block w-full text-left px-4 py-2 rounded-lg transition-colors ${
-                  currentPage === link.id
-                    ? 'text-primary bg-primary/10'
-                    : 'text-muted-foreground hover:text-primary hover:bg-muted'
-                }`}
-              >
-                {link.label}
-              </button>
-            ))}
+          <div className="md:hidden bg-white border-t py-4 space-y-2 animate-in slide-in-from-top">
+            <button
+              onClick={() => {
+                setPage('home');
+                setMobileMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted transition-colors"
+            >
+              Inicio
+            </button>
+            <button
+              onClick={() => {
+                setPage('about');
+                setMobileMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted transition-colors"
+            >
+              Nosotros
+            </button>
+
+            {/* Mobile Servicios Section */}
+            <div className="px-4 py-2">
+              <p className="text-xs font-semibold text-muted-foreground uppercase mb-2">Servicios</p>
+              {serviciosMenu.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setPage(item.id);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-3 w-full text-left px-3 py-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted transition-colors"
+                >
+                  <item.icon size={18} />
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => {
+                setPage('pricing');
+                setMobileMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted transition-colors"
+            >
+              Planes
+            </button>
+
+            {/* Mobile Belén Conecta Section */}
+            <div className="px-4 py-2">
+              <p className="text-xs font-semibold text-muted-foreground uppercase mb-2">Belén Conecta</p>
+              {belenConectaMenu.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setPage(item.id);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-3 w-full text-left px-3 py-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted transition-colors"
+                >
+                  <item.icon size={18} />
+                  {item.label}
+                </button>
+              ))}
+            </div>
 
             {!user ? (
-              <div className="px-4 pt-2 space-y-2">
+              <div className="px-4 pt-2 space-y-2 border-t">
                 <Button
                   onClick={() => {
                     setPage('login');

@@ -26,7 +26,7 @@ export default function ServicesPage() {
   ];
 
   const residencialFeatures = [
-    'Atención médica 24/7',
+    'Cuidado de enfermería 24 horas 7 días de la semana',
     'Alimentación balanceada y personalizada',
     'Actividades recreativas y terapéuticas',
     'Fisioterapia y rehabilitación',
