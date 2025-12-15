@@ -152,7 +152,12 @@ export default function PricingPage({ setPage }: PricingPageProps) {
     <div className="min-h-screen bg-gradient-to-b from-white via-primary-50/30 to-white">
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/10 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/10 to-background">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-primary rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent rounded-full blur-3xl" />
+          </div>
+        </div>
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -191,6 +196,45 @@ export default function PricingPage({ setPage }: PricingPageProps) {
                 Aquí, usted no invierte en un servicio; invierte en la felicidad diaria, la seguridad constante y la paz mental 
                 que su familia merece.
               </p>
+            </div>
+          </motion.div>
+
+          {/* Visual Gallery Showcase */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="grid md:grid-cols-3 gap-6 mb-12"
+          >
+            <div className="relative rounded-2xl overflow-hidden shadow-xl group">
+              <img
+                src="https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&w=800&q=80"
+                alt="Adulto mayor en actividad grupal"
+                className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                <p className="text-white font-semibold p-4">Actividades Recreativas Diarias</p>
+              </div>
+            </div>
+            <div className="relative rounded-2xl overflow-hidden shadow-xl group">
+              <img
+                src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80"
+                alt="Cuidado profesional"
+                className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                <p className="text-white font-semibold p-4">Atención Profesional 24/7</p>
+              </div>
+            </div>
+            <div className="relative rounded-2xl overflow-hidden shadow-xl group">
+              <img
+                src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=800&q=80"
+                alt="Jardines y naturaleza"
+                className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                <p className="text-white font-semibold p-4">Conexión con la Naturaleza</p>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -377,7 +421,48 @@ export default function PricingPage({ setPage }: PricingPageProps) {
             <TabsContent value="care-plans">
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  Planes Cuidado en Casa
+                  Plan Dulce Hogar - Cuidado en Casa
+                </h2>
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                  Cuidado profesional sin salir del hogar. Respeto por la rutina, la independencia y el entorno familiar.
+                </p>
+              </div>
+
+              {/* Dulce Hogar Description */}
+              <div className="max-w-4xl mx-auto mb-12">
+                <Card className="bg-gradient-to-br from-primary-50 to-white">
+                  <CardContent className="pt-8 pb-8">
+                    <div className="flex items-center gap-3 mb-6">
+                      <Home className="w-12 h-12 text-primary" />
+                      <div>
+                        <h3 className="text-2xl font-bold">Cuidado experto en su propio espacio</h3>
+                        <p className="text-muted-foreground">Llevamos el cuidado profesional a la comodidad de su hogar</p>
+                      </div>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-6 mt-6">
+                      {[
+                        { icon: CheckCircle, text: 'Cuidadores certificados y verificados' },
+                        { icon: Clock, text: 'Horarios flexibles (por horas o tiempo completo)' },
+                        { icon: Stethoscope, text: 'Seguimiento médico' },
+                        { icon: Activity, text: 'Apoyo en actividades diarias' },
+                        { icon: Heart, text: 'Compañía emocional y bienestar integral' },
+                        { icon: Bell, text: 'Comunicación directa y segura' },
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0">
+                            <item.icon size={20} />
+                          </div>
+                          <span className="text-sm font-medium">{item.text}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  Planes de Acceso a Profesionales
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                   Desde uso personal hasta soluciones empresariales completas
@@ -496,6 +581,149 @@ export default function PricingPage({ setPage }: PricingPageProps) {
               </div>
             </TabsContent>
           </Tabs>
+        </div>
+      </section>
+
+      {/* Belén Conecta Platform Section */}
+      <section className="py-16 bg-gradient-to-br from-purple-50 to-indigo-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <Badge className="mb-4 bg-purple-600 text-white text-lg px-6 py-2">
+              <Zap className="inline mr-2" size={20} />
+              Tecnología al Servicio del Cuidado
+            </Badge>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">Plataforma Digital – Belén Conecta</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Marketplace de confianza. Filtros por especialidad, ciudad y calificación.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {[
+              { icon: CheckCircle, title: 'Perfiles Verificados', description: 'Profesionales cualificados y de confianza' },
+              { icon: Users, title: 'Reseñas Reales', description: 'Transparencia y fiabilidad en cada elección' },
+              { icon: Zap, title: 'Búsqueda Inteligente', description: 'Por especialidad y ciudad' },
+              { icon: Shield, title: 'Comunicación Segura', description: 'Directa y protegida' },
+              { icon: Calendar, title: 'Gestión de Citas', description: 'Organice servicios sin complicaciones' },
+              { icon: Clock, title: 'Soporte 24/7', description: 'Siempre a su disposición' },
+            ].map((feature, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow">
+                <CardContent className="pt-6 text-center">
+                  <div className="w-14 h-14 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <feature.icon size={28} />
+                  </div>
+                  <h3 className="font-bold text-lg mb-2">{feature.title}</h3>
+                  <p className="text-sm text-muted-foreground">{feature.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Button size="lg" className="bg-purple-600 hover:bg-purple-700" onClick={() => setPage('profesionales-servicios')}>
+              <Users className="w-5 h-5 mr-2" />
+              Ver Profesionales Disponibles
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Programas de Vida Activa */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">Planes de Vida Activa</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Programas diseñados para mantener la alegría, la conexión social y el bienestar integral
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                icon: Users,
+                title: 'Plan Amigos',
+                subtitle: 'Alegría compartida y compañía real',
+                description: 'Juegos de mesa, talleres creativos, encuentros sociales y acompañamiento emocional grupal.',
+                color: 'from-blue-500 to-cyan-500',
+                iconBg: 'bg-blue-100 text-blue-600',
+              },
+              {
+                icon: Trees,
+                title: 'Plan Sol y Café',
+                subtitle: 'Estancias rurales con sabor a tradición',
+                description: 'Hospedaje campestre, gastronomía local, caminatas suaves y conversaciones con café de Buesaco.',
+                color: 'from-amber-500 to-orange-500',
+                iconBg: 'bg-amber-100 text-amber-600',
+              },
+              {
+                icon: PartyPopper,
+                title: 'Plan Sonreír',
+                subtitle: 'Celebraciones Inolvidables',
+                description: 'Organización completa del evento, acompañamiento profesional y espacios seguros para celebrar.',
+                color: 'from-pink-500 to-rose-500',
+                iconBg: 'bg-pink-100 text-pink-600',
+              },
+              {
+                icon: Trees,
+                title: 'Plan Turismo Rural',
+                subtitle: 'Naturaleza y Espiritualidad',
+                description: 'Salidas ecológicas, zooterapia, recorridos históricos y espacios de reflexión espiritual.',
+                color: 'from-green-500 to-emerald-500',
+                iconBg: 'bg-green-100 text-green-600',
+              },
+            ].map((program, index) => (
+              <Card
+                key={index}
+                className="group hover:shadow-2xl transition-all duration-300 overflow-hidden"
+              >
+                <div className={`h-2 bg-gradient-to-r ${program.color}`} />
+                <CardContent className="pt-6">
+                  <div className={`w-16 h-16 ${program.iconBg} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform`}>
+                    <program.icon size={32} />
+                  </div>
+                  <h3 className="font-bold text-xl text-center mb-2">{program.title}</h3>
+                  <p className="text-sm font-semibold text-center text-primary mb-3">{program.subtitle}</p>
+                  <p className="text-sm text-muted-foreground text-center leading-relaxed mb-4">
+                    {program.description}
+                  </p>
+                  <Button variant="outline" className="w-full" onClick={() => setPage('services')}>
+                    Ver Actividades
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Final */}
+      <section className="py-20 bg-gradient-to-br from-primary to-primary-600 text-primary-foreground">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <Heart className="w-16 h-16 mx-auto mb-6" />
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              ¿Listo para vivir la experiencia Hogar Belén?
+            </h2>
+            <p className="text-xl mb-8 opacity-90">
+              Lo invitamos a conocernos, tomar un café de nuestra tierra y sentir la diferencia.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" variant="secondary" onClick={() => setPage('contact')} className="text-lg px-8">
+                <Calendar className="w-5 h-5 mr-2" />
+                Agendar visita
+              </Button>
+              <Button size="lg" variant="outline" onClick={() => setPage('contact')} className="text-lg px-8 bg-white/10 hover:bg-white/20 border-white text-white">
+                <Phone className="w-5 h-5 mr-2" />
+                Solicitar información
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </section>
 
