@@ -92,17 +92,10 @@ const EnhancedHeroSection = ({ setPage }: EnhancedHeroSectionProps) => {
               Encuentre el Lugar Soñado
             </h1>
             
-            <p className="text-xl md:text-2xl text-gray-700 mb-6 leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed">
               No es una residencia. Es un despertar. Una finca de descanso en el corazón de Buesaco 
               donde la vida no solo continúa, <span className="font-bold text-primary-600">florece</span>.
             </p>
-            
-            <div className="inline-block bg-yellow-100 border-2 border-yellow-400 rounded-2xl p-6 mb-8">
-              <p className="text-lg font-semibold text-yellow-900">
-                ⭐ Plazas limitadas para garantizar una experiencia exclusiva. 
-                ¿Será su ser querido uno de los afortunados?
-              </p>
-            </div>
 
             <div className="flex flex-wrap justify-center gap-4 mb-12">
               <Button 
