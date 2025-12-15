@@ -2,7 +2,7 @@ import EnhancedHeroSection from '../página principal/EnhancedHeroSection';
 import PromiseSection from '../página principal/PromiseSection';
 import SoulCarousel from '../página principal/SoulCarousel';
 import TrustSection from '../componentes/TrustSection';
-import ServiciosCarousel from '../componentes/ServiciosCarousel';
+import ServiciosIntegrales from '../componentes/ServiciosIntegrales';
 import SecciónDeTestimonios from '../componentes/SecciónDeTestimonios';
 
 interface PáginaPrincipalProps {
@@ -13,7 +13,11 @@ const PáginaPrincipal = ({ setPage }: PáginaPrincipalProps) => {
   return (
     <div>
       <EnhancedHeroSection setPage={setPage} />
+      <PromiseSection />
+      <ServiciosIntegrales setPage={setPage} />
+      <TrustSection />
       <SecciónDeTestimonios />
+      <SoulCarousel />
     </div>
   );
 };
