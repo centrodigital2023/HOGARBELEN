@@ -18,6 +18,7 @@ import CentroVida from './páginas/CentroVida';
 import OfertasDeTrabajo from './páginas/OfertasDeTrabajo';
 import BelenConectaFamilias from './páginas/BelenConectaFamilias';
 import BelenConectaProfesionales from './páginas/BelenConectaProfesionales';
+import ProfesionalesServicios from './páginas/ProfesionalesServicios';
 
 export interface User {
   id: string;
@@ -58,6 +59,7 @@ const MainApp = () => {
       case 'contact': return <ContactPage />;
       case 'centro-vida': return <CentroVida setPage={setCurrentPage} />;
       case 'jobs': return <OfertasDeTrabajo setPage={setCurrentPage} />;
+      case 'profesionales-servicios': return <ProfesionalesServicios />;
       case 'belen-familias': return <BelenConectaFamilias setPage={setCurrentPage} />;
       case 'belen-profesionales': return <BelenConectaProfesionales setPage={setCurrentPage} />;
       case 'login': return <BelenConectaLogin setPage={setCurrentPage} />;
