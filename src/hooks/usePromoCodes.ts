@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase'
+import { useKV } from '@github/spark/hooks'
 
 export interface PromoCode {
   id: string
@@ -17,77 +16,33 @@ export interface PromoCode {
 }
 
 export function usePromoCodes() {
-  const [promoCodes, setPromoCodes] = useState<PromoCode[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
+  const [promoCodes, setPromoCodes] = useKV<PromoCode[]>('promo-codes', [])
 
-  useEffect(() => {
-    fetchPromoCodes()
-
-    const subscription = supabase
-      .channel('promo_codes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'promo_codes',
-        },
-        () => {
-          fetchPromoCodes()
-        }
-      )
-      .subscribe()
-
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [])
-
-  const fetchPromoCodes = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('promo_codes')
-        .select('*')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      setPromoCodes(data || [])
-    } catch (err) {
-      setError(err as Error)
-      console.error('Error fetching promo codes:', err)
-    } finally {
-      setLoading(false)
-    }
-  }
+  const activePromoCodes = (promoCodes || []).filter((code) => code.is_active)
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
 
   const validatePromoCode = async (code: string): Promise<PromoCode | null> => {
     try {
-      const { data, error } = await supabase
-        .from('promo_codes')
-        .select('*')
-        .eq('code', code.toUpperCase())
-        .eq('is_active', true)
-        .single()
+      const allCodes = await window.spark.kv.get<PromoCode[]>('promo-codes') || []
+      const promoCode = allCodes.find(
+        (pc) => pc.code.toUpperCase() === code.toUpperCase() && pc.is_active
+      )
 
-      if (error) throw error
-
-      if (!data) return null
+      if (!promoCode) return null
 
       const now = new Date()
-      const validFrom = new Date(data.valid_from)
-      const validUntil = new Date(data.valid_until)
+      const validFrom = new Date(promoCode.valid_from)
+      const validUntil = new Date(promoCode.valid_until)
 
       if (now < validFrom || now > validUntil) {
         return null
       }
 
-      if (data.max_uses && data.current_uses >= data.max_uses) {
+      if (promoCode.max_uses && promoCode.current_uses >= promoCode.max_uses) {
         return null
       }
 
-      return data
+      return promoCode
     } catch (err) {
       console.error('Error validating promo code:', err)
       return null
@@ -95,70 +50,61 @@ export function usePromoCodes() {
   }
 
   const usePromoCode = async (id: string) => {
-    const { data, error } = await supabase.rpc('increment_promo_code_usage', {
-      promo_id: id,
-    })
-
-    if (error) {
-      const { data: promoData, error: fetchError } = await supabase
-        .from('promo_codes')
-        .select('current_uses')
-        .eq('id', id)
-        .single()
-
-      if (fetchError) throw fetchError
-
-      const { error: updateError } = await supabase
-        .from('promo_codes')
-        .update({ current_uses: (promoData?.current_uses || 0) + 1 })
-        .eq('id', id)
-
-      if (updateError) throw updateError
-    }
-
-    return data
+    await setPromoCodes((current) =>
+      (current || []).map((code) =>
+        code.id === id
+          ? { ...code, current_uses: code.current_uses + 1 }
+          : code
+      )
+    )
   }
 
   const createPromoCode = async (
     promoCode: Omit<PromoCode, 'id' | 'created_at' | 'updated_at'>
   ) => {
-    const { data, error } = await supabase
-      .from('promo_codes')
-      .insert(promoCode)
-      .select()
-      .single()
+    const newPromoCode: PromoCode = {
+      ...promoCode,
+      id: `promo-${Date.now()}`,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }
 
-    if (error) throw error
-    return data
+    await setPromoCodes((current) => [...(current || []), newPromoCode])
+    return newPromoCode
   }
 
   const updatePromoCode = async (id: string, updates: Partial<PromoCode>) => {
-    const { data, error } = await supabase
-      .from('promo_codes')
-      .update(updates)
-      .eq('id', id)
-      .select()
-      .single()
+    await setPromoCodes((current) =>
+      (current || []).map((code) =>
+        code.id === id
+          ? { ...code, ...updates, updated_at: new Date().toISOString() }
+          : code
+      )
+    )
 
-    if (error) throw error
-    return data
+    return (promoCodes || []).find((code) => code.id === id)
   }
 
   const deletePromoCode = async (id: string) => {
-    const { error } = await supabase.from('promo_codes').delete().eq('id', id)
+    await setPromoCodes((current) =>
+      (current || []).filter((code) => code.id !== id)
+    )
+  }
 
-    if (error) throw error
+  const refetch = async () => {
+    const current = await window.spark.kv.get<PromoCode[]>('promo-codes')
+    setPromoCodes(current || [])
   }
 
   return {
-    promoCodes,
-    loading,
-    error,
+    promoCodes: activePromoCodes,
+    loading: false,
+    error: null,
     validatePromoCode,
     usePromoCode,
     createPromoCode,
     updatePromoCode,
     deletePromoCode,
-    refetch: fetchPromoCodes,
+    refetch,
   }
 }

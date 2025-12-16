@@ -1,6 +1,12 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { supabase } from '@/lib/supabase';
-import type { User, Session } from '@supabase/supabase-js';
+import { useKV } from '@github/spark/hooks';
+
+interface User {
+  id: string;
+  email: string;
+  avatarUrl?: string;
+  login: string;
+}
 
 interface UserData {
   id: string;
@@ -10,6 +16,11 @@ interface UserData {
   plan?: string;
   photo_url?: string;
   phone?: string;
+}
+
+interface Session {
+  user: User;
+  accessToken: string;
 }
 
 interface AuthContextType {
@@ -26,64 +37,45 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [currentSession, setCurrentSession] = useKV<Session | null>('auth-session', null);
+  const [profiles, setProfiles] = useKV<Record<string, UserData>>('user-profiles', {});
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchUserData(session.user.id);
-      } else {
-        setLoading(false);
-      }
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchUserData(session.user.id);
-      } else {
-        setUserData(null);
-        setLoading(false);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const fetchUserData = async (userId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
-
-      if (error) throw error;
-      setUserData(data as UserData);
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const user = currentSession?.user ?? null;
+  const userData = user && profiles ? profiles[user.id] ?? null : null;
 
   const signIn = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      return { error };
+      setLoading(true);
+      
+      const existingProfiles = await window.spark.kv.get<Record<string, UserData>>('user-profiles') ?? {};
+      const userProfile = Object.values(existingProfiles).find((p: UserData) => p.email === email);
+      
+      if (!userProfile) {
+        return { error: new Error('Usuario no encontrado') };
+      }
+
+      const passwords = await window.spark.kv.get<Record<string, string>>('user-passwords') ?? {};
+      if (passwords[userProfile.id] !== password) {
+        return { error: new Error('Contraseña incorrecta') };
+      }
+
+      const newSession: Session = {
+        user: {
+          id: userProfile.id,
+          email: userProfile.email,
+          login: userProfile.full_name,
+          avatarUrl: userProfile.photo_url,
+        },
+        accessToken: `token-${Date.now()}`,
+      };
+
+      setCurrentSession(newSession);
+      return { error: null };
     } catch (error) {
       return { error };
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -94,60 +86,81 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     role: 'family' | 'professional'
   ) => {
     try {
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email,
-        password,
-      });
+      setLoading(true);
 
-      if (authError) return { error: authError };
-
-      if (authData.user) {
-        const { error: profileError } = await supabase.from('profiles').insert({
-          id: authData.user.id,
-          email,
-          full_name: fullName,
-          role,
-        });
-
-        if (profileError) return { error: profileError };
+      const existingProfiles = await window.spark.kv.get<Record<string, UserData>>('user-profiles') ?? {};
+      
+      if (Object.values(existingProfiles).some((p: UserData) => p.email === email)) {
+        return { error: new Error('El correo electrónico ya está registrado') };
       }
 
+      const userId = `user-${Date.now()}`;
+      const newUserData: UserData = {
+        id: userId,
+        email,
+        full_name: fullName,
+        role,
+      };
+
+      await setProfiles((current) => ({
+        ...(current || {}),
+        [userId]: newUserData,
+      }));
+
+      const passwords = await window.spark.kv.get<Record<string, string>>('user-passwords') ?? {};
+      await window.spark.kv.set('user-passwords', {
+        ...passwords,
+        [userId]: password,
+      });
+
+      const newSession: Session = {
+        user: {
+          id: userId,
+          email,
+          login: fullName,
+        },
+        accessToken: `token-${Date.now()}`,
+      };
+
+      setCurrentSession(newSession);
       return { error: null };
     } catch (error) {
       return { error };
+    } finally {
+      setLoading(false);
     }
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    setUserData(null);
-    setSession(null);
+    setCurrentSession(null);
   };
 
   const updateProfile = async (updates: Partial<UserData>) => {
     if (!user) return { error: new Error('No user logged in') };
 
     try {
-      const { error } = await supabase
-        .from('profiles')
-        .update(updates)
-        .eq('id', user.id);
+      await setProfiles((current) => {
+        const existingProfile = (current || {})[user.id];
+        return {
+          ...(current || {}),
+          [user.id]: {
+            ...existingProfile,
+            ...updates,
+          },
+        };
+      });
 
-      if (error) throw error;
-
-      setUserData((prev) => (prev ? { ...prev, ...updates } : null));
       return { error: null };
     } catch (error) {
       return { error };
     }
   };
 
-  const value = {
+  const value: AuthContextType = {
     user,
     userData,
     loading,
-    session,
+    session: currentSession ?? null,
     signIn,
     signUp,
     signOut,

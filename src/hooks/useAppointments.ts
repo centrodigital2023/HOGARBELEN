@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase'
+import { useKV } from '@github/spark/hooks'
 import { useAuth } from '@/contextos/SupabaseAuthContext'
 
 export interface Appointment {
@@ -17,103 +16,59 @@ export interface Appointment {
 
 export function useAppointments() {
   const { user } = useAuth()
-  const [appointments, setAppointments] = useState<Appointment[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
+  const [allAppointments, setAllAppointments] = useKV<Appointment[]>('all-appointments', [])
 
-  useEffect(() => {
-    if (!user) {
-      setAppointments([])
-      setLoading(false)
-      return
-    }
-
-    fetchAppointments()
-
-    const subscription = supabase
-      .channel('appointments')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'appointments',
-          filter: `user_id=eq.${user.id}`,
-        },
-        () => {
-          fetchAppointments()
-        }
-      )
-      .subscribe()
-
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [user])
-
-  const fetchAppointments = async () => {
-    if (!user) return
-
-    try {
-      const { data, error } = await supabase
-        .from('appointments')
-        .select('*')
-        .or(`user_id.eq.${user.id},professional_id.eq.${user.id}`)
-        .order('date', { ascending: true })
-
-      if (error) throw error
-      setAppointments(data || [])
-    } catch (err) {
-      setError(err as Error)
-      console.error('Error fetching appointments:', err)
-    } finally {
-      setLoading(false)
-    }
-  }
+  const appointments = (allAppointments || []).filter(
+    (apt) => apt.user_id === user?.id || apt.professional_id === user?.id
+  ).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 
   const createAppointment = async (
     appointment: Omit<Appointment, 'id' | 'created_at' | 'updated_at' | 'user_id'>
   ) => {
     if (!user) throw new Error('User not authenticated')
 
-    const { data, error } = await supabase
-      .from('appointments')
-      .insert({
-        ...appointment,
-        user_id: user.id,
-      })
-      .select()
-      .single()
+    const newAppointment: Appointment = {
+      ...appointment,
+      id: `apt-${Date.now()}`,
+      user_id: user.id,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }
 
-    if (error) throw error
-    return data
+    await setAllAppointments((current) => [...(current || []), newAppointment])
+    return newAppointment
   }
 
   const updateAppointment = async (id: string, updates: Partial<Appointment>) => {
-    const { data, error } = await supabase
-      .from('appointments')
-      .update(updates)
-      .eq('id', id)
-      .select()
-      .single()
+    await setAllAppointments((current) =>
+      (current || []).map((apt) =>
+        apt.id === id
+          ? { ...apt, ...updates, updated_at: new Date().toISOString() }
+          : apt
+      )
+    )
 
-    if (error) throw error
-    return data
+    return (allAppointments || []).find((apt) => apt.id === id)
   }
 
   const deleteAppointment = async (id: string) => {
-    const { error } = await supabase.from('appointments').delete().eq('id', id)
+    await setAllAppointments((current) =>
+      (current || []).filter((apt) => apt.id !== id)
+    )
+  }
 
-    if (error) throw error
+  const refetch = async () => {
+    const current = await window.spark.kv.get<Appointment[]>('all-appointments')
+    setAllAppointments(current || [])
   }
 
   return {
     appointments,
-    loading,
-    error,
+    loading: false,
+    error: null,
     createAppointment,
     updateAppointment,
     deleteAppointment,
-    refetch: fetchAppointments,
+    refetch,
   }
 }

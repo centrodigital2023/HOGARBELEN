@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase'
+import { useKV } from '@github/spark/hooks'
 import { useAuth } from '@/contextos/SupabaseAuthContext'
 
 export interface Subscription {
@@ -17,88 +16,39 @@ export interface Subscription {
 
 export function useSubscriptions() {
   const { user } = useAuth()
-  const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
+  const [allSubscriptions, setAllSubscriptions] = useKV<Subscription[]>('all-subscriptions', [])
 
-  useEffect(() => {
-    if (!user) {
-      setSubscriptions([])
-      setLoading(false)
-      return
-    }
-
-    fetchSubscriptions()
-
-    const subscription = supabase
-      .channel('subscriptions')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'subscriptions',
-          filter: `user_id=eq.${user.id}`,
-        },
-        () => {
-          fetchSubscriptions()
-        }
-      )
-      .subscribe()
-
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [user])
-
-  const fetchSubscriptions = async () => {
-    if (!user) return
-
-    try {
-      const { data, error } = await supabase
-        .from('subscriptions')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      setSubscriptions(data || [])
-    } catch (err) {
-      setError(err as Error)
-      console.error('Error fetching subscriptions:', err)
-    } finally {
-      setLoading(false)
-    }
-  }
+  const subscriptions = (allSubscriptions || [])
+    .filter((sub) => sub.user_id === user?.id)
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
 
   const createSubscription = async (
     subscription: Omit<Subscription, 'id' | 'created_at' | 'updated_at' | 'user_id'>
   ) => {
     if (!user) throw new Error('User not authenticated')
 
-    const { data, error } = await supabase
-      .from('subscriptions')
-      .insert({
-        ...subscription,
-        user_id: user.id,
-      })
-      .select()
-      .single()
+    const newSubscription: Subscription = {
+      ...subscription,
+      id: `sub-${Date.now()}`,
+      user_id: user.id,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }
 
-    if (error) throw error
-    return data
+    await setAllSubscriptions((current) => [...(current || []), newSubscription])
+    return newSubscription
   }
 
   const updateSubscription = async (id: string, updates: Partial<Subscription>) => {
-    const { data, error } = await supabase
-      .from('subscriptions')
-      .update(updates)
-      .eq('id', id)
-      .select()
-      .single()
+    await setAllSubscriptions((current) =>
+      (current || []).map((sub) =>
+        sub.id === id
+          ? { ...sub, ...updates, updated_at: new Date().toISOString() }
+          : sub
+      )
+    )
 
-    if (error) throw error
-    return data
+    return (allSubscriptions || []).find((sub) => sub.id === id)
   }
 
   const cancelSubscription = async (id: string) => {
@@ -107,14 +57,19 @@ export function useSubscriptions() {
 
   const activeSubscription = subscriptions.find((sub) => sub.status === 'active')
 
+  const refetch = async () => {
+    const current = await window.spark.kv.get<Subscription[]>('all-subscriptions')
+    setAllSubscriptions(current || [])
+  }
+
   return {
     subscriptions,
     activeSubscription,
-    loading,
-    error,
+    loading: false,
+    error: null,
     createSubscription,
     updateSubscription,
     cancelSubscription,
-    refetch: fetchSubscriptions,
+    refetch,
   }
 }
