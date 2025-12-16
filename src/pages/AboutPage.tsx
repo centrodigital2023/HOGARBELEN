@@ -1,7 +1,7 @@
 import { Heart, Users, Shield, Sparkles, Home, Target, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import imagenMision from '@/assets/images/descarga_(8).jpg';
+import imagenMision from '@/assets/images/descarga.jpg';
 
 export default function AboutPage() {
   return (
