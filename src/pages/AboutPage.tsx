@@ -181,13 +181,6 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="md:order-1 relative">
-              <img
-                src={imagenMision}
-                alt="Historia Hogar Belén"
-                className="rounded-2xl shadow-2xl"
-              />
-            </div>
           </div>
         </div>
       </div>
