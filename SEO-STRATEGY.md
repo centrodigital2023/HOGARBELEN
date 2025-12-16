@@ -6,46 +6,46 @@ Posicionar Hogar Belén en búsquedas locales y comerciales en Google para:
 - centro vida adultos mayores
 - cuidado adulto mayor Nariño
 - centro de día adulto mayor
-- turismo rural adultos mayores
-
 ---
 
-## 📋 PROMPT 1 - ESTRUCTURA SEO DEL SITIO
+###
 
-### Jerarquía de URLs SEO-Friendly
-
-```
-hogar-belen.com/
 ├── / (home)
-├── /centro-vida
-├── /servicios-profesionales
-├── /planes
+
 │   ├── /planes/vida-activa
-│   ├── /planes/amigos
-│   ├── /planes/sol-y-cafe
-│   ├── /planes/sonreir
-│   └── /planes/turismo-rural
-├── /nosotros
+
+│  
 ├── /contacto
-├── /ofertas-trabajo
-├── /belen-conecta-familias
-└── /belen-conecta-profesionales
+├── /belen-c
 ```
+### Meta Tags Principales de
+**Home Page
+- **Meta Description:** Cen
+- **Keywords primarias
 
-### Meta Tags Principales del Sitio
 
-**Home Page:**
-- **Title:** Hogar Belén - Centro de Vida y Cuidado Integral para Adultos Mayores en Buesaco, Nariño
-- **Meta Description:** Centro de día y hogar geriátrico en Buesaco, Nariño. Cuidado profesional, actividades terapéuticas y turismo rural para adultos mayores. Atención personalizada y familiar.
-- **H1:** Cuidado Integral para Adultos Mayores en Buesaco, Nariño
-- **Keywords primarias:** hogar geriátrico Buesaco, centro vida adultos mayores Nariño, cuidado adulto mayor
-- **Keywords secundarias:** centro día adulto mayor, atención geriátrica Nariño, residencia adultos mayores
+✅ **Schema.org LocalBusiness*
+✅ **URLs Semá
+✅ **Mobile-Fi
+⚠️ **sitemap.xml** -
+⚠️ **Canonical URLs** - Req
 
-### SEO Técnico Implementado
 
-✅ **Meta Tags en HTML** - Títulos, descripciones y Open Graph
-✅ **Schema.org LocalBusiness** - Datos estructurados JSON-LD
-✅ **Datos NAP Consistentes** - Nombre, dirección, teléfono
+
+- **URL:** `/centro-vida`
+
+- **H2:** 
+  - Nutrición y Bienestar
+- **Palabras clave primarias:** centro día adulto mayor, centro vida Buesaco, actividades adultos mayores
+
+- **URL:** `/planes/amigos`
+- **Meta Description:** Plan social para adultos mayores en Nariño. Encuentros, actividades grupales y nuev
+
+  - Beneficios de la Sociali
+
+
+- **URL:** `/planes/sol-y-cafe`
+- **Meta Description:** Tardes de café, conversación y act
 ✅ **URLs Semánticas** - Sistema de navegación con rutas limpias
 ✅ **Optimización de Imágenes** - Alt text descriptivo y contexto local
 ✅ **Mobile-First Responsive** - Diseño optimizado para móviles
@@ -95,297 +95,297 @@ hogar-belen.com/
 - **Palabras clave primarias:** recreación adulto mayor, café para adultos mayores
 - **Palabras clave secundarias:** actividades vespertinas, entretenimiento adulto mayor
 
-### Plan Sonreír
-- **URL:** `/planes/sonreir`
-- **Title:** Plan Sonreír - Terapia Recreativa y Emocional para Adultos Mayores
-- **Meta Description:** Programa terapéutico centrado en el bienestar emocional de adultos mayores. Risoterapia, musicoterapia y actividades que promueven la felicidad.
-- **H1:** Plan Sonreír: Bienestar Emocional y Terapia Recreativa
-- **H2:**
-  - Terapias de Bienestar Emocional
-  - Beneficios de la Risoterapia
-  - Testimonios de Nuestras Familias
-- **Palabras clave primarias:** terapia emocional adulto mayor, bienestar geriátrico
-- **Palabras clave secundarias:** risoterapia, musicoterapia adultos mayores
-
-### Plan Turismo Rural
-- **URL:** `/planes/turismo-rural`
-- **Title:** Turismo Rural para Adultos Mayores en Nariño | Hogar Belén
-- **Meta Description:** Excursiones y turismo rural adaptado para adultos mayores en Nariño. Naturaleza, cultura y aventura con acompañamiento profesional.
-- **H1:** Plan Turismo Rural: Aventura y Naturaleza en Nariño
-- **H2:**
-  - Destinos Rurales en Nariño
-  - Seguridad y Acompañamiento
-  - Beneficios del Turismo Rural
-- **Palabras clave primarias:** turismo rural adultos mayores, excursiones Nariño adulto mayor
-- **Palabras clave secundarias:** ecoturismo adultos mayores, turismo accesible Nariño
-
----
-
-## 📍 PROMPT 3 - SEO LOCAL
-
-### Información NAP (Name, Address, Phone)
-**Formato consistente en todas las páginas:**
-
-```
-Hogar Belén
-Buesaco, Nariño, Colombia
-Teléfono: +57 XXX XXX XXXX
-WhatsApp: +57 XXX XXX XXXX
-Email: contacto@hogar-belen.com
-```
-
-### Schema JSON-LD LocalBusiness
-
-Implementado en el archivo `src/lib/seo-utils.tsx` con:
-- LocalBusiness schema
-- Geolocalización (Buesaco, Nariño)
-- Horarios de atención
+- Geolocalizació
 - Servicios ofrecidos
-- Área de cobertura (Buesaco, Nariño, municipios cercanos)
 
-### Contenido Local Semántico
 
-**Menciones geográficas estratégicas:**
 - Buesaco, Nariño (ciudad principal)
-- Departamento de Nariño
-- Municipios cercanos: Pasto, San Lorenzo, Arboleda
-- "En el corazón de Nariño"
-- "Atendemos a familias de toda la región"
-
-### Optimización para Google Maps
-
+- Municip
+- "Atendemos a familias de toda la 
+### Optimización para Google Map
 **Recomendaciones prácticas:**
-1. ✅ Crear perfil Google My Business para "Hogar Belén"
 2. ✅ Categoría principal: "Centro de atención para adultos mayores"
-3. ✅ Categorías secundarias: "Centro de día", "Servicios de atención médica a domicilio"
 4. ✅ Agregar fotos de las instalaciones (mínimo 10)
-5. ✅ Publicar actualizaciones semanales
-6. ✅ Responder todas las reseñas
-7. ✅ Agregar horarios especiales y días festivos
-8. ✅ Incluir servicios específicos en la descripción
 
+8. ✅ Incluir servicios
 ---
-
 ## 🔧 PROMPT 4 - SEO TÉCNICO PARA PROGRAMADORES
-
 ### Archivos Requeridos en Servidor (Vercel)
-
 **public/robots.txt:**
-```txt
-User-agent: *
-Allow: /
+User-agen
 Disallow: /dashboard-family
-Disallow: /dashboard-pro
 Disallow: /admin-promo-codes
+Sitemap: https://hogar-belen.com
 
-Sitemap: https://hogar-belen.com/sitemap.xml
-```
-
-**public/sitemap.xml:**
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://hogar-belen.com/</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+
+   
+
   </url>
-  <url>
-    <loc>https://hogar-belen.com/centro-vida</loc>
-    <changefreq>monthly</changefreq>
+
     <priority>0.9</priority>
-  </url>
   <url>
-    <loc>https://hogar-belen.com/planes/amigos</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <!-- Agregar todas las páginas públicas -->
+
+  <
 </urlset>
-```
 
-### Configuración Vercel (vercel.json)
 
-```json
 {
-  "headers": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
+   
+
         },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
+
         },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
+          "key": "X-XS
         }
-      ]
     }
-  ],
   "redirects": [
-    {
       "source": "/home",
-      "destination": "/",
-      "permanent": true
-    }
+
   ]
-}
-```
 
 ### Core Web Vitals
-
 **Optimizaciones implementadas:**
-- ✅ Lazy loading de imágenes
-- ✅ Optimización de fonts (preconnect a Google Fonts)
-- ✅ Minificación de CSS/JS (Vite)
-- ⚠️ Implementar cache de assets (requiere configuración Vercel)
-- ⚠️ Implementar CDN para imágenes
+- ✅ Optimización de font
+- ⚠️ Implementar cache de assets (requiere configur
 
-### Open Graph y Twitter Cards
 
-Implementado en cada página con:
-- og:title, og:description, og:image
-- twitter:card, twitter:title, twitter:description
+
 - Imágenes optimizadas 1200x630px
 
----
-
-## ✍️ PROMPT 5 - CONTENIDO SEO EMOCIONAL (E-E-A-T)
-
+## ✍️ PROMPT 5 - CONTENIDO SEO
 ### Principios de Contenido
-
 **Experiencia (Experience):**
-- Testimonios reales de familias
 - Historias de éxito
-- Fotos auténticas del centro
 - Videos de actividades diarias
-
 **Expertise (Pericia):**
-- Perfiles detallados de profesionales con credenciales
-- Artículos sobre cuidado geriátrico
-- Protocolos de atención explicados
+- Artículos sobre cuidado geriát
 - Certificaciones y acreditaciones
-
 **Autoridad (Authority):**
-- Años de experiencia destacados
-- Reconocimientos y premios
-- Colaboraciones con instituciones de salud
-- Artículos en medios locales
 
-**Confianza (Trust):**
-- Información de contacto visible
+- A
+
 - Política de privacidad
-- Términos de servicio claros
-- Sistema de reseñas verificadas
-- Transparencia en precios
 
-### Ejemplo de Contenido E-E-A-T
 
-**Página "Nosotros":**
-> "Con más de 10 años de experiencia en Buesaco, Hogar Belén nace del sueño de María Rodríguez, enfermera geriátrica, quien tras cuidar a su propia abuela comprendió la necesidad de un centro de día que combine atención profesional con el calor de hogar.
->
-> Nuestro equipo está conformado por profesionales certificados en geriatría, fisioterapia, nutrición y trabajo social, todos comprometidos con brindar a sus seres queridos la dignidad y el cariño que merecen.
->
-> Cada mañana, cuando nuestros adultos mayores llegan al Centro de Vida, no solo encuentran actividades terapéuticas, sino también risas compartidas, nuevas amistades y el respeto que toda una vida de sabiduría merece."
 
+> "Con más de 10 años 
+> Nues
+> Cada mañana
 ---
-
-## 🎯 PROMPT 6 - SEO + CONVERSIÓN (UX + CRO)
-
+## 🎯 PROMPT 6 - SEO + CONV
 ### CTAs Estratégicos
-
 **Home Page:**
-- Hero: "Agenda una Visita Guiada" (botón principal)
-- Hero secundario: "Evalúa con IA las Necesidades de tu Ser Querido"
-- Services: "Conoce Nuestros Planes" → scroll a precios
+
 - Testimonials: "Únete a Nuestra Familia"
+**C
 
-**Centro Vida:**
-- "Reserva tu Primera Semana Gratis"
-- "Habla con un Coordinador de Cuidados"
-- WhatsApp flotante: "¿Preguntas? Chatea Ahora"
 
-**Planes:**
-- "Comienza Hoy" (cada tarjeta de plan)
-- "Compara Todos los Planes"
-- "Agenda una Llamada con Nuestro Equipo"
-
+- "Com
+- "Agenda una Llamada con Nuestro Equi
 ### Microcopys Persuasivos
+- ❌ "En
+- ❌ "Registro" → ✅ "Comienza Tu Tranqui
 
-- ❌ "Enviar" → ✅ "Agendar Mi Visita"
-- ❌ "Ver más" → ✅ "Descubre Cómo Podemos Ayudarte"
-- ❌ "Registro" → ✅ "Comienza Tu Tranquilidad Hoy"
-- ❌ "Contáctanos" → ✅ "Hablemos de Tu Ser Querido"
 
-### Ubicación de Botones
-
-1. **Hero:** CTA principal en lado derecho (desktop) o debajo del título (mobile)
-2. **Servicios:** CTA al final de cada tarjeta de servicio
-3. **Planes:** CTA destacado en plan recomendado (Premium)
-4. **Testimonios:** CTA de confianza después de testimonios positivos
-5. **Footer:** CTA secundario "¿Necesitas Ayuda? Llámanos"
-6. **WhatsApp flotante:** Siempre visible en esquina inferior derecha
-
+2. **Servicios:** CTA al fin
+4. **Tes
+6. **Wh
 ### Flujo Emocional del Usuario
+```
+    ↓              ↓        
+  opcion
+    ↓  
+```
+---
+## 📝 PROMPT 7 - BLOG SEO AU
+### Plan
+#### Mes 1 - Conciencia
+   - Keyw
 
-```
-Conciencia → Investigación → Consideración → Decisión → Acción
-    ↓              ↓              ↓              ↓          ↓
-  "¿Qué      "¿Es esto      "¿Puedo         "¿Es        "Agendar
-  opciones    para mí?"     confiar?"      seguro?"     visita"
-  tengo?"         ↓              ↓              ↓          
-    ↓       Testimonios    Credenciales   Garantías    
-  Hero      + Servicios    + E-E-A-T      + Soporte
-```
+
+
+
+
+4
+   - Intención
+5. **
+   - Intención: Educativ
+6. **"¿Cuánto Cues
+   - Inte
+#### Mes 3 - Especialización
+   - Keywords: nutrición adu
+
+   - Keyw
+
+   - Keywords: convencer 
+
+10. **"Lo
+    - Intención: Local/Informacional
+11. **"Historia de Hogar Belén: 10
+    - Int
+12. **"
+    -
+####
+    - Keywords: 
+
+    - Keywords: plan cui
+
+    - Keywords: eventos
+
+16.
+ 
+17.
+
+18. **"Preguntas Fr
 
 ---
+## 🖼️ PROMPT 8 - SEO PARA I
+### Convención de Nombres de Archivo
+```
 
-## 📝 PROMPT 7 - BLOG SEO AUTOMATIZADO
+- centro-vida-adultos-mayores-acti
 
-### Plan de Contenido 6 Meses
+- instalaciones-centro-dia-bue
 
-#### Mes 1 - Conciencia
-1. **"10 Señales de que tu Ser Querido Necesita un Centro de Día"** (Informativo)
-   - Keywords: señales deterioro adulto mayor, cuándo necesita ayuda adulto mayor
-   - Intención: Informacional
 
-2. **"Centro de Vida vs Hogar Geriátrico: ¿Cuál es la Diferencia?"** (Educativo)
-   - Keywords: centro día vs residencia, tipos cuidado adulto mayor
-   - Intención: Informacional/Comparativa
 
-3. **"Testimonios Reales: Familias de Buesaco Hablan sobre Hogar Belén"** (Emocional)
-   - Keywords: testimonios hogar geriátrico Buesaco, experiencias centro vida
-   - Intención: Confianza
+```html
+  src="centro-vida-adultos-mayore
 
-#### Mes 2 - Consideración
-4. **"Guía Completa para Elegir un Centro de Día en Nariño"** (Guía)
-   - Keywords: cómo elegir centro día, checklist hogar geriátrico
-   - Intención: Consideración
+<im
 
-5. **"Beneficios de la Terapia de Jardín para Adultos Mayores"** (Especializado)
-   - Keywords: terapia jardín adultos mayores, horticultura terapéutica
-   - Intención: Educativo/Autoridad
 
-6. **"¿Cuánto Cuesta un Centro de Vida en Buesaco? Precios 2024"** (Comercial)
-   - Keywords: precio centro día Nariño, costo cuidado adulto mayor Buesaco
-   - Intención: Comercial Alta
 
-#### Mes 3 - Especialización
-7. **"Nutrición Geriátrica: Menús Saludables en Hogar Belén"** (Expertise)
-   - Keywords: nutrición adultos mayores, dieta geriátrica
-   - Intención: Autoridad
+/>
 
-8. **"Turismo Rural Adaptado: Aventuras Seguras para Adultos Mayores en Nariño"** (Diferenciador)
-   - Keywords: turismo rural adultos mayores, excursiones Nariño tercera edad
-   - Intención: Única/Comercial
 
-9. **"Cómo Hablar con tus Padres sobre Unirse a un Centro de Día"** (Emocional/Práctica)
+<figure>
+  <figcaption>
+    de Hogar Belén, ubicado e
+</figure>
+
+
+
+
+- Las páginas no existen como archi
+- Los motores de búsqueda tienen d
+
+
+1. ✅ SSR (Server-Side Rendering)
+3. ✅ Rutas automáticas basa
+5. ✅ Optimización automática de imágenes
+
+
+├── page.tsx (home)
+│   └── page.tsx
+│   ├── page.tsx (lista)
+│   │   └── page.tsx
+│   │   └── page.tsx
+│       └── page.tsx
+
+    └── page.tsx
+
+
+
+n
+
+/
+  "scripts": {
+
+```
+
+### Configuración Vercel para SPA
+
+{
+
+      "destina
+  ],
+    {
+      "headers": [
+          "key": "Cache-Control",
+
+    }
+}
+
+
+
+
+- **Top 3 Keywords:** 
+  - centro vida adultos mayo
+- **Meta:** Top 3 en búsquedas locales en
+
+- **Páginas por sesión:** 
+
+#### Conversiones
+- **Formularios enviados:** Meta 30/mes
+- **Reservas de visitas:** Meta 15/mes
+#### SEO Local
+
+
+
+1. **Google Search Console** - Posicionamiento, errores de rastreo, indexación
+3. **Google My Business Insights** - Visibilidad local, ac
+5. **Ubersuggest (limitado)** - Research de keywords
+#### Pagadas (Recomendadas)
+2. **Ahrefs** (~$100/mes) - Backlinks, keywords, contenido
+
+
+- [ ] Configurar Google Search 
+
+- [
+
+- [ ] Publicar 6 artículos de blog (2 por mes)
+- [ ] Crear 20 backlinks locales (directorios, partners)
+- [ ] Solicitar primeras 10 reseñas
+**Mes 5-6: Expansión**
+- [ ] Crear contenido multimedia (videos)
+- [ ] Optimizar para featured snippets
+
+
+- [
+
+### Detección de Oportunidades
+
+- Analizar "People Also Ask" 
+
+**Ejemplo de oportunida
+Query emergente en GSC: "costo centro día adultos mayores pasto"
+Target: 500 palabras, optimizado para intención comercial
+```
+
+## ✅ Checklist Implementación SEO
+### Técnico
+- [x] Schema JSON-LD LocalBusiness
+
+- [x] Fonts optimization (preconnect)
+- [ ] sitemap.xml (requiere servidor)
+- [ ] Prerendering o SSR 
+
+- [x] Jerarquía H1-H3
+- [x] Contenido optimizado por página
+- [x] CTAs optimizados
+### Local
+
+- [ ] Google My Business optimizado (manual)
+
+- [x] Contenido E-E-A-T
+
+- [ ] Contenido multimedia (manual)
+### Conversión
+- [x] Microcopys persuasivos
+
+
+
+
+```bash
+
+git branch -M main
+git push -u origin main
+
+
+3. Seleccionar el repo de Hogar Belén
    - Keywords: convencer padres centro día, conversación difícil cuidado adulto mayor
    - Intención: Apoyo/Consideración
 
@@ -719,6 +719,46 @@ git push -u origin main
 1. Ir a vercel.com
 2. Import Git Repository
 3. Seleccionar el repo de Hogar Belén
+4. Framework Preset: Vite
+5. Build Command: `npm run build`
+6. Output Directory: `dist`
+
+### 3. Configurar Variables de Entorno
+```env
+VITE_SUPABASE_URL=tu_url
+VITE_SUPABASE_ANON_KEY=tu_key
+```
+
+### 4. Configurar Dominio
+1. Agregar dominio personalizado en Vercel
+2. Configurar DNS en tu proveedor:
+   - A record: 76.76.21.21
+   - CNAME: cname.vercel-dns.com
+
+### 5. Crear archivos públicos
+- Agregar `public/robots.txt`
+- Agregar `public/sitemap.xml`
+- Agregar `vercel.json` en raíz
+
+### 6. Post-Deployment
+- [ ] Verificar en Google Search Console
+- [ ] Enviar sitemap
+- [ ] Probar todas las rutas
+- [ ] Auditar con Lighthouse
+- [ ] Optimizar Core Web Vitals
+
+---
+
+## 📞 Soporte y Mantenimiento
+
+**Responsable SEO:** CTO / Marketing Manager
+**Frecuencia de revisión:** Mensual
+**Herramienta principal:** Google Search Console + Analytics
+**Objetivo 6 meses:** Top 3 local en 5 keywords principales
+
+**Contacto para dudas:**
+- Documentación adicional en `/docs`
+- Guías en `SEO-STRATEGY.md`
 4. Framework Preset: Vite
 5. Build Command: `npm run build`
 6. Output Directory: `dist`
