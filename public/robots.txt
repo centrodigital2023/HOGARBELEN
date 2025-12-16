@@ -1,0 +1,19 @@
+# Hogar Belén Website
+# https://hogar-belen.com
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow private areas
+Disallow: /dashboard-family
+Disallow: /dashboard-pro
+Disallow: /admin-promo-codes
+Disallow: /login
+Disallow: /register
+
+# Crawl delay (optional - only if needed)
+# Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://hogar-belen.com/sitemap.xml
