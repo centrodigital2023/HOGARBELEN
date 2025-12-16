@@ -70,7 +70,7 @@ const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
       titulo: 'Belén Conecta',
       subtitulo: 'La Tecnología al Servicio del Cuidado',
       descripcion: 'Nuestra plataforma digital revoluciona la forma de encontrar cuidadores especializados. Conectamos familias con profesionales verificados, garantizando calidad y confianza en cada servicio.',
-      imagen: serviceImages['belenConecta'] || new URL('@/assets/images/IMG_20240620_103035.jpg', import.meta.url).href,
+      imagen: serviceImages['belenConecta'] || new URL('@/assets/images/descarga.jpg', import.meta.url).href,
       caracteristicas: [
         { titulo: 'Perfiles Verificados', descripcion: 'Profesionales cualificados y de confianza.' },
         { titulo: 'Calificaciones y Reseñas', descripcion: 'Transparencia y fiabilidad en cada elección.' },
