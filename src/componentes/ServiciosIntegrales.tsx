@@ -55,7 +55,7 @@ const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
       titulo: 'Plan Dulce Hogar',
       subtitulo: 'Cuidado experto en su propio espacio',
       descripcion: 'Llevamos nuestro cuidado profesional y nuestra calidez directamente a la comodidad de su hogar. Nuestros cuidadores certificados brindan atención personalizada, permitiendo que sus seres queridos mantengan su independencia y rutina en un entorno familiar.',
-      imagen: serviceImages['dulceHogar'] || 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80&w=800',
+      imagen: serviceImages['dulceHogar'] || new URL('@/assets/images/IMG-20230519-WA0040.jpg', import.meta.url).href,
       beneficios: [
         'Cuidadores certificados y de confianza',
         'Atención personalizada en casa',
@@ -70,7 +70,7 @@ const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
       titulo: 'Belén Conecta',
       subtitulo: 'La Tecnología al Servicio del Cuidado',
       descripcion: 'Nuestra plataforma digital revoluciona la forma de encontrar cuidadores especializados. Conectamos familias con profesionales verificados, garantizando calidad y confianza en cada servicio.',
-      imagen: serviceImages['belenConecta'] || 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800',
+      imagen: serviceImages['belenConecta'] || new URL('@/assets/images/IMG_20240620_103035.jpg', import.meta.url).href,
       caracteristicas: [
         { titulo: 'Perfiles Verificados', descripcion: 'Profesionales cualificados y de confianza.' },
         { titulo: 'Calificaciones y Reseñas', descripcion: 'Transparencia y fiabilidad en cada elección.' },
@@ -88,31 +88,31 @@ const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
       titulo: 'Plan Amigos',
       descripcion: 'Actividades lúdicas y estimulantes para abuelos que buscan alegría y compañía.',
       icon: Users,
-      imagen: programImages['planAmigos'] || 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80&w=400'
+      imagen: programImages['planAmigos'] || new URL('@/assets/images/IMG-20230519-WA0059.jpg', import.meta.url).href
     },
     {
       titulo: 'Plan en mi Casa',
       descripcion: 'Equipo de enfermería y asistencia personal 24/7 en la comodidad de su hogar.',
       icon: Home,
-      imagen: programImages['planCasa'] || 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=400'
+      imagen: programImages['planCasa'] || new URL('@/assets/images/IMG-20230519-WA0087.jpg', import.meta.url).href
     },
     {
       titulo: 'Plan Sol y Café',
       descripcion: 'Hospédese en fincas tradicionales de Buesaco y disfrute la cultura local.',
       icon: Coffee,
-      imagen: programImages['planSol'] || 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&q=80&w=400'
+      imagen: programImages['planSol'] || new URL('@/assets/images/IMG-20230519-WA0042.jpg', import.meta.url).href
     },
     {
       titulo: 'Plan Sonreír',
       descripcion: 'Celebraciones seguras y memorables para cumpleaños, aniversarios y encuentros familiares.',
       icon: Smile,
-      imagen: programImages['planSonreir'] || 'https://images.unsplash.com/photo-1530268729831-4b0b9e170218?auto=format&fit=crop&q=80&w=400'
+      imagen: programImages['planSonreir'] || new URL('@/assets/images/IMG-20230519-WA0049.jpg', import.meta.url).href
     },
     {
       titulo: 'Plan Turismo Rural',
       descripcion: 'Salidas ecológicas, zooterapia, historia, espiritualidad y conexión con la naturaleza.',
       icon: Mountain,
-      imagen: programImages['planTurismo'] || 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&q=80&w=400'
+      imagen: programImages['planTurismo'] || new URL('@/assets/images/IMG-20230519-WA0016.jpg', import.meta.url).href
     }
   ];
 
