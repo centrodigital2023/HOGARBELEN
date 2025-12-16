@@ -104,7 +104,7 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
               <h5 className="text-white font-semibold mb-3 text-sm">Síguenos</h5>
               <div className="flex gap-3">
                 <a 
-                  href="https://www.facebook.com/share/1QnRagV8BB/" 
+                  href="https://www.facebook.com/Hogarbelenbuesaco" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-9 h-9 rounded-full bg-gray-800 hover:bg-blue-600 flex items-center justify-center transition-colors"
@@ -137,7 +137,7 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
                   </svg>
                 </a>
                 <a 
-                  href="https://youtube.com/@hogarbelengeriatrico9521" 
+                  href="https://www.youtube.com/@hogarbelengeriatrico9521" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-9 h-9 rounded-full bg-gray-800 hover:bg-red-600 flex items-center justify-center transition-colors"
