@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import logoHogarBelen from '@/assets/images/Logotipo_hogar_belen1.png';
 
 interface NavegaciónProps {
   setPage: (page: string) => void;
@@ -41,9 +42,11 @@ const Navegación = ({ setPage, user, userData }: NavegaciónProps) => {
             className="flex items-center gap-3 cursor-pointer group"
             onClick={() => setPage('home')}
           >
-            <span className="text-xl font-bold tracking-tight text-gray-800">
-              Hogar<span className="text-primary-600"> Belén</span>
-            </span>
+            <img 
+              src={logoHogarBelen} 
+              alt="Hogar Belén" 
+              className="h-12 w-auto object-contain"
+            />
           </div>
 
           <div className="hidden md:flex items-center gap-6">
