@@ -1,5 +1,4 @@
 import { Heart, Phone, Mail, MessageCircle } from 'lucide-react';
-import logoImg from '@/assets/images/logo-hogar-belen.png';
 
 interface PieDePáginaProps {
   setPage: (page: string) => void;
@@ -11,11 +10,8 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <img src={logoImg} alt="Hogar Belén Logo" className="h-12 w-12 object-contain" />
-              <div className="text-white font-bold text-xl">
-                Hogar Belén
-              </div>
+            <div className="text-white font-bold text-xl">
+              Hogar Belén
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
               Plataforma líder en cuidado de adultos mayores en Nariño. 
