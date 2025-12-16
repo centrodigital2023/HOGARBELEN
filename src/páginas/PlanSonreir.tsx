@@ -12,9 +12,9 @@ import img6 from '@/assets/images/IMG-20240410-WA0018.jpg';
 import img7 from '@/assets/images/IMG-20230508-WA0005.jpg';
 import img8 from '@/assets/images/IMG-20230509-WA0015.jpg';
 import img9 from '@/assets/images/IMG_20221012_102341.jpg';
-import img10 from '@/assets/images/IMG_20230519_085342.jpg';
-import img11 from '@/assets/images/IMG_20240620_103035.jpg';
-import img12 from '@/assets/images/IMG_20250819_093737.jpg';
+import img10 from '@/assets/images/IMG-20230519-WA0042.jpg';
+import img11 from '@/assets/images/IMG-20230519-WA0049.jpg';
+import img12 from '@/assets/images/IMG-20230519-WA0059.jpg';
 
 interface PlanSonreirProps {
   setPage: (page: string) => void;
