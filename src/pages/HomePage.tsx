@@ -56,13 +56,10 @@ function HeroSection({ setPage }: { setPage: (page: string) => void }) {
           </h1>
 
           <p className="text-xl mb-6 leading-relaxed opacity-90">
-            No es una residencia. Es un despertar. Una finca de descanso en el corazón de Buesaco donde la vida no solo continúa, florece.
+            Un despertar. Una finca de descanso en el corazón de Buesaco donde la vida no solo continúa, florece.
           </p>
 
           <div className="space-y-4 mb-8">
-            <p className="text-lg opacity-80">
-              Plazas limitadas para garantizar una experiencia exclusiva. ¿Será su ser querido uno de los afortunados?
-            </p>
             <p className="text-lg font-semibold opacity-90">
               Descubra por qué somos diferentes
             </p>
