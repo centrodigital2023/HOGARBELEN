@@ -2,6 +2,7 @@ import { Heart, Users, Shield, Sparkles, Home, Target, BookOpen } from 'lucide-r
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import imagenMision from '@/assets/images/IMG-20230519-WA0059.jpg';
+import imagenHistoria from '@/assets/images/IMG-20230519-WA0087.jpg';
 
 export default function AboutPage() {
   return (
@@ -180,6 +181,13 @@ export default function AboutPage() {
                   Hoy somos un ecosistema integral de cuidado: un Centro de Vida donde los adultos mayores disfrutan actividades terapéuticas diarias y una red verificada de profesionales de salud para acompañar también en casa.
                 </p>
               </div>
+            </div>
+            <div className="md:order-1">
+              <img
+                src={imagenHistoria}
+                alt="Historia de Hogar Belén"
+                className="rounded-2xl shadow-2xl"
+              />
             </div>
           </div>
         </div>
