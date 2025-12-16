@@ -65,6 +65,9 @@ const Navegación = ({ setPage, user, userData }: NavegaciónProps) => {
                 <DropdownMenuItem onClick={() => setPage('centro-vida')} className="cursor-pointer py-3">
                   <span className="font-medium">Centro Vida</span>
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setPage('planes-vida-activa')} className="cursor-pointer py-3">
+                  <span className="font-medium">Planes de Vida Activa</span>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setPage('profesionales-servicios')} className="cursor-pointer py-3">
                   <span className="font-medium">Profesionales</span>
                 </DropdownMenuItem>
@@ -173,7 +176,13 @@ const Navegación = ({ setPage, user, userData }: NavegaciónProps) => {
                   Centro Vida
                 </button>
                 <button 
-                  onClick={() => { setPage('services'); setMenuOpen(false); }}
+                  onClick={() => { setPage('planes-vida-activa'); setMenuOpen(false); }}
+                  className="block w-full text-left px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
+                >
+                  Planes de Vida Activa
+                </button>
+                <button 
+                  onClick={() => { setPage('profesionales-servicios'); setMenuOpen(false); }}
                   className="block w-full text-left px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
                 >
                   Profesionales
