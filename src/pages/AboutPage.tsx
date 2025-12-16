@@ -1,6 +1,7 @@
 import { Heart, Users, Shield, Sparkles, Home, Target, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import imagenMision from '@/assets/images/descarga_(8).jpg';
 
 export default function AboutPage() {
   return (
@@ -157,7 +158,7 @@ export default function AboutPage() {
             </div>
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&q=80&w=800"
+                src={imagenMision}
                 alt="Hogar Belén"
                 className="rounded-2xl shadow-2xl"
               />
