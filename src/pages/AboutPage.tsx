@@ -2,7 +2,7 @@ import { Heart, Users, Shield, Sparkles, Home, Target, BookOpen } from 'lucide-r
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import imagenMision from '@/assets/images/descarga_(8).jpg';
-import imagenHistoria from '@/assets/images/IMG-20230519-WA0087.jpg';
+import imagenHistoria from '@/assets/images/descarga_(5).jpg';
 
 export default function AboutPage() {
   return (
