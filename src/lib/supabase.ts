@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://cgfpwlqnhgclzzaiqhwz.supabase.co'
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
 if (!supabaseUrl || !supabaseAnonKey) {
@@ -8,182 +8,183 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-        c
-      },
+  auth: {
+    autoRefreshToken: true,
     persistSession: true,
+    detectSessionInUrl: true,
     storage: {
       getItem: async (key: string) => {
         const data = await window.spark.kv.get<string>(key)
-  }
-export i
-          photo_url?: string
+        return data || null
+      },
+      setItem: async (key: string, value: string) => {
         await window.spark.kv.set(key, value)
-        
-          id: string
+      },
+      removeItem: async (key: string) => {
         await window.spark.kv.delete(key)
-       
-     
-   
-  
+      },
+    },
+  },
+})
 
-          role?: 'family' |
-          p
-          cre
-        }
-      appointm
+export interface Database {
+  public: {
+    Tables: {
+      profiles: {
+        Row: {
           id: string
-          professional_
-          date: string
-          status: 'pending' | 'confirmed'
-          created_at: s
-        }
-          id?: string
-          professional_id?: 
-          date: string
-         
-          created
-        }
-          id?: string
-          professional_id?:
-          date?: string
-          status?: 'pen
-          created_at?: strin
-        }
-      promo_codes: {
-          id: string
-         
-          discoun
-          current_use
-          valid_until: s
-          created_at: string
-        }
-          id?: string
-          description: strin
-          discount_value
-          current_uses?: numb
-          valid_until: string
-         
-       
-          id?: string
-          desc
-          discount_v
-          current_uses?: 
-          valid_until?: string
-          created_at?: st
-        }
-      subscriptions: {
-          id: string
-          plan: string
-          start_date: string
-          payment_method?: s
-         
-        }
-          id?: string
-          plan: string
-          start_date: string
-          payment_method?
-          created_at?:
-        }
-          id?: string
+          email: string
+          full_name: string
+          role: 'family' | 'professional'
           plan?: string
-          start_date?: string
-          payment_method?: st
-         
+          photo_url?: string
+          phone?: string
+          created_at: string
+          updated_at: string
         }
+        Insert: {
+          id: string
+          email: string
+          full_name: string
+          role: 'family' | 'professional'
+          plan?: string
+          photo_url?: string
+          phone?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          full_name?: string
+          role?: 'family' | 'professional'
+          plan?: string
+          photo_url?: string
+          phone?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      appointments: {
+        Row: {
+          id: string
+          user_id: string
+          professional_id?: string
+          service: string
+          date: string
+          time: string
+          status: 'pending' | 'confirmed' | 'cancelled' | 'completed'
+          notes?: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          professional_id?: string
+          service: string
+          date: string
+          time: string
+          status?: 'pending' | 'confirmed' | 'cancelled' | 'completed'
+          notes?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          professional_id?: string
+          service?: string
+          date?: string
+          time?: string
+          status?: 'pending' | 'confirmed' | 'cancelled' | 'completed'
+          notes?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      promo_codes: {
+        Row: {
+          id: string
+          code: string
+          description: string
+          discount_type: 'percentage' | 'fixed'
+          discount_value: number
+          max_uses?: number
+          current_uses: number
+          valid_from: string
+          valid_until: string
+          is_active: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          code: string
+          description: string
+          discount_type: 'percentage' | 'fixed'
+          discount_value: number
+          max_uses?: number
+          current_uses?: number
+          valid_from: string
+          valid_until: string
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          code?: string
+          description?: string
+          discount_type?: 'percentage' | 'fixed'
+          discount_value?: number
+          max_uses?: number
+          current_uses?: number
+          valid_from?: string
+          valid_until?: string
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      subscriptions: {
+        Row: {
+          id: string
+          user_id: string
+          plan: string
+          status: 'active' | 'cancelled' | 'expired' | 'pending'
+          start_date: string
+          end_date?: string
+          payment_method?: string
+          amount: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          plan: string
+          status?: 'active' | 'cancelled' | 'expired' | 'pending'
+          start_date: string
+          end_date?: string
+          payment_method?: string
+          amount: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          plan?: string
+          status?: 'active' | 'cancelled' | 'expired' | 'pending'
+          start_date?: string
+          end_date?: string
+          payment_method?: string
+          amount?: number
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
