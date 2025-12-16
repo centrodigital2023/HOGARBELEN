@@ -158,6 +158,8 @@ const PlanesVidaActiva = ({ setPage }: PlanesVidaActivaProps) => {
       setPage('plan-amigos');
     } else if (plan.id === 'sol-cafe') {
       setPage('plan-sol-cafe');
+    } else if (plan.id === 'sonreir') {
+      setPage('plan-sonreir');
     } else {
       toast.success(`${plan.title} seleccionado. Por favor contáctanos para completar tu reserva.`);
     }
@@ -311,7 +313,7 @@ const PlanesVidaActiva = ({ setPage }: PlanesVidaActivaProps) => {
                       className="flex-1 min-w-[200px]"
                       size="lg"
                     >
-                      {(plan.id === 'amigos' || plan.id === 'sol-cafe') ? (
+                      {(plan.id === 'amigos' || plan.id === 'sol-cafe' || plan.id === 'sonreir') ? (
                         <>
                           <Sparkles className="mr-2" size={18} />
                           Ver detalles completos
