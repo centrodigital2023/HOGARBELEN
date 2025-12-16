@@ -160,6 +160,8 @@ const PlanesVidaActiva = ({ setPage }: PlanesVidaActivaProps) => {
       setPage('plan-sol-cafe');
     } else if (plan.id === 'sonreir') {
       setPage('plan-sonreir');
+    } else if (plan.id === 'turismo-rural') {
+      setPage('plan-turismo-rural');
     } else {
       toast.success(`${plan.title} seleccionado. Por favor contáctanos para completar tu reserva.`);
     }

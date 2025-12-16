@@ -23,6 +23,7 @@ import PlanesVidaActiva from './páginas/PlanesVidaActiva';
 import PlanAmigos from './páginas/PlanAmigos';
 import PlanSolYCafe from './páginas/PlanSolYCafe';
 import PlanSonreir from './páginas/PlanSonreir';
+import PlanTurismoRural from './páginas/PlanTurismoRural';
 
 export interface User {
   id: string;
@@ -70,6 +71,7 @@ const MainApp = () => {
       case 'plan-amigos': return <PlanAmigos setPage={setCurrentPage} />;
       case 'plan-sol-cafe': return <PlanSolYCafe setPage={setCurrentPage} />;
       case 'plan-sonreir': return <PlanSonreir setPage={setCurrentPage} />;
+      case 'plan-turismo-rural': return <PlanTurismoRural setPage={setCurrentPage} />;
       case 'login': return <BelenConectaLogin setPage={setCurrentPage} />;
       case 'register': return <BelenConectaRegister setPage={setCurrentPage} />;
       case 'dashboard-family': return <FamilyDashboard user={user} setPage={setCurrentPage} />;
