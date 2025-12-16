@@ -13,7 +13,7 @@ export default function UpgradeBanner({ onUpgrade }: UpgradeBannerProps) {
   const [subscriptions] = useKV<any[]>('hogar-belen-subscriptions', []);
 
   const hasActiveSubscription = (subscriptions || []).some(
-    sub => sub.userId === (user?.id || user?.uid) && sub.status === 'active'
+    sub => sub.userId === user?.id && sub.status === 'active'
   );
 
   if (hasActiveSubscription) {

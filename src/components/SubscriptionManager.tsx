@@ -26,11 +26,11 @@ export default function SubscriptionManager() {
   const [selectedSubId, setSelectedSubId] = useState<string | null>(null);
 
   const userSubscriptions = (subscriptions || []).filter(
-    sub => sub.userId === (user?.id || user?.uid)
+    sub => sub.userId === user?.id
   );
 
   const userPayments = (paymentHistory || []).filter(
-    payment => payment.userId === (user?.id || user?.uid)
+    payment => payment.userId === user?.id
   );
 
   const activeSubscription = userSubscriptions.find(sub => sub.status === 'active');

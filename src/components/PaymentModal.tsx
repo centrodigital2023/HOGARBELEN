@@ -248,7 +248,7 @@ export default function PaymentModal({ isOpen, onClose, plan }: PaymentModalProp
     
     const newSubscription = {
       id: subscriptionId,
-      userId: user?.id || user?.uid || 'guest',
+      userId: user?.id || 'guest',
       plan: plan.name,
       price: finalPrice,
       period: plan.period,
@@ -263,7 +263,7 @@ export default function PaymentModal({ isOpen, onClose, plan }: PaymentModalProp
     const newTransaction = {
       id: transactionId,
       subscriptionId,
-      userId: user?.id || user?.uid || 'guest',
+      userId: user?.id || 'guest',
       amount: finalPrice,
       plan: plan.name,
       status: 'completed',
