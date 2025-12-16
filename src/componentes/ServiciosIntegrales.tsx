@@ -1,46 +1,61 @@
+import { useState, useEffect } from 'react';
 import { Heart, Home, Smartphone, Users, Sun, Coffee, Smile, Mountain, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { searchPexelsPhotos } from '@/lib/pexels';
 
 interface ServiciosIntegralesProps {
   setPage: (page: string) => void;
 }
 
 const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
+  const [serviceImages, setServiceImages] = useState<Record<string, string>>({});
+  const [programImages, setProgramImages] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const loadImages = async () => {
+      const queries = [
+        { key: 'dulceHogar', query: 'caregiver helping elderly home' },
+        { key: 'belenConecta', query: 'elderly person using tablet technology' },
+      ];
+
+      const programQueries = [
+        { key: 'planAmigos', query: 'elderly friends laughing together' },
+        { key: 'planCasa', query: 'nurse helping elderly at home' },
+        { key: 'planSol', query: 'coffee farm countryside colombia' },
+        { key: 'planSonreir', query: 'elderly birthday celebration party' },
+        { key: 'planTurismo', query: 'elderly people nature walk hiking' },
+      ];
+
+      const newServiceImages: Record<string, string> = {};
+      for (const { key, query } of queries) {
+        const photos = await searchPexelsPhotos(query, 1);
+        if (photos.length > 0) {
+          newServiceImages[key] = photos[0].src.large;
+        }
+      }
+      setServiceImages(newServiceImages);
+
+      const newProgramImages: Record<string, string> = {};
+      for (const { key, query } of programQueries) {
+        const photos = await searchPexelsPhotos(query, 1);
+        if (photos.length > 0) {
+          newProgramImages[key] = photos[0].src.medium;
+        }
+      }
+      setProgramImages(newProgramImages);
+    };
+
+    loadImages();
+  }, []);
+
   const serviciosPrincipales = [
-    {
-      titulo: 'Cuidado Residencial',
-      subtitulo: 'Un hogar lleno de vida y seguridad',
-      descripcion: 'Nuestro hogar ofrece un ambiente cálido y seguro donde cada residente recibe atención personalizada las 24 horas del día. Combinamos cuidado médico profesional con la calidez de un verdadero hogar, en un entorno que inspira alegría y tranquilidad.',
-      imagen: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800',
-      beneficios: [
-        'Cuidado de enfermería 24 horas 7 días de la semana',
-        'Alimentación balanceada y personalizada',
-        'Actividades recreativas y terapéuticas',
-        'Fisioterapia y rehabilitación',
-        'Acompañamiento psicológico',
-        'Ambiente familiar y acogedor'
-      ],
-      extras: [
-        { icon: Home, texto: 'Hospedaje Confortable', descripcion: 'Su espacio para sentirse en casa.' },
-        { icon: Heart, texto: 'Nutrición Deliciosa', descripcion: '5 comidas al día que nutren cuerpo y alma.' },
-        { icon: Users, texto: 'Personal 24/7', descripcion: 'Cuidado con calidez humana.' },
-        { icon: Sparkles, texto: 'Acompañamiento Médico', descripcion: 'Sin estrés por las citas.' },
-        { icon: Heart, texto: 'Terapias Vitalizantes', descripcion: 'Movilidad e independencia.' },
-        { icon: Sun, texto: 'Celebración Diaria', descripcion: 'La alegría es nuestra rutina.' },
-        { icon: Mountain, texto: 'Espacios terapéuticos', descripcion: 'Conexión con la naturaleza y la creatividad.' },
-        { icon: Heart, texto: 'Apoyo emocional', descripcion: 'Un oído siempre dispuesto a escuchar.' },
-        { icon: Sparkles, texto: 'Bienestar espiritual', descripcion: 'Paz para el alma.' },
-        { icon: Home, texto: 'Lavandería incluida', descripcion: 'Olvídese de las preocupaciones.' }
-      ],
-      color: 'from-emerald-500 to-teal-600'
-    },
     {
       titulo: 'Plan Dulce Hogar',
       subtitulo: 'Cuidado experto en su propio espacio',
       descripcion: 'Llevamos nuestro cuidado profesional y nuestra calidez directamente a la comodidad de su hogar. Nuestros cuidadores certificados brindan atención personalizada, permitiendo que sus seres queridos mantengan su independencia y rutina en un entorno familiar.',
-      imagen: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80&w=800',
+      imagen: serviceImages['dulceHogar'] || 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80&w=800',
       beneficios: [
         'Cuidadores certificados y de confianza',
         'Atención personalizada en casa',
@@ -55,7 +70,7 @@ const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
       titulo: 'Belén Conecta',
       subtitulo: 'La Tecnología al Servicio del Cuidado',
       descripcion: 'Nuestra plataforma digital revoluciona la forma de encontrar cuidadores especializados. Conectamos familias con profesionales verificados, garantizando calidad y confianza en cada servicio.',
-      imagen: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800',
+      imagen: serviceImages['belenConecta'] || 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800',
       caracteristicas: [
         { titulo: 'Perfiles Verificados', descripcion: 'Profesionales cualificados y de confianza.' },
         { titulo: 'Calificaciones y Reseñas', descripcion: 'Transparencia y fiabilidad en cada elección.' },
@@ -73,31 +88,31 @@ const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
       titulo: 'Plan Amigos',
       descripcion: 'Actividades lúdicas y estimulantes para abuelos que buscan alegría y compañía.',
       icon: Users,
-      imagen: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80&w=400'
+      imagen: programImages['planAmigos'] || 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80&w=400'
     },
     {
       titulo: 'Plan en mi Casa',
       descripcion: 'Equipo de enfermería y asistencia personal 24/7 en la comodidad de su hogar.',
       icon: Home,
-      imagen: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=400'
+      imagen: programImages['planCasa'] || 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=400'
     },
     {
       titulo: 'Plan Sol y Café',
       descripcion: 'Hospédese en fincas tradicionales de Buesaco y disfrute la cultura local.',
       icon: Coffee,
-      imagen: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&q=80&w=400'
+      imagen: programImages['planSol'] || 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&q=80&w=400'
     },
     {
       titulo: 'Plan Sonreír',
       descripcion: 'Celebraciones seguras y memorables para cumpleaños, aniversarios y encuentros familiares.',
       icon: Smile,
-      imagen: 'https://images.unsplash.com/photo-1530268729831-4b0b9e170218?auto=format&fit=crop&q=80&w=400'
+      imagen: programImages['planSonreir'] || 'https://images.unsplash.com/photo-1530268729831-4b0b9e170218?auto=format&fit=crop&q=80&w=400'
     },
     {
       titulo: 'Plan Turismo Rural',
       descripcion: 'Salidas ecológicas, zooterapia, historia, espiritualidad y conexión con la naturaleza.',
       icon: Mountain,
-      imagen: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&q=80&w=400'
+      imagen: programImages['planTurismo'] || 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&q=80&w=400'
     }
   ];
 
@@ -131,9 +146,6 @@ const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
           <div className="max-w-7xl mx-auto px-4">
             <div className={`grid md:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}>
               <div className={index % 2 === 1 ? 'md:order-2' : ''}>
-                <Badge className={`mb-4 bg-gradient-to-r ${servicio.color} text-white border-0`}>
-                  Servicio Premium
-                </Badge>
                 <h3 className="text-4xl font-bold text-gray-900 mb-4">{servicio.titulo}</h3>
                 <p className="text-xl text-primary-600 font-semibold mb-6">{servicio.subtitulo}</p>
                 <p className="text-lg text-gray-600 mb-8 leading-relaxed">{servicio.descripcion}</p>
@@ -164,37 +176,12 @@ const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
                   </div>
                 )}
 
-                {index === 0 && servicio.extras && (
-                  <div className="mt-12 p-8 bg-white rounded-2xl shadow-xl border-2 border-primary-200">
-                    <h4 className="text-2xl font-bold text-gray-900 mb-2">
-                      "Todo Incluido" para una Vida Plena
-                    </h4>
-                    <p className="text-gray-600 mb-6">
-                      Nuestra promesa es simple: una vida sin preocupaciones donde cada necesidad está cubierta con amor y profesionalismo.
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {servicio.extras.map((extra, idx) => {
-                        const Icon = extra.icon;
-                        return (
-                          <div key={idx} className="flex items-start gap-3 p-3 rounded-lg hover:bg-primary-50 transition-colors">
-                            <Icon className="w-5 h-5 text-primary-600 flex-shrink-0 mt-1" />
-                            <div>
-                              <h5 className="font-semibold text-gray-900 text-sm">{extra.texto}</h5>
-                              <p className="text-xs text-gray-600">{extra.descripcion}</p>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
                 <Button 
                   size="lg" 
                   onClick={() => setPage('belen-familias')} 
                   className={`mt-8 bg-gradient-to-r ${servicio.color} text-white text-lg px-8`}
                 >
-                  {index === 2 ? 'Acceder a la Plataforma' : 'Más Información'}
+                  {index === 1 ? 'Acceder a la Plataforma' : 'Más Información'}
                 </Button>
               </div>
               
@@ -308,7 +295,7 @@ const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
             <Button 
               size="lg" 
               variant="outline"
-              onClick={() => window.location.href = 'tel:+573001234567'}
+              onClick={() => window.location.href = 'tel:+573215708655'}
               className="border-2 border-white text-white hover:bg-white/10 text-lg px-8"
             >
               Llamar Ahora
