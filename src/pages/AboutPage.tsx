@@ -183,7 +183,7 @@ export default function AboutPage() {
             </div>
             <div className="md:order-1 relative">
               <img
-                src="https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80&w=800"
+                src={imagenMision}
                 alt="Historia Hogar Belén"
                 className="rounded-2xl shadow-2xl"
               />
