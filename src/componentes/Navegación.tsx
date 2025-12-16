@@ -4,7 +4,7 @@ import { useAuth } from '../contextos/SupabaseAuthContext';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import logoImg from '@/assets/images/1c34217cb2391e5e8a9b6dfb6883af4b.png';
+import logoImg from '@/assets/images/logo-hogar-belen.png';
 import {
   DropdownMenu,
   DropdownMenuContent,
