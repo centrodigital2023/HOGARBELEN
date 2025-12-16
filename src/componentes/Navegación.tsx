@@ -4,6 +4,7 @@ import { useAuth } from '../contextos/SupabaseAuthContext';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import logoImg from '@/assets/images/1c34217cb2391e5e8a9b6dfb6883af4b.png';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,10 +39,10 @@ const Navegación = ({ setPage, user, userData }: NavegaciónProps) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div 
-            className="flex items-center gap-2 cursor-pointer group"
+            className="flex items-center gap-3 cursor-pointer group"
             onClick={() => setPage('home')}
           >
-            <Heart className="text-primary-600 fill-primary-600 group-hover:scale-110 transition-transform" size={24} />
+            <img src={logoImg} alt="Hogar Belén Logo" className="h-10 w-10 object-contain group-hover:scale-110 transition-transform" />
             <span className="text-xl font-bold tracking-tight text-gray-800">
               Hogar<span className="text-primary-600"> Belén</span>
             </span>
@@ -169,7 +170,7 @@ const Navegación = ({ setPage, user, userData }: NavegaciónProps) => {
                   onClick={() => { setPage('centro-vida'); setMenuOpen(false); }}
                   className="block w-full text-left px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
                 >
-                  Centro de Día
+                  Centro Vida
                 </button>
                 <button 
                   onClick={() => { setPage('services'); setMenuOpen(false); }}
