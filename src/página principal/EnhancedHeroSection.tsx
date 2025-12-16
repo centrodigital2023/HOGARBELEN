@@ -8,6 +8,7 @@ import Textarea from '../componentes/ui/textarea';
 import { toast } from 'sonner';
 import { PexelsImage } from '@/components/PexelsImage';
 import { searchPexelsPhotos } from '@/lib/pexels';
+import keyImageSrc from '@/assets/images/1c34217cb2391e5e8a9b6dfb6883af4b.png';
 
 interface EnhancedHeroSectionProps {
   setPage: (page: string) => void;
@@ -22,18 +23,12 @@ const EnhancedHeroSection = ({ setPage }: EnhancedHeroSectionProps) => {
   });
 
   const [heroImage, setHeroImage] = useState('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=2000');
-  const [keyImage, setKeyImage] = useState('https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&q=80&w=800');
 
   useEffect(() => {
     const loadImages = async () => {
       const heroPhotos = await searchPexelsPhotos('elderly care home happy', 1);
       if (heroPhotos.length > 0) {
         setHeroImage(heroPhotos[0].src.large2x);
-      }
-
-      const keyPhotos = await searchPexelsPhotos('elderly woman smiling keys', 1);
-      if (keyPhotos.length > 0) {
-        setKeyImage(keyPhotos[0].src.large);
       }
     };
 
@@ -130,7 +125,7 @@ const EnhancedHeroSection = ({ setPage }: EnhancedHeroSectionProps) => {
               viewport={{ once: true }}
             >
               <img 
-                src={keyImage}
+                src={keyImageSrc}
                 alt="Residente feliz y empoderada con la llave de su habitación"
                 className="rounded-2xl shadow-2xl"
               />
