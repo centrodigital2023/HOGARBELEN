@@ -11,6 +11,10 @@ import img5 from '@/assets/images/IMG-20230528-WA0011.jpg';
 import img6 from '@/assets/images/IMG-20240410-WA0018.jpg';
 import img7 from '@/assets/images/IMG-20230508-WA0005.jpg';
 import img8 from '@/assets/images/IMG-20230509-WA0015.jpg';
+import img9 from '@/assets/images/IMG-20230423-WA0001.jpg';
+import img10 from '@/assets/images/IMG-20250808-WA0004.jpg';
+import img11 from '@/assets/images/IMG-20250810-WA0031.jpg';
+import img12 from '@/assets/images/IMG-20230519-WA0059.jpg';
 
 interface PlanTurismoRuralProps {
   setPage: (page: string) => void;
@@ -107,6 +111,10 @@ const PlanTurismoRural = ({ setPage }: PlanTurismoRuralProps) => {
     { url: img6, alt: 'Recorridos culturales', caption: 'Historia viva de nuestra región' },
     { url: img7, alt: 'Caminatas guiadas', caption: 'Cada paso con seguridad' },
     { url: img8, alt: 'Experiencias compartidas', caption: 'Momentos que perduran' },
+    { url: img9, alt: 'Salidas ecológicas guiadas', caption: 'Explorando con cuidado' },
+    { url: img10, alt: 'Contacto con flora local', caption: 'Naturaleza que inspira' },
+    { url: img11, alt: 'Turismo rural seguro', caption: 'Aventuras con acompañamiento' },
+    { url: img12, alt: 'Observación de paisajes', caption: 'Contemplación y serenidad' },
   ];
 
   return (

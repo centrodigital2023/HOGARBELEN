@@ -11,6 +11,10 @@ import img5 from '@/assets/images/IMG-20230528-WA0011.jpg';
 import img6 from '@/assets/images/IMG-20240410-WA0018.jpg';
 import img7 from '@/assets/images/IMG-20230508-WA0005.jpg';
 import img8 from '@/assets/images/IMG-20230509-WA0015.jpg';
+import img9 from '@/assets/images/IMG-20230519-WA0042.jpg';
+import img10 from '@/assets/images/IMG-20230519-WA0049.jpg';
+import img11 from '@/assets/images/IMG-20230519-WA0059.jpg';
+import img12 from '@/assets/images/IMG-20240412-WA0004.jpg';
 
 interface PlanAmigosProps {
   setPage: (page: string) => void;
@@ -65,6 +69,10 @@ const PlanAmigos = ({ setPage }: PlanAmigosProps) => {
     { url: img6, alt: 'Actividades grupales', caption: 'Juntos es mejor' },
     { url: img7, alt: 'Encuentro social', caption: 'Nuevas amistades florecen' },
     { url: img8, alt: 'Momentos de integración', caption: 'Cada encuentro es especial' },
+    { url: img9, alt: 'Paseos organizados en grupo', caption: 'Aventuras compartidas' },
+    { url: img10, alt: 'Descanso y contemplación', caption: 'Paz en compañía' },
+    { url: img11, alt: 'Actividades recreativas', caption: 'Diversión sin edad' },
+    { url: img12, alt: 'Experiencias memorables', caption: 'Recuerdos que perduran' },
   ];
 
   return (

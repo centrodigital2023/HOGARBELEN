@@ -11,6 +11,10 @@ import img5 from '@/assets/images/IMG-20230528-WA0011.jpg';
 import img6 from '@/assets/images/IMG-20240410-WA0018.jpg';
 import img7 from '@/assets/images/IMG-20230508-WA0005.jpg';
 import img8 from '@/assets/images/IMG-20230509-WA0015.jpg';
+import img9 from '@/assets/images/IMG_20221012_102341.jpg';
+import img10 from '@/assets/images/IMG_20230519_085342.jpg';
+import img11 from '@/assets/images/IMG_20240620_103035.jpg';
+import img12 from '@/assets/images/IMG_20250819_093737.jpg';
 
 interface PlanSonreirProps {
   setPage: (page: string) => void;
@@ -79,6 +83,10 @@ const PlanSonreir = ({ setPage }: PlanSonreirProps) => {
     { url: img6, alt: 'Familia reunida celebrando', caption: 'Unidos por el amor' },
     { url: img7, alt: 'Momentos de agradecimiento', caption: 'Palabras que perduran' },
     { url: img8, alt: 'Celebración memorable', caption: 'Recuerdos preciosos' },
+    { url: img9, alt: 'Preparativos de celebración', caption: 'Cada detalle importa' },
+    { url: img10, alt: 'Eventos especiales compartidos', caption: 'Momentos inolvidables' },
+    { url: img11, alt: 'Decoración y ambiente festivo', caption: 'Espacios que abrazan' },
+    { url: img12, alt: 'Celebración con acompañamiento', caption: 'Cuidado en cada momento' },
   ];
 
   return (

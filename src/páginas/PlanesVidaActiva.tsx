@@ -315,7 +315,7 @@ const PlanesVidaActiva = ({ setPage }: PlanesVidaActivaProps) => {
                       className="flex-1 min-w-[200px]"
                       size="lg"
                     >
-                      {(plan.id === 'amigos' || plan.id === 'sol-cafe' || plan.id === 'sonreir') ? (
+                      {(plan.id === 'amigos' || plan.id === 'sol-cafe' || plan.id === 'sonreir' || plan.id === 'turismo-rural') ? (
                         <>
                           <Sparkles className="mr-2" size={18} />
                           Ver detalles completos

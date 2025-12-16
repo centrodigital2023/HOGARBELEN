@@ -11,6 +11,10 @@ import img5 from '@/assets/images/IMG-20230528-WA0011.jpg';
 import img6 from '@/assets/images/IMG-20240410-WA0018.jpg';
 import img7 from '@/assets/images/IMG-20230508-WA0005.jpg';
 import img8 from '@/assets/images/IMG-20230509-WA0015.jpg';
+import img9 from '@/assets/images/IMG-20240412-WA0019.jpg';
+import img10 from '@/assets/images/IMG-20240524-WA0019.jpg';
+import img11 from '@/assets/images/IMG_20220921_120656.jpg';
+import img12 from '@/assets/images/IMG_20220921_122900.jpg';
 
 interface PlanSolYCafeProps {
   setPage: (page: string) => void;
@@ -80,6 +84,10 @@ const PlanSolYCafe = ({ setPage }: PlanSolYCafeProps) => {
     { url: img6, alt: 'Momentos de descanso y contemplación', caption: 'Tiempo bien vivido' },
     { url: img7, alt: 'Espacios abiertos con café tradicional', caption: 'Tradición y cultura' },
     { url: img8, alt: 'Adultos mayores disfrutando del campo', caption: 'Bienestar en la naturaleza' },
+    { url: img9, alt: 'Hospedaje rural acogedor', caption: 'Descanso verdadero' },
+    { url: img10, alt: 'Gastronomía local tradicional', caption: 'Sabores de casa' },
+    { url: img11, alt: 'Espacios de lectura y reflexión', caption: 'Pausas que sanan' },
+    { url: img12, alt: 'Vida rural tranquila', caption: 'El ritmo del campo' },
   ];
 
   return (
