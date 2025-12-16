@@ -1,5 +1,6 @@
 import { Heart, Mail, Phone, MapPin } from 'lucide-react';
 import { Facebook, Instagram, Youtube } from 'lucide-react';
+import logoHogarBelen from '@/assets/images/1c34217cb2391e5e8a9b6dfb6883af4b.png';
 
 interface FooterProps {
   setPage: (page: string) => void;
@@ -48,9 +49,13 @@ export default function Footer({ setPage }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2 text-white font-bold text-xl">
-              <Heart className="fill-primary text-primary" size={24} />
-              Hogar Belén
+            <div className="flex items-center gap-3 text-white font-bold text-xl">
+              <img 
+                src={logoHogarBelen} 
+                alt="Hogar Belén Logo" 
+                className="h-12 w-12 object-contain"
+              />
+              <span>Hogar Belén</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
               Centro de vida y plataforma de profesionales de salud en Nariño, Colombia. 

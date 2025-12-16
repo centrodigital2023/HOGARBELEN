@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { toast } from 'sonner';
 import type { User } from '../App';
+import logoHogarBelen from '@/assets/images/1c34217cb2391e5e8a9b6dfb6883af4b.png';
 
 interface NavigationProps {
   setPage: (page: string) => void;
@@ -42,9 +43,13 @@ export default function Navigation({ setPage, user, setUser, currentPage }: Navi
           {/* Logo */}
           <button
             onClick={() => setPage('home')}
-            className="flex items-center gap-2 group transition-all hover:opacity-80"
+            className="flex items-center gap-3 group transition-all hover:opacity-80"
           >
-            <Heart className="text-primary fill-primary group-hover:scale-110 transition-transform" size={28} />
+            <img 
+              src={logoHogarBelen} 
+              alt="Hogar Belén Logo" 
+              className="h-12 w-12 object-contain group-hover:scale-105 transition-transform"
+            />
             <span className="text-2xl font-bold tracking-tight">
               <span className="text-foreground">Hogar</span>
               <span className="text-primary"> Belén</span>
