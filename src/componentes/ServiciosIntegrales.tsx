@@ -55,7 +55,7 @@ const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
       titulo: 'Plan Dulce Hogar',
       subtitulo: 'Cuidado experto en su propio espacio',
       descripcion: 'Llevamos nuestro cuidado profesional y nuestra calidez directamente a la comodidad de su hogar. Nuestros cuidadores certificados brindan atención personalizada, permitiendo que sus seres queridos mantengan su independencia y rutina en un entorno familiar.',
-      imagen: serviceImages['dulceHogar'] || new URL('@/assets/images/IMG-20230423-WA0001.jpg', import.meta.url).href,
+      imagen: serviceImages['dulceHogar'] || new URL('@/assets/images/descarga.jpg', import.meta.url).href,
       beneficios: [
         'Cuidadores certificados y de confianza',
         'Atención personalizada en casa',
