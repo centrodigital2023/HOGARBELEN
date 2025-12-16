@@ -4,7 +4,6 @@ import { useAuth } from '../contextos/SupabaseAuthContext';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import logoImg from '@/assets/images/logo-hogar-belen.png';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,7 +41,6 @@ const Navegación = ({ setPage, user, userData }: NavegaciónProps) => {
             className="flex items-center gap-3 cursor-pointer group"
             onClick={() => setPage('home')}
           >
-            <img src={logoImg} alt="Hogar Belén Logo" className="h-12 w-12 object-contain group-hover:scale-105 transition-transform" />
             <span className="text-xl font-bold tracking-tight text-gray-800">
               Hogar<span className="text-primary-600"> Belén</span>
             </span>
