@@ -20,6 +20,7 @@ import BelenConectaFamilias from './páginas/BelenConectaFamilias';
 import BelenConectaProfesionales from './páginas/BelenConectaProfesionales';
 import ProfesionalesServicios from './páginas/ProfesionalesServicios';
 import PlanesVidaActiva from './páginas/PlanesVidaActiva';
+import PlanAmigos from './páginas/PlanAmigos';
 
 export interface User {
   id: string;
@@ -64,6 +65,7 @@ const MainApp = () => {
       case 'belen-familias': return <BelenConectaFamilias setPage={setCurrentPage} />;
       case 'belen-profesionales': return <BelenConectaProfesionales setPage={setCurrentPage} />;
       case 'planes-vida-activa': return <PlanesVidaActiva setPage={setCurrentPage} />;
+      case 'plan-amigos': return <PlanAmigos setPage={setCurrentPage} />;
       case 'login': return <BelenConectaLogin setPage={setCurrentPage} />;
       case 'register': return <BelenConectaRegister setPage={setCurrentPage} />;
       case 'dashboard-family': return <FamilyDashboard user={user} setPage={setCurrentPage} />;

@@ -40,19 +40,23 @@ const PlanesVidaActiva = ({ setPage }: PlanesVidaActivaProps) => {
       id: 'amigos',
       title: 'Plan Amigos',
       subtitle: 'Alegría compartida y compañía real',
-      description: 'Juegos de mesa, talleres creativos, encuentros sociales y acompañamiento emocional grupal.',
+      description: 'Paseos y fines de semana en fincas campestres, compartidos con otros adultos mayores. Transporte, hospedaje, alimentación y acompañamiento profesional incluidos.',
       icon: Heart,
       color: 'text-rose-600',
       bgGradient: 'from-rose-50 to-rose-100',
       activities: [
-        'Juegos de mesa tradicionales (dominó, parqués, ajedrez)',
-        'Talleres de manualidades y arte',
-        'Círculos de conversación y tertulias',
-        'Actividades recreativas grupales',
-        'Celebraciones de cumpleaños y fechas especiales',
-        'Acompañamiento psicosocial',
-        'Sesiones de risoterapia',
-        'Actividades intergeneracionales'
+        'Transporte seguro ida y regreso',
+        'Hospedaje campestre cómodo y accesible',
+        'Alimentación completa (desayuno, almuerzo, cena y refrigerios)',
+        'Acompañamiento permanente de personal capacitado',
+        'Juegos de mesa y dinámicas grupales',
+        'Caminatas suaves en entornos naturales',
+        'Conversatorios y espacios de socialización',
+        'Talleres creativos y recreativos',
+        'Música, risas y momentos de integración',
+        'Espacios de descanso y contemplación',
+        'Seguro y supervisión continua',
+        'Coordinación y cuidado durante toda la experiencia'
       ],
       images: [
         { url: img1, alt: 'Actividades grupales', caption: 'Compartiendo momentos de alegría' },
@@ -150,7 +154,11 @@ const PlanesVidaActiva = ({ setPage }: PlanesVidaActivaProps) => {
 
   const handleBooking = (plan: Plan) => {
     setSelectedPlan(plan);
-    toast.success(`${plan.title} seleccionado. Por favor contáctanos para completar tu reserva.`);
+    if (plan.id === 'amigos') {
+      setPage('plan-amigos');
+    } else {
+      toast.success(`${plan.title} seleccionado. Por favor contáctanos para completar tu reserva.`);
+    }
   };
 
   const handleShare = (platform: string, plan: Plan) => {
@@ -301,8 +309,17 @@ const PlanesVidaActiva = ({ setPage }: PlanesVidaActivaProps) => {
                       className="flex-1 min-w-[200px]"
                       size="lg"
                     >
-                      <Calendar className="mr-2" size={18} />
-                      Seleccionar Plan
+                      {plan.id === 'amigos' ? (
+                        <>
+                          <Sparkles className="mr-2" size={18} />
+                          Ver detalles completos
+                        </>
+                      ) : (
+                        <>
+                          <Calendar className="mr-2" size={18} />
+                          Seleccionar Plan
+                        </>
+                      )}
                     </Button>
                     
                     <Button
