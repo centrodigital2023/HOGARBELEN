@@ -187,6 +187,8 @@ Valor: 2606:4700:4700::1111
 TTL: 3600
 ```
 
+**⚠️ NOTA IMPORTANTE:** Estas IPs son las actuales de Vercel pero pueden cambiar. Verifica siempre las IPs más recientes en la documentación de Vercel o en la interfaz de configuración de dominios cuando agregues tu dominio.
+
 ### 3.4 Verificar Configuración DNS
 
 Después de configurar, espera propagación y verifica:
@@ -243,15 +245,24 @@ En Vercel → Settings → Domains, deberías ver:
 
 ### 4.2 Verificar Conexión
 
-Una vez desplegado, abre la consola del navegador en tu sitio:
+Una vez desplegado, verifica que Supabase se conecta correctamente:
+
+**Método 1 - Verificar en el código:**
+- Navega por el sitio y verifica que las funcionalidades que usan Supabase funcionen
+- Prueba login/registro si está habilitado
+- Verifica que los datos se cargan correctamente
+
+**Método 2 - Verificar en desarrollo (SOLO PARA DEBUG):**
+
+⚠️ **ADVERTENCIA:** Nunca ejecutes esto en producción ni dejes este código en el sitio final.
 
 ```javascript
-// Esto debe retornar la configuración de Supabase
+// SOLO en consola del navegador durante desarrollo/debug
+// NO incluir en el código de producción
 console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL);
-
-// Esto debe retornar una sesión o null (si no estás logueado)
-// Verifica en el código que el cliente de Supabase se inicializa correctamente
 ```
+
+La mejor forma de verificar es simplemente usar las funcionalidades del sitio que dependen de Supabase.
 
 ---
 
