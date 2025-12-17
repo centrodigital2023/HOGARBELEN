@@ -1,4 +1,7 @@
 {
+  "name": "hogar-belen",
+  "version": 2,
+  "public": false,
   "rewrites": [
     {
       "source": "/(.*)",
@@ -17,6 +20,15 @@
     },
     {
       "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/src/assets/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -54,6 +66,21 @@
     {
       "source": "/home",
       "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/hogarbelen.org/:path*",
+      "destination": "https://www.hogarbelen.org/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/www.hogarbelen.com/:path*",
+      "destination": "https://www.hogarbelen.org/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/hogarbelen.com/:path*",
+      "destination": "https://www.hogarbelen.org/:path*",
       "permanent": true
     }
   ]

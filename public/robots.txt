@@ -1,19 +1,36 @@
-# Hogar Belén Website
-# https://hogar-belen.com
-
-# Allow all crawlers
+# https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
 
-# Disallow private areas
-Disallow: /dashboard-family
-Disallow: /dashboard-pro
-Disallow: /admin-promo-codes
-Disallow: /login
-Disallow: /register
+# Sitemap
+Sitemap: https://www.hogarbelen.org/sitemap.xml
 
-# Crawl delay (optional - only if needed)
-# Crawl-delay: 1
+# Disallow admin and API routes (if any in the future)
+Disallow: /api/
+Disallow: /admin/
 
-# Sitemap location
-Sitemap: https://hogar-belen.com/sitemap.xml
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /

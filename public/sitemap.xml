@@ -1,120 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
-  <!-- Home Page -->
+  <!-- Página Principal -->
   <url>
-    <loc>https://hogar-belen.com/</loc>
+    <loc>https://www.hogarbelen.org/</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  
-  <!-- Centro de Vida - Optimizado SEO -->
+
+  <!-- Centro Vida -->
   <url>
-    <loc>https://hogar-belen.com/centro-vida-adultos-mayores-buesaco</loc>
+    <loc>https://www.hogarbelen.org/centro-vida-adultos-mayores-buesaco</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.95</priority>
+    <priority>0.9</priority>
   </url>
-  
-  <!-- Servicios Profesionales -->
+
+  <!-- Planes de Vida Activa -->
   <url>
-    <loc>https://hogar-belen.com/profesionales-servicios</loc>
+    <loc>https://www.hogarbelen.org/planes-vida-activa</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Plan Amigos -->
+  <url>
+    <loc>https://www.hogarbelen.org/plan-amigos-adultos-mayores</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Plan Sol y Café -->
+  <url>
+    <loc>https://www.hogarbelen.org/plan-sol-y-cafe-buesaco</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Plan Sonreír -->
+  <url>
+    <loc>https://www.hogarbelen.org/plan-sonreir-celebraciones-adultos-mayores</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Plan Turismo Rural -->
+  <url>
+    <loc>https://www.hogarbelen.org/plan-turismo-rural-adultos-mayores</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Servicios -->
+  <url>
+    <loc>https://www.hogarbelen.org/servicios</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Precios -->
+  <url>
+    <loc>https://www.hogarbelen.org/precios</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  
-  <!-- Planes de Vida Activa - Index -->
+
+  <!-- Nosotros -->
   <url>
-    <loc>https://hogar-belen.com/planes-vida-activa</loc>
+    <loc>https://www.hogarbelen.org/nosotros</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.7</priority>
   </url>
-  
-  <!-- Plan Amigos - Optimizado SEO -->
-  <url>
-    <loc>https://hogar-belen.com/plan-amigos-adultos-mayores</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  
-  <!-- Plan Sol y Café - Optimizado SEO -->
-  <url>
-    <loc>https://hogar-belen.com/plan-sol-y-cafe-buesaco</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  
-  <!-- Plan Sonreír - Optimizado SEO -->
-  <url>
-    <loc>https://hogar-belen.com/plan-sonreir-celebraciones-adultos-mayores</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  
-  <!-- Plan Turismo Rural - Optimizado SEO -->
-  <url>
-    <loc>https://hogar-belen.com/plan-turismo-rural-adultos-mayores</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  
-  <!-- Nosotros / Sobre Hogar Belén -->
-  <url>
-    <loc>https://hogar-belen.com/nosotros</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Precios -->
-  <url>
-    <loc>https://hogar-belen.com/precios</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  
+
   <!-- Contacto -->
   <url>
-    <loc>https://hogar-belen.com/contacto</loc>
+    <loc>https://www.hogarbelen.org/contacto</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  
+
+  <!-- Belén Conecta Familias -->
+  <url>
+    <loc>https://www.hogarbelen.org/belen-conecta-familias</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Belén Conecta Profesionales -->
+  <url>
+    <loc>https://www.hogarbelen.org/belen-conecta-profesionales</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Ofertas de Trabajo -->
   <url>
-    <loc>https://hogar-belen.com/ofertas-trabajo</loc>
+    <loc>https://www.hogarbelen.org/ofertas-trabajo</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
-  
-  <!-- Belén Conecta Familias -->
+
+  <!-- Profesionales Servicios -->
   <url>
-    <loc>https://hogar-belen.com/belen-conecta-familias</loc>
+    <loc>https://www.hogarbelen.org/profesionales-servicios</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
+    <priority>0.7</priority>
   </url>
-  
-  <!-- Belén Conecta Profesionales -->
-  <url>
-    <loc>https://hogar-belen.com/belen-conecta-profesionales</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  
+
 </urlset>

@@ -2,6 +2,14 @@
 
 Plataforma web integral para la gestión de servicios de cuidado para adultos mayores en Hogar Belén, Buesaco, Nariño.
 
+## 🌐 Sitio en Producción
+
+**🔗 https://www.hogarbelen.org**
+
+Centro de Vida para Adultos Mayores en Buesaco, Nariño, Colombia.
+
+---
+
 ## 🚀 Inicio Rápido
 
 ### 1. Configurar Variables de Entorno
@@ -76,10 +84,37 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
 
 ## 📚 Documentación
 
+- [🚀 Deploy en Vercel](./DEPLOY-VERCEL.md)
+- [🌐 Configuración del Dominio](./CONFIGURACION-DOMINIO.md)
 - [Configuración de Supabase](./SUPABASE-CONFIG.md)
 - [PRD - Documento de Requisitos](./PRD.md)
 - [Sistema de Descuentos](./SISTEMA-DESCUENTOS.md)
 - [Sistema de Pagos](./SISTEMA-PAGOS.md)
+- [Estrategia SEO](./SEO-STRATEGY.md)
+
+## 🚢 Deploy a Producción
+
+### Vercel (Recomendado)
+
+1. **Conecta tu repositorio con Vercel:**
+   - Ve a [vercel.com](https://vercel.com)
+   - Importa tu proyecto desde GitHub
+   - Configura las variables de entorno
+
+2. **Variables de Entorno en Vercel:**
+   ```
+   VITE_SUPABASE_URL=https://cgfpwlqnhgclzzaiqhwz.supabase.co
+   VITE_SUPABASE_ANON_KEY=tu_clave_aqui
+   ```
+
+3. **Configura el dominio:**
+   - Settings → Domains
+   - Agrega: `www.hogarbelen.org`
+   - Configura DNS según instrucciones
+
+**📖 Guía completa:** [DEPLOY-VERCEL.md](./DEPLOY-VERCEL.md)
+
+---
 
 ## 🔐 Autenticación
 
