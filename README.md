@@ -84,7 +84,8 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
 
 ## 📚 Documentación
 
-- [🚀 Deploy en Vercel](./DEPLOY-VERCEL.md)
+- [🚀 Guía de Despliegue Completa](./GUIA-DESPLIEGUE-PRODUCCION.md) ⭐ **NUEVO**
+- [⚡ Guía Rápida de Despliegue](./DESPLIEGUE-RAPIDO.md) ⭐ **NUEVO**
 - [🌐 Configuración del Dominio](./CONFIGURACION-DOMINIO.md)
 - [Configuración de Supabase](./SUPABASE-CONFIG.md)
 - [PRD - Documento de Requisitos](./PRD.md)
@@ -92,27 +93,47 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
 - [Sistema de Pagos](./SISTEMA-PAGOS.md)
 - [Estrategia SEO](./SEO-STRATEGY.md)
 
-## 🚢 Deploy a Producción
+## 🚢 Deploy a Producción en www.hogarbelen.org
 
-### Vercel (Recomendado)
+### ✅ Estado: Listo para Desplegar
 
-1. **Conecta tu repositorio con Vercel:**
-   - Ve a [vercel.com](https://vercel.com)
-   - Importa tu proyecto desde GitHub
-   - Configura las variables de entorno
+El código ya está completamente configurado para **www.hogarbelen.org**. Solo necesitas:
 
-2. **Variables de Entorno en Vercel:**
-   ```
-   VITE_SUPABASE_URL=https://cgfpwlqnhgclzzaiqhwz.supabase.co
-   VITE_SUPABASE_ANON_KEY=tu_clave_aqui
-   ```
+1. **Configurar Vercel** (10 min)
+   - Importar repositorio desde GitHub
+   - Configurar variables de entorno de Supabase
+   - Framework: Vite, Output: dist
 
-3. **Configura el dominio:**
-   - Settings → Domains
-   - Agrega: `www.hogarbelen.org`
-   - Configura DNS según instrucciones
+2. **Agregar Dominio** (5 min)
+   - Settings → Domains → Add: `www.hogarbelen.org`
+   
+3. **Configurar DNS** (10 min)
+   - Nameservers: `ns1.vercel-dns.com` y `ns2.vercel-dns.com`
+   - O configurar records CNAME/A manualmente
 
-**📖 Guía completa:** [DEPLOY-VERCEL.md](./DEPLOY-VERCEL.md)
+### 📖 Guías de Despliegue
+
+**Elige la guía que necesites:**
+
+- **⚡ [Guía Rápida](./DESPLIEGUE-RAPIDO.md)** - Pasos mínimos (30 min)
+- **🚀 [Guía Completa](./GUIA-DESPLIEGUE-PRODUCCION.md)** - Instrucciones detalladas con troubleshooting
+- **🌐 [Configuración DNS](./CONFIGURACION-DOMINIO.md)** - Detalles específicos de DNS
+- **📋 [Checklist de Producción](./CHECKLIST-PRODUCCION.md)** - Verificación completa
+
+### Variables de Entorno Requeridas
+
+```bash
+VITE_SUPABASE_URL=https://cgfpwlqnhgclzzaiqhwz.supabase.co
+VITE_SUPABASE_ANON_KEY=[obtener-de-supabase-dashboard]
+```
+
+### Deploy Automático
+
+Cada push a `main` despliega automáticamente:
+```bash
+git push origin main
+# Vercel despliega en 2-5 minutos
+```
 
 ---
 
