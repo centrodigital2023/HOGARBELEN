@@ -14,7 +14,7 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
             <img 
               src={logoHogarBelen} 
               alt="Hogar Belén" 
-              className="h-16 w-auto object-contain brightness-0 invert"
+              className="h-16 w-auto object-contain brightness-0 invert mix-blend-screen"
             />
             <p className="text-gray-400 text-sm leading-relaxed">
               Plataforma líder en cuidado de adultos mayores en Nariño. 

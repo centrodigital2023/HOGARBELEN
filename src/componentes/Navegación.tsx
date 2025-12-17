@@ -45,7 +45,7 @@ const Navegación = ({ setPage, user, userData }: NavegaciónProps) => {
             <img 
               src={logoHogarBelen} 
               alt="Hogar Belén" 
-              className="h-12 w-auto object-contain"
+              className="h-12 w-auto object-contain mix-blend-multiply"
             />
           </div>
 
