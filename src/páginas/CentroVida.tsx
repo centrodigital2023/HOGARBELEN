@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import ServiceGallery from '@/components/ServiceGallery';
+import { SEOHead } from '@/components/SEOHead';
+import { SEO_CONFIG } from '@/lib/seo-config';
 import img1 from '@/assets/images/IMG-20230423-WA0001.jpg';
 import img2 from '@/assets/images/IMG-20230508-WA0005.jpg';
 import img3 from '@/assets/images/IMG-20230509-WA0015.jpg';
@@ -86,16 +88,25 @@ const CentroVida = ({ setPage }: CentroVidaProps) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
+      <SEOHead
+        title={SEO_CONFIG.centroVida.title}
+        description={SEO_CONFIG.centroVida.description}
+        keywords={SEO_CONFIG.centroVida.keywords}
+        canonical={SEO_CONFIG.centroVida.canonical}
+        ogImage={SEO_CONFIG.centroVida.ogImage}
+        schema={SEO_CONFIG.centroVida.schema}
+      />
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16 max-w-4xl mx-auto">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-primary-100 rounded-full mb-6">
             <Home className="text-primary-600" size={40} />
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            Centro Vida – <span className="text-primary-600">Hogar Belén</span>
+            Centro Vida Hogar Belén: <span className="text-primary-600">Donde el tiempo se abraza</span>
           </h1>
           <p className="text-2xl text-primary-700 font-light italic mb-8">
-            Un lugar donde el tiempo no se pierde… se abraza.
+            Cuidado digno, actividades terapéuticas y acompañamiento humano para adultos mayores en Buesaco, Nariño.
           </p>
           <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 shadow-sm border border-primary-100">
             <p className="text-lg text-gray-700 leading-relaxed mb-4">
@@ -117,10 +128,16 @@ const CentroVida = ({ setPage }: CentroVidaProps) => {
           </div>
         </div>
 
+        <div className="mb-12">
+          <h2 className="text-4xl font-bold text-gray-900 mb-6 text-center">
+            Un espacio seguro, humano y estimulante
+          </h2>
+        </div>
+
         <div className="bg-gradient-to-r from-primary-100 via-primary-50 to-secondary rounded-2xl p-8 mb-16 text-center border border-primary-200">
           <p className="text-xl text-gray-800 leading-relaxed max-w-3xl mx-auto">
-            Es un espacio seguro, cálido y estimulante,<br />
-            donde tus seres queridos reciben <strong>atención cálida</strong><br />
+            El Centro Vida de Hogar Belén en Buesaco es un espacio diseñado para acompañar a los adultos mayores con respeto, calidez y profesionalismo. Aquí no se cuida por rutina, se cuida por vocación. Cada persona es atendida por un equipo humano especializado, en un entorno natural que promueve tranquilidad, movimiento y conexión social.<br /><br />
+            Es un lugar donde tus seres queridos reciben <strong>atención cálida</strong><br />
             mientras tú continúas con tus responsabilidades,<br />
             con la tranquilidad de saber<br />
             que están <strong>cuidados…</strong><br />
@@ -140,7 +157,7 @@ const CentroVida = ({ setPage }: CentroVidaProps) => {
         <div className="mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-8 text-center flex items-center justify-center gap-3">
             <Heart className="text-primary-600 fill-primary-600" size={36} />
-            Atención Personalizada
+            Atención integral para adultos mayores en Buesaco
           </h2>
           <p className="text-center text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             Porque cada persona es única<br />
@@ -152,8 +169,8 @@ const CentroVida = ({ setPage }: CentroVidaProps) => {
                 <div className="flex items-start gap-4">
                   <Users className="text-primary-600 flex-shrink-0 mt-1" size={32} />
                   <div>
-                    <h3 className="font-semibold text-xl text-gray-900 mb-2">Profesionales con experiencia</h3>
-                    <p className="text-gray-600">Equipo especializado en geriatría y gerontología</p>
+                    <h3 className="font-semibold text-xl text-gray-900 mb-2">Profesionales en geriatría y gerontología</h3>
+                    <p className="text-gray-600">Equipo especializado con experiencia en cuidado de adultos mayores</p>
                   </div>
                 </div>
               </CardContent>
@@ -163,7 +180,7 @@ const CentroVida = ({ setPage }: CentroVidaProps) => {
                 <div className="flex items-start gap-4">
                   <Activity className="text-primary-600 flex-shrink-0 mt-1" size={32} />
                   <div>
-                    <h3 className="font-semibold text-xl text-gray-900 mb-2">Seguimiento continuo del estado de salud</h3>
+                    <h3 className="font-semibold text-xl text-gray-900 mb-2">Seguimiento de salud personalizado</h3>
                     <p className="text-gray-600">Aquí nadie es un número. Cada historia importa.</p>
                   </div>
                 </div>
@@ -175,7 +192,7 @@ const CentroVida = ({ setPage }: CentroVidaProps) => {
         <div className="mb-16 bg-white rounded-2xl p-8 md:p-12 shadow-lg border border-primary-100">
           <h2 className="text-4xl font-bold text-gray-900 mb-4 text-center flex items-center justify-center gap-3">
             <Sparkles className="text-primary-600" size={36} />
-            Actividades Terapéuticas
+            Actividades terapéuticas diarias
           </h2>
           <p className="text-center text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
             Un programa diario que estimula sin agotar,<br />
@@ -203,7 +220,7 @@ const CentroVida = ({ setPage }: CentroVidaProps) => {
                 <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <Users className="text-primary-600" size={32} />
                 </div>
-                <CardTitle className="text-lg">Actividades recreativas y socialización</CardTitle>
+                <CardTitle className="text-lg">Bienestar emocional y social</CardTitle>
               </CardHeader>
             </Card>
             <Card className="text-center border-2 hover:border-primary-300 transition-colors">
@@ -397,15 +414,20 @@ const CentroVida = ({ setPage }: CentroVidaProps) => {
 
         <div className="bg-primary-600 text-white rounded-2xl p-8 md:p-12 text-center shadow-xl">
           <Sparkles className="mx-auto mb-6 text-white" size={48} />
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">¿Interesado en Nuestro Centro Vida?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Agenda tu visita y siente la diferencia</h2>
           <p className="text-lg md:text-xl mb-2 text-primary-50 max-w-2xl mx-auto leading-relaxed">
+            Hogar Belén es un referente en cuidado de adultos mayores en Buesaco y municipios cercanos como Pasto, La Unión y San Lorenzo.<br /><br />
             Agenda una visita guiada sin compromiso<br />
             y siente por ti mismo<br />
             la tranquilidad de saber<br />
             que aquí…
           </p>
-          <p className="text-2xl font-bold mb-8 text-white">
+          <p className="text-2xl font-bold mb-4 text-white">
             nadie envejece solo.
+          </p>
+          <p className="text-sm text-primary-100 mb-8">
+            📞 Respondemos en menos de 5 minutos<br />
+            Tu tranquilidad empieza con una conversación
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
@@ -414,15 +436,17 @@ const CentroVida = ({ setPage }: CentroVidaProps) => {
               onClick={() => setPage('contact')}
               className="text-lg px-8 bg-white text-primary-600 hover:bg-primary-50"
             >
-              Agendar Visita
+              Agenda tu visita sin compromiso
             </Button>
             <Button 
               size="lg"
               variant="outline"
-              onClick={() => setPage('pricing')}
+              onClick={() => {
+                window.open('https://wa.me/573215708655?text=Hola, me gustaría conocer más sobre el Centro Vida de Hogar Belén', '_blank');
+              }}
               className="text-lg px-8 bg-transparent text-white border-2 border-white hover:bg-white hover:text-primary-600"
             >
-              Ver Planes
+              Habla con nosotros por WhatsApp
             </Button>
           </div>
         </div>

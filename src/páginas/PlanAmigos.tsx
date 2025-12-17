@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
+import { SEOHead } from '@/components/SEOHead';
+import { SEO_CONFIG } from '@/lib/seo-config';
 import img1 from '@/assets/images/IMG-20230519-WA0016.jpg';
 import img2 from '@/assets/images/IMG-20230519-WA0040.jpg';
 import img3 from '@/assets/images/IMG-20230519-WA0087.jpg';
@@ -77,6 +79,15 @@ const PlanAmigos = ({ setPage }: PlanAmigosProps) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
+      <SEOHead
+        title={SEO_CONFIG.planAmigos.title}
+        description={SEO_CONFIG.planAmigos.description}
+        keywords={SEO_CONFIG.planAmigos.keywords}
+        canonical={SEO_CONFIG.planAmigos.canonical}
+        ogImage={SEO_CONFIG.planAmigos.ogImage}
+        schema={SEO_CONFIG.planAmigos.schema}
+      />
+      
       <div className="relative bg-gradient-to-br from-rose-500 via-rose-600 to-amber-500 text-white overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNiIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utb3BhY2l0eT0iLjEiLz48L2c+PC9zdmc+')] opacity-30"></div>
         
@@ -100,14 +111,13 @@ const PlanAmigos = ({ setPage }: PlanAmigosProps) => {
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Plan Amigos
+            Plan Amigos: Alegría compartida y compañía real
           </h1>
           <p className="text-2xl md:text-3xl font-light text-rose-50 mb-6">
-            Alegría compartida y compañía real
+            Actividades sociales, paseos y compañía real para adultos mayores en Nariño
           </p>
           <p className="text-lg md:text-xl text-white/90 max-w-3xl leading-relaxed">
-            Paseos y fines de semana en fincas, compartidos con otros adultos mayores, 
-            con todos los servicios incluidos.
+            El Plan Amigos está pensado para quienes necesitan algo esencial: compañía sincera. Compartir juegos, paseos y conversaciones fortalece la salud emocional y previene el aislamiento, siempre con acompañamiento profesional y ambientes seguros.
           </p>
 
           <div className="flex flex-wrap gap-4 mt-8">
@@ -136,7 +146,7 @@ const PlanAmigos = ({ setPage }: PlanAmigosProps) => {
         <div className="mb-16">
           <div className="max-w-4xl mx-auto text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Un plan para vivir <span className="text-rose-600">experiencias compartidas</span>
+              Socialización activa y bienestar emocional
             </h2>
             <p className="text-lg text-gray-700 leading-relaxed">
               El Plan Amigos está diseñado para quienes disfrutan la compañía, la conversación tranquila 
@@ -169,7 +179,7 @@ const PlanAmigos = ({ setPage }: PlanAmigosProps) => {
               <TreePine className="text-rose-600" size={32} />
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              🌿 ¿En qué consiste el Plan Amigos?
+              Actividades grupales con acompañamiento profesional
             </h2>
             <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
               Paseos organizados y fines de semana en fincas campestres, especialmente seleccionadas, 
@@ -340,10 +350,14 @@ const PlanAmigos = ({ setPage }: PlanAmigosProps) => {
           <div className="max-w-3xl mx-auto text-center">
             <TreePine className="mx-auto mb-6 text-white" size={56} />
             <h2 className="text-3xl md:text-5xl font-bold mb-6">
-              Vivir acompañado también es bienestar
+              Conecta hoy por WhatsApp
             </h2>
-            <p className="text-xl text-rose-50 mb-8 leading-relaxed">
-              Regala momentos de alegría, compañía real y experiencias memorables en entornos naturales y seguros.
+            <p className="text-xl text-rose-50 mb-4 leading-relaxed">
+              Vivir acompañado también es bienestar. Regala momentos de alegría, compañía real y experiencias memorables en entornos naturales y seguros.
+            </p>
+            <p className="text-sm text-rose-100 mb-8">
+              📞 Respondemos en menos de 5 minutos<br />
+              Tu tranquilidad empieza con una conversación
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
               <Button
@@ -357,16 +371,16 @@ const PlanAmigos = ({ setPage }: PlanAmigosProps) => {
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => handleWhatsAppContact('Solicitar información')}
+                onClick={() => handleWhatsAppContact('Habla con una persona, no con un bot')}
                 className="bg-white text-rose-600 hover:bg-rose-50 border-2 border-white text-lg px-8"
               >
                 <MessageCircle className="mr-2" size={20} />
-                Solicitar información
+                Habla con nosotros
               </Button>
             </div>
             <div className="flex items-center justify-center gap-2 text-rose-100">
               <Phone size={20} />
-              <span className="text-lg">+57 313 640 5255</span>
+              <span className="text-lg">+57 321 570 8655</span>
             </div>
           </div>
         </div>

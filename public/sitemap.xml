@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
@@ -12,76 +13,68 @@
     <priority>1.0</priority>
   </url>
   
-  <!-- Centro de Vida -->
+  <!-- Centro de Vida - Optimizado SEO -->
   <url>
-    <loc>https://hogar-belen.com/centro-vida</loc>
+    <loc>https://hogar-belen.com/centro-vida-adultos-mayores-buesaco</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.95</priority>
   </url>
   
   <!-- Servicios Profesionales -->
   <url>
-    <loc>https://hogar-belen.com/servicios-profesionales</loc>
+    <loc>https://hogar-belen.com/profesionales-servicios</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
-  <!-- Planes - Index -->
+  <!-- Planes de Vida Activa - Index -->
   <url>
-    <loc>https://hogar-belen.com/planes</loc>
+    <loc>https://hogar-belen.com/planes-vida-activa</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   
-  <!-- Plan Vida Activa -->
+  <!-- Plan Amigos - Optimizado SEO -->
   <url>
-    <loc>https://hogar-belen.com/planes/vida-activa</loc>
+    <loc>https://hogar-belen.com/plan-amigos-adultos-mayores</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   
-  <!-- Plan Amigos -->
+  <!-- Plan Sol y Café - Optimizado SEO -->
   <url>
-    <loc>https://hogar-belen.com/planes/amigos</loc>
+    <loc>https://hogar-belen.com/plan-sol-y-cafe-buesaco</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   
-  <!-- Plan Sol y Café -->
+  <!-- Plan Sonreír - Optimizado SEO -->
   <url>
-    <loc>https://hogar-belen.com/planes/sol-y-cafe</loc>
+    <loc>https://hogar-belen.com/plan-sonreir-celebraciones-adultos-mayores</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   
-  <!-- Plan Sonreír -->
+  <!-- Plan Turismo Rural - Optimizado SEO -->
   <url>
-    <loc>https://hogar-belen.com/planes/sonreir</loc>
+    <loc>https://hogar-belen.com/plan-turismo-rural-adultos-mayores</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   
-  <!-- Plan Turismo Rural -->
-  <url>
-    <loc>https://hogar-belen.com/planes/turismo-rural</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Nosotros -->
+  <!-- Nosotros / Sobre Hogar Belén -->
   <url>
     <loc>https://hogar-belen.com/nosotros</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   
   <!-- Precios -->
@@ -105,7 +98,7 @@
     <loc>https://hogar-belen.com/ofertas-trabajo</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   
   <!-- Belén Conecta Familias -->
@@ -113,7 +106,7 @@
     <loc>https://hogar-belen.com/belen-conecta-familias</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
   
   <!-- Belén Conecta Profesionales -->
@@ -121,7 +114,7 @@
     <loc>https://hogar-belen.com/belen-conecta-profesionales</loc>
     <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
   
 </urlset>
