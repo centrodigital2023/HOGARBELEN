@@ -1,5 +1,5 @@
 import { Heart, Phone, Mail, MessageCircle } from 'lucide-react';
-import logoHogarBelen from '@/assets/images/Logotipo_hogar_belen1.png';
+import logoHogarBelen from '@/assets/images/Logo_hogar_belen1.png';
 
 interface PieDePáginaProps {
   setPage: (page: string) => void;

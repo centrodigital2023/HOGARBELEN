@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import logoHogarBelen from '@/assets/images/Logotipo_hogar_belen1.png';
+import logoHogarBelen from '@/assets/images/Logo_hogar_belen1.png';
 
 interface NavegaciónProps {
   setPage: (page: string) => void;
