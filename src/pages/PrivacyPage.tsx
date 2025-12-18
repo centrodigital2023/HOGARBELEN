@@ -193,7 +193,7 @@ export default function PrivacyPage() {
                   <h4 className="font-semibold mb-2">Contenido de la Solicitud:</h4>
                   <ul className="list-disc list-inside space-y-1 ml-4">
                     <li>Nombre completo del Titular y número de identificación.</li>
-                    <li>Descripción clara de los hechos que dan lugar a la solicitud (ej: corrección de un teléfono, eliminación de la lista de correos, solicitud de información).</li>
+                    <li>Descripción clara de los hechos que dan lugar a la solicitud (ej.: corrección de un teléfono, eliminación de la lista de correos, solicitud de información).</li>
                     <li>Datos de contacto para recibir la respuesta.</li>
                   </ul>
                 </div>
