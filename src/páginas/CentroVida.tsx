@@ -442,7 +442,7 @@ const CentroVida = ({ setPage }: CentroVidaProps) => {
               size="lg"
               variant="outline"
               onClick={() => {
-                window.open('https://wa.me/573215708655?text=Hola, me gustaría conocer más sobre el Centro Vida de Hogar Belén', '_blank');
+                window.open('https://wa.me/3215708655?text=Hola, me gustaría conocer más sobre el Centro Vida de Hogar Belén', '_blank');
               }}
               className="text-lg px-8 bg-transparent text-white border-2 border-white hover:bg-white hover:text-primary-600"
             >

@@ -79,7 +79,7 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
               <div className="flex items-center gap-2">
                 <MessageCircle size={16} className="text-green-400" />
                 <a 
-                  href="https://wa.me/573215708655" 
+                  href="https://wa.me/3215708655" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="hover:text-teal-400 transition-colors"

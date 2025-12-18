@@ -83,7 +83,7 @@ interface MiPaginaProps {
 const MiPagina = ({ setPage }: MiPaginaProps) => {
   const handleWhatsApp = () => {
     window.open(
-      'https://wa.me/573215708655?text=Hola, me gustaría conocer más sobre [NOMBRE DEL SERVICIO]',
+      'https://wa.me/3215708655?text=Hola, me gustaría conocer más sobre [NOMBRE DEL SERVICIO]',
       '_blank'
     );
   };
@@ -243,7 +243,7 @@ Antes de considerar una página "SEO completa", verificar:
 const CONTACT_INFO = {
   phone: '+57 321 570 8655',
   email: 'hogarbelen2022@gmail.com',
-  whatsapp: 'https://wa.me/573215708655',
+  whatsapp: 'https://wa.me/3215708655',
   address: 'Buesaco, Nariño, Colombia',
   name: 'Hogar Belén'
 };
