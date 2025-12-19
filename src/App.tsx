@@ -27,6 +27,7 @@ import PlanSonreir from './páginas/PlanSonreir';
 import PlanTurismoRural from './páginas/PlanTurismoRural';
 import TerminosCondiciones from './páginas/TerminosCondiciones';
 import PoliticaPrivacidad from './páginas/PoliticaPrivacidad';
+import AdminProfessionals from './páginas/AdminProfessionals';
 
 export interface User {
   id: string;
@@ -83,6 +84,7 @@ const MainApp = () => {
       case 'dashboard-pro': return <PanelDeControlProfesional user={user} userData={userData} setPage={setCurrentPage} />;
       case 'ai-assistant': return <AICareAssistant setPage={setCurrentPage} />;
       case 'admin-promo-codes': return <AdminPromoCodes setPage={setCurrentPage} />;
+      case 'admin-professionals': return <AdminProfessionals setPage={setCurrentPage} />;
       default: return <PáginaPrincipal setPage={setCurrentPage} />;
     }
   };

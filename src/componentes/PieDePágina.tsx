@@ -174,14 +174,21 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
           <p>&copy; 2024 Hogar Belén. Todos los derechos reservados.</p>
-          <div className="mt-4 text-xs text-gray-500">
+          <div className="mt-4 text-xs text-gray-500 space-x-3">
             <button 
               onClick={() => setPage('login')}
               className="hover:text-gray-400 transition-colors"
             >
               Administrador del sitio
             </button>
-            {" · "}
+            <span>·</span>
+            <button 
+              onClick={() => setPage('admin-professionals')}
+              className="hover:text-gray-400 transition-colors"
+            >
+              Gestión de Profesionales
+            </button>
+            <span>·</span>
             <span>Hogar Belén Buesaco S.A.S.</span>
           </div>
         </div>
