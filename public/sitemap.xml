@@ -6,121 +6,157 @@
   <!-- Página Principal -->
   <url>
     <loc>https://www.hogarbelen.org/</loc>
-    <lastmod>2024-01-15</lastmod>
+    <lastmod>2025-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Centro Vida -->
+  <!-- Nosotros (Autoridad) -->
   <url>
-    <loc>https://www.hogarbelen.org/centro-vida-adultos-mayores-buesaco</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://www.hogarbelen.org/quienes-somos-hogar-geriatrico-narino</loc>
+    <lastmod>2025-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Planes de Vida Activa -->
+  <!-- Contacto y Ubicación -->
   <url>
-    <loc>https://www.hogarbelen.org/planes-vida-activa</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://www.hogarbelen.org/contacto-ubicacion-buesaco</loc>
+    <lastmod>2025-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Plan Amigos -->
+  <!-- Empleo -->
   <url>
-    <loc>https://www.hogarbelen.org/plan-amigos-adultos-mayores</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://www.hogarbelen.org/empleo-cuidadores-adulto-mayor</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Servicios de Larga Estancia (Residencia / Internado) -->
+  <url>
+    <loc>https://www.hogarbelen.org/servicios-cuidado-adulto-mayor</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.hogarbelen.org/residencia/habitacion-compartida-economica</loc>
+    <lastmod>2025-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Plan Sol y Café -->
   <url>
-    <loc>https://www.hogarbelen.org/plan-sol-y-cafe-buesaco</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://www.hogarbelen.org/residencia/habitacion-privada-suite-adulto-mayor</loc>
+    <lastmod>2025-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Plan Sonreír -->
+  <!-- Centro Día -->
   <url>
-    <loc>https://www.hogarbelen.org/plan-sonreir-celebraciones-adultos-mayores</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://www.hogarbelen.org/servicios/centro-dia-adulto-mayor-buesaco</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Planes de Vida Activa (Turismo y Recreación) -->
+  <url>
+    <loc>https://www.hogarbelen.org/planes-recreativos-adulto-mayor</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Plan Amigos (Pasadía) -->
+  <url>
+    <loc>https://www.hogarbelen.org/planes/dia-de-sol-adulto-mayor-amigos</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Plan Sol y Café (Turismo) -->
+  <url>
+    <loc>https://www.hogarbelen.org/planes/turismo-cafetero-buesaco-abuelos</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Plan Sonreír (Fiestas) -->
+  <url>
+    <loc>https://www.hogarbelen.org/planes/celebracion-cumpleanos-adulto-mayor-narino</loc>
+    <lastmod>2025-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Plan Turismo Rural -->
   <url>
-    <loc>https://www.hogarbelen.org/plan-turismo-rural-adultos-mayores</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://www.hogarbelen.org/planes/ecoturismo-zooterapia-tercera-edad</loc>
+    <lastmod>2025-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Servicios -->
+  <!-- Servicios Externos (En Casa) -->
   <url>
-    <loc>https://www.hogarbelen.org/servicios</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://www.hogarbelen.org/servicios/cuidadores-enfermeras-a-domicilio</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.hogarbelen.org/servicios/enfermeria-geriatrica-casa-24-horas</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Plataforma "Belén Conecta" -->
+  <url>
+    <loc>https://www.hogarbelen.org/belen-conecta-app</loc>
+    <lastmod>2025-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Precios -->
+  <!-- Para Familias (Clientes) -->
   <url>
-    <loc>https://www.hogarbelen.org/precios</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Nosotros -->
-  <url>
-    <loc>https://www.hogarbelen.org/nosotros</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Contacto -->
-  <url>
-    <loc>https://www.hogarbelen.org/contacto</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://www.hogarbelen.org/belen-conecta/contratar-cuidador-verificado</loc>
+    <lastmod>2025-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Belén Conecta Familias -->
+  <!-- Para Profesionales (Bolsa) -->
   <url>
-    <loc>https://www.hogarbelen.org/belen-conecta-familias</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://www.hogarbelen.org/belen-conecta/empleo-profesionales-salud-narino</loc>
+    <lastmod>2025-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Belén Conecta Profesionales -->
+  <!-- Legales (Confianza) -->
   <url>
-    <loc>https://www.hogarbelen.org/belen-conecta-profesionales</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://www.hogarbelen.org/legales/terminos-y-condiciones</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
 
-  <!-- Ofertas de Trabajo -->
   <url>
-    <loc>https://www.hogarbelen.org/ofertas-trabajo</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Profesionales Servicios -->
-  <url>
-    <loc>https://www.hogarbelen.org/profesionales-servicios</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://www.hogarbelen.org/legales/politica-de-privacidad-datos</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
 
 </urlset>

@@ -24,6 +24,8 @@ import PlanAmigos from './páginas/PlanAmigos';
 import PlanSolYCafe from './páginas/PlanSolYCafe';
 import PlanSonreir from './páginas/PlanSonreir';
 import PlanTurismoRural from './páginas/PlanTurismoRural';
+import TerminosYCondiciones from './páginas/TerminosYCondiciones';
+import PoliticaPrivacidad from './páginas/PoliticaPrivacidad';
 
 export interface User {
   id: string;
@@ -72,6 +74,8 @@ const MainApp = () => {
       case 'plan-sol-cafe': return <PlanSolYCafe setPage={setCurrentPage} />;
       case 'plan-sonreir': return <PlanSonreir setPage={setCurrentPage} />;
       case 'plan-turismo-rural': return <PlanTurismoRural setPage={setCurrentPage} />;
+      case 'terminos-condiciones': return <TerminosYCondiciones setPage={setCurrentPage} />;
+      case 'politica-privacidad': return <PoliticaPrivacidad setPage={setCurrentPage} />;
       case 'login': return <BelenConectaLogin setPage={setCurrentPage} />;
       case 'register': return <BelenConectaRegister setPage={setCurrentPage} />;
       case 'dashboard-family': return <FamilyDashboard user={user} setPage={setCurrentPage} />;
