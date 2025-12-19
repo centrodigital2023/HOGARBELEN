@@ -1,3 +1,9 @@
+// Base URL for canonical URLs and images
+// Update this for different environments (development, staging, production)
+export const BASE_URL = 'https://www.hogarbelen.org';
+
+// NOTE: For easier maintenance, consider refactoring canonical and ogImage URLs
+// to use BASE_URL constant (e.g., canonical: `${BASE_URL}/path`)
 export const SEO_CONFIG = {
   home: {
     title: 'Hogar Geriátrico en Nariño - Finca de Descanso Hogar Belén',
@@ -302,5 +308,5 @@ export const LOCAL_SEO = {
   
   localContent: 'Hogar Belén es un referente en cuidado de adultos mayores en Buesaco y municipios cercanos como Pasto, La Unión y San Lorenzo. Ubicados en el corazón de Nariño, ofrecemos servicios profesionales de cuidado geriátrico en un entorno natural privilegiado.',
   
-  legalCheckboxText: 'Acepto la política de datos y términos de servicio: Autorizo de manera libre, previa y voluntaria a Hogar Belen Buesaco S.A.S. para recolectar y tratar mis datos personales conforme a la Política de Privacidad y los Términos y Condiciones. Acepto ser contactado vía telefónica, correo electrónico o WhatsApp para recibir información sobre los servicios.'
+  legalCheckboxText: 'Acepto la política de datos y términos de servicio: Autorizo de manera libre, previa y voluntaria a Hogar Belén Buesaco S.A.S. para recolectar y tratar mis datos personales conforme a la Política de Privacidad y los Términos y Condiciones. Acepto ser contactado vía telefónica, correo electrónico o WhatsApp para recibir información sobre los servicios.'
 };
