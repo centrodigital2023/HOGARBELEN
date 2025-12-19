@@ -9,15 +9,25 @@ import { Badge } from '@/components/ui/badge';
 import { UserPlus, Check, X, Plus, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useKV } from '@github/spark/hooks';
+import LegalConsentCheckbox from '@/components/LegalConsentCheckbox';
+import MetaPixel from '@/lib/metaPixel';
 
 interface ProfessionalFormData {
   name: string;
   role: string;
   category: string;
+  documentId: string;
+  email: string;
+  phone: string;
   location: string;
   whatsappNumber: string;
+  experience: string;
+  certificates: string;
+  hourlyRate: string;
+  dailyRate: string;
   image: string;
   schedule: string[];
+  legalConsent: boolean;
 }
 
 const CATEGORIES = ['Enfermería', 'Cuidadores', 'Terapia', 'Médicos', 'Otros'];
@@ -30,10 +40,18 @@ export default function FormularioRegistroProfesional({ onSuccess }: { onSuccess
     name: '',
     role: '',
     category: '',
+    documentId: '',
+    email: '',
+    phone: '',
     location: '',
     whatsappNumber: '+57',
+    experience: '',
+    certificates: '',
+    hourlyRate: '',
+    dailyRate: '',
     image: '',
-    schedule: []
+    schedule: [],
+    legalConsent: false
   });
   
   const [currentSchedule, setCurrentSchedule] = useState({
@@ -42,7 +60,11 @@ export default function FormularioRegistroProfesional({ onSuccess }: { onSuccess
   });
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    if (field === 'legalConsent') {
+      setFormData(prev => ({ ...prev, [field]: value === 'true' }));
+    } else {
+      setFormData(prev => ({ ...prev, [field]: value }));
+    }
   };
 
   const addScheduleSlot = () => {
@@ -69,8 +91,15 @@ export default function FormularioRegistroProfesional({ onSuccess }: { onSuccess
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.role || !formData.category || !formData.location || !formData.whatsappNumber) {
+    if (!formData.name || !formData.role || !formData.category || !formData.documentId || 
+        !formData.email || !formData.phone || !formData.location || !formData.whatsappNumber ||
+        !formData.experience || !formData.hourlyRate || !formData.dailyRate) {
       toast.error('Por favor completa todos los campos obligatorios');
+      return;
+    }
+
+    if (!formData.legalConsent) {
+      toast.error('Debes aceptar los términos y condiciones');
       return;
     }
 
@@ -90,27 +119,48 @@ export default function FormularioRegistroProfesional({ onSuccess }: { onSuccess
         name: formData.name,
         role: formData.role,
         category: formData.category,
+        documentId: formData.documentId,
+        email: formData.email,
+        phone: formData.phone,
         rating: 4.5,
         reviews: 0,
         location: formData.location,
         image: formData.image || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&auto=format&fit=crop',
         whatsappNumber: formData.whatsappNumber,
-        initialStatus: 'Disponible',
+        experience: formData.experience,
+        certificates: formData.certificates,
+        hourlyRate: parseFloat(formData.hourlyRate),
+        dailyRate: parseFloat(formData.dailyRate),
+        initialStatus: 'Pendiente', // Changed from 'Disponible' to 'Pendiente'
+        verified: false, // Blue check - only admin can verify
+        verifiedAt: null,
+        verifiedBy: null,
         schedule: formData.schedule
       };
 
       setProfessionals((current) => [...(current || []), newProfessional]);
       
-      toast.success('¡Registro exitoso! Tu perfil ya está visible para las familias');
+      // Track Meta Pixel event
+      MetaPixel.trackCompleteRegistration('profesional');
+      
+      toast.success('¡Registro exitoso! Tu perfil está pendiente de aprobación por un administrador.');
       
       setFormData({
         name: '',
         role: '',
         category: '',
+        documentId: '',
+        email: '',
+        phone: '',
         location: '',
         whatsappNumber: '+57',
+        experience: '',
+        certificates: '',
+        hourlyRate: '',
+        dailyRate: '',
         image: '',
-        schedule: []
+        schedule: [],
+        legalConsent: false
       });
 
       if (onSuccess) {
@@ -190,7 +240,47 @@ export default function FormularioRegistroProfesional({ onSuccess }: { onSuccess
                 id="location"
                 value={formData.location}
                 onChange={(e) => handleInputChange('location', e.target.value)}
-                placeholder="Ej: Bogotá"
+                placeholder="Ej: Pasto, Nariño"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="documentId" className="text-base font-semibold">
+                Documento de Identidad <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="documentId"
+                value={formData.documentId}
+                onChange={(e) => handleInputChange('documentId', e.target.value)}
+                placeholder="Ej: 1234567890"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-base font-semibold">
+                Correo Electrónico <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => handleInputChange('email', e.target.value)}
+                placeholder="tu@email.com"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="phone" className="text-base font-semibold">
+                Teléfono <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="phone"
+                value={formData.phone}
+                onChange={(e) => handleInputChange('phone', e.target.value)}
+                placeholder="+573001234567"
                 required
               />
             </div>
@@ -210,6 +300,34 @@ export default function FormularioRegistroProfesional({ onSuccess }: { onSuccess
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="hourlyRate" className="text-base font-semibold">
+                Tarifa por Hora (COP) <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="hourlyRate"
+                type="number"
+                value={formData.hourlyRate}
+                onChange={(e) => handleInputChange('hourlyRate', e.target.value)}
+                placeholder="Ej: 25000"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="dailyRate" className="text-base font-semibold">
+                Tarifa Jornada Completa (8h) (COP) <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="dailyRate"
+                type="number"
+                value={formData.dailyRate}
+                onChange={(e) => handleInputChange('dailyRate', e.target.value)}
+                placeholder="Ej: 150000"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="image" className="text-base font-semibold">
                 URL de Foto (opcional)
               </Label>
@@ -221,6 +339,36 @@ export default function FormularioRegistroProfesional({ onSuccess }: { onSuccess
               />
               <p className="text-xs text-gray-500">Deja vacío para usar imagen por defecto</p>
             </div>
+          </div>
+
+          <div className="space-y-4 border-t pt-6">
+            <Label htmlFor="experience" className="text-base font-semibold">
+              Experiencia <span className="text-red-500">*</span>
+            </Label>
+            <Textarea
+              id="experience"
+              value={formData.experience}
+              onChange={(e) => handleInputChange('experience', e.target.value)}
+              placeholder="Describe tu experiencia laboral relevante..."
+              rows={4}
+              required
+            />
+          </div>
+
+          <div className="space-y-4">
+            <Label htmlFor="certificates" className="text-base font-semibold">
+              Certificados y Formación (opcional)
+            </Label>
+            <Textarea
+              id="certificates"
+              value={formData.certificates}
+              onChange={(e) => handleInputChange('certificates', e.target.value)}
+              placeholder="Lista tus certificados, diplomados o formación complementaria..."
+              rows={3}
+            />
+            <p className="text-xs text-gray-500">
+              Podrás subir documentos después de la aprobación inicial
+            </p>
           </div>
 
           <div className="space-y-4 border-t pt-6">
@@ -281,10 +429,19 @@ export default function FormularioRegistroProfesional({ onSuccess }: { onSuccess
             )}
           </div>
 
+          {/* Legal Consent */}
+          <div className="border-t pt-6">
+            <LegalConsentCheckbox
+              checked={formData.legalConsent}
+              onCheckedChange={(checked) => handleInputChange('legalConsent', checked.toString())}
+              required
+            />
+          </div>
+
           <div className="flex gap-4 pt-6 border-t">
             <Button type="submit" className="flex-1" size="lg">
               <Check className="w-5 h-5 mr-2" />
-              Registrar Perfil
+              Enviar Registro para Aprobación
             </Button>
           </div>
         </form>

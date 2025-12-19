@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Mail, Lock, Loader2 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -6,6 +6,9 @@ import { Label } from '../components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
 import { toast } from 'sonner';
 import type { User } from '../App';
+import { useAuth } from '../contextos/SupabaseAuthContext';
+import { initializeGoogleSignIn, renderGoogleButton, parseJWT, type GoogleAuthResponse } from '../lib/googleAuth';
+import MetaPixel from '../lib/metaPixel';
 
 interface LoginPageProps {
   setPage: (page: string) => void;
@@ -15,24 +18,88 @@ interface LoginPageProps {
 export default function LoginPage({ setPage, setUser }: LoginPageProps) {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
+  const { signIn } = useAuth();
+
+  useEffect(() => {
+    // Initialize Google Sign-In
+    initializeGoogleSignIn(
+      handleGoogleSuccess,
+      (error) => {
+        console.error('Google Sign-In initialization error:', error);
+      }
+    );
+
+    // Render Google button after a short delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      renderGoogleButton('googleSignInButton', {
+        type: 'standard',
+        theme: 'outline',
+        size: 'large',
+        text: 'signin_with',
+        shape: 'rectangular',
+        width: 350,
+      });
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleGoogleSuccess = async (response: GoogleAuthResponse) => {
+    try {
+      setLoading(true);
+      
+      // Parse the JWT token to get user info
+      const googleUser = parseJWT(response.credential);
+      
+      if (!googleUser) {
+        toast.error('Error al procesar información de Google');
+        return;
+      }
+
+      // In production, send the credential to backend for validation
+      // Backend should validate with Google: https://developers.google.com/identity/gsi/web/guides/verify-google-id-token
+      // For now, we'll use the local auth system
+      
+      // Try to sign in or create account
+      const { error } = await signIn(googleUser.email, 'google-oauth-' + googleUser.id);
+      
+      if (error) {
+        // If user doesn't exist, could auto-register or show message
+        toast.info('Cuenta no encontrada. Por favor regístrate primero.');
+        setPage('register');
+        return;
+      }
+
+      MetaPixel.trackLead('login_google');
+      toast.success(`¡Bienvenido, ${googleUser.name}!`);
+      
+    } catch (error) {
+      console.error('Google Sign-In error:', error);
+      toast.error('Error al iniciar sesión con Google');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    setTimeout(() => {
-      const userData: User = {
-        id: '1',
-        email: formData.email,
-        fullName: 'Familia Rodríguez',
-        role: 'family',
-        plan: 'Integral Conectado',
-      };
-      setUser(userData);
+    try {
+      const { error } = await signIn(formData.email, formData.password);
+      
+      if (error) {
+        toast.error('Credenciales incorrectas');
+        return;
+      }
+
+      MetaPixel.trackLead('login_email');
       toast.success('Bienvenido de nuevo');
-      setPage('dashboard');
+    } catch (error) {
+      toast.error('Error al iniciar sesión');
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -88,6 +155,21 @@ export default function LoginPage({ setPage, setUser }: LoginPageProps) {
                 'Entrar'
               )}
             </Button>
+            
+            <div className="relative w-full">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  O continúa con
+                </span>
+              </div>
+            </div>
+
+            {/* Google Sign-In Button */}
+            <div id="googleSignInButton" className="w-full flex justify-center"></div>
+            
             <p className="text-center text-sm text-muted-foreground">
               ¿No tienes cuenta?{' '}
               <button
