@@ -55,14 +55,29 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
           <div>
             <h4 className="text-white font-semibold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li className="hover:text-teal-400 transition-colors cursor-pointer">
-                Términos y Condiciones
+              <li>
+                <button 
+                  onClick={() => setPage('terminos-condiciones')}
+                  className="hover:text-teal-400 transition-colors cursor-pointer"
+                >
+                  Términos y Condiciones
+                </button>
               </li>
-              <li className="hover:text-teal-400 transition-colors cursor-pointer">
-                Política de Privacidad
+              <li>
+                <button 
+                  onClick={() => setPage('politica-privacidad')}
+                  className="hover:text-teal-400 transition-colors cursor-pointer"
+                >
+                  Política de Privacidad
+                </button>
               </li>
-              <li className="hover:text-teal-400 transition-colors cursor-pointer">
-                Cookies
+              <li>
+                <button 
+                  onClick={() => setPage('jobs')}
+                  className="hover:text-teal-400 transition-colors cursor-pointer"
+                >
+                  Empleo
+                </button>
               </li>
             </ul>
           </div>
@@ -163,7 +178,22 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-          <p>&copy; 2024 Hogar Belén. Todos los derechos reservados.</p>
+          <p>&copy; 2025 Hogar Belén Buesaco S.A.S. Todos los derechos reservados.</p>
+          <p className="mt-2">
+            <button 
+              onClick={() => setPage('terminos-condiciones')}
+              className="hover:text-teal-400 transition-colors underline"
+            >
+              Términos y Condiciones
+            </button>
+            {' | '}
+            <button 
+              onClick={() => setPage('politica-privacidad')}
+              className="hover:text-teal-400 transition-colors underline"
+            >
+              Política de Privacidad
+            </button>
+          </p>
         </div>
       </div>
     </footer>
