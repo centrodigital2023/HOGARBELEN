@@ -28,6 +28,7 @@ import PlanTurismoRural from './páginas/PlanTurismoRural';
 import TerminosCondiciones from './páginas/TerminosCondiciones';
 import PoliticaPrivacidad from './páginas/PoliticaPrivacidad';
 import AdminProfessionals from './páginas/AdminProfessionals';
+import JobPostingForm from './páginas/JobPostingForm';
 
 export interface User {
   id: string;
@@ -68,6 +69,7 @@ const MainApp = () => {
       case 'contact': return <ContactPage />;
       case 'centro-vida': return <CentroVida setPage={setCurrentPage} />;
       case 'jobs': return <OfertasDeTrabajo setPage={setCurrentPage} />;
+      case 'post-job': return <JobPostingForm setPage={setCurrentPage} />;
       case 'profesionales-servicios': return <ProfesionalesServicios />;
       case 'belen-familias': return <BelenConectaFamilias setPage={setCurrentPage} />;
       case 'belen-profesionales': return <BelenConectaProfesionales setPage={setCurrentPage} />;
