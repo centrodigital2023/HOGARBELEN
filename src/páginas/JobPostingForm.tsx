@@ -54,12 +54,8 @@ const JobPostingForm = ({ setPage }: JobPostingFormProps) => {
     'Otro (Salud/Adulto Mayor)'
   ];
 
-  const handleInputChange = (field: string, value: string) => {
-    if (field === 'legalConsent') {
-      setFormData(prev => ({ ...prev, [field]: value === 'true' }));
-    } else {
-      setFormData(prev => ({ ...prev, [field]: value }));
-    }
+  const handleInputChange = (field: string, value: string | boolean) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -276,7 +272,7 @@ const JobPostingForm = ({ setPage }: JobPostingFormProps) => {
               <div className="border-t pt-6">
                 <LegalConsentCheckbox
                   checked={formData.legalConsent}
-                  onCheckedChange={(checked) => handleInputChange('legalConsent', checked.toString())}
+                  onCheckedChange={(checked) => handleInputChange('legalConsent', checked)}
                   onLegalClick={(page) => setPage(page)}
                   required
                 />
