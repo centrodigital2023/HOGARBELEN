@@ -69,18 +69,29 @@
       "permanent": true
     },
     {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.hogarbelen.org"
+        }
+      ],
+      "destination": "https://hogarbelen.org/:path*",
+      "permanent": true
+    },
+    {
       "source": "/hogarbelen.org/:path*",
-      "destination": "https://www.hogarbelen.org/:path*",
+      "destination": "https://hogarbelen.org/:path*",
       "permanent": true
     },
     {
       "source": "/www.hogarbelen.com/:path*",
-      "destination": "https://www.hogarbelen.org/:path*",
+      "destination": "https://hogarbelen.org/:path*",
       "permanent": true
     },
     {
       "source": "/hogarbelen.com/:path*",
-      "destination": "https://www.hogarbelen.org/:path*",
+      "destination": "https://hogarbelen.org/:path*",
       "permanent": true
     }
   ]

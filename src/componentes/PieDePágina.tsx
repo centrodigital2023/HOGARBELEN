@@ -55,11 +55,21 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
           <div>
             <h4 className="text-white font-semibold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li className="hover:text-teal-400 transition-colors cursor-pointer">
-                Términos y Condiciones
+              <li>
+                <button 
+                  onClick={() => setPage('terminos-condiciones')}
+                  className="hover:text-teal-400 transition-colors cursor-pointer"
+                >
+                  Términos y Condiciones
+                </button>
               </li>
-              <li className="hover:text-teal-400 transition-colors cursor-pointer">
-                Política de Privacidad
+              <li>
+                <button 
+                  onClick={() => setPage('politica-privacidad')}
+                  className="hover:text-teal-400 transition-colors cursor-pointer"
+                >
+                  Política de Privacidad
+                </button>
               </li>
               <li className="hover:text-teal-400 transition-colors cursor-pointer">
                 Cookies
@@ -164,6 +174,16 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
           <p>&copy; 2024 Hogar Belén. Todos los derechos reservados.</p>
+          <div className="mt-4 text-xs text-gray-500">
+            <button 
+              onClick={() => setPage('login')}
+              className="hover:text-gray-400 transition-colors"
+            >
+              Administrador del sitio
+            </button>
+            {" · "}
+            <span>Hogar Belén Buesaco S.A.S.</span>
+          </div>
         </div>
       </div>
     </footer>

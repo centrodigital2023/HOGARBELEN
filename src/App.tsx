@@ -3,6 +3,7 @@ import { Toaster } from 'sonner';
 import { AuthProvider, useAuth } from './contextos/SupabaseAuthContext';
 import Navegación from './componentes/Navegación';
 import PieDePágina from './componentes/PieDePágina';
+import FixedMobileButtons from './components/FixedMobileButtons';
 import PáginaPrincipal from './páginas/PáginaPrincipal';
 import AboutPage from './páginas/AboutPage';
 import PáginaDePrecios from './páginas/PáginaDePrecios';
@@ -24,6 +25,8 @@ import PlanAmigos from './páginas/PlanAmigos';
 import PlanSolYCafe from './páginas/PlanSolYCafe';
 import PlanSonreir from './páginas/PlanSonreir';
 import PlanTurismoRural from './páginas/PlanTurismoRural';
+import TerminosCondiciones from './páginas/TerminosCondiciones';
+import PoliticaPrivacidad from './páginas/PoliticaPrivacidad';
 
 export interface User {
   id: string;
@@ -72,6 +75,8 @@ const MainApp = () => {
       case 'plan-sol-cafe': return <PlanSolYCafe setPage={setCurrentPage} />;
       case 'plan-sonreir': return <PlanSonreir setPage={setCurrentPage} />;
       case 'plan-turismo-rural': return <PlanTurismoRural setPage={setCurrentPage} />;
+      case 'terminos-condiciones': return <TerminosCondiciones setPage={setCurrentPage} />;
+      case 'politica-privacidad': return <PoliticaPrivacidad setPage={setCurrentPage} />;
       case 'login': return <BelenConectaLogin setPage={setCurrentPage} />;
       case 'register': return <BelenConectaRegister setPage={setCurrentPage} />;
       case 'dashboard-family': return <FamilyDashboard user={user} setPage={setCurrentPage} />;
@@ -89,6 +94,7 @@ const MainApp = () => {
         {renderPage()}
       </main>
       <PieDePágina setPage={setCurrentPage} />
+      <FixedMobileButtons />
       <Toaster position="bottom-right" />
     </div>
   );
