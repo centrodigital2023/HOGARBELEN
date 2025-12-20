@@ -1,10 +1,12 @@
 import { Heart, Users, Home, Sparkles, CheckCircle2, Music, Brain, Flower2, Book, Utensils, Activity } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import ServiceGallery from '@/components/ServiceGallery';
 import { SEOHead } from '@/components/SEOHead';
-import { SEO_CONFIG } from '@/lib/seo-config';
+import { getRouteByPath } from '@/config/routes';
+import { trackServiceView } from '@/lib/metaPixel';
 import img1 from '@/assets/images/IMG-20230423-WA0001.jpg';
 import img2 from '@/assets/images/IMG-20230508-WA0005.jpg';
 import img3 from '@/assets/images/IMG-20230509-WA0015.jpg';
@@ -17,12 +19,21 @@ import img9 from '@/assets/images/IMG-20230519-WA0087.jpg';
 import img10 from '@/assets/images/IMG-20230526-WA0012.jpg';
 import img11 from '@/assets/images/IMG-20230528-WA0011.jpg';
 import img12 from '@/assets/images/IMG-20240410-WA0018.jpg';
+import { useEffect } from 'react';
 
 interface CentroVidaProps {
   setPage: (page: string) => void;
 }
 
 const CentroVida = ({ setPage }: CentroVidaProps) => {
+  const location = useLocation();
+  const route = getRouteByPath(location.pathname);
+
+  useEffect(() => {
+    // Track service view for Meta Pixel
+    trackServiceView('Centro Vida Adulto Mayor');
+  }, []);
+
   const centroVidaGallery = [
     {
       url: img1,
@@ -89,12 +100,11 @@ const CentroVida = ({ setPage }: CentroVidaProps) => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
       <SEOHead
-        title={SEO_CONFIG.centroVida.title}
-        description={SEO_CONFIG.centroVida.description}
-        keywords={SEO_CONFIG.centroVida.keywords}
-        canonical={SEO_CONFIG.centroVida.canonical}
-        ogImage={SEO_CONFIG.centroVida.ogImage}
-        schema={SEO_CONFIG.centroVida.schema}
+        title={route?.title || 'Residencia Adulto Mayor en Nariño | Hogar Belén'}
+        description={route?.description || 'Residencia para adultos mayores en Nariño con atención integral, médica y emocional en un entorno seguro.'}
+        keywords={route?.keywords || 'residencia adulto mayor nariño, centro día adulto mayor, hogar geriátrico'}
+        canonical={`https://www.hogarbelen.org${location.pathname}`}
+        h1={route?.h1}
       />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -103,7 +113,7 @@ const CentroVida = ({ setPage }: CentroVidaProps) => {
             <Home className="text-primary-600" size={40} />
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            Centro Vida Hogar Belén: <span className="text-primary-600">Donde el tiempo se abraza</span>
+            {route?.h1 || 'Centro Vida Hogar Belén: Donde el tiempo se abraza'}
           </h1>
           <p className="text-2xl text-primary-700 font-light italic mb-8">
             Cuidado digno, actividades terapéuticas y acompañamiento humano para adultos mayores en Buesaco, Nariño.

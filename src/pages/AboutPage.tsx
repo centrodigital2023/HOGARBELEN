@@ -1,18 +1,32 @@
 import { Heart, Users, Shield, Sparkles, Home, Target, BookOpen } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { SEOHead } from '@/components/SEOHead';
+import { getRouteByPath } from '@/config/routes';
 import imagenMision from '@/assets/images/descarga_(8).jpg';
 import imagenHistoria from '@/assets/images/descarga_(5).jpg';
 
 export default function AboutPage() {
+  const location = useLocation();
+  const route = getRouteByPath(location.pathname);
+
   return (
     <div className="bg-gradient-to-b from-white via-primary-50/30 to-white">
+      <SEOHead
+        title={route?.title || 'Quiénes Somos | Hogar Geriátrico en Nariño – Hogar Belén'}
+        description={route?.description || 'Conoce Hogar Belén, hogar geriátrico en Nariño enfocado en el bienestar, cuidado digno y calidad de vida del adulto mayor.'}
+        keywords={route?.keywords || 'hogar geriátrico nariño, quienes somos hogar belen, residencia adulto mayor'}
+        canonical={`https://www.hogarbelen.org${location.pathname}`}
+        h1={route?.h1}
+      />
+      
       {/* Hero Section */}
       <div className="relative py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary-600/10 to-primary-400/10"></div>
         <div className="max-w-4xl mx-auto relative z-10 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            Hogar Belén
+            {route?.h1 || 'Hogar Belén'}
           </h1>
           <p className="text-2xl md:text-3xl text-primary-600 font-semibold mb-8 italic">
             Donde cada día es una invitación a vivir
