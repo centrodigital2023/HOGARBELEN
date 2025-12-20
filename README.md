@@ -96,23 +96,24 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
 
 ### Vercel (Recomendado)
 
-1. **Conecta tu repositorio con Vercel:**
-   - Ve a [vercel.com](https://vercel.com)
-   - Importa tu proyecto desde GitHub
-   - Configura las variables de entorno
+**✨ El proyecto está listo para desplegar en Vercel**
 
-2. **Variables de Entorno en Vercel:**
-   ```
+#### 🚀 Inicio Rápido (5 minutos)
+
+1. Ve a [vercel.com](https://vercel.com) e inicia sesión con GitHub
+2. Importa el repositorio: `centrodigital2023/HOGARBELEN`
+3. Configura las variables de entorno:
+   ```env
    VITE_SUPABASE_URL=https://cgfpwlqnhgclzzaiqhwz.supabase.co
    VITE_SUPABASE_ANON_KEY=tu_clave_aqui
+   VITE_SITE_URL=https://www.hogarbelen.org
    ```
+4. Click en **Deploy** y espera 2-3 minutos
 
-3. **Configura el dominio:**
-   - Settings → Domains
-   - Agrega: `www.hogarbelen.org`
-   - Configura DNS según instrucciones
-
-**📖 Guía completa:** [DEPLOY-VERCEL.md](./DEPLOY-VERCEL.md)
+**📖 Guías de despliegue:**
+- [VERCEL-QUICK-START.md](./VERCEL-QUICK-START.md) - ⚡ Guía rápida (15 min)
+- [DEPLOY-VERCEL.md](./DEPLOY-VERCEL.md) - 📖 Guía simplificada
+- [VERCEL-DEPLOYMENT-GUIDE.md](./VERCEL-DEPLOYMENT-GUIDE.md) - 📚 Guía completa con SEO
 
 ---
 
