@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { trackPageView } from '../lib/metaPixel';
 
 interface SEOHeadProps {
   title: string;
@@ -8,6 +9,8 @@ interface SEOHeadProps {
   ogImage?: string;
   ogType?: string;
   schema?: object;
+  noindex?: boolean;
+  h1?: string;
 }
 
 export const SEOHead = ({
@@ -15,24 +18,46 @@ export const SEOHead = ({
   description,
   keywords,
   canonical,
-  ogImage = 'https://hogar-belen.com/images/og-home.jpg',
+  ogImage = 'https://www.hogarbelen.org/images/og-home.jpg',
   ogType = 'website',
-  schema
+  schema,
+  noindex = false,
+  h1
 }: SEOHeadProps) => {
   useEffect(() => {
+    // Update document title
     document.title = title;
     
+    // Track page view with Meta Pixel
+    trackPageView();
+    
+    // Update meta description
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', description);
     }
     
+    // Update keywords if provided
     if (keywords) {
       const metaKeywords = document.querySelector('meta[name="keywords"]');
       if (metaKeywords) {
         metaKeywords.setAttribute('content', keywords);
       }
     }
+    
+    // Update robots meta tag based on noindex
+    let metaRobots = document.querySelector('meta[name="robots"]');
+    if (!metaRobots) {
+      metaRobots = document.createElement('meta');
+      metaRobots.setAttribute('name', 'robots');
+      document.head.appendChild(metaRobots);
+    }
+    metaRobots.setAttribute(
+      'content', 
+      noindex 
+        ? 'noindex, nofollow' 
+        : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
+    );
     
     if (canonical) {
       let linkCanonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
@@ -96,7 +121,15 @@ export const SEOHead = ({
       }
       scriptTag.textContent = JSON.stringify(schema);
     }
-  }, [title, description, keywords, canonical, ogImage, ogType, schema]);
+    
+    // Update H1 if provided (for accessibility)
+    if (h1) {
+      const mainH1 = document.querySelector('h1');
+      if (mainH1 && !mainH1.textContent) {
+        mainH1.textContent = h1;
+      }
+    }
+  }, [title, description, keywords, canonical, ogImage, ogType, schema, noindex, h1]);
 
   return null;
 };
