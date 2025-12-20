@@ -1,8 +1,12 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, MapPin, Zap, Loader2, MessageCircle, Clock, CheckCircle, XCircle, MinusCircle, UserCheck, NotebookText } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { SEOHead } from '@/components/SEOHead';
+import { getRouteByPath } from '@/config/routes';
+import { trackServiceView } from '@/lib/metaPixel';
 import { useKV } from '@github/spark/hooks';
 
 const dayRangeMap: Record<string, number | number[]> = {
@@ -264,6 +268,8 @@ const ContactPlanModal = ({ isOpen, onClose, professional, contactPlan, loading,
 };
 
 export default function ProfesionalesServicios() {
+  const location = useLocation();
+  const route = getRouteByPath(location.pathname);
   const [professionalsList] = useKV<Professional[]>('professionals-list', initialProfessionals);
   const [filter, setFilter] = useState('Todos');
   const [aiSummary, setAiSummary] = useState<{ id: number; text: string; sources: any[] } | null>(null);
@@ -274,6 +280,11 @@ export default function ProfesionalesServicios() {
   const [contactPlan, setContactPlan] = useState<ContactPlan | null>(null);
   const [isContactLoading, setIsContactLoading] = useState(false);
   const [contactError, setContactError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Track service view
+    trackServiceView('Cuidadores y Profesionales de Salud');
+  }, []);
 
   const categoryOrder = ["Enfermería", "Cuidadores", "Terapia", "Médicos", "Otros"];
   const filters = ["Todos", 'Disponible Ahora', ...categoryOrder];
@@ -510,10 +521,18 @@ export default function ProfesionalesServicios() {
 
   return (
     <div className="bg-gray-50 min-h-screen p-4 sm:p-8 font-sans">
+      <SEOHead
+        title={route?.title || 'Cuidadores de Adulto Mayor en Pasto | A Domicilio'}
+        description={route?.description || 'Cuidadores de adultos mayores en Pasto y Nariño. Atención confiable, humana y profesional a domicilio.'}
+        keywords={route?.keywords || 'cuidadores de adultos mayores en pasto, cuidadores pasto, cuidado adulto mayor'}
+        canonical={`https://www.hogarbelen.org${location.pathname}`}
+        h1={route?.h1}
+      />
+      
       <header className="mb-8">
         <h1 className="text-3xl sm:text-4xl font-black text-indigo-800 flex items-center">
           <UserCheck className="w-7 h-7 mr-3" />
-          Profesionales Cerca de Usted
+          {route?.h1 || 'Profesionales Cerca de Usted'}
         </h1>
         <p className="text-lg text-gray-600 mt-1">Encuentra y valida enfermeros, cuidadores, médicos y terapeutas en Colombia.</p>
       </header>

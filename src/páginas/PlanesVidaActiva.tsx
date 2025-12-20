@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Heart, Sun, Smile, TreePine, Users, Phone, Share2, Calendar, CheckCircle2, Sparkles, MessageCircle } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { toast } from 'sonner';
+import { SEOHead } from '@/components/SEOHead';
+import { getRouteByPath } from '@/config/routes';
+import { trackPlanView } from '@/lib/metaPixel';
 import ServiceGallery from '@/components/ServiceGallery';
 import img1 from '@/assets/images/IMG-20230519-WA0016.jpg';
 import img2 from '@/assets/images/IMG-20230519-WA0040.jpg';
@@ -32,8 +36,15 @@ interface Plan {
 }
 
 const PlanesVidaActiva = ({ setPage }: PlanesVidaActivaProps) => {
+  const location = useLocation();
+  const route = getRouteByPath(location.pathname);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [showShareDialog, setShowShareDialog] = useState(false);
+
+  useEffect(() => {
+    // Track plan view
+    trackPlanView('Planes para Adultos Mayores en Nariño');
+  }, []);
 
   const planes: Plan[] = [
     {
@@ -196,13 +207,21 @@ const PlanesVidaActiva = ({ setPage }: PlanesVidaActivaProps) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
+      <SEOHead
+        title={route?.title || 'Planes para Adultos Mayores en Nariño | Hogar Belén'}
+        description={route?.description || 'Planes recreativos, terapéuticos y de bienestar diseñados para adultos mayores en Nariño.'}
+        keywords={route?.keywords || 'planes adultos mayores, actividades tercera edad, recreación adulto mayor'}
+        canonical={`https://www.hogarbelen.org${location.pathname}`}
+        h1={route?.h1}
+      />
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16 max-w-4xl mx-auto">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-primary-100 rounded-full mb-6">
             <Sparkles className="text-primary-600" size={40} />
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            Planes de <span className="text-primary-600">Vida Activa</span>
+            {route?.h1 || 'Planes de Vida Activa'}
           </h1>
           <p className="text-2xl text-primary-700 font-light mb-8">
             Programas diseñados para mantener la alegría, la conexión social y el bienestar integral
