@@ -1,13 +1,25 @@
 import { Briefcase, MapPin, Clock, DollarSign, Heart, CheckCircle } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { SEOHead } from '@/components/SEOHead';
+import { getRouteByPath } from '@/config/routes';
+import { trackServiceView } from '@/lib/metaPixel';
 
 interface OfertasDeTrabajoProps {
   setPage: (page: string) => void;
 }
 
 const OfertasDeTrabajo = ({ setPage }: OfertasDeTrabajoProps) => {
+  const location = useLocation();
+  const route = getRouteByPath(location.pathname);
+
+  useEffect(() => {
+    trackServiceView('Ofertas de Empleo Cuidadores');
+  }, []);
+
   const jobOffers = [
     {
       title: 'Enfermero/a Geriátrico',
@@ -74,13 +86,21 @@ const OfertasDeTrabajo = ({ setPage }: OfertasDeTrabajoProps) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-50 to-white">
+      <SEOHead
+        title={route?.title || 'Empleo Cuidadores Adulto Mayor | Bolsa de Trabajo'}
+        description={route?.description || 'Bolsa de empleo para cuidadores de adultos mayores en Nariño. Encuentra tu próximo trabajo.'}
+        keywords={route?.keywords || 'empleo cuidadores, bolsa trabajo salud, vacantes adulto mayor'}
+        canonical={`https://www.hogarbelen.org${location.pathname}`}
+        h1={route?.h1}
+      />
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-primary-100 rounded-full mb-6">
             <Briefcase className="text-primary-600" size={40} />
           </div>
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Trabaja con <span className="text-primary-600">Nosotros</span>
+            {route?.h1 || 'Trabaja con Nosotros'}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Únete a un equipo comprometido con el bienestar de los adultos mayores. 

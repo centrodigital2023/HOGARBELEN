@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Heart, Shield, Calendar, Clock, Users, Video, MessageCircle, FileText, Star } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { SEOHead } from '@/components/SEOHead';
+import { getRouteByPath } from '@/config/routes';
+import { trackServiceView } from '@/lib/metaPixel';
 import FormularioBusquedaServicios from '../componentes/FormularioBusquedaServicios';
 
 interface BelenConectaFamiliasProps {
@@ -10,7 +14,13 @@ interface BelenConectaFamiliasProps {
 }
 
 const BelenConectaFamilias = ({ setPage }: BelenConectaFamiliasProps) => {
+  const location = useLocation();
+  const route = getRouteByPath(location.pathname);
   const [activeTab, setActiveTab] = useState('info');
+
+  useEffect(() => {
+    trackServiceView('Belén Conecta - Plataforma Familias');
+  }, []);
 
   const handleSearch = (filters: any) => {
     console.log('Buscando con filtros:', filters);
@@ -75,13 +85,21 @@ const BelenConectaFamilias = ({ setPage }: BelenConectaFamiliasProps) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-50 to-white">
+      <SEOHead
+        title={route?.title || 'Belén Conecta | Cuidadores y Enfermeras Verificados'}
+        description={route?.description || 'Plataforma para contratar cuidadores y enfermeras verificadas para adultos mayores en Nariño.'}
+        keywords={route?.keywords || 'belen conecta, plataforma cuidadores, contratar cuidador verificado'}
+        canonical={`https://www.hogarbelen.org${location.pathname}`}
+        h1={route?.h1}
+      />
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-primary-100 rounded-full mb-6">
             <Heart className="text-primary-600 fill-primary-600" size={40} />
           </div>
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Belén Conecta <span className="text-primary-600">Para Familias</span>
+            {route?.h1 || 'Belén Conecta Para Familias'}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Encuentra el cuidado profesional que tu familia necesita. Conectamos a familias con 
