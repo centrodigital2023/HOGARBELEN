@@ -55,11 +55,21 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
           <div>
             <h4 className="text-white font-semibold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li className="hover:text-teal-400 transition-colors cursor-pointer">
-                Términos y Condiciones
+              <li>
+                <button 
+                  onClick={() => setPage('terminos-condiciones')}
+                  className="hover:text-teal-400 transition-colors cursor-pointer"
+                >
+                  Términos y Condiciones
+                </button>
               </li>
-              <li className="hover:text-teal-400 transition-colors cursor-pointer">
-                Política de Privacidad
+              <li>
+                <button 
+                  onClick={() => setPage('politica-privacidad')}
+                  className="hover:text-teal-400 transition-colors cursor-pointer"
+                >
+                  Política de Privacidad
+                </button>
               </li>
               <li className="hover:text-teal-400 transition-colors cursor-pointer">
                 Cookies

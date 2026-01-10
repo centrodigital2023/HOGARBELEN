@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://www.hogarbelen.org/sitemap.xml
+Sitemap: https://hogarbelen.org/sitemap.xml
 
 # Disallow admin and API routes (if any in the future)
 Disallow: /api/

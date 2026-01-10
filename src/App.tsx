@@ -24,6 +24,8 @@ import PlanAmigos from './páginas/PlanAmigos';
 import PlanSolYCafe from './páginas/PlanSolYCafe';
 import PlanSonreir from './páginas/PlanSonreir';
 import PlanTurismoRural from './páginas/PlanTurismoRural';
+import TerminosYCondiciones from './páginas/TerminosYCondiciones';
+import PoliticaPrivacidad from './páginas/PoliticaPrivacidad';
 
 export interface User {
   id: string;
@@ -78,6 +80,8 @@ const MainApp = () => {
       case 'dashboard-pro': return <PanelDeControlProfesional user={user} userData={userData} setPage={setCurrentPage} />;
       case 'ai-assistant': return <AICareAssistant setPage={setCurrentPage} />;
       case 'admin-promo-codes': return <AdminPromoCodes setPage={setCurrentPage} />;
+      case 'terminos-condiciones': return <TerminosYCondiciones setPage={setCurrentPage} />;
+      case 'politica-privacidad': return <PoliticaPrivacidad setPage={setCurrentPage} />;
       default: return <PáginaPrincipal setPage={setCurrentPage} />;
     }
   };
