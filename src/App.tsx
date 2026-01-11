@@ -14,6 +14,7 @@ import FamilyDashboard from './páginas/FamilyDashboard';
 import PanelDeControlProfesional from './páginas/PanelDeControlProfesional';
 import AICareAssistant from './páginas/AICareAssistant';
 import AdminPromoCodes from './páginas/AdminPromoCodes';
+import SuperAdminDashboard from './páginas/SuperAdminDashboard';
 import CentroVida from './páginas/CentroVida';
 import OfertasDeTrabajo from './páginas/OfertasDeTrabajo';
 import BelenConectaFamilias from './páginas/BelenConectaFamilias';
@@ -80,6 +81,7 @@ const MainApp = () => {
       case 'dashboard-pro': return <PanelDeControlProfesional user={user} userData={userData} setPage={setCurrentPage} />;
       case 'ai-assistant': return <AICareAssistant setPage={setCurrentPage} />;
       case 'admin-promo-codes': return <AdminPromoCodes setPage={setCurrentPage} />;
+      case 'super-admin-dashboard': return <SuperAdminDashboard setPage={setCurrentPage} />;
       case 'terminos-condiciones': return <TerminosYCondiciones setPage={setCurrentPage} />;
       case 'politica-privacidad': return <PoliticaPrivacidad setPage={setCurrentPage} />;
       default: return <PáginaPrincipal setPage={setCurrentPage} />;
