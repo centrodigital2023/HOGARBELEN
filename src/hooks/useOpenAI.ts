@@ -1,19 +1,19 @@
 import { useState } from 'react';
 
-interface AIAnalysisRequest {
+const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY || '';
 
 interface AIAnalysisRequest {
   pagina: string;
   tipo_evento: 'view_content' | 'form_submit' | 'button_click' | 'scroll';
   contenido?: string;
-interface AIAnalysisRespon
-  nivel_interes: 'alto' | 'medio' | 'bajo
- 
+  accion_usuario?: string;
+  datos_formulario?: Record<string, any>;
+}
 
-
-  const [loading, setLoading] = useState(false);
-
-    setLoading(true);
+interface AIAnalysisResponse {
+  tipo_usuario: 'familia' | 'profesional' | 'empleador' | 'informativo';
+  nivel_interes: 'alto' | 'medio' | 'bajo';
+  urgencia: 'alta' | 'media' | 'baja';
   riesgo: 'alto' | 'medio' | 'bajo';
   recomendacion_accion: string;
   observaciones_admin: string;
@@ -54,12 +54,12 @@ Devuelve SOLO un JSON válido con la siguiente estructura (sin texto adicional):
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${OPENAI_API_KEY}`,
-          
-          max_tokens: 500,
-        }),
-
-        throw
-
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [
+            {
+              role: 'system',
               content: 'Eres un asistente de análisis de comportamiento para una plataforma de cuidado del adulto mayor. Responde solo con JSON válido.',
             },
             {
@@ -196,47 +196,47 @@ Devuelve SOLO un JSON válido con la siguiente estructura:
           messages: [
             {
               role: 'system',
-      const content = data.choices[0]?.message?.content;
-      if (!con
+              content: 'Eres un asistente de clasificación de leads. Responde solo con JSON válido.',
+            },
+            {
+              role: 'user',
+              content: prompt,
+            },
+          ],
+          temperature: 0.2,
+          max_tokens: 500,
+          response_format: { type: 'json_object' },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`OpenAI API error: ${response.statusText}`);
       }
-      const analysis: AIAna
+
+      const data = await response.json();
+      const content = data.choices[0]?.message?.content;
+
+      if (!content) {
+        throw new Error('No response from OpenAI');
+      }
+
+      const analysis: AIAnalysisResponse = JSON.parse(content);
+      return analysis;
     } catch (err) {
-      setError
-      return
+      const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+      setError(errorMessage);
+      console.error('Error en clasificación de lead:', err);
+      return null;
+    } finally {
       setLoading(false);
+    }
   };
+
   return {
-    validat
-    loadi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    analyzeUserBehavior,
+    validateProfessionalProfile,
+    classifyLead,
+    loading,
+    error,
+  };
+};
