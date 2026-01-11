@@ -1,19 +1,19 @@
 import { useState } from 'react';
 
-const OPENAI_API_KEY = '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';
+interface AIAnalysisRequest {
 
 interface AIAnalysisRequest {
   pagina: string;
   tipo_evento: 'view_content' | 'form_submit' | 'button_click' | 'scroll';
   contenido?: string;
-  accion_usuario?: string;
-  datos_formulario?: Record<string, any>;
-}
+interface AIAnalysisRespon
+  nivel_interes: 'alto' | 'medio' | 'bajo
+ 
 
-interface AIAnalysisResponse {
-  tipo_usuario: 'familia' | 'profesional' | 'empleador' | 'informativo';
-  nivel_interes: 'alto' | 'medio' | 'bajo';
-  urgencia: 'alta' | 'media' | 'baja';
+
+  const [loading, setLoading] = useState(false);
+
+    setLoading(true);
   riesgo: 'alto' | 'medio' | 'bajo';
   recomendacion_accion: string;
   observaciones_admin: string;
@@ -54,12 +54,12 @@ Devuelve SOLO un JSON válido con la siguiente estructura (sin texto adicional):
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o-mini',
-          messages: [
-            {
-              role: 'system',
+          
+          max_tokens: 500,
+        }),
+
+        throw
+
               content: 'Eres un asistente de análisis de comportamiento para una plataforma de cuidado del adulto mayor. Responde solo con JSON válido.',
             },
             {
@@ -196,47 +196,47 @@ Devuelve SOLO un JSON válido con la siguiente estructura:
           messages: [
             {
               role: 'system',
-              content: 'Eres un asistente de clasificación de leads. Responde solo con JSON válido.',
-            },
-            {
-              role: 'user',
-              content: prompt,
-            },
-          ],
-          temperature: 0.3,
-          max_tokens: 500,
-          response_format: { type: 'json_object' },
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`OpenAI API error: ${response.statusText}`);
-      }
-
-      const data = await response.json();
       const content = data.choices[0]?.message?.content;
-
-      if (!content) {
-        throw new Error('No response from OpenAI');
+      if (!con
       }
-
-      const analysis: AIAnalysisResponse = JSON.parse(content);
-      return analysis;
+      const analysis: AIAna
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
-      setError(errorMessage);
-      console.error('Error en clasificación de lead:', err);
-      return null;
-    } finally {
+      setError
+      return
       setLoading(false);
-    }
   };
-
   return {
-    analyzeUserBehavior,
-    validateProfessionalProfile,
-    classifyLead,
-    loading,
-    error,
-  };
-};
+    validat
+    loadi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
