@@ -151,7 +151,7 @@ export default function RegistroProfesional({ setPage }: RegistroProfesionalProp
       
       await AIService.analyzeUserInteraction({
         pagina: '/registro-profesional',
-        tipo_evento: 'registro_completado',
+        tipo_usuario: 'profesional',
         datos_formulario: { categoria: formData.categoria_profesional }
       });
       

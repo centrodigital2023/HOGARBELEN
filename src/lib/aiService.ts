@@ -1,19 +1,16 @@
 export interface AIAnalysisRequest {
   pagina: string;
   contenido?: string;
-  datos_formulario?: 
-
-  tipo_usuario: 'familia'
- 
-
+  datos_formulario?: any;
+  tipo_usuario: 'familia' | 'profesional';
 }
-export class AIService {
-    try {
-      return JSON.parse(response);
-      console.error('Error calling O
-    }
 
- 
+export interface AIAnalysisResponse {
+  nivel_interes: 'alto' | 'medio' | 'bajo';
+  riesgo: 'alto' | 'medio' | 'bajo';
+  observaciones_admin: string;
+  recomendaciones: string[];
+}
 
 export class AIService {
   private static async callOpenAI(prompt: string): Promise<any> {
@@ -32,69 +29,54 @@ Eres un sistema de inteligencia artificial para Hogar Belén, una plataforma de 
 
 Analiza el siguiente contexto y devuelve SOLO un JSON con la estructura exacta especificada.
 
+Página: ${request.pagina}
+Tipo de Usuario: ${request.tipo_usuario}
+Contenido: ${request.contenido || 'N/A'}
+Datos del Formulario: ${JSON.stringify(request.datos_formulario || {}, null, 2)}
+
+RESPONDE SOLO CON UN JSON:
 {
-  "nivel_interes": "alto",
-  "riesgo": "bajo",
-  "observaciones_admin": "Usuario busca cu
+  "nivel_interes": "alto" | "medio" | "bajo",
+  "riesgo": "alto" | "medio" | "bajo",
+  "observaciones_admin": "Descripción breve del comportamiento",
+  "recomendaciones": ["Recomendación 1", "Recomendación 2"]
+}`;
 
+    const result = await this.callOpenAI(promptText);
     
-
-        nivel_inter
+    if (!result) {
+      return {
+        nivel_interes: 'medio',
         riesgo: 'medio',
-        observaciones_admin: 'Error en análisis IA. Requiere revis
-    }
-    return result;
-
-    nivel_confianza: 'alto' | 'medio' | 'bajo';
-
-    const promptText = `
-
-
-${JSON.stringify(profile, 
-CRITERIOS DE VALIDACI
-2. Teléfono válido 
-4. Ciudad reconocida en Colombia
-6. Descripción profesional coherente (mínimo 100 caracteres)
-8. 
-
-  "nivel_confianza": "alto" | "medio" | "bajo",
-  "r
-
-    
-      return {
-        alertas: ['Error en val
+        observaciones_admin: 'Error en análisis IA. Requiere revisión manual.',
+        recomendaciones: ['Revisar manualmente']
       };
-
-  }
-  static async classifyLead(leadData: any): Promise<{
-    urge
-    o
-
-
-
-
-1. tipo_usuario: "familia", "profesional", "empleador"
-3. prioridad: "alta", "media", "baja"
-
-{
-  "urg
-  "observaciones": "Busc
-
-
-      return {
-
-       
     }
+    
+    return result;
+  }
 
-
-    es_valida: boolean;
+  static async validateProfessionalProfile(profile: any): Promise<{
+    nivel_confianza: 'alto' | 'medio' | 'bajo';
     alertas: string[];
+    recomendacion: 'aprobar' | 'revisar' | 'rechazar';
   }> {
-Eres un validador de ofertas de 
-Solo se permiten ofertas relacionadas con:
-- Enfermería geriátrica
-- Acompañamiento terapéutico
+    const promptText = `
+Eres un validador de perfiles profesionales para Hogar Belén.
 
+Analiza el siguiente perfil profesional:
+
+${JSON.stringify(profile, null, 2)}
+
+CRITERIOS DE VALIDACIÓN:
+1. Email válido y profesional
+2. Teléfono válido (formato colombiano: +57XXXXXXXXXX)
+3. Experiencia mínima de 1 año
+4. Ciudad reconocida en Colombia
+5. Certificaciones relevantes al cuidado geriátrico
+6. Descripción profesional coherente (mínimo 100 caracteres)
+7. Edad apropiada (entre 18 y 70 años)
+8. Referencias verificables
 
 RESPONDE SOLO CON UN JSON:
 {
@@ -185,10 +167,10 @@ Valida que:
 
 RESPONDE SOLO CON UN JSON:
 {
-  "es_valida": true/false,
+  "es_valida": true,
   "categoria": "cuidado_adulto_mayor",
   "alertas": [],
-  "recomendacion": "aprobar" | "rechazar"
+  "recomendacion": "aprobar"
 }`;
 
     const result = await this.callOpenAI(promptText);
@@ -230,65 +212,6 @@ RESPONDE SOLO CON UN JSON:
   }
 
   static validateSalaryRange(salary: number): boolean {
-    return salary >= 10000 && salary <= 200000;
-  }
-}
-
-${JSON.stringify(offerData, null, 2)}
-
-Valida que:
-1. Sea del sector permitido
-2. No contenga spam
-3. Información completa y coherente
-4. Salario razonable (si se especifica)
-
-RESPONDE SOLO CON UN JSON:
-{
-  "es_valida": true/false,
-  "categoria": "cuidado_adulto_mayor",
-  "alertas": [],
-  "recomendacion": "aprobar" | "rechazar"
-}`;
-
-    const result = await this.callOpenAI(promptText);
-    
-    if (!result) {
-      return {
-        es_valida: false,
-        categoria: 'indeterminada',
-        alertas: ['Error en validación'],
-        recomendacion: 'revisar_manualmente'
-      };
-    }
-
-    return result;
-  }
-
-  static detectUrgencyKeywords(text: string): boolean {
-    const urgencyKeywords = [
-      'urgente', 'ya', 'inmediato', 'ahora', 'emergencia',
-      'pronto', 'rapido', 'hoy', 'cuanto antes', 'necesito'
-    ];
-    
-    const lowerText = text.toLowerCase();
-    return urgencyKeywords.some(keyword => lowerText.includes(keyword));
-  }
-
-  static validateColombianPhone(phone: string): boolean {
-    const phoneRegex = /^\+57\d{10}$/;
-    return phoneRegex.test(phone);
-  }
-
-  static validateEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const temporalDomains = ['tempmail', 'guerrillamail', '10minutemail', 'throwaway'];
-    
-    if (!emailRegex.test(email)) return false;
-    
-    return !temporalDomains.some(domain => email.toLowerCase().includes(domain));
-  }
-
-  static validateSalaryRange(salary: number): boolean {
-    return salary >= 10000 && salary <= 200000;
+    return salary >= 1000000 && salary <= 20000000;
   }
 }

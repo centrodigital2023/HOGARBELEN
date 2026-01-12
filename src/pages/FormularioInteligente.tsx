@@ -133,7 +133,7 @@ export default function FormularioInteligente({ setPage }: FormularioInteligente
       
       await AIService.analyzeUserInteraction({
         pagina: '/formulario-contacto',
-        tipo_evento: 'lead_generado',
+        tipo_usuario: 'familia',
         datos_formulario: { tipo: userType, urgencia: urgency },
       });
       
