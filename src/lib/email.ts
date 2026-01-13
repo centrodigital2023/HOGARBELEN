@@ -7,34 +7,34 @@ export interface EmailNotification {
   sent_at: string;
 }
 
-export const sendEmailNotification = async (notification: Omit<EmailNotification, 'sent_at'>): Promise<boolean> => {
-  const emailLog: EmailNotification = {
-    ...notification,
-    sent_at: new Date().toISOString(),
-  };
-
-  const logs = await window.spark.kv.get<EmailNotification[]>('email-logs') ?? [];
-  await window.spark.kv.set('email-logs', [...logs, emailLog]);
-
   console.log(`📧 Email sent to ${notification.to}:`, notification.subject);
-  
   return true;
+
+  for (const email of adminEmails) {
+    
+
+        
+        Email: ${lead.data.email || 'No proporcionado'}
+
+        
+  
+        Clasif
+  
+
+        Por favor, contacte a este lead lo antes posible.
+      priority: lead.priority === 'c
+    });
 };
 
-export const notifyHighPriorityLead = async (lead: any, adminEmails: string[]) => {
-  for (const email of adminEmails) {
-    await sendEmailNotification({
-      to: email,
-      subject: `🚨 Lead de Alta Prioridad - ${lead.data.name || 'Sin nombre'}`,
-      body: `
-        Se ha recibido un nuevo lead de alta prioridad:
+
+
         
-        Nombre: ${lead.data.name || 'No proporcionado'}
-        Email: ${lead.data.email || 'No proporcionado'}
-        Teléfono: ${lead.data.phone || 'No proporcionado'}
-        Prioridad: ${lead.priority}
-        Fuente: ${lead.source_page}
-        
+
+
+
+
+
+
         ${lead.data.message ? `Mensaje:\n${lead.data.message}` : ''}
         
         ${lead.ai_classification ? `
