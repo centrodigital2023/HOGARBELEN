@@ -3,7 +3,7 @@ import { Briefcase, TrendingUp, Calendar, DollarSign, Star, Shield, Clock, Users
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import FormularioRegistroProfesional from '../componentes/FormularioRegistroProfesional';
+import RegistroProfesionalInteligente from '../pages/RegistroProfesionalInteligente';
 
 interface BelenConectaProfesionalesProps {
   setPage: (page: string) => void;
@@ -205,10 +205,7 @@ const BelenConectaProfesionales = ({ setPage }: BelenConectaProfesionalesProps) 
           </TabsContent>
 
           <TabsContent value="register">
-            <FormularioRegistroProfesional onSuccess={() => {
-              setActiveTab('info');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }} />
+            <RegistroProfesionalInteligente setPage={setPage} />
           </TabsContent>
         </Tabs>
       </div>
