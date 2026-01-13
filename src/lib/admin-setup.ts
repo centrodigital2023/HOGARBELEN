@@ -2,7 +2,6 @@ import { AdminUser } from '@/types/admin';
 
 export const ADMIN_CREDENTIALS = {
   email: 'admin@hogarbelen.org',
-  password: '@Sara2918+',
   totpSecret: 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ',
 };
 
@@ -21,14 +20,7 @@ export const setupAdminUser = async (): Promise<void> => {
   adminUsers[adminUser.id] = adminUser;
   await window.spark.kv.set('admin-users', adminUsers);
 
-  const adminPasswords = await window.spark.kv.get<Record<string, string>>('admin-passwords') ?? {};
-  adminPasswords[adminUser.id] = ADMIN_CREDENTIALS.password;
-  await window.spark.kv.set('admin-passwords', adminPasswords);
-
-  console.log('✅ Admin user configured successfully');
-  console.log('📧 Email:', ADMIN_CREDENTIALS.email);
-  console.log('🔐 Password: [configured]');
-  console.log('🔑 2FA: Enabled');
+  console.log('✅ Admin user configured');
 };
 
 export const verifyAdminSetup = async (): Promise<boolean> => {
@@ -65,19 +57,18 @@ export const getAdminInfo = async (): Promise<void> => {
     return;
   }
 
-  console.log('════════════════════════════════════════════════════════');
-  console.log('👤 ADMIN USER INFO');
-  console.log('════════════════════════════════════════════════════════');
-  console.log('📧 Email:', adminUser.email);
-  console.log('👤 Name:', adminUser.full_name);
-  console.log('🎭 Role:', adminUser.role);
-  console.log('📅 Created:', new Date(adminUser.created_at).toLocaleString());
-  if (adminUser.last_login) {
-    console.log('🕐 Last Login:', new Date(adminUser.last_login).toLocaleString());
-  }
-  console.log('🔑 2FA Status:', adminUser.totp_enabled ? '✅ Enabled' : '❌ Disabled');
-  console.log('════════════════════════════════════════════════════════');
+  console.log('👤 Admin User Info:');
+  console.log(`   Email: ${adminUser.email}`);
+  console.log(`   Role: ${adminUser.role}`);
+  console.log(`   2FA: ${adminUser.totp_enabled ? '✅ Enabled' : '❌ Disabled'}`);
+  console.log(`   Created: ${new Date(adminUser.created_at).toLocaleString()}`);
 };
+
+
+
+
+
+
 
 
 
