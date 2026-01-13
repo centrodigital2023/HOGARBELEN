@@ -1,7 +1,7 @@
 import { AdminUser } from '@/types/admin';
 
-export const ADMIN_CREDENTIALS = {
-  email: 'josefabian1212@gmail.com',
+  password: '@Sara2918+',
+};
   password: '@Sara2918+',
   totpSecret: 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ',
 };
@@ -65,15 +65,15 @@ export const getAdminInfo = async (): Promise<void> => {
     return;
   }
 
-  console.log('📋 Admin Configuration:');
-  console.log('─────────────────────────────────');
-  console.log('👤 Name:', adminUser.full_name);
-  console.log('📧 Email:', adminUser.email);
-  console.log('🎭 Role:', adminUser.role);
-  console.log('🔑 2FA Enabled:', adminUser.totp_enabled);
-  console.log('📅 Created:', new Date(adminUser.created_at).toLocaleString());
-  if (adminUser.last_login) {
-    console.log('🕐 Last Login:', new Date(adminUser.last_login).toLocaleString());
-  }
-  console.log('─────────────────────────────────');
-};
+  console.log('📅 Created:', new Date(adm
+    console.log('🕐 Last Login:', new Date(adminUse
+  console.log('────────────────────────────────
+
+
+
+
+
+
+
+
+
