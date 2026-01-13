@@ -41,7 +41,6 @@ import AdminAuditLog from './páginas/AdminAuditLog';
 import AdminConfiguration from './páginas/AdminConfiguration';
 import AdminAnalytics from './páginas/AdminAnalytics';
 import RegistroProfesionalInteligente from './pages/RegistroProfesionalInteligente';
-import AdminVerificarProfesionales from './pages/AdminVerificarProfesionales';
 
 export interface User {
   id: string;
@@ -97,7 +96,7 @@ const MainApp = () => {
       case 'dashboard-pro': return <PanelDeControlProfesional user={user} userData={userData} setPage={setCurrentPage} />;
       case 'ai-assistant': return <AICareAssistant setPage={setCurrentPage} />;
       case 'admin-promo-codes': return <AdminPromoCodes setPage={setCurrentPage} />;
-      case 'admin-verificar-profesionales': return <AdminVerificarProfesionales setPage={setCurrentPage} />;
+      case 'admin-verificar-profesionales': return <AdminProfessionals setPage={setCurrentPage} />;
       case 'super-admin-dashboard': return <SuperAdminDashboard setPage={setCurrentPage} />;
       case 'terminos-condiciones': return <TerminosYCondiciones setPage={setCurrentPage} />;
       case 'politica-privacidad': return <PoliticaPrivacidad setPage={setCurrentPage} />;

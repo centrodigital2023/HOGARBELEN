@@ -16,6 +16,7 @@ import {
 } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 import { logAudit } from '@/lib/audit';
+import { notifyProfessionalApproval, notifyProfessionalRejection } from '@/lib/email';
 
 interface AdminProfessionalsProps {
   setPage: (page: string) => void;
@@ -135,7 +136,26 @@ Return JSON: {
           : p
       )
     );
-    toast.success(`${professional.name} ha sido aprobado`);
+
+    await logAudit({
+      user_id: adminUser?.id || 'unknown',
+      user_email: adminUser?.email || 'unknown',
+      action: 'approve_professional',
+      resource_type: 'professional',
+      resource_id: professional.id,
+      details: { name: professional.name, email: professional.email },
+      ip_address: 'admin',
+      user_agent: navigator.userAgent,
+    });
+
+    const emailSent = await notifyProfessionalApproval(professional);
+    
+    if (emailSent) {
+      toast.success(`${professional.name} ha sido aprobado y notificado por email`);
+    } else {
+      toast.success(`${professional.name} ha sido aprobado (no se pudo enviar email)`);
+    }
+    
     setSelectedPro(null);
   };
 
@@ -169,7 +189,14 @@ Return JSON: {
       user_agent: navigator.userAgent,
     });
 
-    toast.success(`${professional.name} ha sido rechazado`);
+    const emailSent = await notifyProfessionalRejection(professional, rejectionReason);
+    
+    if (emailSent) {
+      toast.success(`${professional.name} ha sido rechazado y notificado por email`);
+    } else {
+      toast.success(`${professional.name} ha sido rechazado (no se pudo enviar email)`);
+    }
+    
     setSelectedPro(null);
     setRejectionReason('');
   };

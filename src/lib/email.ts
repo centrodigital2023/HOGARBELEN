@@ -1,6 +1,6 @@
-import type { Lead } from '../types/admin';
+import type { Lead, Professional } from '../types/admin';
 
-export type EmailNotificationType = 'lead_notification' | 'generic';
+export type EmailNotificationType = 'lead_notification' | 'generic' | 'professional_approved' | 'professional_rejected';
 
 export interface EmailNotification {
   to: string;
@@ -104,4 +104,124 @@ export async function notifyHighPriorityLead(lead: Lead, adminEmails: string[]):
   );
 
   return results.every(Boolean);
+}
+
+const getProfessionalApprovalEmailSubject = (professional: Professional): string => {
+  return `✅ ¡Tu perfil ha sido aprobado! - Hogar Belén`;
+};
+
+const getProfessionalApprovalEmailBody = (professional: Professional): string => {
+  const approvalDate = new Date().toLocaleDateString('es-CO', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  const lines: string[] = [];
+  lines.push(`¡Hola ${professional.name}!`);
+  lines.push('');
+  lines.push('¡Tenemos excelentes noticias! 🎉');
+  lines.push('');
+  lines.push('Tu perfil profesional ha sido aprobado y ahora está visible en nuestra plataforma Hogar Belén.');
+  lines.push('');
+  lines.push('**Detalles de tu perfil:**');
+  lines.push(`• Nombre: ${professional.name}`);
+  lines.push(`• Especialidad: ${professional.title}`);
+  lines.push(`• Categoría: ${professional.category}`);
+  lines.push(`• Experiencia: ${professional.years_experience} años`);
+  lines.push(`• Fecha de aprobación: ${approvalDate}`);
+  lines.push('');
+  lines.push('**¿Qué sigue ahora?**');
+  lines.push('');
+  lines.push('1. Ya puedes recibir solicitudes de citas de familias');
+  lines.push('2. Gestiona tu disponibilidad desde tu panel de control');
+  lines.push('3. Responde a las consultas de familias interesadas');
+  lines.push('4. Mantén tu perfil actualizado con tus logros y experiencia');
+  lines.push('');
+  lines.push('**Consejos para destacar:**');
+  lines.push('• Completa toda la información de tu perfil');
+  lines.push('• Responde rápidamente a las solicitudes');
+  lines.push('• Mantén actualizada tu disponibilidad');
+  lines.push('• Proporciona un servicio excepcional');
+  lines.push('');
+  lines.push('Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.');
+  lines.push('');
+  lines.push('¡Bienvenido al equipo de profesionales de Hogar Belén!');
+  lines.push('');
+  lines.push('Atentamente,');
+  lines.push('Equipo Hogar Belén');
+  lines.push('📞 +57 321 570 8655');
+  lines.push('📧 hogarbelen2022@gmail.com');
+  lines.push('🌐 www.hogarbelen.org');
+
+  return lines.join('\n');
+};
+
+export async function notifyProfessionalApproval(professional: Professional): Promise<boolean> {
+  if (!professional.email) {
+    console.warn('El profesional no tiene correo electrónico configurado.');
+    return false;
+  }
+
+  const subject = getProfessionalApprovalEmailSubject(professional);
+  const body = getProfessionalApprovalEmailBody(professional);
+
+  return await sendEmailNotification({
+    to: professional.email,
+    subject,
+    body,
+    type: 'professional_approved',
+    sentAt: new Date().toISOString(),
+  });
+}
+
+const getProfessionalRejectionEmailSubject = (professional: Professional): string => {
+  return `Actualización sobre tu registro - Hogar Belén`;
+};
+
+const getProfessionalRejectionEmailBody = (professional: Professional, reason: string): string => {
+  const lines: string[] = [];
+  lines.push(`Hola ${professional.name},`);
+  lines.push('');
+  lines.push('Gracias por tu interés en formar parte del equipo de profesionales de Hogar Belén.');
+  lines.push('');
+  lines.push('Lamentablemente, después de revisar tu solicitud, no podemos aprobar tu perfil en este momento.');
+  lines.push('');
+  lines.push('**Motivo:**');
+  lines.push(reason);
+  lines.push('');
+  lines.push('**¿Qué puedes hacer?**');
+  lines.push('');
+  lines.push('• Si consideras que hay información incorrecta, puedes contactarnos para aclarar cualquier detalle');
+  lines.push('• Puedes enviar una nueva solicitud cuando cumplas con todos los requisitos');
+  lines.push('• Estamos disponibles para responder cualquier pregunta que tengas sobre el proceso');
+  lines.push('');
+  lines.push('Apreciamos tu comprensión y te deseamos mucho éxito en tu carrera profesional.');
+  lines.push('');
+  lines.push('Atentamente,');
+  lines.push('Equipo Hogar Belén');
+  lines.push('📞 +57 321 570 8655');
+  lines.push('📧 hogarbelen2022@gmail.com');
+  lines.push('🌐 www.hogarbelen.org');
+
+  return lines.join('\n');
+};
+
+export async function notifyProfessionalRejection(professional: Professional, reason: string): Promise<boolean> {
+  if (!professional.email) {
+    console.warn('El profesional no tiene correo electrónico configurado.');
+    return false;
+  }
+
+  const subject = getProfessionalRejectionEmailSubject(professional);
+  const body = getProfessionalRejectionEmailBody(professional, reason);
+
+  return await sendEmailNotification({
+    to: professional.email,
+    subject,
+    body,
+    type: 'professional_rejected',
+    sentAt: new Date().toISOString(),
+  });
 }
