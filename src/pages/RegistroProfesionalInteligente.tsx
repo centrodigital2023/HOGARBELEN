@@ -240,7 +240,7 @@ export default function RegistroProfesionalInteligente({ setPage }: RegistroProf
     setAiProcessing(true);
     
     try {
-      const prompt = `Genera exactamente 20 preguntas de opción múltiple para evaluar competencias de un profesional en ${formData.categoria_profesional} especializado en cuidado de adultos mayores. 
+      const promptText = `Genera exactamente 20 preguntas de opción múltiple para evaluar competencias de un profesional en ${formData.categoria_profesional} especializado en cuidado de adultos mayores. 
 
 Cada pregunta debe tener:
 - Una pregunta clara y específica
@@ -257,7 +257,7 @@ Las preguntas deben evaluar:
 
 Retorna un objeto JSON con una propiedad "preguntas" que contenga el array de preguntas. Cada pregunta debe tener: pregunta (string), opciones (array de 4 strings), respuesta_correcta (número 0-3), categoria (string).`;
 
-      const response = await window.spark.llm(prompt, 'gpt-4o-mini', true);
+      const response = await window.spark.llm(promptText, 'gpt-4o-mini', true);
       const data = JSON.parse(response);
       const questions: TestQuestion[] = data.preguntas.map((q: any, idx: number) => ({
         id: idx + 1,
@@ -312,7 +312,7 @@ Retorna un objeto JSON con una propiedad "preguntas" que contenga el array de pr
 
   const generateAIAnalysis = async () => {
     try {
-      const prompt = `Analiza el siguiente perfil profesional y proporciona un informe de verificación:
+      const promptText = `Analiza el siguiente perfil profesional y proporciona un informe EXHAUSTIVO de verificación:
 
 Datos básicos:
 - Nombre: ${formData.nombre_completo}
@@ -321,6 +321,7 @@ Datos básicos:
 - Ciudad: ${formData.ciudad}
 - Email: ${formData.email}
 - Teléfono: ${formData.telefono}
+- Disponibilidad: ${formData.dias_disponibles.join(', ')} - ${formData.horario_atencion}
 
 Descripción profesional:
 ${formData.descripcion_profesional}
@@ -329,27 +330,45 @@ Test de competencias:
 - Puntuación: ${formData.test_score}/100
 - ${formData.test_respuestas.filter((r: any) => r.correcta).length} respuestas correctas de ${formData.test_respuestas.length}
 
-Documenta:
-- Cédula: ${formData.documento_cedula ? 'Sí' : 'No'}
-- Hoja de vida: ${formData.documento_hoja_vida ? 'Sí' : 'No'}
-- Antecedentes: ${formData.documento_antecedentes ? 'Sí' : 'No'}
-${formData.requiere_tarjeta_profesional ? `- Tarjeta profesional: ${formData.numero_tarjeta_profesional}` : ''}
+Documentos:
+- Cédula: ${formData.documento_cedula ? 'Adjuntada' : 'NO adjuntada'}
+- Hoja de vida: ${formData.documento_hoja_vida ? 'Adjuntada' : 'NO adjuntada'}
+- Antecedentes: ${formData.documento_antecedentes ? 'Adjuntados' : 'NO adjuntados'}
+${formData.requiere_tarjeta_profesional ? `- Tarjeta profesional: ${formData.numero_tarjeta_profesional}` : '- Tarjeta profesional: No aplica'}
 
-Genera un informe de verificación que incluya:
-1. Nivel de confianza (1-100)
-2. Recomendación (aprobar_automaticamente, revisar_manualmente, rechazar)
-3. Alertas o inconsistencias detectadas
-4. Fortalezas del perfil
-5. Áreas de mejora o verificación adicional
-6. Búsquedas sugeridas (LinkedIn, redes, Google) para validación manual
+Genera un informe de verificación DETALLADO para el administrador que incluya:
 
-Retorna un objeto JSON con propiedades: nivel_confianza, recomendacion, alertas (array), fortalezas (array), verificaciones_sugeridas (array), comentario_general.`;
+1. nivel_confianza (número 1-100): Basado en la completitud, coherencia de datos y puntuación del test
+2. recomendacion (string): "aprobar_automaticamente" | "revisar_manualmente" | "rechazar"
+3. alertas (array de strings): Inconsistencias, datos sospechosos, red flags
+4. fortalezas (array de strings): Aspectos positivos del perfil
+5. verificaciones_sugeridas (array de objetos): Búsquedas específicas recomendadas para validación manual con formato: { tipo: string, consulta: string, razon: string }
+6. areas_revision (array de strings): Aspectos que requieren verificación adicional
+7. coherencia_datos (objeto): { titulo_categoria: string, experiencia_test: string, disponibilidad: string }
+8. comentario_general (string): Resumen ejecutivo para el administrador
+9. riesgo_general (string): "bajo" | "medio" | "alto"
 
-      const response = await window.spark.llm(prompt, 'gpt-4o', true);
+IMPORTANTE: Este informe es SOLO para el administrador. El profesional NO debe verlo.
+
+Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
+
+      const response = await window.spark.llm(promptText, 'gpt-4o', true);
       return JSON.parse(response);
     } catch (error) {
       console.error('Error in AI analysis:', error);
-      return null;
+      return {
+        nivel_confianza: 50,
+        recomendacion: 'revisar_manualmente',
+        alertas: ['Error al generar análisis automático'],
+        fortalezas: ['Perfil completado'],
+        verificaciones_sugeridas: [
+          { tipo: 'Google', consulta: formData.nombre_completo, razon: 'Verificación básica de identidad' }
+        ],
+        areas_revision: ['Revisar manualmente todos los datos'],
+        coherencia_datos: { titulo_categoria: 'revisar', experiencia_test: 'revisar', disponibilidad: 'revisar' },
+        comentario_general: 'Se requiere revisión manual completa',
+        riesgo_general: 'medio'
+      };
     }
   };
 
@@ -382,7 +401,8 @@ Retorna un objeto JSON con propiedades: nivel_confianza, recomendacion, alertas 
         formData.acepta_terminos &&
         formData.acepta_datos &&
         formData.acepta_foto &&
-        formData.firma_digital
+        formData.firma_digital &&
+        formData.firma_digital === formData.nombre_completo
       );
     }
     return false;

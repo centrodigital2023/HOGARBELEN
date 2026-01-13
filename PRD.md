@@ -40,6 +40,34 @@ The application manages user authentication (families/professionals), day care c
 - **Progression**: View all professionals → Apply filters (specialty, availability, rating) → Search by name → View details → Contact
 - **Success criteria**: Fast filtering, clear professional cards, availability status accurate, smooth contact flow
 
+### Intelligent Professional Registration System
+- **Functionality**: Multi-step registration form for healthcare professionals with real-time validation, AI-powered test generation, document upload, and automated verification analysis
+- **Purpose**: Streamline professional onboarding while ensuring quality and legitimacy through intelligent verification
+- **Trigger**: Professional clicks "Registrarse como Profesional" from landing page or navigation
+- **Progression**: Step 1 (Profile data with validation) → Step 2 (Document upload with AI coherence check) → Step 3 (Adaptive competency test) → Step 4 (Digital contract and authorizations) → AI analysis generation → Pending verification state → Admin review
+- **Success criteria**: 
+  - Progressive disclosure reduces form abandonment
+  - Real-time validation prevents submission errors
+  - AI-generated tests accurately assess competency for each specialty
+  - Document requirements clearly communicated
+  - Digital signature validates identity
+  - Comprehensive AI analysis aids admin decision-making
+  - Professional cannot self-approve or see AI analysis
+  - High completion rate with quality applicants
+
+### Admin Professional Verification Dashboard
+- **Functionality**: Administrative interface to review pending professional registrations with full AI analysis, verification suggestions, and approve/reject actions
+- **Purpose**: Enable administrators to efficiently verify professional credentials with AI-powered insights before activating profiles
+- **Trigger**: Admin navigates to "Verificar Profesionales" from admin dashboard
+- **Progression**: View pending profiles with AI confidence scores → Select profile → Review complete details and AI analysis → See verification suggestions (LinkedIn, Google searches) → Review coherence analysis → Approve or reject → Professional becomes visible in directory or receives rejection notice
+- **Success criteria**:
+  - All AI analysis data visible only to admins
+  - Clear risk indicators and recommendations
+  - One-click approval/rejection
+  - Verification search suggestions actionable
+  - Approved profiles automatically added to public directory
+  - Audit trail of all decisions
+
 ### Day Care Center (Centro de Vida) Services
 - **Functionality**: Display integrated day care services including therapeutic activities, nutrition, garden therapy, guided exercise
 - **Purpose**: Showcase the comprehensive daily care program available at the physical center
