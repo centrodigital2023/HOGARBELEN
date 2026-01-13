@@ -31,9 +31,9 @@ export default function TestManagementDashboard() {
   const [passFilter, setPassFilter] = useState<string>('all');
   const [selectedTest, setSelectedTest] = useState<TestResult | null>(null);
 
-  const specialties = Array.from(new Set(testResults.map(r => r.specialty)));
+  const specialties = Array.from(new Set((testResults || []).map(r => r.specialty)));
 
-  const filteredResults = testResults.filter(result => {
+  const filteredResults = (testResults || []).filter(result => {
     const matchesSearch = result.userId.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          result.specialty.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesSpecialty = specialtyFilter === 'all' || result.specialty === specialtyFilter;
@@ -45,11 +45,11 @@ export default function TestManagementDashboard() {
   });
 
   const stats = {
-    total: testResults.length,
-    passed: testResults.filter(r => r.passed).length,
-    failed: testResults.filter(r => !r.passed).length,
-    avgScore: testResults.length > 0 
-      ? Math.round(testResults.reduce((sum, r) => sum + r.score, 0) / testResults.length)
+    total: (testResults || []).length,
+    passed: (testResults || []).filter(r => r.passed).length,
+    failed: (testResults || []).filter(r => !r.passed).length,
+    avgScore: (testResults || []).length > 0 
+      ? Math.round((testResults || []).reduce((sum, r) => sum + r.score, 0) / (testResults || []).length)
       : 0
   };
 

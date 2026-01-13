@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { CheckCircle, XCircle, Clock, Brain, TrendUp, AlertTriangle } from '@phosphor-icons/react';
+import { CheckCircle, XCircle, Clock, Brain, TrendUp, WarningCircle } from '@phosphor-icons/react';
 import { useIntelligentTest } from '@/hooks/useIntelligentTest';
 import { TestConfig } from '@/lib/intelligentTest';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -87,7 +87,7 @@ export default function IntelligentTestInterface({
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-destructive">
-            <AlertTriangle size={24} />
+            <WarningCircle size={24} />
             Error
           </CardTitle>
         </CardHeader>

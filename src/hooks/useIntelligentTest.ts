@@ -68,7 +68,7 @@ export function useIntelligentTest(): UseIntelligentTestReturn {
     const updatedSession = submitAnswer(session, currentQuestion.id, answer);
     setSession(updatedSession);
 
-    const nextQ = getNextQuestion(updatedSession, updatedSession.questions);
+    const nextQ = getNextQuestion(updatedSession);
     setCurrentQuestion(nextQ);
   }, [session, currentQuestion]);
 
@@ -90,14 +90,9 @@ export function useIntelligentTest(): UseIntelligentTestReturn {
         analysis
       };
 
-      setTestResults((current) => [...current, resultWithAnalysis]);
+      setTestResults((current) => [...(current || []), resultWithAnalysis]);
 
-      const completedSession: TestSession = {
-        ...session,
-        completedAt: Date.now(),
-        score: result.score
-      };
-      setSession(completedSession);
+      setSession(session);
 
       return resultWithAnalysis;
     } catch (err) {
