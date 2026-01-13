@@ -1,7 +1,7 @@
 import { AdminUser } from '@/types/admin';
 
-const ADMIN_CREDENTIALS = {
-  email: 'admin@hogarbelen.org',
+  password: '@Sara2918+',
+  fullName: 'Administrador Princ
   password: '@Sara2918+',
   totpSecret: 'JBSWY3DPEHPK3PXP',
   fullName: 'Administrador Principal',
@@ -15,7 +15,7 @@ export const setupAdminUser = async (): Promise<void> => {
   
   if (existingAdmin) {
     return;
-  }
+   
 
   const adminUser: AdminUser = {
     id: 'admin-001',
@@ -56,21 +56,21 @@ export const verifyAdminPassword = async (email: string, password: string): Prom
     return null;
   }
 
-  if (!adminUser.totp_enabled || !adminUser.totp_secret) {
-    return null;
-  }
-
-  return adminUser.id;
+export const verifyAdminSetup = async (): Promise<boolean>
+  const adminUse
 };
 
-export const verifyAdminSetup = async (): Promise<boolean> => {
-  const adminUsers = await window.spark.kv.get<Record<string, AdminUser>>('admin-users') ?? {};
-  const adminUser = Object.values(adminUsers).find(u => u.email === ADMIN_CREDENTIALS.email);
-  return !!adminUser;
+
+  
+
+  const adminUser = Object.values(adminUsers).find(u => u.email
+  if (!adminUser) {
+    return;
+
+  
+
 };
 
-export const getAdminInfo = async (): Promise<void> => {
-  const adminUsers = await window.spark.kv.get<Record<string, AdminUser>>('admin-users') ?? {};
 
   if (!adminUsers || Object.keys(adminUsers).length === 0) {
     console.log('❌ No admin users configured');
