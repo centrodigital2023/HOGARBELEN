@@ -39,6 +39,7 @@ import AdminContent from './páginas/AdminContent';
 import AdminAIClassifications from './páginas/AdminAIClassifications';
 import AdminAuditLog from './páginas/AdminAuditLog';
 import AdminConfiguration from './páginas/AdminConfiguration';
+import AdminAnalytics from './páginas/AdminAnalytics';
 
 export interface User {
   id: string;
@@ -106,6 +107,7 @@ const MainApp = () => {
       case 'admin-ia': return <AdminAIClassifications setPage={setCurrentPage} />;
       case 'admin-auditoria': return <AdminAuditLog setPage={setCurrentPage} />;
       case 'admin-configuracion': return <AdminConfiguration setPage={setCurrentPage} />;
+      case 'admin-analytics': return <AdminAnalytics setPage={setCurrentPage} />;
       default: return <PáginaPrincipal setPage={setCurrentPage} />;
     }
   };

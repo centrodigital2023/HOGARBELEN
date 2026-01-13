@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { 
   Shield, SignOut, Users, Briefcase, ChartBar, FileText, 
-  Robot, ClockCounterClockwise, Gear, UserCheck, Warning 
+  Robot, ClockCounterClockwise, Gear, UserCheck, Warning, ChartLine
 } from '@phosphor-icons/react';
 import { DashboardKPIs } from '@/types/admin';
 import { toast } from 'sonner';
@@ -269,6 +269,23 @@ const AdminDashboard = ({ setPage }: AdminDashboardProps) => {
                 <CardContent>
                   <Badge variant="secondary" className="bg-purple-100 text-purple-800">
                     {kpis?.total_leads ?? 0} totales
+                  </Badge>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setPage('admin-analytics')}>
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <ChartLine size={24} className="text-blue-600" />
+                    <CardTitle>Analíticas</CardTitle>
+                  </div>
+                  <CardDescription>
+                    Visualización de datos y métricas
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                    Gráficos interactivos
                   </Badge>
                 </CardContent>
               </Card>

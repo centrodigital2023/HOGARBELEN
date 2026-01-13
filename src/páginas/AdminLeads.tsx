@@ -12,10 +12,13 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   ArrowLeft, MagnifyingGlass, Funnel, Robot, Phone, Envelope,
-  User, Clock, CheckCircle, XCircle, Warning, TrendUp, ChartLine
+  User, Clock, CheckCircle, XCircle, Warning, TrendUp, ChartLine, DownloadSimple, 
+  Calendar as CalendarIcon, FunnelSimple
 } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 import { notifyHighPriorityLead } from '@/lib/email';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 interface AdminLeadsProps {
   setPage: (page: string) => void;
@@ -29,6 +32,12 @@ const AdminLeads = ({ setPage }: AdminLeadsProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterPriority, setFilterPriority] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [filterSource, setFilterSource] = useState<string>('all');
+  const [filterAIIntent, setFilterAIIntent] = useState<string>('all');
+  const [filterAISentiment, setFilterAISentiment] = useState<string>('all');
+  const [dateFrom, setDateFrom] = useState<Date | undefined>(undefined);
+  const [dateTo, setDateTo] = useState<Date | undefined>(undefined);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [adminEmails] = useKV<string[]>('admin-notification-emails', ['hogarbelen2022@gmail.com']);
 
   useEffect(() => {
@@ -44,7 +53,16 @@ const AdminLeads = ({ setPage }: AdminLeadsProps) => {
       lead.data.message?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesPriority = filterPriority === 'all' || lead.priority === filterPriority;
     const matchesStatus = filterStatus === 'all' || lead.status === filterStatus;
-    return matchesSearch && matchesPriority && matchesStatus;
+    const matchesSource = filterSource === 'all' || lead.source_page === filterSource;
+    const matchesAIIntent = filterAIIntent === 'all' || lead.ai_classification?.intent === filterAIIntent;
+    const matchesAISentiment = filterAISentiment === 'all' || lead.ai_classification?.sentiment === filterAISentiment;
+    
+    const leadDate = new Date(lead.created_at);
+    const matchesDateFrom = !dateFrom || leadDate >= dateFrom;
+    const matchesDateTo = !dateTo || leadDate <= dateTo;
+    
+    return matchesSearch && matchesPriority && matchesStatus && matchesSource && 
+           matchesAIIntent && matchesAISentiment && matchesDateFrom && matchesDateTo;
   });
 
   const updateLeadStatus = async (leadId: string, status: Lead['status']) => {
@@ -184,6 +202,113 @@ const AdminLeads = ({ setPage }: AdminLeadsProps) => {
       }));
   };
 
+  const exportToCSV = () => {
+    const headers = ['Fecha', 'Nombre', 'Email', 'Teléfono', 'Estado', 'Prioridad', 'Fuente', 'Mensaje', 'IA Intención', 'IA Sentimiento', 'IA Urgencia', 'Notas'];
+    
+    const rows = filteredLeads.map(lead => [
+      new Date(lead.created_at).toLocaleString('es-CO'),
+      lead.data.name || '',
+      lead.data.email || '',
+      lead.data.phone || '',
+      lead.status,
+      lead.priority,
+      lead.source_page,
+      lead.data.message || '',
+      lead.ai_classification?.intent || '',
+      lead.ai_classification?.sentiment || '',
+      lead.ai_classification?.urgency || '',
+      lead.notes || ''
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+    ].join('\n');
+
+    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `leads_export_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    toast.success(`${filteredLeads.length} leads exportados exitosamente`);
+  };
+
+  const exportToExcel = () => {
+    const headers = ['Fecha', 'Nombre', 'Email', 'Teléfono', 'Estado', 'Prioridad', 'Fuente', 'Tipo', 'Mensaje', 'IA Intención', 'IA Sentimiento', 'IA Urgencia', 'Puntuación IA', 'Asignado a', 'Notas', 'Actualizado'];
+    
+    const rows = filteredLeads.map(lead => [
+      new Date(lead.created_at).toLocaleString('es-CO'),
+      lead.data.name || '',
+      lead.data.email || '',
+      lead.data.phone || '',
+      lead.status,
+      lead.priority,
+      lead.source_page,
+      lead.type,
+      lead.data.message || '',
+      lead.ai_classification?.intent || '',
+      lead.ai_classification?.sentiment || '',
+      lead.ai_classification?.urgency || '',
+      lead.ai_classification?.priority_score ? (lead.ai_classification.priority_score * 100).toFixed(0) + '%' : '',
+      lead.assigned_to || '',
+      lead.notes || '',
+      lead.updated_at ? new Date(lead.updated_at).toLocaleString('es-CO') : ''
+    ]);
+
+    let excelContent = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"/><style>table { border-collapse: collapse; } th, td { border: 1px solid #ddd; padding: 8px; text-align: left; } th { background-color: #4CAF50; color: white; }</style></head><body><table>';
+    
+    excelContent += '<tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr>';
+    
+    rows.forEach(row => {
+      excelContent += '<tr>' + row.map(cell => `<td>${String(cell).replace(/</g, '&lt;').replace(/>/g, '&gt;')}</td>`).join('') + '</tr>';
+    });
+    
+    excelContent += '</table></body></html>';
+
+    const blob = new Blob([excelContent], { type: 'application/vnd.ms-excel' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `leads_export_${new Date().toISOString().split('T')[0]}.xls`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    toast.success(`${filteredLeads.length} leads exportados a Excel exitosamente`);
+  };
+
+  const uniqueSources = Array.from(new Set((leads || []).map(l => l.source_page)));
+  const uniqueIntents = Array.from(new Set((leads || []).filter(l => l.ai_classification?.intent).map(l => l.ai_classification!.intent)));
+  const uniqueSentiments = Array.from(new Set((leads || []).filter(l => l.ai_classification?.sentiment).map(l => l.ai_classification!.sentiment)));
+
+  const clearAllFilters = () => {
+    setSearchTerm('');
+    setFilterPriority('all');
+    setFilterStatus('all');
+    setFilterSource('all');
+    setFilterAIIntent('all');
+    setFilterAISentiment('all');
+    setDateFrom(undefined);
+    setDateTo(undefined);
+    toast.success('Filtros limpiados');
+  };
+
+  const activeFiltersCount = [
+    filterPriority !== 'all',
+    filterStatus !== 'all',
+    filterSource !== 'all',
+    filterAIIntent !== 'all',
+    filterAISentiment !== 'all',
+    !!dateFrom,
+    !!dateTo,
+  ].filter(Boolean).length;
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="border-b bg-white shadow-sm">
@@ -254,41 +379,175 @@ const AdminLeads = ({ setPage }: AdminLeadsProps) => {
 
             <Card className="mb-6">
               <CardContent className="pt-6">
-                <div className="flex flex-col md:flex-row gap-4">
-                  <div className="flex-1 relative">
-                    <MagnifyingGlass size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                    <Input
-                      placeholder="Buscar por nombre, email o mensaje..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
-                    />
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col md:flex-row gap-4">
+                    <div className="flex-1 relative">
+                      <MagnifyingGlass size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                      <Input
+                        placeholder="Buscar por nombre, email o mensaje..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-10"
+                      />
+                    </div>
+                    <Select value={filterStatus} onValueChange={setFilterStatus}>
+                      <SelectTrigger className="w-full md:w-[180px]">
+                        <SelectValue placeholder="Estado" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Todos los estados</SelectItem>
+                        <SelectItem value="new">Nuevo</SelectItem>
+                        <SelectItem value="contacted">Contactado</SelectItem>
+                        <SelectItem value="qualified">Calificado</SelectItem>
+                        <SelectItem value="converted">Convertido</SelectItem>
+                        <SelectItem value="lost">Perdido</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Select value={filterPriority} onValueChange={setFilterPriority}>
+                      <SelectTrigger className="w-full md:w-[180px]">
+                        <SelectValue placeholder="Prioridad" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Todas las prioridades</SelectItem>
+                        <SelectItem value="critical">Crítica</SelectItem>
+                        <SelectItem value="high">Alta</SelectItem>
+                        <SelectItem value="medium">Media</SelectItem>
+                        <SelectItem value="low">Baja</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                      className="w-full md:w-auto"
+                    >
+                      <FunnelSimple size={16} className="mr-2" />
+                      Filtros Avanzados
+                      {activeFiltersCount > 0 && (
+                        <Badge className="ml-2 bg-primary">{activeFiltersCount}</Badge>
+                      )}
+                    </Button>
                   </div>
-                  <Select value={filterPriority} onValueChange={setFilterPriority}>
-                    <SelectTrigger className="w-full md:w-[180px]">
-                      <SelectValue placeholder="Prioridad" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Todas las prioridades</SelectItem>
-                      <SelectItem value="critical">Crítica</SelectItem>
-                      <SelectItem value="high">Alta</SelectItem>
-                      <SelectItem value="medium">Media</SelectItem>
-                      <SelectItem value="low">Baja</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Select value={filterStatus} onValueChange={setFilterStatus}>
-                    <SelectTrigger className="w-full md:w-[180px]">
-                      <SelectValue placeholder="Estado" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Todos los estados</SelectItem>
-                      <SelectItem value="new">Nuevo</SelectItem>
-                      <SelectItem value="contacted">Contactado</SelectItem>
-                      <SelectItem value="qualified">Calificado</SelectItem>
-                      <SelectItem value="converted">Convertido</SelectItem>
-                      <SelectItem value="lost">Perdido</SelectItem>
-                    </SelectContent>
-                  </Select>
+
+                  {showAdvancedFilters && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t">
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Fuente</label>
+                        <Select value={filterSource} onValueChange={setFilterSource}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Todas las fuentes" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">Todas las fuentes</SelectItem>
+                            {uniqueSources.map(source => (
+                              <SelectItem key={source} value={source}>{source}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">IA: Intención</label>
+                        <Select value={filterAIIntent} onValueChange={setFilterAIIntent}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Todas las intenciones" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">Todas las intenciones</SelectItem>
+                            {uniqueIntents.map(intent => (
+                              <SelectItem key={intent} value={intent}>{intent}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">IA: Sentimiento</label>
+                        <Select value={filterAISentiment} onValueChange={setFilterAISentiment}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Todos los sentimientos" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">Todos los sentimientos</SelectItem>
+                            {uniqueSentiments.map(sentiment => (
+                              <SelectItem key={sentiment} value={sentiment}>{sentiment}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Fecha desde</label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button variant="outline" className="w-full justify-start text-left font-normal">
+                              <CalendarIcon size={16} className="mr-2" />
+                              {dateFrom ? dateFrom.toLocaleDateString('es-CO') : 'Seleccionar fecha'}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0">
+                            <Calendar
+                              mode="single"
+                              selected={dateFrom}
+                              onSelect={setDateFrom}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Fecha hasta</label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button variant="outline" className="w-full justify-start text-left font-normal">
+                              <CalendarIcon size={16} className="mr-2" />
+                              {dateTo ? dateTo.toLocaleDateString('es-CO') : 'Seleccionar fecha'}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0">
+                            <Calendar
+                              mode="single"
+                              selected={dateTo}
+                              onSelect={setDateTo}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+
+                      <div className="flex items-end">
+                        <Button 
+                          variant="ghost" 
+                          onClick={clearAllFilters}
+                          className="w-full"
+                        >
+                          Limpiar Filtros
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex gap-2 pt-2 border-t">
+                    <Button 
+                      variant="outline" 
+                      onClick={exportToCSV}
+                      className="flex-1"
+                    >
+                      <DownloadSimple size={16} className="mr-2" />
+                      Exportar CSV
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={exportToExcel}
+                      className="flex-1"
+                    >
+                      <DownloadSimple size={16} className="mr-2" />
+                      Exportar Excel
+                    </Button>
+                    <div className="flex items-center text-sm text-gray-600 px-4">
+                      {filteredLeads.length} de {(leads || []).length} leads
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>

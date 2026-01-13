@@ -22,7 +22,7 @@ export default function PricingPage({ setPage }: PricingPageProps) {
   const centroVidaPlans = [
     {
       name: 'Convivir y Florecer',
-      price: '$1.700.000',
+      price: '$1.850.000',
       period: '/mes (Todo Incluido)',
       description: 'Ideal para quienes encuentran alegría en la compañía',
       subtitle: 'Habitación compartida (dos personas) con todo el confort',
@@ -43,7 +43,7 @@ export default function PricingPage({ setPage }: PricingPageProps) {
     },
     {
       name: 'Privacidad y Armonía',
-      price: '$1.950.000',
+      price: '$2.250.000',
       period: '/mes (Todo Incluido)',
       description: 'Su propio santuario personal',
       subtitle: 'Habitación individual para crear un espacio íntimo y único',
@@ -83,7 +83,7 @@ export default function PricingPage({ setPage }: PricingPageProps) {
     },
     {
       name: 'Premium',
-      price: '$20.900',
+      price: '$20.000',
       period: '/mes',
       description: 'Para cuidado regular y seguimiento',
       icon: Heart,
