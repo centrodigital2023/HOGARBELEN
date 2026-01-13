@@ -19,7 +19,7 @@ export default function ContactPage() {
     setSubmitting(true);
 
     try {
-      const classificationPrompt = window.spark.llmPrompt`Analyze this contact form submission and classify it:
+      const classificationPrompt = (window.spark.llmPrompt as any)`Analyze this contact form submission and classify it:
 Name: ${formData.name}
 Email: ${formData.email}
 Phone: ${formData.phone || 'Not provided'}

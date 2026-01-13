@@ -321,7 +321,7 @@ export const classifyWithAI = async (
     let prompt = '';
 
     if (type === 'professional') {
-      prompt = window.spark.llmPrompt`Analiza este perfil profesional y clasifícalo:
+      prompt = (window.spark.llmPrompt as any)`Analiza este perfil profesional y clasifícalo:
       
 Nombre: ${data.name}
 Título: ${data.title}
@@ -342,7 +342,7 @@ Responde en formato JSON con:
   "concerns": ["lista", "de", "preocupaciones"]
 }`;
     } else if (type === 'offer') {
-      prompt = window.spark.llmPrompt`Analiza esta oferta de trabajo:
+      prompt = (window.spark.llmPrompt as any)`Analiza esta oferta de trabajo:
 
 Título: ${data.title}
 Descripción: ${data.description}
@@ -361,7 +361,7 @@ Responde en formato JSON con:
   "concerns": ["lista", "de", "preocupaciones"]
 }`;
     } else {
-      prompt = window.spark.llmPrompt`Analiza este lead y determina su prioridad:
+      prompt = (window.spark.llmPrompt as any)`Analiza este lead y determina su prioridad:
 
 Tipo: ${data.type}
 Fuente: ${data.source_page}
@@ -400,7 +400,7 @@ Responde en formato JSON con:
 
 export const generateAIResponse = async (context: string, action: string): Promise<string> => {
   try {
-    const prompt = window.spark.llmPrompt`Genera un mensaje profesional y empático para ${action}.
+    const prompt = (window.spark.llmPrompt as any)`Genera un mensaje profesional y empático para ${action}.
 
 Contexto: ${context}
 

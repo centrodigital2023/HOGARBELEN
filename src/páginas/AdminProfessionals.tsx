@@ -49,7 +49,7 @@ const AdminProfessionals = ({ setPage }: AdminProfessionalsProps) => {
   const analyzeWithAI = async (professional: Professional) => {
     setAnalyzingAI(true);
     try {
-      const prompt = window.spark.llmPrompt`Analyze this professional's profile for approval:
+      const prompt = (window.spark.llmPrompt as any)`Analyze this professional's profile for approval:
 
 Name: ${professional.name}
 Title: ${professional.title}
