@@ -248,7 +248,7 @@ export const AdminAuthProvider = ({ children }: { children: ReactNode }) => {
 
   const value: AdminAuthContextType = {
     adminUser,
-    adminSession,
+    adminSession: adminSession ?? null,
     loading,
     totpRequired,
     loginWithCredentials,

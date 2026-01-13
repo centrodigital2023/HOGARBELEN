@@ -3,7 +3,7 @@ import { useAdminAuth } from '@/contextos/AdminAuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Shield, LockKey, AlertTriangle } from '@phosphor-icons/react';
+import { Shield, LockKey, Warning } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 
 interface Admin2FAProps {
@@ -132,7 +132,7 @@ const Admin2FA = ({ setPage }: Admin2FAProps) => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <Alert variant="destructive" className="bg-red-900/20 border-red-900 text-red-200">
-                <AlertTriangle size={16} className="h-4 w-4" />
+                <Warning size={16} className="h-4 w-4" />
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
@@ -141,7 +141,7 @@ const Admin2FA = ({ setPage }: Admin2FAProps) => {
               {code.map((digit, index) => (
                 <input
                   key={index}
-                  ref={el => inputRefs.current[index] = el}
+                  ref={el => { inputRefs.current[index] = el; }}
                   type="text"
                   inputMode="numeric"
                   maxLength={1}

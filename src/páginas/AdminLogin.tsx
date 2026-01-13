@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Shield, Lock, AlertTriangle } from '@phosphor-icons/react';
+import { Shield, Lock, Warning } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 
 interface AdminLoginProps {
@@ -68,7 +68,7 @@ const AdminLogin = ({ setPage }: AdminLoginProps) => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
               <Alert variant="destructive" className="bg-red-900/20 border-red-900 text-red-200">
-                <AlertTriangle size={16} className="h-4 w-4" />
+                <Warning size={16} className="h-4 w-4" />
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}

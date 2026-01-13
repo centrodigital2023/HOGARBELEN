@@ -1,50 +1,81 @@
 export interface AIAnalysisRequest {
   pagina: string;
   contenido?: string;
+  tipo_usuario?: string;
+  datos_formulario?: any;
 }
-export interface AIAnalys
- 
 
+export interface AIAnalysisResult {
+  riesgo: 'alto' | 'medio' | 'bajo';
+  recomendaciones: string[];
+}
 
-  private static async callOpenAI(prompt: s
-      const response = await window.
+export class AIService {
+  private static async callOpenAI(prompt: string): Promise<any> {
+    try {
+      const response = await window.spark.llm(prompt, 'gpt-4o-mini', true);
+      return JSON.parse(response);
     } catch (error) {
+      console.error('Error calling OpenAI:', error);
       return null;
- 
+    }
+  }
 
-Eres un sistema de intel
+  static async analyzeUserInteraction(request: AIAnalysisRequest): Promise<AIAnalysisResult> {
+    const promptText = `Eres un sistema de inteligencia artificial para analizar interacciones de usuarios en Hogar Belén.
+
 Analiza la siguiente interacción del usuario:
-Página: $
+Página: ${request.pagina}
 Contenido: ${request.contenido || 'N/A'}
 
+RESPONDE SOLO CON UN JSON válido en el siguiente formato:
 {
   "riesgo": "alto" | "medio" | "bajo",
-  "recomendaciones
+  "recomendaciones": ["Recomendación 1", "Recomendación 2"]
+}`;
 
+    const result = await this.callOpenAI(promptText);
 
-
+    if (!result) {
+      return {
         riesgo: 'medio',
-        recomendaciones:
+        recomendaciones: ['Error en análisis IA. Requiere revisión manual.']
+      };
     }
 
+    return result;
+  }
 
-
-    recomendacion: 'aprob
+  static async analyzeLead(lead: any): Promise<{
+    nivel_interes: 'alto' | 'medio' | 'bajo';
+    riesgo: 'alto' | 'medio' | 'bajo';
+    observaciones_admin: string;
+    recomendaciones: string[];
   }> {
-Eres un validador de perfiles profesiona
-Analiza el siguiente perfil profesional:
+    const promptText = `Eres un analista de leads para Hogar Belén, un centro de cuidado para adultos mayores.
 
-CRITERIOS DE VALIDACIÓN:
-2
-4. Especialización relevante al cuidado geriá
-6. Disponibilidad coherente
-8. Referencias verificables
+Analiza el siguiente lead:
+
+${JSON.stringify(lead, null, 2)}
+
+CRITERIOS DE ANÁLISIS:
+1. Nivel de interés basado en el contenido del mensaje
+2. Información de contacto válida
+3. Coherencia en la consulta
+4. Urgencia implícita
+5. Potencial de conversión
+
 RESPONDE SOLO CON UN JSON válido:
-  "
+{
+  "nivel_interes": "alto" | "medio" | "bajo",
+  "riesgo": "alto" | "medio" | "bajo",
+  "observaciones_admin": "Observaciones para el administrador",
+  "recomendaciones": ["Recomendación 1", "Recomendación 2"]
+}`;
 
+    const result = await this.callOpenAI(promptText);
 
-
-      return {
+    if (!result) {
       return {
         nivel_interes: 'medio',
         riesgo: 'medio',
@@ -60,9 +91,9 @@ RESPONDE SOLO CON UN JSON válido:
     es_valida: boolean;
     alertas: string[];
     recomendacion: 'aprobar' | 'revisar' | 'rechazar';
+    nivel_confianza?: string;
   }> {
-    const promptText = `
-Eres un validador de perfiles profesionales para Hogar Belén.
+    const promptText = `Eres un validador de perfiles profesionales para Hogar Belén.
 
 Analiza el siguiente perfil profesional:
 
@@ -91,11 +122,15 @@ RESPONDE SOLO CON UN JSON válido:
       return {
         es_valida: false,
         alertas: ['Error en validación IA. Requiere revisión manual.'],
-        recomendacion: 'revisar'
+        recomendacion: 'revisar',
+        nivel_confianza: 'medio'
       };
     }
 
-    return result;
+    return {
+      ...result,
+      nivel_confianza: result.nivel_confianza || 'medio'
+    };
   }
 
   static async categorizeQuery(query: string): Promise<{
@@ -103,8 +138,7 @@ RESPONDE SOLO CON UN JSON válido:
     urgencia: 'alta' | 'media' | 'baja';
     recomendacion: string;
   }> {
-    const promptText = `
-Eres un clasificador de consultas para Hogar Belén.
+    const promptText = `Eres un clasificador de consultas para Hogar Belén.
 
 Analiza la siguiente consulta de usuario:
 
@@ -165,6 +199,53 @@ RESPONDE SOLO CON UN JSON válido:
   }
 
   static validateSalary(salary: number): boolean {
+    const minSalary = 1300000;
+    const maxSalary = 10000000;
+    return salary >= minSalary && salary <= maxSalary;
+  }
 
+  static validateColombianPhone(phone: string): boolean {
+    const phoneRegex = /^\+57\s?[0-9]{10}$/;
+    return phoneRegex.test(phone.replace(/\s/g, ''));
+  }
+
+  static detectUrgencyKeywords(text: string): boolean {
+    const urgencyKeywords = [
+      'urgente', 'emergencia', 'inmediato', 'ya', 'ahora',
+      'rápido', 'pronto', 'cuanto antes', 'hoy', 'mañana'
+    ];
+    const lowerText = text.toLowerCase();
+    return urgencyKeywords.some(keyword => lowerText.includes(keyword));
+  }
+
+  static async classifyLead(leadData: any): Promise<{
+    categoria: string;
+    prioridad: 'alta' | 'media' | 'baja';
+    observaciones: string;
+  }> {
+    const promptText = `Eres un clasificador de leads para Hogar Belén.
+
+Analiza el siguiente lead:
+
+${JSON.stringify(leadData, null, 2)}
+
+RESPONDE SOLO CON UN JSON válido:
+{
+  "categoria": "nombre_categoria",
+  "prioridad": "alta" | "media" | "baja",
+  "observaciones": "Observaciones sobre este lead"
+}`;
+
+    const result = await this.callOpenAI(promptText);
+
+    if (!result) {
+      return {
+        categoria: 'general',
+        prioridad: 'media',
+        observaciones: 'Clasificación manual requerida'
+      };
+    }
+
+    return result;
   }
 }
