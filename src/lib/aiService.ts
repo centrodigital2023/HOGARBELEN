@@ -1,50 +1,50 @@
 export interface AIAnalysisRequest {
   pagina: string;
-  tipo_usuario?: string;
   contenido?: string;
-  datos_formulario?: any;
 }
+export interface AIAnalys
+ 
 
-export interface AIAnalysisResponse {
-  nivel_interes: 'alto' | 'medio' | 'bajo';
-  riesgo: 'alto' | 'medio' | 'bajo';
-  observaciones_admin: string;
-  recomendaciones: string[];
-}
 
-export class AIService {
-  private static async callOpenAI(prompt: string): Promise<any> {
-    try {
-      const response = await window.spark.llm(prompt, 'gpt-4o', true);
-      return JSON.parse(response);
+  private static async callOpenAI(prompt: s
+      const response = await window.
     } catch (error) {
-      console.error('Error calling OpenAI:', error);
       return null;
-    }
-  }
+ 
 
-  static async analyzeUserInteraction(request: AIAnalysisRequest): Promise<AIAnalysisResponse> {
-    const promptText = `
-Eres un sistema de inteligencia artificial para Hogar Belén, una plataforma de cuidado del adulto mayor en Colombia.
-
+Eres un sistema de intel
 Analiza la siguiente interacción del usuario:
-
-Página: ${request.pagina}
-Tipo de Usuario: ${request.tipo_usuario || 'N/A'}
+Página: $
 Contenido: ${request.contenido || 'N/A'}
-Datos del Formulario: ${JSON.stringify(request.datos_formulario || {}, null, 2)}
 
-RESPONDE SOLO CON UN JSON válido:
 {
-  "nivel_interes": "alto" | "medio" | "bajo",
   "riesgo": "alto" | "medio" | "bajo",
-  "observaciones_admin": "Descripción breve del comportamiento",
-  "recomendaciones": ["Recomendación 1", "Recomendación 2"]
-}`;
+  "recomendaciones
 
-    const result = await this.callOpenAI(promptText);
 
-    if (!result) {
+
+        riesgo: 'medio',
+        recomendaciones:
+    }
+
+
+
+    recomendacion: 'aprob
+  }> {
+Eres un validador de perfiles profesiona
+Analiza el siguiente perfil profesional:
+
+CRITERIOS DE VALIDACIÓN:
+2
+4. Especialización relevante al cuidado geriá
+6. Disponibilidad coherente
+8. Referencias verificables
+RESPONDE SOLO CON UN JSON válido:
+  "
+
+
+
+      return {
       return {
         nivel_interes: 'medio',
         riesgo: 'medio',
@@ -60,7 +60,6 @@ RESPONDE SOLO CON UN JSON válido:
     es_valida: boolean;
     alertas: string[];
     recomendacion: 'aprobar' | 'revisar' | 'rechazar';
-    nivel_confianza?: 'alto' | 'medio' | 'bajo';
   }> {
     const promptText = `
 Eres un validador de perfiles profesionales para Hogar Belén.
@@ -157,11 +156,6 @@ RESPONDE SOLO CON UN JSON válido:
     return phoneRegex.test(phone);
   }
 
-  static validateColombianPhone(phone: string): boolean {
-    const phoneRegex = /^\+57[0-9]{10}$/;
-    return phoneRegex.test(phone);
-  }
-
   static validateAge(age: number): boolean {
     return age >= 18 && age <= 70;
   }
@@ -171,58 +165,6 @@ RESPONDE SOLO CON UN JSON válido:
   }
 
   static validateSalary(salary: number): boolean {
-    return salary >= 1000000 && salary <= 20000000;
-  }
 
-  static detectUrgencyKeywords(message: string): boolean {
-    const urgencyKeywords = [
-      'urgente',
-      'emergencia',
-      'inmediato',
-      'rápido',
-      'ya',
-      'hoy',
-      'ahora',
-      'pronto',
-      'necesito',
-      'ayuda',
-      'grave',
-      'crítico'
-    ];
-    
-    const lowercaseMessage = message.toLowerCase();
-    return urgencyKeywords.some(keyword => lowercaseMessage.includes(keyword));
-  }
-
-  static async classifyLead(leadData: any): Promise<{
-    categoria: string;
-    prioridad: 'alta' | 'media' | 'baja';
-    recomendacion: string;
-  }> {
-    const promptText = `
-Eres un clasificador de leads para Hogar Belén.
-
-Analiza el siguiente lead:
-
-${JSON.stringify(leadData, null, 2)}
-
-RESPONDE SOLO CON UN JSON válido:
-{
-  "categoria": "nombre_categoria",
-  "prioridad": "alta" | "media" | "baja",
-  "recomendacion": "Acción recomendada"
-}`;
-
-    const result = await this.callOpenAI(promptText);
-
-    if (!result) {
-      return {
-        categoria: 'general',
-        prioridad: 'media',
-        recomendacion: 'Revisar manualmente'
-      };
-    }
-
-    return result;
   }
 }
