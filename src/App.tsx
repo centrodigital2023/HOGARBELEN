@@ -41,6 +41,7 @@ import AdminAuditLog from './páginas/AdminAuditLog';
 import AdminConfiguration from './páginas/AdminConfiguration';
 import AdminAnalytics from './páginas/AdminAnalytics';
 import RegistroProfesionalInteligente from './pages/RegistroProfesionalInteligente';
+import TestDemoPage from './pages/TestDemoPage';
 
 export interface User {
   id: string;
@@ -111,6 +112,7 @@ const MainApp = () => {
       case 'admin-auditoria': return <AdminAuditLog setPage={setCurrentPage} />;
       case 'admin-configuracion': return <AdminConfiguration setPage={setCurrentPage} />;
       case 'admin-analytics': return <AdminAnalytics setPage={setCurrentPage} />;
+      case 'test-inteligente': return <TestDemoPage setPage={setCurrentPage} />;
       default: return <PáginaPrincipal setPage={setCurrentPage} />;
     }
   };
