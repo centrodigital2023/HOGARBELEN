@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Toaster } from 'sonner';
 import { AuthProvider, useAuth } from './contextos/SupabaseAuthContext';
 import { AdminAuthProvider } from './contextos/AdminAuthContext';
+import { AdminSetupInitializer } from './components/AdminSetupInitializer';
 import Navegación from './componentes/Navegación';
 import PieDePágina from './componentes/PieDePágina';
 import PáginaPrincipal from './páginas/PáginaPrincipal';
@@ -104,6 +105,7 @@ const MainApp = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+      <AdminSetupInitializer />
       <Navegación setPage={setCurrentPage} user={user} userData={userData} />
       <main className="fade-in-page">
         {renderPage()}

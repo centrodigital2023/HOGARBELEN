@@ -183,7 +183,7 @@ export const AdminAuthProvider = ({ children }: { children: ReactNode }) => {
         return { success: false, error: 'Usuario no encontrado' };
       }
 
-      const isValid = verifyTOTPToken(user.totp_secret, token);
+      const isValid = await verifyTOTPToken(user.totp_secret, token);
 
       if (!isValid) {
         await logAudit({
