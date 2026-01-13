@@ -41,7 +41,7 @@ const dayRangeMap: Record<string, number | number[]> = {
 
 const parseTime = (timeStr: string): number => {
   const cleanTimeStr = timeStr.trim().toLowerCase();
-  let [hourStr, minuteStr = '0'] = cleanTimeStr.replace(/[ap]\.m\./i, '').split(':');
+  const [hourStr, minuteStr = '0'] = cleanTimeStr.replace(/[ap]\.m\./i, '').split(':');
   let hour = parseInt(hourStr) || 0;
   const minute = parseInt(minuteStr) || 0;
 
