@@ -14,18 +14,18 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
 import { 
   CheckCircle, 
-  AlertTriangle, 
-  Upload, 
+  Warning, 
+  UploadSimple, 
   UserCheck, 
   FileText, 
   Camera, 
-  Sparkles,
-  Shield,
-  CheckCircle2,
-  AlertCircle,
+  Sparkle,
+  ShieldCheck,
+  CheckCircle as CheckCircle2,
+  WarningCircle,
   Clock,
   Brain
-} from 'lucide-react';
+} from '@phosphor-icons/react';
 import { useKV } from '@github/spark/hooks';
 
 interface RegistroProfesionalProps {
@@ -543,7 +543,7 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
                   />
                   {validationErrors.nombre_completo && (
                     <p className="text-sm text-destructive mt-1 flex items-center gap-1">
-                      <AlertCircle size={14} />
+                      <WarningCircle size={14} />
                       {validationErrors.nombre_completo}
                     </p>
                   )}
@@ -605,7 +605,7 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
                   <p className="text-xs text-muted-foreground mt-1">Formato: +57 seguido de 10 dígitos</p>
                   {validationErrors.telefono && (
                     <p className="text-sm text-destructive mt-1 flex items-center gap-1">
-                      <AlertCircle size={14} />
+                      <WarningCircle size={14} />
                       {validationErrors.telefono}
                     </p>
                   )}
@@ -623,7 +623,7 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
                   />
                   {validationErrors.email && (
                     <p className="text-sm text-destructive mt-1 flex items-center gap-1">
-                      <AlertCircle size={14} />
+                      <WarningCircle size={14} />
                       {validationErrors.email}
                     </p>
                   )}
@@ -710,7 +710,7 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
                   </div>
                   {validationErrors.descripcion_profesional && (
                     <p className="text-sm text-destructive mt-1 flex items-center gap-1">
-                      <AlertCircle size={14} />
+                      <WarningCircle size={14} />
                       {validationErrors.descripcion_profesional}
                     </p>
                   )}
@@ -828,7 +828,7 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
                 )}
 
                 <Alert className="bg-amber-50 border-amber-200">
-                  <Sparkles className="h-4 w-4 text-amber-600" />
+                  <Sparkle className="h-4 w-4 text-amber-600" />
                   <AlertDescription>
                     <strong>Verificación IA:</strong> La inteligencia artificial puede consultar información adicional 
                     en web y redes sociales para generar un informe al administrador. 
@@ -869,7 +869,7 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
                         </>
                       ) : (
                         <>
-                          <Sparkles className="mr-2" size={20} />
+                          <Sparkle className="mr-2" size={20} />
                           Iniciar Test
                         </>
                       )}
@@ -911,7 +911,7 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
             {currentStep === 4 && (
               <div className="space-y-6">
                 <Alert className="bg-green-50 border-green-200">
-                  <Shield className="h-4 w-4 text-green-600" />
+                  <ShieldCheck className="h-4 w-4 text-green-600" />
                   <AlertDescription>
                     <strong>Contrato de transparencia:</strong> Este contrato protege legalmente a Hogar Belén 
                     como intermediario y garantiza tus derechos como profesional.
@@ -1011,7 +1011,7 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
                     )}
                     {formData.firma_digital && formData.firma_digital !== formData.nombre_completo && (
                       <div className="flex items-center gap-2 text-sm text-amber-600">
-                        <AlertTriangle size={16} />
+                        <Warning size={16} />
                         La firma debe coincidir con tu nombre completo
                       </div>
                     )}
@@ -1019,7 +1019,7 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
                 </div>
 
                 <Alert>
-                  <AlertCircle className="h-4 w-4" />
+                  <WarningCircle className="h-4 w-4" />
                   <AlertDescription>
                     <strong>Importante:</strong> No puedes auto-verificarte ni cambiar tu estado de aprobación. 
                     Un administrador revisará tu perfil y documentos antes de activarte en el directorio público.
