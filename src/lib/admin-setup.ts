@@ -1,8 +1,7 @@
 import { AdminUser } from '@/types/admin';
 
 export const ADMIN_CREDENTIALS = {
-  email: 'josefabian1212@gmail.com',
-  password: '@Sara2918+',
+  email: 'admin@hogarbelen.org',
   totpSecret: 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ',
 };
 
@@ -11,7 +10,7 @@ export const setupAdminUser = async (): Promise<void> => {
     id: 'admin-001',
     email: ADMIN_CREDENTIALS.email,
     role: 'super_admin',
-    full_name: 'José Fabián',
+    full_name: 'Administrador Principal',
     created_at: new Date().toISOString(),
     totp_enabled: true,
     totp_secret: ADMIN_CREDENTIALS.totpSecret,
@@ -21,11 +20,7 @@ export const setupAdminUser = async (): Promise<void> => {
   adminUsers[adminUser.id] = adminUser;
   await window.spark.kv.set('admin-users', adminUsers);
 
-  const adminPasswords = await window.spark.kv.get<Record<string, string>>('admin-passwords') ?? {};
-  adminPasswords[adminUser.id] = ADMIN_CREDENTIALS.password;
-  await window.spark.kv.set('admin-passwords', adminPasswords);
-
-  console.log('✅ Admin user configured with credentials');
+  console.log('✅ Admin user configured');
 };
 
 export const verifyAdminSetup = async (): Promise<boolean> => {
@@ -51,10 +46,6 @@ export const verifyAdminSetup = async (): Promise<boolean> => {
 
   console.log('✅ Admin setup verified');
   return true;
-};
-  console.log(`🔐 2FA Status: ${adminUser.totp_enabled ? 'Enabled' : 'Disabled'}`);
-export const getAdminInfo = async (): Promise<void> => {
-  const adminUsers = await window.spark.kv.get<Record<string, AdminUser>>('admin-users') ?? {};
 };
 
 export const getAdminInfo = async (): Promise<void> => {
