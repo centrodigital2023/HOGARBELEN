@@ -105,12 +105,12 @@ export interface Lead {
   notes?: string;
   created_at: string;
   updated_at: string;
+}
 
 export interface AIAlert {
-export interface AIAlert {
+  id: string;
   type: 'suspicious_profile' | 'high_risk_lead' | 'content_violation' | 'fraud_detection' | 'system';
-  type: 'suspicious_profile' | 'high_risk_lead' | 'content_violation' | 'fraud_detection' | 'system';
-  message: string;gh' | 'critical';
+  message: string;
   severity: 'low' | 'medium' | 'high' | 'critical';
   resource_type: 'professional' | 'offer' | 'lead' | 'system';
   resource_id?: string;
@@ -118,7 +118,7 @@ export interface AIAlert {
   resolved: boolean;
   resolved_by?: string;
   resolved_at?: string;
-}
+  created_at: string;
 }
 
 export interface AuditLog {
@@ -132,7 +132,7 @@ export interface AuditLog {
   ip_address: string;
   user_agent: string;
   created_at: string;
-
+}
 
 export interface AdminSettings {
   id: string;
@@ -186,55 +186,12 @@ export interface DashboardMetrics {
     };
   };
 }
-export interface AdminSettings {
-  id: string;
-  category: 'legal' | 'content' | 'ai' | 'system' | 'integrations';
-  key: string;
-  value: any;
-  description?: string;
-  updated_by: string;
-  updated_at: string;
-}
 
-export interface DashboardMetrics {
-  professionals: {
-    total: number;
-    pending: number;
-    approved: number;
-    rejected: number;
-    verified: number;
-  };
-  offers: {
-    total: number;
-    active: number;
-    pending: number;
-    expired: number;
-  };
-  leads: {
-    total: number;
-    thisMonth: number;
-    byPriority: {
-      low: number;
-      medium: number;
-      high: number;
-      critical: number;
-    };
-    byStatus: {
-      new: number;
-      contacted: number;
-      qualified: number;
-      converted: number;
-      lost: number;
-    };
-  };
-  alerts: {
-    total: number;
-    unresolved: number;
-    bySeverity: {
-      low: number;
-      medium: number;
-      high: number;
-      critical: number;
-    };
-  };
+export interface DashboardKPIs {
+  total_professionals: number;
+  pending_approvals: number;
+  active_jobs: number;
+  total_leads: number;
+  leads_this_month: number;
+  ai_alerts: number;
 }

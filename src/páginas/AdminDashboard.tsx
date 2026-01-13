@@ -21,6 +21,7 @@ const AdminDashboard = ({ setPage }: AdminDashboardProps) => {
   const [professionals] = useKV<any[]>('professionals', []);
   const [leads] = useKV<any[]>('leads', []);
   const [jobOffers] = useKV<any[]>('job-offers', []);
+  const [aiAlerts] = useKV<any[]>('ai-alerts', []);
   const [kpis, setKpis] = useState<DashboardKPIs | null>(null);
 
   useEffect(() => {
@@ -31,30 +32,33 @@ const AdminDashboard = ({ setPage }: AdminDashboardProps) => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    if (professionals && leads && jobOffers) {
-      const pendingApprovals = professionals.filter(p => !p.approved).length;
-      const thisMonth = new Date();
-      thisMonth.setDate(1);
-      thisMonth.setHours(0, 0, 0, 0);
-      
-      const leadsThisMonth = leads.filter(l => 
-        new Date(l.created_at) >= thisMonth
-      ).length;
+    const pendingApprovals = (professionals || []).filter((p: any) => p.status === 'pending').length;
+    
+    const thisMonth = new Date();
+    thisMonth.setDate(1);
+    thisMonth.setHours(0, 0, 0, 0);
+    
+    const leadsThisMonth = (leads || []).filter((l: any) => 
+      new Date(l.created_at) >= thisMonth
+    ).length;
 
-      const aiAlerts = professionals.filter(p => 
-        p.ai_risk_score && p.ai_risk_score > 0.7
-      ).length + leads.filter(l => l.priority === 'high').length;
+    const unresolvedAlerts = (aiAlerts || []).filter((a: any) => !a.resolved).length;
+    const highRiskPros = (professionals || []).filter((p: any) => 
+      p.ai_score && p.ai_score < 0.5
+    ).length;
+    const highPriorityLeads = (leads || []).filter((l: any) => 
+      l.priority === 'high' || l.priority === 'critical'
+    ).length;
 
-      setKpis({
-        total_professionals: professionals.length,
-        pending_approvals: pendingApprovals,
-        active_jobs: jobOffers.filter(j => j.published).length,
-        total_leads: leads.length,
-        leads_this_month: leadsThisMonth,
-        ai_alerts: aiAlerts,
-      });
-    }
-  }, [professionals, leads, jobOffers]);
+    setKpis({
+      total_professionals: (professionals || []).length,
+      pending_approvals: pendingApprovals,
+      active_jobs: (jobOffers || []).filter((j: any) => j.active || j.published).length,
+      total_leads: (leads || []).length,
+      leads_this_month: leadsThisMonth,
+      ai_alerts: unresolvedAlerts + highRiskPros + highPriorityLeads,
+    });
+  }, [professionals, leads, jobOffers, aiAlerts]);
 
   const handleLogout = async () => {
     await logout();

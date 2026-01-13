@@ -32,6 +32,8 @@ import PoliticaPrivacidad from './páginas/PoliticaPrivacidad';
 import AdminLogin from './páginas/AdminLogin';
 import Admin2FA from './páginas/Admin2FA';
 import AdminDashboard from './páginas/AdminDashboard';
+import AdminProfessionals from './páginas/AdminProfessionals';
+import AdminLeads from './páginas/AdminLeads';
 
 export interface User {
   id: string;
@@ -92,9 +94,9 @@ const MainApp = () => {
       case 'admin-login': return <AdminLogin setPage={setCurrentPage} />;
       case 'admin-2fa': return <Admin2FA setPage={setCurrentPage} />;
       case 'admin-dashboard': return <AdminDashboard setPage={setCurrentPage} />;
-      case 'admin-profesionales': return <AdminDashboard setPage={setCurrentPage} />;
+      case 'admin-profesionales': return <AdminProfessionals setPage={setCurrentPage} />;
+      case 'admin-leads': return <AdminLeads setPage={setCurrentPage} />;
       case 'admin-ofertas': return <AdminDashboard setPage={setCurrentPage} />;
-      case 'admin-leads': return <AdminDashboard setPage={setCurrentPage} />;
       case 'admin-contenido': return <AdminDashboard setPage={setCurrentPage} />;
       case 'admin-ia': return <AdminDashboard setPage={setCurrentPage} />;
       case 'admin-auditoria': return <AdminDashboard setPage={setCurrentPage} />;

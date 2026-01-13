@@ -6,14 +6,60 @@ import { Textarea } from '../components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { toast } from 'sonner';
 import { useState } from 'react';
+import { useKV } from '@github/spark/hooks';
+import { Lead } from '@/types/admin';
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [leads, setLeads] = useKV<Lead[]>('leads', []);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success('Mensaje enviado. Nos contactaremos pronto.');
-    setFormData({ name: '', email: '', message: '' });
+    setSubmitting(true);
+
+    try {
+      const classificationPrompt = window.spark.llmPrompt`Analyze this contact form submission and classify it:
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone || 'Not provided'}
+Message: ${formData.message}
+
+Classify the priority (low/medium/high/critical), intent (information/booking/emergency/complaint/other), sentiment (positive/neutral/negative), and urgency (low/medium/high/urgent).
+
+Return as JSON: {"priority_score": 0-1, "intent": "...", "sentiment": "...", "urgency": "..."}`;
+
+      const aiResponse = await window.spark.llm(classificationPrompt, 'gpt-4o-mini', true);
+      const aiClassification = JSON.parse(aiResponse);
+
+      const newLead: Lead = {
+        id: `lead-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        source_page: 'contact',
+        source_url: window.location.href,
+        type: 'contact',
+        priority: aiClassification.priority_score > 0.7 ? 'high' : aiClassification.priority_score > 0.4 ? 'medium' : 'low',
+        data: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+        },
+        ai_classification: aiClassification,
+        status: 'new',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+
+      await setLeads((current) => [...(current || []), newLead]);
+      
+      toast.success('Mensaje enviado. Nos contactaremos pronto.');
+      setFormData({ name: '', email: '', phone: '', message: '' });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error('Error al enviar el mensaje. Por favor intente de nuevo.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -40,6 +86,7 @@ export default function ContactPage() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
+                    disabled={submitting}
                   />
                 </div>
                 <div className="space-y-2">
@@ -50,6 +97,17 @@ export default function ContactPage() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
+                    disabled={submitting}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Teléfono (opcional)</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    disabled={submitting}
                   />
                 </div>
                 <div className="space-y-2">
@@ -60,11 +118,21 @@ export default function ContactPage() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     required
+                    disabled={submitting}
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  <Send className="mr-2" size={18} />
-                  Enviar Mensaje
+                <Button type="submit" className="w-full" disabled={submitting}>
+                  {submitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="mr-2" size={18} />
+                      Enviar Mensaje
+                    </>
+                  )}
                 </Button>
               </form>
             </CardContent>
