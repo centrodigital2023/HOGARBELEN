@@ -172,8 +172,16 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-          <p>&copy; 2024 Hogar Belén. Todos los derechos reservados.</p>
+        <div className="border-t border-gray-800 mt-8 pt-8 text-sm text-gray-400">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>&copy; 2024 Hogar Belén. Todos los derechos reservados.</p>
+            <button
+              onClick={() => setPage('admin-login')}
+              className="text-gray-600 hover:text-gray-400 transition-colors text-xs"
+            >
+              Administrador del sitio · Hogar Belén
+            </button>
+          </div>
         </div>
       </div>
     </footer>

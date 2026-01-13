@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Toaster } from 'sonner';
 import { AuthProvider, useAuth } from './contextos/SupabaseAuthContext';
+import { AdminAuthProvider } from './contextos/AdminAuthContext';
 import Navegación from './componentes/Navegación';
 import PieDePágina from './componentes/PieDePágina';
 import PáginaPrincipal from './páginas/PáginaPrincipal';
@@ -27,6 +28,9 @@ import PlanSonreir from './páginas/PlanSonreir';
 import PlanTurismoRural from './páginas/PlanTurismoRural';
 import TerminosYCondiciones from './páginas/TerminosYCondiciones';
 import PoliticaPrivacidad from './páginas/PoliticaPrivacidad';
+import AdminLogin from './páginas/AdminLogin';
+import Admin2FA from './páginas/Admin2FA';
+import AdminDashboard from './páginas/AdminDashboard';
 
 export interface User {
   id: string;
@@ -84,6 +88,16 @@ const MainApp = () => {
       case 'super-admin-dashboard': return <SuperAdminDashboard setPage={setCurrentPage} />;
       case 'terminos-condiciones': return <TerminosYCondiciones setPage={setCurrentPage} />;
       case 'politica-privacidad': return <PoliticaPrivacidad setPage={setCurrentPage} />;
+      case 'admin-login': return <AdminLogin setPage={setCurrentPage} />;
+      case 'admin-2fa': return <Admin2FA setPage={setCurrentPage} />;
+      case 'admin-dashboard': return <AdminDashboard setPage={setCurrentPage} />;
+      case 'admin-profesionales': return <AdminDashboard setPage={setCurrentPage} />;
+      case 'admin-ofertas': return <AdminDashboard setPage={setCurrentPage} />;
+      case 'admin-leads': return <AdminDashboard setPage={setCurrentPage} />;
+      case 'admin-contenido': return <AdminDashboard setPage={setCurrentPage} />;
+      case 'admin-ia': return <AdminDashboard setPage={setCurrentPage} />;
+      case 'admin-auditoria': return <AdminDashboard setPage={setCurrentPage} />;
+      case 'admin-configuracion': return <AdminDashboard setPage={setCurrentPage} />;
       default: return <PáginaPrincipal setPage={setCurrentPage} />;
     }
   };
@@ -102,7 +116,9 @@ const MainApp = () => {
 
 const BelenConectaApp = () => (
   <AuthProvider>
-    <MainApp />
+    <AdminAuthProvider>
+      <MainApp />
+    </AdminAuthProvider>
   </AuthProvider>
 );
 
