@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY || '';
-
 interface AIAnalysisRequest {
   pagina: string;
   tipo_evento: 'view_content' | 'form_submit' | 'button_click' | 'scroll';
@@ -28,6 +26,19 @@ export const useOpenAI = () => {
     setError(null);
 
     try {
+      // Verificar si Spark LLM está disponible
+      if (!window.spark || !window.spark.llm) {
+        console.warn('Spark LLM no disponible, retornando valores por defecto');
+        return {
+          tipo_usuario: 'informativo',
+          nivel_interes: 'medio',
+          urgencia: 'baja',
+          riesgo: 'bajo',
+          recomendacion_accion: 'Monitorear',
+          observaciones_admin: 'Análisis automático no disponible'
+        };
+      }
+
       const prompt = `Eres un sistema de inteligencia artificial para una plataforma de cuidado del adulto mayor en Colombia llamada Hogar Belén.
 
 Analiza el contexto de la página, el comportamiento del usuario y los datos enviados.
@@ -49,48 +60,25 @@ Devuelve SOLO un JSON válido con la siguiente estructura (sin texto adicional):
   "observaciones_admin": "observaciones para el administrador"
 }`;
 
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o-mini',
-          messages: [
-            {
-              role: 'system',
-              content: 'Eres un asistente de análisis de comportamiento para una plataforma de cuidado del adulto mayor. Responde solo con JSON válido.',
-            },
-            {
-              role: 'user',
-              content: prompt,
-            },
-          ],
-          temperature: 0.3,
-          max_tokens: 500,
-          response_format: { type: 'json_object' },
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`OpenAI API error: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      const content = data.choices[0]?.message?.content;
-
-      if (!content) {
-        throw new Error('No response from OpenAI');
-      }
-
-      const analysis: AIAnalysisResponse = JSON.parse(content);
+      const result = await window.spark.llm(prompt, 'gpt-4o-mini', true);
+      
+      // Parsear el resultado
+      const analysis: AIAnalysisResponse = JSON.parse(result);
       return analysis;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
       setError(errorMessage);
       console.error('Error en análisis IA:', err);
-      return null;
+      
+      // Retornar valores por defecto en caso de error
+      return {
+        tipo_usuario: 'informativo',
+        nivel_interes: 'medio',
+        urgencia: 'baja',
+        riesgo: 'bajo',
+        recomendacion_accion: 'Monitorear',
+        observaciones_admin: `Error en análisis: ${errorMessage}`
+      };
     } finally {
       setLoading(false);
     }
@@ -101,6 +89,19 @@ Devuelve SOLO un JSON válido con la siguiente estructura (sin texto adicional):
     setError(null);
 
     try {
+      // Verificar si Spark LLM está disponible
+      if (!window.spark || !window.spark.llm) {
+        console.warn('Spark LLM no disponible');
+        return {
+          tipo_usuario: 'profesional',
+          nivel_interes: 'medio',
+          urgencia: 'media',
+          riesgo: 'bajo',
+          recomendacion_accion: 'revisar_manual',
+          observaciones_admin: 'Validación automática no disponible - revisar manualmente'
+        };
+      }
+
       const prompt = `Eres un sistema de validación de perfiles profesionales para Hogar Belén, una plataforma de cuidado del adulto mayor.
 
 Analiza el siguiente perfil profesional y determina su nivel de confianza:
@@ -117,48 +118,22 @@ Devuelve SOLO un JSON válido con la siguiente estructura:
   "observaciones_admin": "observaciones detalladas sobre el perfil"
 }`;
 
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o-mini',
-          messages: [
-            {
-              role: 'system',
-              content: 'Eres un asistente de validación de perfiles profesionales. Responde solo con JSON válido.',
-            },
-            {
-              role: 'user',
-              content: prompt,
-            },
-          ],
-          temperature: 0.2,
-          max_tokens: 500,
-          response_format: { type: 'json_object' },
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`OpenAI API error: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      const content = data.choices[0]?.message?.content;
-
-      if (!content) {
-        throw new Error('No response from OpenAI');
-      }
-
-      const analysis: AIAnalysisResponse = JSON.parse(content);
+      const result = await window.spark.llm(prompt, 'gpt-4o-mini', true);
+      const analysis: AIAnalysisResponse = JSON.parse(result);
       return analysis;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
       setError(errorMessage);
       console.error('Error en validación IA:', err);
-      return null;
+      
+      return {
+        tipo_usuario: 'profesional',
+        nivel_interes: 'medio',
+        urgencia: 'media',
+        riesgo: 'bajo',
+        recomendacion_accion: 'revisar_manual',
+        observaciones_admin: `Error en validación: ${errorMessage}`
+      };
     } finally {
       setLoading(false);
     }
@@ -169,6 +144,19 @@ Devuelve SOLO un JSON válido con la siguiente estructura:
     setError(null);
 
     try {
+      // Verificar si Spark LLM está disponible
+      if (!window.spark || !window.spark.llm) {
+        console.warn('Spark LLM no disponible');
+        return {
+          tipo_usuario: 'informativo',
+          nivel_interes: 'medio',
+          urgencia: 'media',
+          riesgo: 'bajo',
+          recomendacion_accion: 'seguimiento',
+          observaciones_admin: 'Clasificación automática no disponible'
+        };
+      }
+
       const prompt = `Eres un sistema de clasificación de leads para Hogar Belén.
 
 Analiza el siguiente lead y clasifícalo:
@@ -185,48 +173,22 @@ Devuelve SOLO un JSON válido con la siguiente estructura:
   "observaciones_admin": "observaciones sobre el lead"
 }`;
 
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o-mini',
-          messages: [
-            {
-              role: 'system',
-              content: 'Eres un asistente de clasificación de leads. Responde solo con JSON válido.',
-            },
-            {
-              role: 'user',
-              content: prompt,
-            },
-          ],
-          temperature: 0.2,
-          max_tokens: 500,
-          response_format: { type: 'json_object' },
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`OpenAI API error: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      const content = data.choices[0]?.message?.content;
-
-      if (!content) {
-        throw new Error('No response from OpenAI');
-      }
-
-      const analysis: AIAnalysisResponse = JSON.parse(content);
+      const result = await window.spark.llm(prompt, 'gpt-4o-mini', true);
+      const analysis: AIAnalysisResponse = JSON.parse(result);
       return analysis;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
       setError(errorMessage);
       console.error('Error en clasificación de lead:', err);
-      return null;
+      
+      return {
+        tipo_usuario: 'informativo',
+        nivel_interes: 'medio',
+        urgencia: 'media',
+        riesgo: 'bajo',
+        recomendacion_accion: 'seguimiento',
+        observaciones_admin: `Error en clasificación: ${errorMessage}`
+      };
     } finally {
       setLoading(false);
     }
