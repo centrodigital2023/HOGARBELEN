@@ -6,15 +6,15 @@ export interface EmailNotification {
   to: string;
   subject: string;
   body: string;
-  priority?: 'low' | 'medium' | 'high' | 'critical';
-  type?: EmailNotificationType;
   sentAt?: string;
-}
 
-const simulateEmailSend = (): Promise<void> => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 500);
-  });
+  return new Promi
+ 
+
+  try {
+    console.log('Para:', notificati
+    console.log('Cuerpo:', no
+    a
 };
 
 export async function sendEmailNotification(notification: EmailNotification): Promise<boolean> {
@@ -64,14 +64,14 @@ const getLeadEmailBody = (lead: Lead): string => {
     minute: '2-digit',
   });
 
-  const lines: string[] = [];
-  lines.push('🏠 HOGAR BELÉN - NOTIFICACIÓN DE LEAD');
-  lines.push('');
-  lines.push('Se ha detectado un lead de alta prioridad.');
-  lines.push('');
-  lines.push(`ID: ${lead.id}`);
-  lines.push(`Prioridad: ${lead.priority}`);
-  lines.push(`Estado: ${lead.status}`);
+  lines.push(`Actualizado: ${
+  lines.push(`Nombre: ${lead.data.name || 'No proporci
+  lines.push(`Tel
+  if (lead.data.message) {
+    lines.push('M
+  }
+  if (lead.ai_classification) {
+    lines.push('Clasificación IA:');
   lines.push(`Tipo: ${lead.type}`);
   lines.push(`Página origen: ${lead.source_page}`);
   lines.push(`URL origen: ${lead.source_url}`);
@@ -147,103 +147,103 @@ const getProfessionalApprovalEmailBody = (professional: Professional): string =>
   lines.push('');
   lines.push('Tu perfil profesional ha sido aprobado y ahora está visible en nuestra plataforma Hogar Belén.');
   lines.push('');
-  lines.push('**Detalles de tu perfil:**');
-  lines.push(`• Nombre: ${professional.name}`);
-  lines.push(`• Especialidad: ${professional.title}`);
-  lines.push(`• Categoría: ${professional.category}`);
-  lines.push(`• Experiencia: ${professional.years_experience} años`);
-  lines.push(`• Fecha de aprobación: ${approvalDate}`);
   lines.push('');
-  lines.push('**¿Qué sigue ahora?**');
   lines.push('');
-  lines.push('1. Ya puedes recibir solicitudes de citas de familias');
-  lines.push('2. Gestiona tu disponibilidad desde tu panel de control');
-  lines.push('3. Responde a las consultas de familias interesadas');
-  lines.push('4. Mantén tu perfil actualizado con tus logros y experiencia');
-  lines.push('');
-  lines.push('**Consejos para destacar:**');
-  lines.push('• Completa toda la información de tu perfil');
-  lines.push('• Responde rápidamente a las solicitudes');
-  lines.push('• Mantén actualizada tu disponibilidad');
-  lines.push('• Proporciona un servicio excepcional');
-  lines.push('');
-  lines.push('Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.');
-  lines.push('');
-  lines.push('¡Bienvenido al equipo de profesionales de Hogar Belén!');
-  lines.push('');
-  lines.push('Atentamente,');
   lines.push('Equipo Hogar Belén');
-  lines.push('📞 +57 321 570 8655');
   lines.push('📧 hogarbelen2022@gmail.com');
-  lines.push('🌐 www.hogarbelen.org');
 
-  return lines.join('\n');
 };
-
-export async function notifyProfessionalApproval(professional: Professional): Promise<boolean> {
-  if (!professional.email) {
-    console.warn('El profesional no tiene correo electrónico configurado.');
-    return false;
+export async func
+    console.warn('El profesional no ti
   }
-
   const subject = getProfessionalApprovalEmailSubject(professional);
-  const body = getProfessionalApprovalEmailBody(professional);
 
-  return await sendEmailNotification({
     to: professional.email,
-    subject,
     body,
-    type: 'professional_approved',
-    sentAt: new Date().toISOString(),
-  });
+    sentAt: new D
 }
-
-const getProfessionalRejectionEmailSubject = (professional: Professional): string => {
-  return `Actualización sobre tu registro - Hogar Belén`;
+const getProfessionalRejectionEmailSubject = (professional: 
 };
-
-const getProfessionalRejectionEmailBody = (professional: Professional, reason: string): string => {
-  const lines: string[] = [];
+const getProfessionalRejectionEmailBody = (professional
   lines.push(`Hola ${professional.name},`);
+  lines.push('Gra
+  lines.push('Lamentablemente, después de revisar tu solicitud, no podemos aprobar tu perfil
+  lines.push('**M
   lines.push('');
-  lines.push('Gracias por tu interés en formar parte del equipo de profesionales de Hogar Belén.');
   lines.push('');
-  lines.push('Lamentablemente, después de revisar tu solicitud, no podemos aprobar tu perfil en este momento.');
+  lines.push('• Puedes enviar
   lines.push('');
-  lines.push('**Motivo:**');
-  lines.push(reason);
   lines.push('');
-  lines.push('**¿Qué puedes hacer?**');
-  lines.push('');
-  lines.push('• Si consideras que hay información incorrecta, puedes contactarnos para aclarar cualquier detalle');
-  lines.push('• Puedes enviar una nueva solicitud cuando cumplas con todos los requisitos');
-  lines.push('• Estamos disponibles para responder cualquier pregunta que tengas sobre el proceso');
-  lines.push('');
-  lines.push('Apreciamos tu comprensión y te deseamos mucho éxito en tu carrera profesional.');
-  lines.push('');
-  lines.push('Atentamente,');
   lines.push('Equipo Hogar Belén');
-  lines.push('📞 +57 321 570 8655');
-  lines.push('📧 hogarbelen2022@gmail.com');
-  lines.push('🌐 www.hogarbelen.org');
+  lines.push('📧 hogarbelen2022@gmail.
 
-  return lines.join('\n');
 };
+ex
 
-export async function notifyProfessionalRejection(professional: Professional, reason: string): Promise<boolean> {
-  if (!professional.email) {
-    console.warn('El profesional no tiene correo electrónico configurado.');
-    return false;
   }
+  const subject = getProfess
 
-  const subject = getProfessionalRejectionEmailSubject(professional);
-  const body = getProfessionalRejectionEmailBody(professional, reason);
+    to: professio
+   
 
-  return await sendEmailNotification({
-    to: professional.email,
-    subject,
-    body,
-    type: 'professional_rejected',
-    sentAt: new Date().toISOString(),
-  });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
