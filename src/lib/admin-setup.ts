@@ -1,8 +1,9 @@
 import { AdminUser } from '@/types/admin';
 
 export const ADMIN_CREDENTIALS = {
-  email: 'admin@hogarbelen.org',
-  totpSecret: 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ',
+  email: 'josefabian1212@gmail.com',
+  password: '@Sara2918+',
+  totpSecret: '123012',
 };
 
 export const setupAdminUser = async (): Promise<void> => {
@@ -10,7 +11,7 @@ export const setupAdminUser = async (): Promise<void> => {
     id: 'admin-001',
     email: ADMIN_CREDENTIALS.email,
     role: 'super_admin',
-    full_name: 'Administrador Principal',
+    full_name: 'José Fabián - Administrador',
     created_at: new Date().toISOString(),
     totp_enabled: true,
     totp_secret: ADMIN_CREDENTIALS.totpSecret,
@@ -20,7 +21,11 @@ export const setupAdminUser = async (): Promise<void> => {
   adminUsers[adminUser.id] = adminUser;
   await window.spark.kv.set('admin-users', adminUsers);
 
-  console.log('✅ Admin user configured');
+  const adminPasswords = await window.spark.kv.get<Record<string, string>>('admin-passwords') ?? {};
+  adminPasswords[adminUser.id] = ADMIN_CREDENTIALS.password;
+  await window.spark.kv.set('admin-passwords', adminPasswords);
+
+  console.log('✅ Admin user configured with credentials');
 };
 
 export const verifyAdminSetup = async (): Promise<boolean> => {
