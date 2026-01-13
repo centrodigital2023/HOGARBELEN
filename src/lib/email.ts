@@ -1,16 +1,27 @@
 import type { Lead, Professional } from '../types/admin';
 
+export type EmailNotificationType = 'lead_notification' | 'professional_approved' | 'professional_rejected';
+
 export interface EmailNotification {
-
+  to: string;
+  subject: string;
+  body: string;
+  priority?: 'low' | 'medium' | 'high' | 'critical';
   type?: EmailNotificationType;
-  sentAt?: st
+  sentAt?: string;
+}
 
-  await new Pro
+const simulateEmailSend = (): Promise<void> => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 500);
+  });
+};
 
+export async function sendEmailNotification(notification: EmailNotification): Promise<boolean> {
   try {
-    console.log('P
-}   console.log('Asunto:', notification.subject);
-
+    console.log('📧 Enviando correo electrónico...');
+    console.log('Para:', notification.to);
+    console.log('Asunto:', notification.subject);
     console.log('Cuerpo:', notification.body);
 
     await simulateEmailSend();
@@ -22,18 +33,40 @@ export interface EmailNotification {
     return false;
   }
 }
-    console.log('Cuerpo:', notification.body);
 
-    await simulateEmailSend();
+const getLeadEmailSubject = (lead: Lead): string => {
+  const priorityEmoji = {
+    critical: '🚨',
+    high: '⚠️',
+    medium: '📋',
+    low: '📝',
+  };
 
-    console.log(`📧 Email enviado a ${notification.to}`);
-    return true;
-  } catch (error) {
-    console.error('Error enviando correo:', error);
-    return false;
-  }
-}
+  return `${priorityEmoji[lead.priority]} Nuevo Lead ${lead.priority.toUpperCase()} - Hogar Belén`;
+};
 
+const getLeadEmailBody = (lead: Lead): string => {
+  const createdAt = new Date(lead.created_at).toLocaleString('es-CO', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+  const updatedAt = new Date(lead.updated_at).toLocaleString('es-CO', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+  const lines: string[] = [];
+  lines.push('🏠 HOGAR BELÉN - NOTIFICACIÓN DE LEAD');
+  lines.push('');
   lines.push('Se ha detectado un lead de alta prioridad.');
   lines.push('');
   lines.push(`ID: ${lead.id}`);
