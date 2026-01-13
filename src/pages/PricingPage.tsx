@@ -644,33 +644,77 @@ export default function PricingPage({ setPage }: PricingPageProps) {
                 icon: Users,
                 title: 'Plan Amigos',
                 subtitle: 'Alegría compartida y compañía real',
-                description: 'Juegos de mesa, talleres creativos, encuentros sociales y acompañamiento emocional grupal.',
-                color: 'from-blue-500 to-cyan-500',
-                iconBg: 'bg-blue-100 text-blue-600',
+                description: 'Paseos y fines de semana en fincas campestres, compartidos con otros adultos mayores. Transporte, hospedaje, alimentación y acompañamiento profesional incluidos.',
+                activities: [
+                  'Transporte seguro ida y regreso',
+                  'Hospedaje campestre cómodo y accesible',
+                  'Alimentación completa (desayuno, almuerzo, cena y refrigerios)',
+                  'Acompañamiento permanente de personal capacitado',
+                  'Juegos de mesa y dinámicas grupales',
+                  'Caminatas suaves en entornos naturales',
+                  'Conversatorios y espacios de socialización',
+                  'Talleres creativos y recreativos'
+                ],
+                color: 'from-rose-500 to-pink-500',
+                iconBg: 'bg-rose-100 text-rose-600',
+                pageId: 'plan-amigos'
               },
               {
                 icon: Trees,
                 title: 'Plan Sol y Café',
                 subtitle: 'Estancias rurales con sabor a tradición',
                 description: 'Hospedaje campestre, gastronomía local, caminatas suaves y conversaciones con café de Buesaco.',
+                activities: [
+                  'Estancias en finca campestre acogedora',
+                  'Desayunos y almuerzos con gastronomía tradicional nariñense',
+                  'Café especial de Buesaco en tertulias',
+                  'Caminatas suaves por senderos naturales',
+                  'Conversatorios sobre historia y cultura local',
+                  'Avistamiento de aves y naturaleza',
+                  'Descanso en hamacas y miradores',
+                  'Conexión con la ruralidad y tradiciones'
+                ],
                 color: 'from-amber-500 to-orange-500',
                 iconBg: 'bg-amber-100 text-amber-600',
+                pageId: 'plan-sol-cafe'
               },
               {
                 icon: PartyPopper,
                 title: 'Plan Sonreír',
                 subtitle: 'Celebraciones Inolvidables',
                 description: 'Organización completa del evento, acompañamiento profesional y espacios seguros para celebrar.',
-                color: 'from-pink-500 to-rose-500',
-                iconBg: 'bg-pink-100 text-pink-600',
+                activities: [
+                  'Organización completa de cumpleaños y celebraciones',
+                  'Decoración temática personalizada',
+                  'Refrigerio y torta incluidos',
+                  'Música en vivo o DJ según preferencia',
+                  'Animación y actividades recreativas',
+                  'Fotografía del evento',
+                  'Espacios amplios y seguros',
+                  'Acompañamiento profesional durante todo el evento'
+                ],
+                color: 'from-purple-500 to-pink-500',
+                iconBg: 'bg-purple-100 text-purple-600',
+                pageId: 'plan-sonreir'
               },
               {
                 icon: Trees,
                 title: 'Plan Turismo Rural',
                 subtitle: 'Naturaleza y Espiritualidad',
                 description: 'Salidas ecológicas, zooterapia, recorridos históricos y espacios de reflexión espiritual.',
+                activities: [
+                  'Salidas a reservas naturales y ecoparques',
+                  'Zooterapia con animales de granja',
+                  'Recorridos por sitios históricos de la región',
+                  'Visitas a santuarios y lugares de paz',
+                  'Momentos de reflexión y meditación',
+                  'Terapia de bosque (Shinrin-yoku)',
+                  'Contacto directo con la naturaleza',
+                  'Actividades de conexión espiritual'
+                ],
                 color: 'from-green-500 to-emerald-500',
                 iconBg: 'bg-green-100 text-green-600',
+                pageId: 'plan-turismo-rural'
               },
             ].map((program, index) => (
               <Card
@@ -687,12 +731,32 @@ export default function PricingPage({ setPage }: PricingPageProps) {
                   <p className="text-sm text-muted-foreground text-center leading-relaxed mb-4">
                     {program.description}
                   </p>
-                  <Button variant="outline" className="w-full" onClick={() => setPage('services')}>
-                    Ver Actividades
+                  <div className="mb-4 space-y-1">
+                    {program.activities.slice(0, 3).map((activity, idx) => (
+                      <div key={idx} className="flex items-start gap-2 text-xs text-muted-foreground">
+                        <Check className="w-3 h-3 text-primary flex-shrink-0 mt-0.5" />
+                        <span className="text-left">{activity}</span>
+                      </div>
+                    ))}
+                    {program.activities.length > 3 && (
+                      <p className="text-xs text-primary font-medium text-center pt-1">
+                        +{program.activities.length - 3} actividades más
+                      </p>
+                    )}
+                  </div>
+                  <Button variant="outline" className="w-full" onClick={() => setPage(program.pageId)}>
+                    Ver Detalles Completos
                   </Button>
                 </CardContent>
               </Card>
             ))}
+          </div>
+          
+          <div className="text-center mt-12">
+            <Button size="lg" onClick={() => setPage('planes-vida-activa')}>
+              <Sparkles className="w-5 h-5 mr-2" />
+              Ver Todos los Planes de Vida Activa
+            </Button>
           </div>
         </div>
       </section>

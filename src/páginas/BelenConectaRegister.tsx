@@ -24,6 +24,12 @@ const BelenConectaRegister = ({ setPage }: BelenConectaRegisterProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (formData.role === 'professional') {
+      setPage('registro-profesional-inteligente');
+      return;
+    }
+    
     setLoading(true);
 
     const { error } = await signUp(formData.email, formData.password, formData.name, formData.role);

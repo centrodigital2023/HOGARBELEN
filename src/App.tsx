@@ -40,6 +40,7 @@ import AdminAIClassifications from './páginas/AdminAIClassifications';
 import AdminAuditLog from './páginas/AdminAuditLog';
 import AdminConfiguration from './páginas/AdminConfiguration';
 import AdminAnalytics from './páginas/AdminAnalytics';
+import RegistroProfesionalInteligente from './pages/RegistroProfesionalInteligente';
 
 export interface User {
   id: string;
@@ -90,6 +91,7 @@ const MainApp = () => {
       case 'plan-turismo-rural': return <PlanTurismoRural setPage={setCurrentPage} />;
       case 'login': return <BelenConectaLogin setPage={setCurrentPage} />;
       case 'register': return <BelenConectaRegister setPage={setCurrentPage} />;
+      case 'registro-profesional-inteligente': return <RegistroProfesionalInteligente setPage={setCurrentPage} />;
       case 'dashboard-family': return <FamilyDashboard user={user} setPage={setCurrentPage} />;
       case 'dashboard-pro': return <PanelDeControlProfesional user={user} userData={userData} setPage={setCurrentPage} />;
       case 'ai-assistant': return <AICareAssistant setPage={setCurrentPage} />;
