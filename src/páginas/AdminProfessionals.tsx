@@ -12,9 +12,10 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { 
   UserCheck, UserMinus, Eye, Robot, Warning, CheckCircle, 
-  XCircle, ArrowLeft, MagnifyingGlass, Funnel
+  XCircle, ArrowLeft, MagnifyingGlass, Funnel, Trash, FileText
 } from '@phosphor-icons/react';
 import { toast } from 'sonner';
+import { logAudit } from '@/lib/audit';
 
 interface AdminProfessionalsProps {
   setPage: (page: string) => void;
@@ -156,9 +157,45 @@ Return JSON: {
           : p
       )
     );
+
+    await logAudit({
+      user_id: adminUser?.id || 'unknown',
+      user_email: adminUser?.email || 'unknown',
+      action: 'reject_professional',
+      resource_type: 'professional',
+      resource_id: professional.id,
+      details: { name: professional.name, reason: rejectionReason },
+      ip_address: 'admin',
+      user_agent: navigator.userAgent,
+    });
+
     toast.success(`${professional.name} ha sido rechazado`);
     setSelectedPro(null);
     setRejectionReason('');
+  };
+
+  const deleteProfessional = async (professional: Professional) => {
+    if (!confirm(`¿Está seguro de eliminar permanentemente a ${professional.name}?`)) {
+      return;
+    }
+
+    await setProfessionals((current) =>
+      (current || []).filter(p => p.id !== professional.id)
+    );
+
+    await logAudit({
+      user_id: adminUser?.id || 'unknown',
+      user_email: adminUser?.email || 'unknown',
+      action: 'delete_professional',
+      resource_type: 'professional',
+      resource_id: professional.id,
+      details: { name: professional.name, email: professional.email },
+      ip_address: 'admin',
+      user_agent: navigator.userAgent,
+    });
+
+    toast.success(`${professional.name} ha sido eliminado`);
+    setSelectedPro(null);
   };
 
   const pendingCount = (professionals || []).filter(p => p.status === 'pending').length;
@@ -376,6 +413,49 @@ Return JSON: {
                   <label className="text-sm font-medium text-gray-600">Descripción</label>
                   <p className="text-base">{selectedPro.description}</p>
                 </div>
+                {selectedPro.documents && Object.keys(selectedPro.documents).length > 0 && (
+                  <div className="col-span-2">
+                    <label className="text-sm font-medium text-gray-600">Documentos</label>
+                    <div className="grid grid-cols-2 gap-2 mt-2">
+                      {selectedPro.documents.cv && (
+                        <Button variant="outline" size="sm" className="justify-start" asChild>
+                          <a href={selectedPro.documents.cv} target="_blank" rel="noopener noreferrer">
+                            <FileText size={16} className="mr-2" />
+                            Ver CV
+                          </a>
+                        </Button>
+                      )}
+                      {selectedPro.documents.id_doc && (
+                        <Button variant="outline" size="sm" className="justify-start" asChild>
+                          <a href={selectedPro.documents.id_doc} target="_blank" rel="noopener noreferrer">
+                            <FileText size={16} className="mr-2" />
+                            Ver Documento ID
+                          </a>
+                        </Button>
+                      )}
+                      {selectedPro.documents.professional_card && (
+                        <Button variant="outline" size="sm" className="justify-start" asChild>
+                          <a href={selectedPro.documents.professional_card} target="_blank" rel="noopener noreferrer">
+                            <FileText size={16} className="mr-2" />
+                            Ver Tarjeta Profesional
+                          </a>
+                        </Button>
+                      )}
+                      {selectedPro.documents.certificates && selectedPro.documents.certificates.length > 0 && (
+                        <>
+                          {selectedPro.documents.certificates.map((cert, idx) => (
+                            <Button key={idx} variant="outline" size="sm" className="justify-start" asChild>
+                              <a href={cert} target="_blank" rel="noopener noreferrer">
+                                <FileText size={16} className="mr-2" />
+                                Certificado {idx + 1}
+                              </a>
+                            </Button>
+                          ))}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {aiAnalysis && (
@@ -465,6 +545,17 @@ Return JSON: {
                   </div>
                 </div>
               )}
+
+              <div className="flex gap-2 pt-4 border-t">
+                <Button
+                  variant="destructive"
+                  onClick={() => deleteProfessional(selectedPro)}
+                  className="flex-1"
+                >
+                  <Trash size={16} className="mr-2" />
+                  Eliminar Permanentemente
+                </Button>
+              </div>
             </div>
           )}
         </DialogContent>

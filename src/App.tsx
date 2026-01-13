@@ -34,6 +34,11 @@ import Admin2FA from './páginas/Admin2FA';
 import AdminDashboard from './páginas/AdminDashboard';
 import AdminProfessionals from './páginas/AdminProfessionals';
 import AdminLeads from './páginas/AdminLeads';
+import AdminJobOffers from './páginas/AdminJobOffers';
+import AdminContent from './páginas/AdminContent';
+import AdminAIClassifications from './páginas/AdminAIClassifications';
+import AdminAuditLog from './páginas/AdminAuditLog';
+import AdminConfiguration from './páginas/AdminConfiguration';
 
 export interface User {
   id: string;
@@ -96,11 +101,11 @@ const MainApp = () => {
       case 'admin-dashboard': return <AdminDashboard setPage={setCurrentPage} />;
       case 'admin-profesionales': return <AdminProfessionals setPage={setCurrentPage} />;
       case 'admin-leads': return <AdminLeads setPage={setCurrentPage} />;
-      case 'admin-ofertas': return <AdminDashboard setPage={setCurrentPage} />;
-      case 'admin-contenido': return <AdminDashboard setPage={setCurrentPage} />;
-      case 'admin-ia': return <AdminDashboard setPage={setCurrentPage} />;
-      case 'admin-auditoria': return <AdminDashboard setPage={setCurrentPage} />;
-      case 'admin-configuracion': return <AdminDashboard setPage={setCurrentPage} />;
+      case 'admin-ofertas': return <AdminJobOffers setPage={setCurrentPage} />;
+      case 'admin-contenido': return <AdminContent setPage={setCurrentPage} />;
+      case 'admin-ia': return <AdminAIClassifications setPage={setCurrentPage} />;
+      case 'admin-auditoria': return <AdminAuditLog setPage={setCurrentPage} />;
+      case 'admin-configuracion': return <AdminConfiguration setPage={setCurrentPage} />;
       default: return <PáginaPrincipal setPage={setCurrentPage} />;
     }
   };

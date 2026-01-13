@@ -9,11 +9,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   ArrowLeft, MagnifyingGlass, Funnel, Robot, Phone, Envelope,
-  User, Clock, CheckCircle, XCircle, Warning
+  User, Clock, CheckCircle, XCircle, Warning, TrendUp, ChartLine
 } from '@phosphor-icons/react';
 import { toast } from 'sonner';
+import { notifyHighPriorityLead } from '@/lib/email';
 
 interface AdminLeadsProps {
   setPage: (page: string) => void;
@@ -27,6 +29,7 @@ const AdminLeads = ({ setPage }: AdminLeadsProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterPriority, setFilterPriority] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [adminEmails] = useKV<string[]>('admin-notification-emails', ['hogarbelen2022@gmail.com']);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -114,6 +117,73 @@ const AdminLeads = ({ setPage }: AdminLeadsProps) => {
     lost: (leads || []).filter(l => l.status === 'lost').length,
   };
 
+  useEffect(() => {
+    const checkHighPriorityLeads = async () => {
+      const newHighPriorityLeads = (leads || []).filter(
+        l => (l.priority === 'high' || l.priority === 'critical') && l.status === 'new'
+      );
+
+      for (const lead of newHighPriorityLeads) {
+        const alreadyNotified = await window.spark.kv.get<string[]>('notified-leads') ?? [];
+        if (!alreadyNotified.includes(lead.id)) {
+          await notifyHighPriorityLead(lead, adminEmails || ['hogarbelen2022@gmail.com']);
+          await window.spark.kv.set('notified-leads', [...alreadyNotified, lead.id]);
+        }
+      }
+    };
+
+    checkHighPriorityLeads();
+  }, [leads]);
+
+  const getConversionRate = () => {
+    const totalLeads = (leads || []).length;
+    if (totalLeads === 0) return 0;
+    const convertedLeads = statusCount.converted;
+    return ((convertedLeads / totalLeads) * 100).toFixed(1);
+  };
+
+  const getLeadsByMonth = () => {
+    const monthlyData: Record<string, number> = {};
+    
+    (leads || []).forEach(lead => {
+      const date = new Date(lead.created_at);
+      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      monthlyData[monthKey] = (monthlyData[monthKey] || 0) + 1;
+    });
+
+    return Object.entries(monthlyData)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .slice(-6);
+  };
+
+  const getConversionByMonth = () => {
+    const monthlyData: Record<string, { total: number; converted: number }> = {};
+    
+    (leads || []).forEach(lead => {
+      const date = new Date(lead.created_at);
+      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      
+      if (!monthlyData[monthKey]) {
+        monthlyData[monthKey] = { total: 0, converted: 0 };
+      }
+      
+      monthlyData[monthKey].total += 1;
+      if (lead.status === 'converted') {
+        monthlyData[monthKey].converted += 1;
+      }
+    });
+
+    return Object.entries(monthlyData)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .slice(-6)
+      .map(([month, data]) => ({
+        month,
+        rate: data.total > 0 ? ((data.converted / data.total) * 100).toFixed(1) : '0',
+        total: data.total,
+        converted: data.converted,
+      }));
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="border-b bg-white shadow-sm">
@@ -132,99 +202,106 @@ const AdminLeads = ({ setPage }: AdminLeadsProps) => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-          <Card>
-            <CardContent className="pt-6">
-              <div className="text-center">
-                <p className="text-sm text-gray-600 mb-1">Total</p>
-                <p className="text-3xl font-bold">{(leads || []).length}</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <div className="text-center">
-                <p className="text-sm text-gray-600 mb-1">Nuevos</p>
-                <p className="text-3xl font-bold text-purple-600">{statusCount.new}</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <div className="text-center">
-                <p className="text-sm text-gray-600 mb-1">Contactados</p>
-                <p className="text-3xl font-bold text-blue-600">{statusCount.contacted}</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <div className="text-center">
-                <p className="text-sm text-gray-600 mb-1">Calificados</p>
-                <p className="text-3xl font-bold text-indigo-600">{statusCount.qualified}</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <div className="text-center">
-                <p className="text-sm text-gray-600 mb-1">Convertidos</p>
-                <p className="text-3xl font-bold text-green-600">{statusCount.converted}</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <Tabs defaultValue="leads" className="space-y-6">
+          <TabsList>
+            <TabsTrigger value="leads">Leads</TabsTrigger>
+            <TabsTrigger value="statistics">Estadísticas</TabsTrigger>
+          </TabsList>
 
-        <Card className="mb-6">
-          <CardContent className="pt-6">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1 relative">
-                <MagnifyingGlass size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <Input
-                  placeholder="Buscar por nombre, email o mensaje..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <Select value={filterPriority} onValueChange={setFilterPriority}>
-                <SelectTrigger className="w-full md:w-[180px]">
-                  <SelectValue placeholder="Prioridad" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todas las prioridades</SelectItem>
-                  <SelectItem value="critical">Crítica</SelectItem>
-                  <SelectItem value="high">Alta</SelectItem>
-                  <SelectItem value="medium">Media</SelectItem>
-                  <SelectItem value="low">Baja</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select value={filterStatus} onValueChange={setFilterStatus}>
-                <SelectTrigger className="w-full md:w-[180px]">
-                  <SelectValue placeholder="Estado" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todos los estados</SelectItem>
-                  <SelectItem value="new">Nuevo</SelectItem>
-                  <SelectItem value="contacted">Contactado</SelectItem>
-                  <SelectItem value="qualified">Calificado</SelectItem>
-                  <SelectItem value="converted">Convertido</SelectItem>
-                  <SelectItem value="lost">Perdido</SelectItem>
-                </SelectContent>
-              </Select>
+          <TabsContent value="leads" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="text-center">
+                    <p className="text-sm text-gray-600 mb-1">Total</p>
+                    <p className="text-3xl font-bold">{(leads || []).length}</p>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="text-center">
+                    <p className="text-sm text-gray-600 mb-1">Nuevos</p>
+                    <p className="text-3xl font-bold text-purple-600">{statusCount.new}</p>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="text-center">
+                    <p className="text-sm text-gray-600 mb-1">Contactados</p>
+                    <p className="text-3xl font-bold text-blue-600">{statusCount.contacted}</p>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="text-center">
+                    <p className="text-sm text-gray-600 mb-1">Calificados</p>
+                    <p className="text-3xl font-bold text-indigo-600">{statusCount.qualified}</p>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="text-center">
+                    <p className="text-sm text-gray-600 mb-1">Convertidos</p>
+                    <p className="text-3xl font-bold text-green-600">{statusCount.converted}</p>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-          </CardContent>
-        </Card>
 
-        <div className="grid grid-cols-1 gap-4">
-          {filteredLeads.length === 0 ? (
-            <Card>
-              <CardContent className="py-12 text-center text-gray-500">
-                No se encontraron leads
+            <Card className="mb-6">
+              <CardContent className="pt-6">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex-1 relative">
+                    <MagnifyingGlass size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <Input
+                      placeholder="Buscar por nombre, email o mensaje..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                  <Select value={filterPriority} onValueChange={setFilterPriority}>
+                    <SelectTrigger className="w-full md:w-[180px]">
+                      <SelectValue placeholder="Prioridad" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Todas las prioridades</SelectItem>
+                      <SelectItem value="critical">Crítica</SelectItem>
+                      <SelectItem value="high">Alta</SelectItem>
+                      <SelectItem value="medium">Media</SelectItem>
+                      <SelectItem value="low">Baja</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Select value={filterStatus} onValueChange={setFilterStatus}>
+                    <SelectTrigger className="w-full md:w-[180px]">
+                      <SelectValue placeholder="Estado" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Todos los estados</SelectItem>
+                      <SelectItem value="new">Nuevo</SelectItem>
+                      <SelectItem value="contacted">Contactado</SelectItem>
+                      <SelectItem value="qualified">Calificado</SelectItem>
+                      <SelectItem value="converted">Convertido</SelectItem>
+                      <SelectItem value="lost">Perdido</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </CardContent>
             </Card>
-          ) : (
-            filteredLeads.map((lead) => (
+
+            <div className="grid grid-cols-1 gap-4">
+              {filteredLeads.length === 0 ? (
+                <Card>
+                  <CardContent className="py-12 text-center text-gray-500">
+                    No se encontraron leads
+                  </CardContent>
+                </Card>
+              ) : (
+                filteredLeads.map((lead) => (
               <Card key={lead.id} className="hover:shadow-md transition-shadow">
                 <CardContent className="pt-6">
                   <div className="flex items-start justify-between">
@@ -308,7 +385,163 @@ const AdminLeads = ({ setPage }: AdminLeadsProps) => {
               </Card>
             ))
           )}
-        </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="statistics">
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      <TrendUp size={20} className="text-green-600" />
+                      Tasa de Conversión
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-4xl font-bold text-green-600">{getConversionRate()}%</p>
+                    <p className="text-sm text-gray-600 mt-2">
+                      {statusCount.converted} de {(leads || []).length} leads convertidos
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      <Warning size={20} className="text-orange-600" />
+                      Alta Prioridad
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-4xl font-bold text-orange-600">
+                      {priorityCount.high + priorityCount.critical}
+                    </p>
+                    <p className="text-sm text-gray-600 mt-2">
+                      Requieren atención inmediata
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      <ChartLine size={20} className="text-blue-600" />
+                      Promedio Mensual
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-4xl font-bold text-blue-600">
+                      {Math.round((leads || []).length / Math.max(getLeadsByMonth().length, 1))}
+                    </p>
+                    <p className="text-sm text-gray-600 mt-2">
+                      Leads por mes (últimos 6 meses)
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Leads por Mes (Últimos 6 Meses)</CardTitle>
+                  <CardDescription>Tendencia de nuevos leads recibidos</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {getLeadsByMonth().map(([month, count]) => (
+                      <div key={month} className="flex items-center gap-4">
+                        <div className="w-24 text-sm font-medium text-gray-600">
+                          {new Date(month + '-01').toLocaleDateString('es-ES', { month: 'short', year: 'numeric' })}
+                        </div>
+                        <div className="flex-1">
+                          <div className="h-8 bg-blue-100 rounded-lg overflow-hidden">
+                            <div
+                              className="h-full bg-blue-600 flex items-center justify-end px-3 text-white text-sm font-semibold"
+                              style={{
+                                width: `${Math.max((count / Math.max(...getLeadsByMonth().map(([, c]) => c))) * 100, 10)}%`
+                              }}
+                            >
+                              {count}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Tasa de Conversión por Mes</CardTitle>
+                  <CardDescription>Porcentaje de leads convertidos mensualmente</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {getConversionByMonth().map(({ month, rate, total, converted }) => (
+                      <div key={month} className="flex items-center gap-4">
+                        <div className="w-24 text-sm font-medium text-gray-600">
+                          {new Date(month + '-01').toLocaleDateString('es-ES', { month: 'short', year: 'numeric' })}
+                        </div>
+                        <div className="flex-1">
+                          <div className="h-8 bg-green-100 rounded-lg overflow-hidden">
+                            <div
+                              className="h-full bg-green-600 flex items-center justify-end px-3 text-white text-sm font-semibold"
+                              style={{ width: `${Math.max(parseFloat(rate), 5)}%` }}
+                            >
+                              {rate}%
+                            </div>
+                          </div>
+                        </div>
+                        <div className="w-32 text-sm text-gray-600">
+                          {converted} / {total} leads
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Distribución por Estado</CardTitle>
+                  <CardDescription>Proporción de leads en cada etapa del funnel</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {Object.entries(statusCount).map(([status, count]) => {
+                      const total = (leads || []).length;
+                      const percentage = total > 0 ? ((count / total) * 100).toFixed(1) : '0';
+                      const colors = {
+                        new: 'bg-purple-600',
+                        contacted: 'bg-blue-600',
+                        qualified: 'bg-indigo-600',
+                        converted: 'bg-green-600',
+                        lost: 'bg-gray-600',
+                      };
+                      return (
+                        <div key={status} className="flex items-center gap-4">
+                          <div className="w-32 text-sm font-medium capitalize">{status}</div>
+                          <div className="flex-1">
+                            <div className="h-8 bg-gray-100 rounded-lg overflow-hidden">
+                              <div
+                                className={`h-full ${colors[status as keyof typeof colors]} flex items-center justify-end px-3 text-white text-sm font-semibold`}
+                                style={{ width: `${Math.max(parseFloat(percentage), 5)}%` }}
+                              >
+                                {percentage}%
+                              </div>
+                            </div>
+                          </div>
+                          <div className="w-16 text-sm text-gray-600 text-right">{count}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
 
       <Dialog open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>
