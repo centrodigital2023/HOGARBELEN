@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkle, Key, Sun, Heart, Confetti, ArrowRight, Phone, MapPin, WhatsappLogo } from '@phosphor-icons/react';
-import Button from '../componentes/ui/botón';
-import { Card, CardContent } from '../componentes/ui/tarjeta';
-import Input from '../componentes/ui/input';
-import Textarea from '../componentes/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { PexelsImage } from '@/components/PexelsImage';
 import { searchPexelsPhotos } from '@/lib/pexels';

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../componentes/ui/pestañas';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { User, Calendar, ChatCircle, Gear } from '@phosphor-icons/react';
 import ResumenDelPerfil from '../panel/ResumenDelPerfil';
 import ProfileTab from '../panel/ProfileTab';

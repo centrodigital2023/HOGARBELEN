@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../componentes/ui/tarjeta';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PaperPlaneRight, User } from '@phosphor-icons/react';
-import Button from '../componentes/ui/botón';
-import Avatar from '../componentes/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 interface Message {
   id: string;
@@ -66,7 +66,9 @@ const PestañaMensajes = () => {
                 } ${!message.read ? 'bg-primary/5' : ''}`}
               >
                 <div className="flex items-start gap-3">
-                  <Avatar size="sm" />
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback>{message.senderName.charAt(0)}</AvatarFallback>
+                  </Avatar>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-1">
                       <span className={`font-semibold text-sm ${!message.read ? 'text-primary' : 'text-foreground'}`}>
@@ -106,7 +108,9 @@ const PestañaMensajes = () => {
             <div className="space-y-6">
               <div className="bg-muted/50 p-4 rounded-lg">
                 <div className="flex items-start gap-3 mb-2">
-                  <Avatar size="sm" />
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback>{selectedMessage.senderName.charAt(0)}</AvatarFallback>
+                  </Avatar>
                   <div className="flex-1">
                     <div className="font-semibold text-sm mb-1">{selectedMessage.senderName}</div>
                     <p className="text-sm text-muted-foreground">

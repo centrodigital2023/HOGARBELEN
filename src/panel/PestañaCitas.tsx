@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../componentes/ui/tarjeta';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar, Clock, User, X, Check, Phone, Prohibit, CalendarX } from '@phosphor-icons/react';
-import Insignia from '../componentes/ui/insignia';
-import Button from '../componentes/ui/botón';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { useKV } from '@github/spark/hooks';
 import { toast } from 'sonner';
 import { AvailabilityManager } from '../components/AvailabilityManager';
@@ -146,7 +146,14 @@ const PestañaCitas = ({ professionalId = '1', userData }: PestañaCitasProps) =
       cancelled: 'Cancelada'
     };
 
-    return <Insignia variant={variants[status as keyof typeof variants]}>{labels[status as keyof typeof labels]}</Insignia>;
+    const variantMap = {
+      confirmed: 'default',
+      pending: 'secondary',
+      completed: 'default',
+      cancelled: 'destructive'
+    };
+
+    return <Badge variant={variantMap[status as keyof typeof variantMap] as any}>{labels[status as keyof typeof labels]}</Badge>;
   };
 
   const upcomingAppointments = appointments?.filter(a => a.status !== 'completed' && a.status !== 'cancelled') || [];
@@ -156,7 +163,7 @@ const PestañaCitas = ({ professionalId = '1', userData }: PestañaCitasProps) =
     <div className="space-y-6">
       <div className="flex gap-2 mb-4">
         <Button
-          variant={activeTab === 'list' ? 'primary' : 'outline'}
+          variant={activeTab === 'list' ? 'default' : 'outline'}
           onClick={() => setActiveTab('list')}
           className="flex-1"
         >
@@ -164,7 +171,7 @@ const PestañaCitas = ({ professionalId = '1', userData }: PestañaCitasProps) =
           Lista de Citas
         </Button>
         <Button
-          variant={activeTab === 'availability' ? 'primary' : 'outline'}
+          variant={activeTab === 'availability' ? 'default' : 'outline'}
           onClick={() => setActiveTab('availability')}
           className="flex-1"
         >
@@ -229,7 +236,7 @@ const PestañaCitas = ({ professionalId = '1', userData }: PestañaCitasProps) =
                         {appointment.status === 'pending' && (
                           <Button 
                             size="sm" 
-                            variant="primary"
+                            variant="default"
                             onClick={() => confirmAppointment(appointment.id)}
                           >
                             <Check size={16} className="mr-1" />

@@ -1,7 +1,7 @@
 import { Camera, Star, MapPin, Briefcase } from '@phosphor-icons/react';
-import { Card, CardContent } from '../componentes/ui/tarjeta';
-import Avatar from '../componentes/ui/avatar';
-import Insignia from '../componentes/ui/insignia';
+import { Card, CardContent } from '@/components/ui/card';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 
 interface ResumenDelPerfilProps {
   user: any;
@@ -20,7 +20,12 @@ const ResumenDelPerfil = ({ user, userData }: ResumenDelPerfilProps) => {
       <CardContent className="p-6">
         <div className="flex flex-col md:flex-row gap-6 items-start">
           <div className="relative group">
-            <Avatar src={userData?.photoUrl} size="xl" />
+            <Avatar className="h-24 w-24">
+              <AvatarImage src={userData?.photoUrl} />
+              <AvatarFallback className="text-2xl">
+                {(userData?.fullName || 'P').charAt(0)}
+              </AvatarFallback>
+            </Avatar>
             <button className="absolute bottom-0 right-0 p-2 bg-primary rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
               <Camera size={16} />
             </button>
@@ -32,7 +37,7 @@ const ResumenDelPerfil = ({ user, userData }: ResumenDelPerfilProps) => {
                 <h2 className="text-2xl font-bold text-foreground">
                   {userData?.fullName || 'Profesional'}
                 </h2>
-                <Insignia variant="success">Verificado</Insignia>
+                <Badge variant="default" className="bg-green-500">Verificado</Badge>
               </div>
               
               <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">

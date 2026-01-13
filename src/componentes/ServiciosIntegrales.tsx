@@ -4,6 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { searchPexelsPhotos } from '@/lib/pexels';
+import imgDescarga2 from '@/assets/images/descarga_(2).jpg';
+import imgAmigos from '@/assets/images/IMG-20230519-WA0059.jpg';
+import imgCasa from '@/assets/images/IMG-20230519-WA0087.jpg';
+import imgSolCafe from '@/assets/images/IMG-20230519-WA0042.jpg';
+import imgSonreir from '@/assets/images/IMG-20230519-WA0049.jpg';
+import imgTurismo from '@/assets/images/IMG-20230519-WA0016.jpg';
 
 interface ServiciosIntegralesProps {
   setPage: (page: string) => void;
@@ -55,7 +61,7 @@ const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
       titulo: 'Plan Dulce Hogar',
       subtitulo: 'Cuidado experto en su propio espacio',
       descripcion: 'Llevamos nuestro cuidado profesional y nuestra calidez directamente a la comodidad de su hogar. Nuestros cuidadores certificados brindan atención personalizada, permitiendo que sus seres queridos mantengan su independencia y rutina en un entorno familiar.',
-      imagen: serviceImages['dulceHogar'] || new URL('@/assets/images/descarga_(2).jpg', import.meta.url).href,
+      imagen: serviceImages['dulceHogar'] || imgDescarga2,
       beneficios: [
         'Cuidadores certificados y de confianza',
         'Atención personalizada en casa',
@@ -70,7 +76,7 @@ const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
       titulo: 'Belén Conecta',
       subtitulo: 'La Tecnología al Servicio del Cuidado',
       descripcion: 'Nuestra plataforma digital revoluciona la forma de encontrar cuidadores especializados. Conectamos familias con profesionales verificados, garantizando calidad y confianza en cada servicio.',
-      imagen: serviceImages['belenConecta'] || new URL('@/assets/images/descarga_(2).jpg', import.meta.url).href,
+      imagen: serviceImages['belenConecta'] || imgDescarga2,
       caracteristicas: [
         { titulo: 'Perfiles Verificados', descripcion: 'Profesionales cualificados y de confianza.' },
         { titulo: 'Calificaciones y Reseñas', descripcion: 'Transparencia y fiabilidad en cada elección.' },
@@ -88,31 +94,31 @@ const ServiciosIntegrales = ({ setPage }: ServiciosIntegralesProps) => {
       titulo: 'Plan Amigos',
       descripcion: 'Actividades lúdicas y estimulantes para abuelos que buscan alegría y compañía.',
       icon: Users,
-      imagen: programImages['planAmigos'] || new URL('@/assets/images/IMG-20230519-WA0059.jpg', import.meta.url).href
+      imagen: programImages['planAmigos'] || imgAmigos
     },
     {
       titulo: 'Plan en mi Casa',
       descripcion: 'Equipo de enfermería y asistencia personal 24/7 en la comodidad de su hogar.',
       icon: Home,
-      imagen: programImages['planCasa'] || new URL('@/assets/images/IMG-20230519-WA0087.jpg', import.meta.url).href
+      imagen: programImages['planCasa'] || imgCasa
     },
     {
       titulo: 'Plan Sol y Café',
       descripcion: 'Hospédese en fincas tradicionales de Buesaco y disfrute la cultura local.',
       icon: Coffee,
-      imagen: programImages['planSol'] || new URL('@/assets/images/IMG-20230519-WA0042.jpg', import.meta.url).href
+      imagen: programImages['planSol'] || imgSolCafe
     },
     {
       titulo: 'Plan Sonreír',
       descripcion: 'Celebraciones seguras y memorables para cumpleaños, aniversarios y encuentros familiares.',
       icon: Smile,
-      imagen: programImages['planSonreir'] || new URL('@/assets/images/IMG-20230519-WA0049.jpg', import.meta.url).href
+      imagen: programImages['planSonreir'] || imgSonreir
     },
     {
       titulo: 'Plan Turismo Rural',
       descripcion: 'Salidas ecológicas, zooterapia, historia, espiritualidad y conexión con la naturaleza.',
       icon: Mountain,
-      imagen: programImages['planTurismo'] || new URL('@/assets/images/IMG-20230519-WA0016.jpg', import.meta.url).href
+      imagen: programImages['planTurismo'] || imgTurismo
     }
   ];
 
