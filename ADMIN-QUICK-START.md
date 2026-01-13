@@ -1,174 +1,202 @@
-# 🚀 Guía Rápida de Acceso - Administrador
+# 🚀 Acceso Rápido - Panel Administrativo Hogar Belén
 
-## 📋 Credenciales Configuradas
+## 🔑 Credenciales de Acceso
 
 ```
-Email:    josefabian1212@gmail.com
-Password: @Sara2918+
-2FA Code: 123012
+Email:      josefabian1212@gmail.com
+Contraseña: @Sara2918+
+Código 2FA: 123012
 ```
 
-## 🔑 Cómo Acceder al Panel Administrativo
+## 📋 Acceso Paso a Paso
 
-### Opción 1: Desde la Aplicación
-1. Abrir la aplicación en el navegador
-2. Navegar a la página de login administrativo
-3. Usar el botón "Admin" en el pie de página (si está disponible)
+1. **Abrir la aplicación** (Hogar Belén)
+2. **Navegar al login administrativo**
+   - Buscar enlace "Admin" en el sitio o
+   - Usar navegación interna a `admin-login`
+3. **Ingresar credenciales:**
+   - Email: `josefabian1212@gmail.com`
+   - Contraseña: `@Sara2918+`
+4. **Verificar 2FA:**
+   - Código: `123012`
+5. **¡Listo!** Ya estás en el panel administrativo
 
-### Opción 2: Acceso Directo por Código
-Desde cualquier página de la aplicación, ejecutar en App.tsx:
-```typescript
-setPage('admin-login')
-```
+## 🎯 Módulos Principales
 
-### Opción 3: Mediante Navegación
-1. Ir a la página principal
-2. Scroll hasta el footer
-3. Buscar enlace "Administración" o similar
-4. Click en el enlace
+### 📊 Dashboard
+- Vista general de métricas
+- KPIs principales
+- Alertas activas
+- Acceso rápido a módulos
 
-## 📝 Proceso de Login Paso a Paso
+### 👥 Profesionales
+- **Gestionar:** 5 profesionales registrados
+- **Pendientes:** 2 requieren aprobación
+- **Acciones:** Aprobar, rechazar, eliminar, ver documentos
+- **IA:** Análisis automático de perfiles
 
-### Paso 1: Login con Credenciales
-```
-1. Abrir la página de login administrativo
-2. Ingresar email: josefabian1212@gmail.com
-3. Ingresar password: @Sara2918+
-4. Click en "Iniciar Sesión"
-```
+### 💼 Ofertas de Trabajo
+- **Gestionar:** 4 ofertas activas/pendientes
+- **Acciones:** Crear, aprobar, rechazar, eliminar
+- **IA:** Revisión de calidad y legalidad
+- **Estado:** Activar/desactivar sin eliminar
 
-### Paso 2: Verificación 2FA
-```
-1. Se abrirá la página de verificación 2FA
-2. Ingresar el código: 123012
-3. Click en "Verificar Código"
-4. Acceso concedido ✅
-```
+### 📈 Leads
+**Tab Leads:**
+- 10 leads de contacto
+- 2 de alta prioridad (🔴)
+- Estados: new, contacted, qualified, converted, lost
+- Filtros por prioridad y estado
 
-## 🎯 Funciones Disponibles en el Dashboard
+**Tab Estadísticas:** ⭐ NUEVO
+- Tasa de conversión global
+- Gráfico de leads por mes (últimos 6 meses)
+- Gráfico de conversión mensual
+- Distribución por estado del funnel
 
-### Panel Principal
-- 📊 KPIs y métricas en tiempo real
-- 👥 Total de profesionales registrados
-- ✅ Perfiles pendientes de aprobación
-- 💼 Ofertas de trabajo activas
-- 📧 Leads recibidos este mes
-- 🤖 Alertas de IA
+### 🤖 Clasificaciones IA
+- 5 alertas activas
+- Profesionales con bajo score
+- Leads de alta prioridad
+- Ofertas con preocupaciones
 
-### Gestión de Profesionales
-- Ver lista completa de profesionales
-- Aprobar o rechazar perfiles nuevos
-- Asignar "Blue Check" de verificación
-- Ver documentos y credenciales
-- Revisar scores de riesgo IA
-- Editar información de profesionales
+### 🔍 Auditoría
+- 15 registros de acciones
+- Filtros por usuario, acción, recurso
+- Historial completo
+- Búsqueda en tiempo real
 
-### Gestión de Ofertas de Trabajo
-- Crear nuevas ofertas
-- Editar ofertas existentes
-- Publicar/despublicar ofertas
-- Ver aplicaciones recibidas
-- Marcar como urgente
+### ⚙️ Configuración
+**Sistema:**
+- Nombre del sitio, URL
+- Modo mantenimiento
+- Funciones de IA
 
-### Gestión de Leads
-- Ver todos los contactos
-- Filtrar por estado (nuevo, contactado, convertido, cerrado)
-- Asignar prioridad (alta, media, baja)
-- Ver clasificación IA
-- Asignar leads a equipo
-- Marcar como atendidos
+**Notificaciones:**
+- Emails: `josefabian1212@gmail.com`, `hogarbelen2022@gmail.com`
+- Notificar leads de alta prioridad ✅
+- Auto-notificaciones configuradas
 
-### Sistema de Contenido
-- Editar textos del sitio
-- Actualizar imágenes
-- Gestionar testimonios
-- Modificar información de servicios
+**IA:**
+- Auto-clasificar leads ✅
+- Auto-analizar profesionales ✅
+- Auto-revisar ofertas ✅
+- Umbral: 0.7
 
-### Inteligencia Artificial
-- Ver recomendaciones IA
-- Configurar modelos
-- Revisar clasificaciones automáticas
-- Ajustar parámetros
+**Integraciones:**
+- Meta Pixel ID
+- Google Analytics
 
-### Auditoría y Logs
-- Ver registro completo de actividades
-- Exportar logs a CSV
-- Filtrar por fecha, usuario, acción
-- Monitorear intentos de acceso
-- Ver detalles de sesiones
+## ✅ Funcionalidades Clave
 
-### Configuración
-- Gestionar otros administradores
-- Configurar permisos
-- Ajustar parámetros del sistema
-- Integración con servicios externos
+### 🔔 Notificaciones Automáticas
+- ✅ Email automático para leads de prioridad alta/crítica
+- ✅ Enviado a: josefabian1212@gmail.com, hogarbelen2022@gmail.com
+- ✅ Sin duplicados
+- ✅ Incluye clasificación IA
+
+### 📊 Estadísticas y Gráficos
+- ✅ Tasa de conversión de leads
+- ✅ Tendencias mensuales (6 meses)
+- ✅ Conversión por mes
+- ✅ Distribución por estado
+- ✅ Actualización en tiempo real
+
+### 🗑️ Eliminar/Rechazar
+- ✅ Profesionales: aprobar, rechazar (con motivo), eliminar
+- ✅ Ofertas: aprobar, rechazar, eliminar, activar/desactivar
+- ✅ Confirmaciones de seguridad
+- ✅ Registro en auditoría
+
+### 📄 Ver Documentos
+- ✅ CV de profesionales
+- ✅ Documento de identidad
+- ✅ Tarjeta profesional
+- ✅ Certificados múltiples
+- ✅ Apertura en nueva pestaña
+
+### 🎯 Datos Completos
+- ✅ 5 Profesionales (2 pendientes, 3 aprobados)
+- ✅ 4 Ofertas (1 pendiente, 3 activas)
+- ✅ 10 Leads (varios estados y prioridades)
+- ✅ 5 Alertas IA (4 sin resolver)
+- ✅ 15 Registros de auditoría
+- ✅ 16 Configuraciones del sistema
+
+## 🎨 Características del UI
+
+- ✅ Diseño moderno y profesional
+- ✅ Colores semánticos (🟢 aprobado, 🔴 rechazado, 🟡 pendiente)
+- ✅ Iconos intuitivos
+- ✅ Badges de estado visual
+- ✅ Diálogos modales
+- ✅ Notificaciones toast
+- ✅ Responsive
 
 ## 🔒 Seguridad
 
-### Protecciones Activas
-- ✅ Máximo 3 intentos de login fallidos
-- ✅ Bloqueo temporal de 5 minutos
-- ✅ Sesión expira en 8 horas
-- ✅ Todos los accesos registrados
-- ✅ 2FA obligatorio
+- ✅ Autenticación 2FA
+- ✅ Bloqueo por intentos fallidos (3 intentos → 5 minutos)
+- ✅ Sesiones de 8 horas
+- ✅ Auditoría completa
+- ✅ Tracking de IP y navegador
+- ✅ Confirmaciones para acciones destructivas
 
-### Cerrar Sesión
-1. Click en el botón de perfil (esquina superior derecha)
-2. Click en "Cerrar Sesión"
-3. Confirmar cierre de sesión
+## 📊 Datos de Ejemplo
 
-## 🆘 Solución de Problemas
+### Profesionales Destacados
+1. **María Elena Rodríguez** - Enfermera (Pendiente) - IA: 85% ⭐
+2. **Carlos Andrés Muñoz** - Fisioterapeuta (Aprobado) - IA: 92% ⭐⭐
+3. **Jorge Luis Martínez** - Terapeuta (Pendiente) - IA: 45% ⚠️
 
-### No puedo iniciar sesión
-- ✅ Verificar que el email esté escrito correctamente
-- ✅ Verificar que la contraseña sea correcta (case-sensitive)
-- ✅ Si se bloqueó la cuenta, esperar 5 minutos
+### Leads Importantes
+1. **Carmen López** - Alta prioridad - NUEVO 🔴
+2. **Jorge Ramírez** - Crítico - Contactado 🔴
+3. **Patricia Vega** - Alta prioridad - Alzheimer 🔴
 
-### El código 2FA no funciona
-- ✅ Ingresar exactamente: 123012
-- ✅ Verificar que no haya espacios
-- ✅ Si falla 3 veces, volver al login
+### Alertas Activas
+1. 🟡 Profesional con experiencia limitada
+2. 🔴 2 Leads de alta prioridad sin contactar
+3. 🟢 Oferta con salario bajo
 
-### La sesión se cerró
-- ✅ Las sesiones expiran después de 8 horas
-- ✅ Simplemente volver a iniciar sesión
+## 🚀 Acciones Rápidas
 
-### No veo el panel de admin
-- ✅ Verificar que completaste el proceso 2FA
-- ✅ Verificar que no haya errores en la consola
-- ✅ Recargar la página
+### Para Gestionar Profesionales
+1. Dashboard → Profesionales
+2. Filtrar por "Pendientes"
+3. Click "Ver Detalles" en cualquier profesional
+4. Ver documentos, analizar con IA
+5. Aprobar o rechazar
 
-## 💡 Tips y Trucos
+### Para Ver Estadísticas de Leads
+1. Dashboard → Leads
+2. Click en tab "Estadísticas"
+3. Ver gráficos de conversión
+4. Analizar tendencias
 
-### Navegación Rápida
-- Usa las tabs en el dashboard para cambiar entre secciones
-- Los KPIs son clickeables para ir a esa sección
-- Usa los filtros para encontrar información rápidamente
+### Para Configurar Notificaciones
+1. Dashboard → Configuración
+2. Modificar emails de administradores
+3. Activar/desactivar notificaciones
+4. Guardar cambios
 
-### Búsqueda Eficiente
-- En profesionales: busca por nombre, especialidad o ciudad
-- En leads: filtra por estado o prioridad
-- En logs: filtra por fecha o tipo de acción
+## 📝 Notas Importantes
 
-### Exportación de Datos
-- Todos los logs se pueden exportar a CSV
-- Útil para reportes mensuales
-- Mantener backup de información importante
+- ✅ **Todos los módulos están completos** con datos realistas
+- ✅ **Notificaciones automáticas** funcionando para leads de alta prioridad
+- ✅ **Estadísticas completas** con gráficos de conversión en tiempo real
+- ✅ **Documentos visibles** en cada profesional
+- ✅ **Acciones de eliminación/rechazo** implementadas con confirmación
+- ✅ **Sistema de auditoría** registra todas las acciones
+- ✅ **IA integrada** en análisis de profesionales, leads y ofertas
 
-### Alertas Importantes
-- 🔴 Alertas rojas: Requieren atención inmediata
-- 🟡 Alertas amarillas: Revisar cuando sea posible
-- 🟢 Estado normal: Todo funcionando correctamente
+## 🆘 Ayuda
 
-## 📞 Contacto y Soporte
-
-Para soporte técnico o preguntas sobre el sistema:
-- Email: josefabian1212@gmail.com
-- Sistema: Panel de Administración Hogar Belén
+Si necesitas ayuda:
+- Revisa la **Guía Completa:** `ADMIN-COMPLETE-GUIDE.md`
+- Contacto: josefabian1212@gmail.com
+- Email secundario: hogarbelen2022@gmail.com
 
 ---
 
-**✨ ¡El sistema está listo y configurado para su uso!**
-
-Última actualización: 2024
-Versión del sistema: 1.0
+**¡Sistema 100% Funcional y Listo para Usar!** 🎉
