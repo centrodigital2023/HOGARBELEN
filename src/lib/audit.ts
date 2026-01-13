@@ -1,13 +1,13 @@
 import { AuditLog } from '@/types/admin';
 
-export const logAudit = async (logData: Omit<AuditLog, 'id' | 'timestamp'>) => {
+export const logAudit = async (logData: Omit<AuditLog, 'id' | 'created_at'>) => {
   try {
     const logs = await window.spark.kv.get<AuditLog[]>('audit-logs') ?? [];
     
     const newLog: AuditLog = {
       ...logData,
       id: `audit-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      timestamp: new Date().toISOString(),
+      created_at: new Date().toISOString(),
     };
 
     await window.spark.kv.set('audit-logs', [...logs, newLog]);
@@ -43,14 +43,14 @@ export const getAuditLogs = async (filters?: {
     }
 
     if (filters?.start_date) {
-      logs = logs.filter(log => log.timestamp >= filters.start_date!);
+      logs = logs.filter(log => log.created_at >= filters.start_date!);
     }
 
     if (filters?.end_date) {
-      logs = logs.filter(log => log.timestamp <= filters.end_date!);
+      logs = logs.filter(log => log.created_at <= filters.end_date!);
     }
 
-    logs.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    logs.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
     if (filters?.limit) {
       logs = logs.slice(0, filters.limit);
@@ -67,7 +67,7 @@ export const exportAuditLogs = (logs: AuditLog[]): string => {
   const headers = ['ID', 'Timestamp', 'User Email', 'Action', 'Resource Type', 'Resource ID', 'IP Address', 'Details'];
   const rows = logs.map(log => [
     log.id,
-    log.timestamp,
+    log.created_at,
     log.user_email,
     log.action,
     log.resource_type,
