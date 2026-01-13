@@ -1,7 +1,7 @@
 import { AdminUser } from '@/types/admin';
 
-  password: '@Sara2918+',
-};
+export const ADMIN_CREDENTIALS = {
+  email: 'admin@hogarbelen.org',
   password: '@Sara2918+',
   totpSecret: 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ',
 };
@@ -65,9 +65,19 @@ export const getAdminInfo = async (): Promise<void> => {
     return;
   }
 
-  console.log('📅 Created:', new Date(adm
-    console.log('🕐 Last Login:', new Date(adminUse
-  console.log('────────────────────────────────
+  console.log('════════════════════════════════════════════════════════');
+  console.log('👤 ADMIN USER INFO');
+  console.log('════════════════════════════════════════════════════════');
+  console.log('📧 Email:', adminUser.email);
+  console.log('👤 Name:', adminUser.full_name);
+  console.log('🎭 Role:', adminUser.role);
+  console.log('📅 Created:', new Date(adminUser.created_at).toLocaleString());
+  if (adminUser.last_login) {
+    console.log('🕐 Last Login:', new Date(adminUser.last_login).toLocaleString());
+  }
+  console.log('🔑 2FA Status:', adminUser.totp_enabled ? '✅ Enabled' : '❌ Disabled');
+  console.log('════════════════════════════════════════════════════════');
+};
 
 
 
