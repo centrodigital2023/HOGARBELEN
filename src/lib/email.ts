@@ -1,27 +1,27 @@
 import type { Lead, Professional } from '../types/admin';
 
-export type EmailNotificationType = 'lead_notification' | 'generic' | 'professional_approved' | 'professional_rejected';
-
 export interface EmailNotification {
-  to: string;
-  subject: string;
-  body: string;
+
   type?: EmailNotificationType;
-  priority?: Lead['priority'];
-  sentAt?: string;
-}
+  sentAt?: st
 
-const simulateEmailSend = async (): Promise<void> => {
-  await new Promise<void>((resolve) => setTimeout(resolve, 250));
-};
+  await new Pro
 
-export async function sendEmailNotification(notification: EmailNotification): Promise<boolean> {
   try {
-    console.log('📧 Enviando correo electrónico:');
-    console.log('Para:', notification.to);
-    console.log('Asunto:', notification.subject);
-    console.log('Tipo:', notification.type ?? 'generic');
-    console.log('Prioridad:', notification.priority ?? 'n/a');
+    console.log('P
+}   console.log('Asunto:', notification.subject);
+
+    console.log('Cuerpo:', notification.body);
+
+    await simulateEmailSend();
+
+    console.log(`📧 Email enviado a ${notification.to}`);
+    return true;
+  } catch (error) {
+    console.error('Error enviando correo:', error);
+    return false;
+  }
+}
     console.log('Cuerpo:', notification.body);
 
     await simulateEmailSend();
@@ -34,17 +34,6 @@ export async function sendEmailNotification(notification: EmailNotification): Pr
   }
 }
 
-const getLeadEmailSubject = (lead: Lead): string => {
-  const priorityLabel = lead.priority.toUpperCase();
-  const name = lead.data.name?.trim() || 'Sin nombre';
-  return `🚨 Nuevo lead ${priorityLabel} - ${name}`;
-};
-
-const getLeadEmailBody = (lead: Lead): string => {
-  const createdAt = new Date(lead.created_at).toLocaleString('es-CO');
-  const updatedAt = new Date(lead.updated_at).toLocaleString('es-CO');
-
-  const lines: string[] = [];
   lines.push('Se ha detectado un lead de alta prioridad.');
   lines.push('');
   lines.push(`ID: ${lead.id}`);
