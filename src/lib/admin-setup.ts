@@ -35,26 +35,26 @@ export const verifyAdminSetup = async (): Promise<boolean> => {
   const adminUser = Object.values(adminUsers).find(u => u.email === ADMIN_CREDENTIALS.email);
   
   if (!adminUser) {
-    console.log('❌ Admin user not found, will initialize...');
+    console.log('❌ Admin user not found');
     return false;
   }
 
   if (!adminPasswords[adminUser.id]) {
-    console.log('❌ Admin password not configured, will initialize...');
+    console.log('❌ Admin password not configured');
     return false;
   }
 
   if (!adminUser.totp_enabled || !adminUser.totp_secret) {
-    console.log('❌ 2FA not configured, will initialize...');
+    console.log('❌ 2FA not configured');
     return false;
   }
 
   console.log('✅ Admin setup verified');
-  console.log(`📧 Admin Email: ${adminUser.email}`);
-  console.log(`👤 Admin Name: ${adminUser.full_name}`);
-  console.log(`🔐 2FA Status: ${adminUser.totp_enabled ? 'Enabled' : 'Disabled'}`);
-  console.log(`🔑 2FA Code: 123012`);
   return true;
+};
+  console.log(`🔐 2FA Status: ${adminUser.totp_enabled ? 'Enabled' : 'Disabled'}`);
+export const getAdminInfo = async (): Promise<void> => {
+  const adminUsers = await window.spark.kv.get<Record<string, AdminUser>>('admin-users') ?? {};
 };
 
 export const getAdminInfo = async (): Promise<void> => {
