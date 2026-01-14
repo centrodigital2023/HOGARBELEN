@@ -1,312 +1,146 @@
 # Planning Guide
 
-Hogar Belén is an integrated SaaS platform connecting families with elder care services through a day care center (Centro de Vida) and a network of verified healthcare professionals. The platform combines in-person care, home services, AI-assisted health monitoring, and family coordination tools.
+Sistema administrativo seguro para Hogar Belén que permite acceso completo a la gestión del sitio web desde cualquier ubicación con autenticación robusta de doble factor.
 
 **Experience Qualities**:
-1. **Compassionate** - Design should evoke warmth, trust, and family connection while maintaining professionalism in healthcare services
-2. **Integrated** - Seamlessly connects day care activities, professional services, and family communication in one ecosystem
-3. **Intelligent** - AI-powered care recommendations, health monitoring, and professional matching that feels proactive and helpful
+1. **Seguro** - Sistema de autenticación de doble factor con monitoreo de intentos de acceso y bloqueo automático tras intentos fallidos
+2. **Accesible** - Acceso discreto desde el footer del sitio público permitiendo ingreso desde cualquier página en producción
+3. **Profesional** - Interfaz administrativa completa con auditoría, gestión de profesionales, leads, ofertas de trabajo y análisis
 
-**Complexity Level**: Complex Application (advanced functionality with multiple views)
-The application manages user authentication (families/professionals), day care center services, professional directory with booking, AI care assistant, health monitoring dashboard, messaging system, and service plan management.
+**Complexity Level**: Complex Application (advanced functionality, likely with multiple views)
+- El sistema incluye autenticación multifactor, gestión de múltiples tipos de recursos (profesionales, leads, ofertas), sistema de auditoría completo, y paneles analíticos con métricas en tiempo real.
 
 ## Essential Features
 
-### Home Page with Hero & Services
-- **Functionality**: Landing page showcasing day care center services, professional network, testimonials, and value proposition
-- **Purpose**: Educate visitors about integrated care model and drive registrations
-- **Trigger**: Initial page load or navigation to home
-- **Progression**: Hero with background image → Services carousel (Centro Vida/Professionals/Technology) → Trust badges → Testimonials → Inspirational quotes
-- **Success criteria**: Clear value proposition, compelling visuals, strong CTAs to register or explore services
+### Acceso desde Sitio Público
+- **Functionality**: Link discreto en el footer que permite acceder al login administrativo
+- **Purpose**: Permitir acceso desde cualquier página del sitio en producción sin necesidad de URLs especiales
+- **Trigger**: Click en "Administrador del sitio · Hogar Belén" en el footer
+- **Progression**: Footer link → Admin Login page → Credenciales → 2FA verification → Admin Dashboard
+- **Success criteria**: El administrador puede acceder desde cualquier página pública del sitio
 
-### User Authentication System
-- **Functionality**: Registration and login for families and professionals with role-based access
-- **Purpose**: Personalize experience and gate dashboard features
-- **Trigger**: Click "Registrarse" or "Ingresar" buttons
-- **Progression**: User selects role (family/professional) → fills form → creates account → redirected to appropriate dashboard
-- **Success criteria**: Smooth registration flow, persistent authentication, role-appropriate dashboard access
+### Autenticación de Doble Factor
+- **Functionality**: Sistema de login con email/contraseña + código TOTP de 6 dígitos
+- **Purpose**: Máxima seguridad para proteger el acceso administrativo
+- **Trigger**: Ingreso de credenciales correctas
+- **Progression**: Email/Password → Validation → TOTP prompt → Code entry (123012) → Dashboard access
+- **Success criteria**: Acceso solo con credenciales válidas + código 2FA correcto
 
-### Family Dashboard
-- **Functionality**: Centralized control panel for families showing health metrics, appointments, activities, subscription management, and quick actions
-- **Purpose**: Give families visibility and control over their loved one's care and subscription
-- **Trigger**: Login as family member
-- **Progression**: Overview tab (health metrics, upcoming appointments, recent activity) → Professionals tab (search/filter/contact) → Appointments → Subscription (manage plan, view payments) → Reports → Messages
-- **Success criteria**: All relevant information at-a-glance, easy navigation between sections, quick action buttons functional, subscription management seamless
+### Bloqueo por Intentos Fallidos
+- **Functionality**: Sistema que bloquea la cuenta tras 3 intentos fallidos por 5 minutos
+- **Purpose**: Prevenir ataques de fuerza bruta
+- **Trigger**: Tres intentos de login fallidos consecutivos
+- **Progression**: Failed attempt → Counter increment → Lockout at 3 attempts → 5 minute wait
+- **Success criteria**: Sistema bloquea automáticamente tras 3 intentos fallidos
 
-### Professional Directory with Search & Filters
-- **Functionality**: Browse healthcare professionals by specialty, availability, ratings, with search and filtering
-- **Purpose**: Help families find and connect with appropriate care professionals
-- **Trigger**: Navigate to Professionals section in dashboard or landing page
-- **Progression**: View all professionals → Apply filters (specialty, availability, rating) → Search by name → View details → Contact
-- **Success criteria**: Fast filtering, clear professional cards, availability status accurate, smooth contact flow
+### Dashboard Administrativo
+- **Functionality**: Panel central con métricas, alertas y acceso a todas las secciones
+- **Purpose**: Vista unificada del estado del sistema
+- **Trigger**: Login exitoso
+- **Progression**: Login → Dashboard view → KPI cards → Quick actions → Section navigation
+- **Success criteria**: Métricas actualizadas en tiempo real, navegación fluida
 
-### Intelligent Professional Registration System ✅ IMPLEMENTED (ENHANCED)
-- **Functionality**: Multi-step registration form for healthcare professionals with real-time validation, AI-powered test generation, document upload, automated verification analysis, and comprehensive pricing options
-- **Purpose**: Streamline professional onboarding while ensuring quality and legitimacy through intelligent verification with flexible pricing models
-- **Trigger**: Professional clicks "Registrarse como Profesional" from landing page or navigation
-- **Progression**: Step 1 (Profile data with validation, hourly/consultation/shift rates) → Step 2 (Document upload with AI coherence check) → Step 3 (Adaptive competency test) → Step 4 (Digital contract and authorizations) → AI analysis generation → Pending verification state → Admin receives real-time notification → Admin reviews with AI insights → Approval → Instant visibility on public pages
-- **Success criteria**: ✅ ALL MET + ENHANCEMENTS
-  - ✅ Progressive disclosure reduces form abandonment (4-step wizard with progress tracking)
-  - ✅ Real-time validation prevents submission errors (immediate feedback on all fields)
-  - ✅ AI-generated tests accurately assess competency for each specialty (20 adaptive questions)
-  - ✅ Document requirements clearly communicated (guided upload with visual feedback)
-  - ✅ Digital signature validates identity (must match registered name exactly)
-  - ✅ Comprehensive AI analysis aids admin decision-making (detailed report with confidence score)
-  - ✅ Professional cannot self-approve or see AI analysis (stored separately, admin-only access)
-  - ✅ High completion rate with quality applicants (clear UX, field-level progress indicators)
-  - ✅ NEW: Multiple pricing options (hourly, consultation, 8h shift, 12h shift)
-  - ✅ NEW: "Asistente Personal de Salud y Trámites" category added
-  - ✅ NEW: Real-time sync to admin dashboard
-  - ✅ NEW: Instant public visibility upon approval
-- **Implementation**: See `/src/pages/RegistroProfesionalInteligente.tsx` and `FORMULARIO-REGISTRO-PROFESIONAL.md`
-
-### Admin Professional Verification Dashboard
-- **Functionality**: Administrative interface to review pending professional registrations with full AI analysis, verification suggestions, and approve/reject actions with real-time synchronization
-- **Purpose**: Enable administrators to efficiently verify professional credentials with AI-powered insights before activating profiles, with instant visibility of new submissions
-- **Trigger**: Admin navigates to "Verificar Profesionales" from admin dashboard
-- **Progression**: View pending profiles with AI confidence scores → Select profile → Review complete details and AI analysis → See verification suggestions (LinkedIn, Google searches) → Review coherence analysis → Approve or reject → Professional becomes visible in directory or receives rejection notice → Family page updates immediately
-- **Success criteria**:
-  - ✅ Real-time synchronization - new professional registrations appear immediately in admin dashboard
-  - ✅ Approved professionals appear instantly on public pages
-  - All AI analysis data visible only to admins
-  - Clear risk indicators and recommendations
-  - One-click approval/rejection
-  - Verification search suggestions actionable
-  - Approved profiles automatically added to public directory
-  - Audit trail of all decisions
-
-### Admin Job Offer Management Dashboard
-- **Functionality**: Administrative interface to review, approve, and manage job offers submitted by families with AI-powered validation
-- **Purpose**: Enable administrators to moderate job postings ensuring quality, legal compliance, and appropriateness before publishing
-- **Trigger**: Admin navigates to "Ofertas de Empleo" from admin dashboard, or family submits job offer
-- **Progression**: Family submits job offer → AI analyzes in real-time → Admin sees new pending offer → Reviews AI analysis (quality, legal compliance, language check) → Approves or rejects → Approved offers appear on public jobs page
-- **Success criteria**:
-  - Real-time synchronization of new job submissions
-  - AI validation detects discriminatory language, legal issues, incomplete information
-  - One-click approval/rejection workflow
-  - Approved jobs visible immediately on public page
-  - Audit trail of all moderation decisions
-
-### Family Services Hub - Para Familias
-- **Functionality**: Comprehensive hub for families with three main sections: Information about services, Search for professionals, and Post job offers
-- **Purpose**: Centralize all family-facing features including professional discovery and job posting capabilities
-- **Trigger**: Navigate to "Belén Conecta → Para Familias" from main navigation
-- **Progression**: View tabbed interface → Information tab (features, steps, CTAs) → Search Services tab (filter professionals by category, location, availability) → Post Job Offer tab (intelligent form with AI validation)
-- **Success criteria**: 
-  - Clear three-tab interface
-  - Information educates families about platform
-  - Search filters work correctly
-  - Job posting form with real-time AI validation
-  - Seamless submission workflow
-
-### Intelligent Job Offer Posting Form
-- **Functionality**: Smart form for families to post job offers with AI-powered auto-completion, validation, and quality enhancement
-- **Purpose**: Help families create professional, complete, and compliant job postings with AI assistance
-- **Trigger**: Family clicks "Publicar Oferta de Empleo" in Para Familias section
-- **Progression**: Enter basic job info → AI suggests improvements and auto-completes missing fields → Real-time validation checks (legal compliance, discrimination, completeness) → Review AI suggestions → Submit → Admin moderation → Approval → Public visibility
-- **Success criteria**:
-  - AI auto-completes description based on job title and type
-  - Real-time validation for discriminatory language
-  - Salary range suggestions based on role type
-  - Requirements auto-suggested by AI
-  - Form highlights incomplete or problematic fields
-  - Smooth submission with pending state visibility
-
-### Day Care Center (Centro de Vida) Services
-- **Functionality**: Display integrated day care services including therapeutic activities, nutrition, garden therapy, guided exercise
-- **Purpose**: Showcase the comprehensive daily care program available at the physical center
-- **Trigger**: Navigate to Services page or view service carousel
-- **Progression**: View service categories → Explore details → See pricing plans → Request information
-- **Success criteria**: Clear service descriptions, appealing visuals, easy plan comparison
-
-### AI Care Assistant
-- **Functionality**: Intelligent assistant that analyzes health situations and recommends appropriate professionals/services
-- **Purpose**: Help families make informed care decisions through AI-powered analysis
-- **Trigger**: Click "Evaluación IA" button from hero or dashboard
-- **Progression**: Describe situation → AI analyzes → Receives recommendations → View suggested professionals/plan → Book service
-- **Success criteria**: Natural language input, relevant recommendations, smooth handoff to booking
-
-### Service Plans & Pricing
-- **Functionality**: Display three tier plans (Básico, Premium, Empresarial) with features and pricing, integrated online payment system
-- **Purpose**: Clear pricing transparency and plan comparison to drive conversions with seamless payment processing
-- **Trigger**: Navigate to pricing page or click plan CTAs
-- **Progression**: View plans side-by-side → Compare features → Select plan → Complete secure payment form → Instant subscription activation → Access premium features
-- **Success criteria**: Clear feature differentiation, popular plan highlighted, secure payment processing, instant activation, subscription management dashboard
-
-### Interactive Service Booking Calendar
-- **Functionality**: Full calendar interface for booking appointments with professionals, showing real availability based on professional schedules
-- **Purpose**: Enable families to easily schedule appointments and professionals to manage their availability
-- **Trigger**: Click "Reservar Cita" button on professional card in Family Dashboard
-- **Progression**: Opens calendar modal → Select available date → View time slots for that date → Choose time → Review booking details → Confirm reservation → Booking saved to KV store → Success notification
-- **Success criteria**: Calendar shows only available dates, time slots filtered by professional schedule, past dates disabled, bookings persist in KV, appointments appear in appointments view, professionals see booked slots in their availability manager
-
-### Appointments Management View
-- **Functionality**: Comprehensive view of all bookings with filtering by status (upcoming, completed, cancelled) and statistics
-- **Purpose**: Give families visibility into all their scheduled and past appointments
-- **Trigger**: Navigate to Appointments tab in Family Dashboard
-- **Progression**: View statistics dashboard → Filter by appointment status → See upcoming appointments with contact options → Review past appointments
-- **Success criteria**: All bookings displayed accurately, filters work correctly, statistics update in real-time, booking details clear and complete
-
-### Professional Availability Manager
-- **Functionality**: Interactive weekly schedule grid where professionals can enable/disable time slots and view bookings
-- **Purpose**: Allow professionals to control when they are available for bookings
-- **Trigger**: Professional navigates to availability management section
-- **Progression**: View weekly schedule grid → Toggle individual time slots on/off → Use quick actions to enable/disable entire days → View booked slots (non-editable) → Changes auto-save to KV
-- **Success criteria**: Grid shows all time slots, toggle functionality works smoothly, booked slots are locked, day-level enable/disable works, changes persist correctly
-
-### Online Payment System
-- **Functionality**: Secure credit card payment processing for Premium plans with validation, encryption, and instant activation
-- **Purpose**: Enable seamless subscription purchases with professional payment experience
-- **Trigger**: Click "Suscribirse Ahora" on Premium plan
-- **Progression**: User authenticated → Payment modal opens → Enter card details → Validate form → Process payment → Show success confirmation → Activate subscription → Update user access
-- **Success criteria**: Form validation, secure data handling, payment confirmation, subscription stored in KV, email confirmation displayed, instant access to premium features
-
-### Subscription Management
-- **Functionality**: Complete dashboard for managing active subscriptions, viewing payment history, and canceling plans
-- **Purpose**: Give users full control and transparency over their subscription lifecycle
-- **Trigger**: Navigate to Suscripción tab in Family Dashboard
-- **Progression**: View active subscription details → See next billing date → Review payment method → Download invoices → Cancel if needed with confirmation
-- **Success criteria**: Clear subscription status, payment history visible, invoice downloads functional, cancel flow with confirmation, data persisted correctly
-
-### Promotional Code System
-- **Functionality**: Create, manage, and apply discount codes with percentage or fixed amount discounts
-- **Purpose**: Enable marketing campaigns and customer acquisition through promotional offers
-- **Trigger**: Admin creates codes in dashboard, users apply during checkout
-- **Progression**: Admin creates code → Sets parameters (discount, expiry, max uses, applicable plans) → Code displayed publicly if desired → User enters code at checkout → System validates → Discount applied → Usage tracked
-- **Success criteria**: Code validation works correctly, discounts calculate accurately, usage limits enforced, expired codes rejected, public display of active codes, admin can edit/deactivate codes
-
-### Public Promotional Display
-- **Functionality**: Showcase active promotional codes on public pages to drive conversions
-- **Purpose**: Increase visibility of offers and encourage plan purchases
-- **Trigger**: User views pricing or home page
-- **Progression**: Active codes fetched → Displayed in attractive cards → Show discount amount, expiry, and usage limits → User copies code for checkout
-- **Success criteria**: Only active, non-expired codes shown, urgency indicators for expiring/limited codes, responsive grid layout
-
-### Real-Time Availability System
-- **Functionality**: Calculate and display professional availability based on schedules and current time
-- **Purpose**: Show families which professionals can help immediately
-- **Trigger**: Continuous calculation on professional cards
-- **Progression**: Parse schedule → Compare to current time → Display status badge → Update dynamically
-- **Success criteria**: Accurate status (Disponible, Ocupado, Ausente, Urgencias), real-time updates
-
-### WhatsApp Contact Integration
-- **Functionality**: Direct WhatsApp messaging to professionals with context-aware pre-filled messages
-- **Purpose**: Enable immediate communication between families and care providers
-- **Trigger**: Click contact button on professional card
-- **Progression**: Click button → WhatsApp opens → Message pre-filled with context → Send message
-- **Success criteria**: Correct number, appropriate message based on availability status, new window opens
+### Sistema de Auditoría
+- **Functionality**: Registro automático de todas las acciones administrativas
+- **Purpose**: Trazabilidad completa y seguridad
+- **Trigger**: Cualquier acción administrativa
+- **Progression**: Action performed → Audit log created → Stored with timestamp/IP/details
+- **Success criteria**: Todas las acciones quedan registradas con detalles completos
 
 ## Edge Case Handling
-- **No Search Results**: Friendly empty state with suggestion to adjust filters or try different search terms
-- **Unauthenticated Access**: Redirect to login when trying to access dashboard or payments, preserve intended destination
-- **Missing User Data**: Graceful fallbacks for avatar, name fields with placeholder values
-- **API Failures**: Toast notifications for errors, simulated responses for AI assistant if needed
-- **Invalid Schedule Data**: Default to "Estado Desconocido" with graceful error handling
-- **Image Loading Errors**: Fallback to color-coded placeholder with initials
-- **Mobile Navigation**: Collapsible menu with smooth animations, touch-friendly tap targets
-- **Payment Form Validation**: Real-time validation with clear error messages for card number, expiry, CVV, and email
-- **Invalid Promo Codes**: Clear error messages for expired, exhausted, inactive, or non-existent codes
-- **Discount Calculation**: Handle edge cases where discount exceeds price (never go below $0)
-- **Concurrent Usage**: Track promo code usage to prevent exceeding max uses
-- **Plan Restrictions**: Validate promo codes against applicable plans before applying
-- **Card Expiration**: Prevent submission of expired cards with clear feedback
-- **Payment Processing Errors**: Graceful error handling with retry option and support contact
-- **Duplicate Subscriptions**: Prevent multiple active subscriptions for same user
-- **No Active Subscription**: Show upgrade prompts with clear benefits in subscription manager
-- **Invoice Generation**: Handle missing data gracefully in invoice downloads
-- **Past Date Booking**: Prevent booking in past dates with error toast notification
-- **No Available Time Slots**: Show helpful message when professional has no availability for selected date
-- **Conflicting Bookings**: Prevent double-booking same time slot across multiple users
-- **Empty Appointments List**: Show encouraging message to book first appointment with CTA to professionals section
-- **Professional Schedule Parsing**: Handle various schedule formats (ranges, individual days, 24-hour format)
-- **Availability Grid State**: Preserve scroll position when toggling slots in availability manager
-- **Booked Slot Protection**: Prevent professionals from disabling already-booked time slots
+
+- **Sesión Expirada**: Redirección automática al login tras 8 horas de inactividad
+- **Múltiples Tabs**: Sincronización de sesión entre pestañas usando KV storage
+- **Código 2FA Inválido**: Máximo 3 intentos antes de requerir re-login completo
+- **Conexión Interrumpida**: Los datos se persisten localmente antes de guardar
+- **Acceso No Autorizado**: Verificación de autenticación en cada página administrativa
 
 ## Design Direction
-The design should feel warm, trustworthy, and family-oriented while maintaining healthcare professionalism. It should evoke compassion through soft colors, rounded corners, and welcoming imagery of seniors in care settings. The interface balances emotional connection (family photos, testimonials) with functional healthcare tools (dashboards, metrics, professional credentials).
+
+El diseño debe transmitir **seguridad profesional y confianza institucional**. La interfaz administrativa contrasta con el sitio público mediante un esquema oscuro que proyecta seriedad, con elementos visuales que refuerzan la naturaleza crítica y segura del sistema.
 
 ## Color Selection
-A warm, trustworthy palette centered around teal/turquoise tones that communicate healthcare, compassion, and vitality.
 
-- **Primary Color**: Teal (oklch(0.55 0.15 200)) - Represents healthcare trust, calmness, and professional care
+Esquema oscuro profesional con acentos de seguridad
+
+- **Primary Color**: Azul profundo (oklch(0.45 0.15 250)) - Representa confianza, seguridad y profesionalismo institucional
 - **Secondary Colors**: 
-  - Soft Gray (oklch(0.97 0.005 240)) - Clean, peaceful background
-  - Warm Orange (oklch(0.68 0.18 50)) - Energy, warmth for accent elements
-- **Accent Color**: 
-  - Indigo/Purple (oklch(0.55 0.2 270)) - For AI/tech features
-  - Status colors: Green (available), Yellow (busy), Red (unavailable/urgent)
-- **Foreground/Background Pairings**:
-  - Soft Gray Background (oklch(0.97 0.005 240)): Dark text (oklch(0.15 0.02 200)) - Ratio 15.1:1 ✓
-  - Teal Primary (oklch(0.55 0.15 200)): White text (oklch(0.99 0 0)) - Ratio 6.8:1 ✓
-  - Indigo AI Accent (oklch(0.55 0.2 270)): White text (oklch(0.99 0 0)) - Ratio 7.8:1 ✓
-  - Warm Orange Accent (oklch(0.68 0.18 50)): Dark text (oklch(0.2 0.02 250)) - Ratio 8.2:1 ✓
+  - Gris carbón (oklch(0.25 0.01 250)) - Fondos y superficies principales
+  - Gris medio (oklch(0.55 0.01 250)) - Texto secundario y bordes
+- **Accent Color**: Azul brillante (oklch(0.60 0.20 250)) - CTAs, estados activos y elementos interactivos importantes
+- **Foreground/Background Pairings**: 
+  - Primary Button (Azul oklch(0.60 0.20 250)): White text (oklch(0.98 0 0)) - Ratio 8.2:1 ✓
+  - Background Dark (oklch(0.15 0.02 250)): Light text (oklch(0.85 0.01 250)) - Ratio 12.5:1 ✓
+  - Card Surface (oklch(0.20 0.01 250)): Main text (oklch(0.90 0 0)) - Ratio 14.8:1 ✓
+  - Alert Critical (oklch(0.55 0.22 25)): White text - Ratio 4.8:1 ✓
 
 ## Font Selection
-Inter as the primary typeface provides modern professionalism with warmth through its rounded forms. It maintains excellent readability for healthcare content while feeling approachable for families.
 
-- **Primary**: Inter for all text - modern, humanist, highly legible across all devices
+Tipografía que proyecta autoridad y claridad, con excelente legibilidad en interfaces oscuras
 
-**Typographic Hierarchy**:
-- H1 (Hero Title): Inter Bold/56-72px/tight letter spacing (-0.02em)
-- H2 (Section Headers): Inter Bold/36-48px/tight letter spacing
-- H3 (Card Titles): Inter Bold/20-24px/normal spacing
-- Body (Descriptions): Inter Regular/16-18px/relaxed line height (1.6)
-- Small (Labels/Metadata): Inter Medium/14px/normal spacing
-- Badges: Inter SemiBold/12px/slight uppercase
+- **Typographic Hierarchy**:
+  - H1 (Page Title): Inter Bold/32px/tight (-0.02em) - Títulos principales de sección
+  - H2 (Section Header): Inter Semibold/24px/tight (-0.01em) - Headers de cards y subsecciones
+  - Body (Main Content): Inter Regular/15px/relaxed (1.6) - Contenido principal
+  - Small (Metadata): Inter Medium/13px/normal - Timestamps, labels, badges
+  - Code (IDs/Technical): JetBrains Mono/14px/normal - IDs, códigos, datos técnicos
 
 ## Animations
-Animations should feel gentle and reassuring, never jarring. Page transitions use subtle fade-ins. Card reveals stagger slightly for polish. Hover states include gentle lifts and scale. The AI assistant uses a pulsing indicator during analysis. Dashboard metrics count up on reveal. All animations respect prefers-reduced-motion.
+
+Las animaciones refuerzan la seguridad y profesionalismo con transiciones suaves y respuestas inmediatas
+
+- Transiciones de página: Fade in sutil (300ms) al cambiar entre secciones administrativas
+- Hover states: Elevación suave en cards y botones (150ms ease-out)
+- Loading states: Spinner minimalista con rotación fluida
+- Alerts/Toasts: Slide in desde esquina inferior derecha con bounce sutil
+- Form validation: Shake micro-animation en errores (200ms)
+- 2FA input: Focus auto-advance entre dígitos con highlight suave
 
 ## Component Selection
+
 - **Components**: 
-  - Button (shadcn) - Primary actions, ghost buttons for nav, AI variant with gradient
-  - Card (shadcn) - Professional cards, service cards, dashboard widgets
-  - Badge (shadcn) - Status indicators, category labels, plan features
-  - Input (shadcn) - Search bars, forms with floating labels
-  - Avatar (shadcn) - User profiles, professional photos with fallbacks
-  - Tabs (shadcn) - Dashboard navigation between sections
-  - Toast (sonner) - Notifications for actions, errors, success messages
-  - Framer Motion - Page transitions, card animations, layout shifts
-  
-- **Customizations**: 
-  - Hero section with background image overlay
-  - Service carousel with category tabs
-  - Professional cards with availability badges
-  - Dashboard with quick action tiles
-  - AI assistant chat-like interface with gradient background
-  - Testimonial cards with quote styling
-  
-- **States**: 
-  - Buttons: Default, hover (lift), active, disabled (for unavailable), loading (spinner)
-  - Navigation: Active page highlighted, mobile menu animated slide-in
-  - Professional cards: Hover shadow lift, availability badge color-coded
-  - Form inputs: Focus ring (teal), error state (red), success (green)
-  - Dashboard tabs: Active underline, inactive muted
-  
-- **Icon Selection**: 
-  - Heart - Logo, love/care features
-  - Users - Team, professionals
-  - Home - Day care center
-  - Brain/Bot - AI assistant
-  - Shield - Security, verification
-  - Calendar - Appointments
-  - MessageCircle - Messaging/WhatsApp
-  - Star - Ratings
-  - CheckCircle/XCircle/MinusCircle - Availability status
-  - Stethoscope, Activity - Healthcare services
-  - Music, Utensils, Sprout - Day care activities
-  
+  - Dialogs (shadcn): Confirmaciones de acciones críticas (eliminar, aprobar)
+  - Cards (shadcn): Contenedores principales para métricas y secciones - con border sutil y background oscuro
+  - Tables (shadcn): Listados de profesionales, leads, ofertas - striped rows para mejor legibilidad
+  - Badges (shadcn): Estados (pending, approved, rejected) - colores semánticos
+  - Tabs (shadcn): Navegación entre secciones del dashboard
+  - Inputs (shadcn): Campos de búsqueda y filtros - background oscuro con border focus azul
+  - Buttons (shadcn): Primary (azul), Ghost (transparente), Destructive (rojo)
+  - Toasts (sonner): Notificaciones de éxito/error - posición bottom-right
+
+- **Customizations**:
+  - Security badge component: Badge con icono de escudo para indicar áreas protegidas
+  - KPI cards: Cards con gradientes sutiles y números grandes
+  - Audit log viewer: Timeline component con iconos por tipo de acción
+  - 2FA input: 6 inputs individuales con auto-focus y paste support
+
+- **States**:
+  - Buttons: Default (solid blue), Hover (brighter blue + lift), Active (darker + pressed), Disabled (gray + reduced opacity)
+  - Inputs: Default (gray border), Focus (blue border + ring), Error (red border), Disabled (reduced opacity)
+  - Cards: Default (subtle border), Hover (elevated shadow), Selected (blue border)
+  - Badges: Status colors (green=approved, yellow=pending, red=rejected, gray=inactive)
+
+- **Icon Selection**:
+  - Shield: Seguridad y autenticación
+  - LockKey: 2FA y verificación
+  - Users/UserCheck: Gestión de profesionales
+  - Briefcase: Ofertas de trabajo
+  - ChartBar/ChartLine: Analytics y métricas
+  - Warning: Alertas y notificaciones
+  - ClockCounterClockwise: Auditoría e historial
+  - Gear: Configuración
+  - SignOut: Cerrar sesión
+
 - **Spacing**: 
-  - Page wrapper: max-w-7xl mx-auto px-4 py-12
-  - Section gaps: space-y-20 between major sections
-  - Grid: gap-6 for cards, gap-8 for feature blocks
-  - Card internal: p-6 with space-y-4
-  - Button spacing: px-6 py-3 for large, px-4 py-2 for medium
-  
+  - Cards: p-6 para contenido, gap-4 entre elementos internos
+  - Grid layouts: gap-6 para desktop, gap-4 para mobile
+  - Form fields: space-y-4 entre inputs
+  - Sections: space-y-8 entre secciones principales
+  - Button groups: gap-3 horizontal
+
 - **Mobile**: 
-  - Navigation: Hamburger menu with slide-in drawer
-  - Hero: Single column with stacked content, smaller text
-  - Service carousel: Horizontal scroll on mobile
-  - Professional grid: 1 column mobile → 2 tablet → 3 desktop
-  - Dashboard: Tabs scroll horizontally, cards stack
-  - Forms: Full width inputs with larger touch targets (min 44px)
+  - Dashboard: KPIs en single column, cards stackeadas
+  - Tables: Scroll horizontal con sticky first column
+  - Navigation: Hamburger menu con sidebar drawer
+  - 2FA inputs: Grid responsive, mantiene spacing en mobile
+  - Formularios: Full width en mobile, max-w-2xl en desktop
