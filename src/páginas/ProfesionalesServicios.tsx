@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, MapPin, Zap, Loader2, MessageCircle, Clock, CheckCircle, XCircle, MinusCircle, UserCheck, NotebookText } from 'lucide-react';
+import { Star, MapPin, Zap, Loader2, MessageCircle, CheckCircle, XCircle, MinusCircle, UserCheck, NotebookText } from 'lucide-react';
+import { Clock } from '@phosphor-icons/react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useKV } from '@github/spark/hooks';

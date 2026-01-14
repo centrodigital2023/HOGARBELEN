@@ -21,7 +21,8 @@ import {
   ShieldCheck,
   CheckCircle as CheckCircle2,
   WarningCircle,
-  Brain
+  Brain,
+  Clock
 } from '@phosphor-icons/react';
 import { useKV } from '@github/spark/hooks';
 
