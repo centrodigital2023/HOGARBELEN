@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescriptio
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -16,8 +16,8 @@ import {
   Phone,
   MapPin,
   Calendar,
-  TrendUp,
-  WarningCircle,
+  TrendingUp,
+  AlertCircle,
   Brain,
   Globe,
   User,
@@ -30,33 +30,33 @@ interface AdminVerificarProfesionalesProps {
   setPage: (page: string) => void;
 }
 
-export default function AdminVerificarProfesionales({ setPage }: AdminVerificarProfesionalesProps) {
-  const [pendingProfiles, setPendingProfiles] = useKV<any[]>('pending-professional-verification', []);
   const [verifiedProfiles, setVerifiedProfiles] = useKV<any[]>('professional-profiles', []);
-  const [selectedProfile, setSelectedProfile] = useState<any>(null);
   const [showDetailDialog, setShowDetailDialog] = useState(false);
-
   const handleApproveProfile = (profileId: string) => {
-    const profile = (pendingProfiles || []).find(p => p.id === profileId);
     if (!profile) return;
-
     const updatedProfile = {
-      ...profile,
-      estado_perfil: 'aprobado',
-      check_verificado: true,
-      visible_publico: true,
-      fecha_aprobacion: new Date().toISOString()
-    };
 
-    setVerifiedProfiles((current: any[]) => [...current, updatedProfile]);
-    setPendingProfiles((current: any[]) => current.filter(p => p.id !== profileId));
+      visible_publico: true,
+    };
+    setVerifiedProfiles((
+
+    setShowDetailDialog(fals
+
+    const profile = (pendingProf
+
     
-    toast.success(`Perfil de ${profile.nombre_completo} aprobado`);
+    setShowDetailDialog(false);
+
+
+  };
+  return (
+    
+          Verificación de Profesionales
     setShowDetailDialog(false);
   };
 
   const handleRejectProfile = (profileId: string) => {
-    const profile = (pendingProfiles || []).find(p => p.id === profileId);
+    const profile = pendingProfiles.find(p => p.id === profileId);
     if (!profile) return;
 
     setPendingProfiles((current: any[]) => current.filter(p => p.id !== profileId));
@@ -116,16 +116,16 @@ export default function AdminVerificarProfesionales({ setPage }: AdminVerificarP
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-gray-900">
-              {(pendingProfiles || []).length + (verifiedProfiles || []).length}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+                      </h3>
+                  
+                        
+               
+            
 
-      {(pendingProfiles || []).length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-gray-500">
+                    </div>
+              
+                    <div className="flex flex-wrap ga
+                        <MapPin size={16}
               No hay perfiles pendientes de verificación
             </p>
           </CardContent>
@@ -160,7 +160,7 @@ export default function AdminVerificarProfesionales({ setPage }: AdminVerificarP
                       <div className="flex items-center gap-1">
                         <MapPin size={16} />
                         <span>{profile.ubicacion || 'No especificado'}</span>
-                      </div>
+                    </Button
                       <div className="flex items-center gap-1">
                         <Phone size={16} />
                         <span>{profile.telefono}</span>
@@ -251,202 +251,202 @@ export default function AdminVerificarProfesionales({ setPage }: AdminVerificarP
 
                       <Separator />
 
-                      <div>
+                          <
                         <p className="text-sm font-medium text-gray-500 mb-2">Especialidad</p>
                         <p className="text-base">{selectedProfile.especialidad}</p>
                       </div>
 
                       <div>
-                        <p className="text-sm font-medium text-gray-500 mb-2">Habilidades</p>
-                        <div className="flex flex-wrap gap-2">
-                          {selectedProfile.habilidades?.map((skill: string, idx: number) => (
-                            <Badge key={idx} variant="secondary">{skill}</Badge>
-                          ))}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
 
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-lg">Documentos Cargados</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <span>Cédula</span>
-                        <CheckCircle className="text-green-600" size={20} />
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <span>Hoja de vida</span>
-                        <CheckCircle className="text-green-600" size={20} />
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <span>Antecedentes</span>
-                        <CheckCircle className="text-green-600" size={20} />
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div className="flex items-center gap-2">
-                          <Shield size={20} />
-                          <span>Verificación de identidad</span>
-                        </div>
-                        <CheckCircle className="text-green-600" size={20} />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-
-                <TabsContent value="test" className="space-y-4">
                   {selectedProfile.test_result ? (
-                    <Card>
                       <CardHeader>
-                        <CardTitle className="text-lg">Resultados del Test</CardTitle>
                       </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div className="text-center">
-                          <div className="text-4xl font-bold text-primary mb-2">
-                            {selectedProfile.test_result.score.toFixed(1)}%
-                          </div>
-                          <p className="text-gray-600">
-                            {selectedProfile.test_result.correctAnswers} de {selectedProfile.test_result.totalQuestions} respuestas correctas
+                        <div 
+                            {s
+                          <p
                           </p>
-                        </div>
 
-                        <Progress value={selectedProfile.test_result.score} className="h-3" />
 
-                        <div className="space-y-2">
-                          <p className="font-medium">Rendimiento por categoría:</p>
-                          {Object.entries(selectedProfile.test_result.categoryPerformance || {}).map(([category, perf]: [string, any], idx) => (
-                            <div key={idx} className="p-3 bg-gray-50 rounded-lg flex justify-between items-center">
-                              <span className="font-medium">{category}</span>
+                        
+                            <div
                               <div className="flex items-center gap-2">
-                                <span>{perf.correct}/{perf.total}</span>
-                                {perf.correct === perf.total ? (
-                                  <CheckCircle className="text-green-600" size={20} />
-                                ) : perf.correct / perf.total >= 0.7 ? (
-                                  <Warning className="text-yellow-600" size={20} />
+                                {
+                                ) : perf.correct / perf
                                 ) : (
-                                  <XCircle className="text-red-600" size={20} />
                                 )}
-                              </div>
                             </div>
-                          ))}
-                        </div>
-                      </CardContent>
+                        </di
                     </Card>
-                  ) : (
                     <Card>
-                      <CardContent className="py-12 text-center">
-                        <p className="text-gray-500">No se completó el test</p>
-                      </CardContent>
+                        <p className="text-gray-500">No se completó el test<
                     </Card>
-                  )}
                 </TabsContent>
-
-                <TabsContent value="ia" className="space-y-4">
-                  {selectedProfile.ai_analysis ? (
+                <TabsContent value="ia" className
                     <>
-                      <Alert variant={selectedProfile.ai_analysis.riesgo_general === 'bajo' ? 'default' : 'destructive'}>
-                        <WarningCircle size={20} />
-                        <AlertDescription>
-                          Riesgo General: {selectedProfile.ai_analysis.riesgo_general.toUpperCase()}
-                        </AlertDescription>
+                        <War
+                          Riesgo General: {selectedProfile.ai_analysis.riesgo_general.toUpperCase()
                       </Alert>
-
                       <Card>
-                        <CardHeader>
-                          <CardTitle className="text-lg flex items-center gap-2">
-                            <Brain size={20} />
-                            Análisis de IA
-                          </CardTitle>
+                          <CardTitle className="text-lg flex ite
+                            An
                         </CardHeader>
-                        <CardContent className="space-y-4">
-                          <div>
-                            <p className="font-medium mb-2">Resumen:</p>
-                            <p className="text-gray-700">{selectedProfile.ai_analysis.resumen}</p>
-                          </div>
+                          <d
+                            <p cla
 
-                          <Separator />
 
-                          <div>
-                            <p className="font-medium mb-2">Fortalezas:</p>
-                            <ul className="list-disc list-inside space-y-1">
-                              {selectedProfile.ai_analysis.fortalezas?.map((item: string, idx: number) => (
-                                <li key={idx} className="text-gray-700">{item}</li>
+
+                              {selectedProfile.ai_analysis.forta
                               ))}
-                            </ul>
-                          </div>
-
-                          {selectedProfile.ai_analysis.areas_mejora && selectedProfile.ai_analysis.areas_mejora.length > 0 && (
-                            <>
+                          
+                          {selecte
                               <Separator />
-                              <div>
-                                <p className="font-medium mb-2">Áreas de Mejora:</p>
-                                <ul className="list-disc list-inside space-y-1">
-                                  {selectedProfile.ai_analysis.areas_mejora.map((item: string, idx: number) => (
-                                    <li key={idx} className="text-base text-gray-700">{item}</li>
+                                <p 
+                                  {selectedProfile.ai_ana
                                   ))}
-                                </ul>
                               </div>
-                            </>
                           )}
-
-                          {selectedProfile.ai_analysis.verificaciones && selectedProfile.ai_analysis.verificaciones.length > 0 && (
-                            <>
+                          {selec
                               <Separator />
-                              <div>
                                 <p className="font-medium mb-2">Verificaciones Requeridas:</p>
-                                <div className="space-y-2">
-                                  {selectedProfile.ai_analysis.verificaciones.map((v: any, idx: number) => (
-                                    <div key={idx} className="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                                      <span className="font-medium text-sm">{v.tipo}</span>
-                                      <p className="text-sm text-gray-600 mt-1">{v.descripcion}</p>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </>
-                          )}
-                        </CardContent>
-                      </Card>
-                    </>
-                  ) : (
-                    <Card>
-                      <CardContent className="py-12 text-center">
-                        <p className="text-gray-500">No hay análisis de IA disponible</p>
-                      </CardContent>
-                    </Card>
-                  )}
-                </TabsContent>
-              </Tabs>
+                              
+                              
 
-              <div className="flex gap-3 pt-4">
+                                </div>
+
+                        </CardContent>
+                    </>
+                    <Card>
+                        <p className="text-gray-500">No hay análisis de IA disponible</p>
+                    </Card>
+                </TabsContent>
+
                 <Button
-                  variant="outline"
                   className="flex-1"
-                  onClick={() => setShowDetailDialog(false)}
                 >
-                  Cancelar
                 </Button>
-                <Button
-                  variant="destructive"
-                  className="flex-1"
+                  variant="destructiv
                   onClick={() => handleRejectProfile(selectedProfile.id)}
-                >
-                  <XCircle size={18} className="mr-2" />
-                  Rechazar Perfil
+                  <XCircle size={1
                 </Button>
-                <Button
-                  className="flex-1"
-                  onClick={() => handleApproveProfile(selectedProfile.id)}
+                  className="flex-
                 >
-                  <CheckCircle size={18} className="mr-2" />
-                  Aprobar Perfil
-                </Button>
+                  Aprobar Perf
               </div>
-            </>
           )}
-        </DialogContent>
       </Dialog>
-    </div>
   );
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
