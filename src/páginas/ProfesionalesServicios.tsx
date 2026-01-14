@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, MapPin, Zap, Loader2, MessageCircle, CheckCircle, XCircle, MinusCircle, UserCheck, NotebookText } from 'lucide-react';
 import { Clock } from '@phosphor-icons/react';
@@ -265,7 +265,8 @@ const ContactPlanModal = ({ isOpen, onClose, professional, contactPlan, loading,
 };
 
 export default function ProfesionalesServicios() {
-  const [professionalsList] = useKV<Professional[]>('professionals-list', initialProfessionals);
+  const [professionalsList, setProfessionalsList] = useKV<Professional[]>('professionals-list', initialProfessionals);
+  const [approvedProfessionals] = useKV<any[]>('professionals', []);
   const [filter, setFilter] = useState('Todos');
   const [aiSummary, setAiSummary] = useState<{ id: number; text: string; sources: any[] } | null>(null);
   const [loadingId, setLoadingId] = useState<number | null>(null);
@@ -275,6 +276,28 @@ export default function ProfesionalesServicios() {
   const [contactPlan, setContactPlan] = useState<ContactPlan | null>(null);
   const [isContactLoading, setIsContactLoading] = useState(false);
   const [contactError, setContactError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const approved = (approvedProfessionals || []).filter(p => p.status === 'approved' && p.verified);
+    
+    const mappedProfessionals: Professional[] = approved.map((pro, index) => ({
+      id: index + 1000,
+      name: pro.name || 'Profesional',
+      role: pro.title || pro.category,
+      category: pro.category || 'Otros',
+      rating: 5.0,
+      reviews: 0,
+      location: pro.city || 'Colombia',
+      image: pro.photo || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&auto=format&fit=crop',
+      whatsappNumber: pro.phone || '',
+      initialStatus: 'Disponible',
+      schedule: pro.schedule || ['Lun a Vie 8-5']
+    }));
+
+    if (mappedProfessionals.length > 0) {
+      setProfessionalsList((current) => [...initialProfessionals, ...mappedProfessionals]);
+    }
+  }, [approvedProfessionals]);
 
   const categoryOrder = ["Enfermería", "Cuidadores", "Terapia", "Médicos", "Otros"];
   const filters = ["Todos", 'Disponible Ahora', ...categoryOrder];

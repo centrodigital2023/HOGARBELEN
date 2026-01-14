@@ -39,6 +39,18 @@ const AdminProfessionals = ({ setPage }: AdminProfessionalsProps) => {
     }
   }, [isAuthenticated]);
 
+  useEffect(() => {
+    const pendingProfessionals = (professionals || []).filter(
+      pro => pro.status === 'pending' && !pro.ai_score
+    );
+    
+    if (pendingProfessionals.length > 0) {
+      pendingProfessionals.forEach(async (pro) => {
+        await analyzeWithAI(pro);
+      });
+    }
+  }, [professionals]);
+
   const filteredProfessionals = (professionals || []).filter(pro => {
     const matchesFilter = filter === 'all' || pro.status === filter;
     const matchesSearch = !searchTerm || 

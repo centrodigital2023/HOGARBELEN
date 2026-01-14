@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Heart, Shield, Calendar, Clock, Users, Video, MessageCircle, FileText, Star } from 'lucide-react';
+import { Heart, Shield, Calendar, Clock, Users, Video, MessageCircle, FileText, Star, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import FormularioBusquedaServicios from '../componentes/FormularioBusquedaServicios';
+import FormularioOfertaEmpleo from '../componentes/FormularioOfertaEmpleo';
 
 interface BelenConectaFamiliasProps {
   setPage: (page: string) => void;
@@ -90,9 +91,13 @@ const BelenConectaFamilias = ({ setPage }: BelenConectaFamiliasProps) => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-12">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-12">
+          <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 mb-12">
             <TabsTrigger value="info" className="text-base">Información</TabsTrigger>
             <TabsTrigger value="search" className="text-base">Buscar Servicios</TabsTrigger>
+            <TabsTrigger value="post-job" className="text-base flex items-center gap-1">
+              <Briefcase size={16} />
+              Publicar Oferta
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="info" className="space-y-12">
@@ -200,6 +205,17 @@ const BelenConectaFamilias = ({ setPage }: BelenConectaFamiliasProps) => {
               <Button variant="outline" onClick={() => setPage('login')} size="lg">
                 Iniciar Sesión
               </Button>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="post-job">
+            <div className="max-w-4xl mx-auto">
+              <FormularioOfertaEmpleo />
+              <div className="mt-8 text-center">
+                <p className="text-sm text-gray-500">
+                  Tu oferta será revisada por nuestro equipo antes de ser publicada
+                </p>
+              </div>
             </div>
           </TabsContent>
         </Tabs>

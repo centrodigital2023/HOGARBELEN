@@ -48,6 +48,16 @@ const AdminJobOffers = ({ setPage }: AdminJobOffersProps) => {
     }
   }, [isAuthenticated]);
 
+  useEffect(() => {
+    const pendingOffers = (jobOffers || []).filter(j => j.status === 'pending' && !j.ai_review);
+    
+    if (pendingOffers.length > 0) {
+      pendingOffers.forEach(async (offer) => {
+        await analyzeOfferWithAI(offer);
+      });
+    }
+  }, [jobOffers]);
+
   const filteredOffers = (jobOffers || []).filter(offer => {
     const matchesSearch = !searchTerm || 
       offer.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

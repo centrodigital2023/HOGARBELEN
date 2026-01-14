@@ -1,67 +1,22 @@
-import { Briefcase, MapPin, Clock, DollarSign, Heart, CheckCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Briefcase, MapPin, Clock, DollarSign, Heart, CheckCircle, Sparkle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { useKV } from '@github/spark/hooks';
 
 interface OfertasDeTrabajoProps {
   setPage: (page: string) => void;
 }
 
 const OfertasDeTrabajo = ({ setPage }: OfertasDeTrabajoProps) => {
-  const jobOffers = [
-    {
-      title: 'Enfermero/a Geriátrico',
-      type: 'Tiempo Completo',
-      location: 'Centro de Día - Santiago Centro',
-      salary: '$800.000 - $1.200.000',
-      description: 'Buscamos enfermero/a con experiencia en cuidado geriátrico para unirse a nuestro equipo del centro de día.',
-      requirements: [
-        'Título de Enfermería',
-        'Mínimo 2 años de experiencia',
-        'Conocimientos en geriatría',
-        'Excelentes habilidades interpersonales'
-      ]
-    },
-    {
-      title: 'Terapeuta Ocupacional',
-      type: 'Tiempo Parcial',
-      location: 'Servicio a Domicilio',
-      salary: '$600.000 - $900.000',
-      description: 'Profesional para diseñar e implementar planes de terapia ocupacional para adultos mayores en sus hogares.',
-      requirements: [
-        'Título en Terapia Ocupacional',
-        'Experiencia con adultos mayores',
-        'Movilización propia',
-        'Empatía y paciencia'
-      ]
-    },
-    {
-      title: 'Cuidador/a Profesional',
-      type: 'Tiempo Completo',
-      location: 'Servicio a Domicilio',
-      salary: '$500.000 - $700.000',
-      description: 'Cuidador/a con formación para brindar apoyo integral en actividades diarias y acompañamiento.',
-      requirements: [
-        'Certificación en cuidado de adultos mayores',
-        'Experiencia mínima 1 año',
-        'Referencias verificables',
-        'Disponibilidad de turnos rotativos'
-      ]
-    },
-    {
-      title: 'Fisioterapeuta Geriátrico',
-      type: 'Tiempo Completo',
-      location: 'Centro de Día',
-      salary: '$700.000 - $1.000.000',
-      description: 'Fisioterapeuta especializado para trabajar con adultos mayores en rehabilitación y mantenimiento físico.',
-      requirements: [
-        'Título de Kinesiología/Fisioterapia',
-        'Especialización en geriatría (deseable)',
-        'Conocimiento en rehabilitación',
-        'Trabajo en equipo multidisciplinario'
-      ]
-    }
-  ];
+  const [jobOffers] = useKV<any[]>('job-offers', []);
+  const [approvedOffers, setApprovedOffers] = useState<any[]>([]);
+
+  useEffect(() => {
+    const approved = (jobOffers || []).filter(job => job.status === 'approved');
+    setApprovedOffers(approved);
+  }, [jobOffers]);
 
   const benefits = [
     'Contrato estable y formal',
@@ -106,50 +61,103 @@ const OfertasDeTrabajo = ({ setPage }: OfertasDeTrabajoProps) => {
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
             Ofertas Disponibles
           </h2>
-          <div className="grid gap-6">
-            {jobOffers.map((job, index) => (
-              <Card key={index} className="border-2 hover:border-primary-300 transition-all hover:shadow-lg">
-                <CardHeader>
-                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
-                    <div>
-                      <CardTitle className="text-2xl mb-2">{job.title}</CardTitle>
-                      <CardDescription className="text-base">{job.description}</CardDescription>
+          {approvedOffers.length === 0 ? (
+            <Card className="text-center py-12">
+              <CardContent>
+                <Briefcase className="mx-auto mb-4 text-gray-400" size={48} />
+                <h3 className="text-xl font-semibold text-gray-700 mb-2">No hay ofertas disponibles actualmente</h3>
+                <p className="text-gray-500">Vuelve pronto para ver nuevas oportunidades laborales</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid gap-6">
+              {approvedOffers.map((job) => (
+                <Card key={job.id} className="border-2 hover:border-primary-300 transition-all hover:shadow-lg">
+                  <CardHeader>
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <CardTitle className="text-2xl">{job.title}</CardTitle>
+                          {job.urgency === 'urgent' && (
+                            <Badge variant="destructive" className="gap-1">
+                              <Sparkle size={12} />
+                              Urgente
+                            </Badge>
+                          )}
+                        </div>
+                        <CardDescription className="text-base">{job.description}</CardDescription>
+                      </div>
+                      <Badge className="bg-primary-600 text-white w-fit">{job.service_type}</Badge>
                     </div>
-                    <Badge className="bg-primary-600 text-white w-fit">{job.type}</Badge>
-                  </div>
-                  <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-                    <div className="flex items-center gap-2">
-                      <MapPin size={16} className="text-primary-500" />
-                      <span>{job.location}</span>
+                    <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                      <div className="flex items-center gap-2">
+                        <MapPin size={16} className="text-primary-500" />
+                        <span>{job.location}</span>
+                      </div>
+                      {job.salary_range && (
+                        <div className="flex items-center gap-2">
+                          <DollarSign size={16} className="text-primary-500" />
+                          <span>{job.salary_range}</span>
+                        </div>
+                      )}
                     </div>
-                    <div className="flex items-center gap-2">
-                      <DollarSign size={16} className="text-primary-500" />
-                      <span>{job.salary}</span>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <h4 className="font-semibold text-gray-900 mb-3">Requisitos:</h4>
-                  <ul className="space-y-2">
-                    {job.requirements.map((req, reqIndex) => (
-                      <li key={reqIndex} className="flex items-start gap-2 text-gray-600">
-                        <CheckCircle size={16} className="text-primary-500 mt-1 flex-shrink-0" />
-                        <span>{req}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-                <CardFooter>
-                  <Button 
-                    className="w-full md:w-auto"
-                    onClick={() => setPage('contact')}
-                  >
-                    Postular Ahora
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {job.requirements && (
+                      <div>
+                        <h4 className="font-semibold text-gray-900 mb-3">Requisitos:</h4>
+                        <div className="text-gray-600 whitespace-pre-line">
+                          {job.requirements}
+                        </div>
+                      </div>
+                    )}
+                    {(job.salary_hour || job.salary_shift_8h || job.salary_shift_12h) && (
+                      <div>
+                        <h4 className="font-semibold text-gray-900 mb-3">Compensación:</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
+                          {job.salary_hour && (
+                            <div className="flex items-center gap-2">
+                              <Clock size={14} className="text-primary-500" />
+                              <span>Por hora: ${parseInt(job.salary_hour).toLocaleString('es-CO')}</span>
+                            </div>
+                          )}
+                          {job.salary_shift_8h && (
+                            <div className="flex items-center gap-2">
+                              <Clock size={14} className="text-primary-500" />
+                              <span>8h: ${parseInt(job.salary_shift_8h).toLocaleString('es-CO')}</span>
+                            </div>
+                          )}
+                          {job.salary_shift_12h && (
+                            <div className="flex items-center gap-2">
+                              <Clock size={14} className="text-primary-500" />
+                              <span>12h: ${parseInt(job.salary_shift_12h).toLocaleString('es-CO')}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                  <CardFooter className="flex flex-col sm:flex-row gap-3">
+                    <Button 
+                      className="flex-1"
+                      onClick={() => window.open(`mailto:${job.contact}?subject=Postulación para ${job.title}`, '_blank')}
+                    >
+                      Postular Ahora
+                    </Button>
+                    {job.contact && (
+                      <Button 
+                        variant="outline"
+                        className="flex-1"
+                        onClick={() => window.open(`https://wa.me/${job.contact.replace(/\D/g, '')}?text=Hola, me interesa la oferta de ${job.title}`, '_blank')}
+                      >
+                        Contactar por WhatsApp
+                      </Button>
+                    )}
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="bg-primary-600 text-white rounded-2xl p-8 md:p-12 text-center">

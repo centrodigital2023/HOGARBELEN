@@ -36,6 +36,9 @@ interface FormData {
   categoria_profesional: string;
   ciudad: string;
   precio_hora: string;
+  precio_consulta: string;
+  precio_turno_8h: string;
+  precio_turno_12h: string;
   telefono: string;
   email: string;
   foto_perfil: string | null;
@@ -63,7 +66,8 @@ const professionalCategories = [
   'Psicología',
   'Trabajo Social',
   'Terapia Ocupacional',
-  'Nutrición'
+  'Nutrición',
+  'Asistente Personal de Salud y Trámites'
 ];
 
 const colombianCities = [
@@ -107,6 +111,9 @@ export default function RegistroProfesionalInteligente({ setPage }: RegistroProf
     categoria_profesional: '',
     ciudad: '',
     precio_hora: '',
+    precio_consulta: '',
+    precio_turno_8h: '',
+    precio_turno_12h: '',
     telefono: '',
     email: '',
     foto_perfil: null,
@@ -494,6 +501,47 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
                     min="0"
                   />
                   <p className="text-xs text-muted-foreground mt-1">Tarifa en pesos colombianos por hora de servicio</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <Label htmlFor="precio_consulta">Precio por consulta (COP)</Label>
+                    <Input
+                      id="precio_consulta"
+                      type="number"
+                      value={formData.precio_consulta}
+                      onChange={(e) => handleFieldChange('precio_consulta', e.target.value)}
+                      placeholder="Ej: 80000"
+                      min="0"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">Tarifa por consulta individual</p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="precio_turno_8h">Precio turno 8 horas (COP)</Label>
+                    <Input
+                      id="precio_turno_8h"
+                      type="number"
+                      value={formData.precio_turno_8h}
+                      onChange={(e) => handleFieldChange('precio_turno_8h', e.target.value)}
+                      placeholder="Ej: 350000"
+                      min="0"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">Tarifa por turno de 8 horas</p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="precio_turno_12h">Precio turno 12 horas (COP)</Label>
+                    <Input
+                      id="precio_turno_12h"
+                      type="number"
+                      value={formData.precio_turno_12h}
+                      onChange={(e) => handleFieldChange('precio_turno_12h', e.target.value)}
+                      placeholder="Ej: 500000"
+                      min="0"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">Tarifa por turno de 12 horas</p>
+                  </div>
                 </div>
 
                 <div>
