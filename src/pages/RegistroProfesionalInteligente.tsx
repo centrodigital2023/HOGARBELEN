@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,13 +9,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
 import { 
   CheckCircle, 
   Warning, 
-  UploadSimple, 
   UserCheck, 
   FileText, 
   Camera, 
@@ -37,6 +34,7 @@ interface FormData {
   titulo_profesional: string;
   categoria_profesional: string;
   ciudad: string;
+  precio_hora: string;
   telefono: string;
   email: string;
   foto_perfil: string | null;
@@ -50,22 +48,10 @@ interface FormData {
   requiere_tarjeta_profesional: boolean;
   numero_tarjeta_profesional: string;
   
-  test_completado: boolean;
-  test_score: number;
-  test_respuestas: any[];
-  
   acepta_terminos: boolean;
   acepta_datos: boolean;
   acepta_foto: boolean;
   firma_digital: string;
-}
-
-interface TestQuestion {
-  id: number;
-  pregunta: string;
-  opciones: string[];
-  respuesta_correcta: number;
-  categoria: string;
 }
 
 const professionalCategories = [
@@ -110,11 +96,6 @@ export default function RegistroProfesionalInteligente({ setPage }: RegistroProf
   const [loading, setLoading] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [aiProcessing, setAiProcessing] = useState(false);
-  const [showTestDialog, setShowTestDialog] = useState(false);
-  const [currentTestQuestion, setCurrentTestQuestion] = useState(0);
-  const [testQuestions, setTestQuestions] = useState<TestQuestion[]>([]);
-  const [testAnswers, setTestAnswers] = useState<number[]>([]);
-  const [showSignaturePad, setShowSignaturePad] = useState(false);
   
   const [profiles, setProfiles] = useKV<any[]>('professional-profiles', []);
   const [pendingProfiles, setPendingProfiles] = useKV<any[]>('pending-professional-verification', []);
@@ -124,6 +105,7 @@ export default function RegistroProfesionalInteligente({ setPage }: RegistroProf
     titulo_profesional: '',
     categoria_profesional: '',
     ciudad: '',
+    precio_hora: '',
     telefono: '',
     email: '',
     foto_perfil: null,
@@ -135,16 +117,13 @@ export default function RegistroProfesionalInteligente({ setPage }: RegistroProf
     documento_antecedentes: null,
     requiere_tarjeta_profesional: false,
     numero_tarjeta_profesional: '',
-    test_completado: false,
-    test_score: 0,
-    test_respuestas: [],
     acepta_terminos: false,
     acepta_datos: false,
     acepta_foto: false,
     firma_digital: ''
   });
 
-  const totalSteps = 4;
+  const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
 
   const getFieldCompletionCount = () => {
@@ -152,12 +131,14 @@ export default function RegistroProfesionalInteligente({ setPage }: RegistroProf
     let total = 0;
 
     if (currentStep === 1) {
-      total = 7;
+      total = 9;
       if (formData.nombre_completo) completed++;
       if (formData.titulo_profesional) completed++;
       if (formData.categoria_profesional) completed++;
       if (formData.ciudad) completed++;
+      if (formData.precio_hora) completed++;
       if (formData.telefono && validatePhone(formData.telefono)) completed++;
+      if (formData.email && validateEmail(formData.email)) completed++;
       if (formData.dias_disponibles.length > 0) completed++;
       if (formData.horario_atencion) completed++;
       if (formData.descripcion_profesional && formData.descripcion_profesional.length >= 100) completed++;
@@ -168,9 +149,6 @@ export default function RegistroProfesionalInteligente({ setPage }: RegistroProf
       if (formData.documento_antecedentes) completed++;
       if (formData.requiere_tarjeta_profesional && formData.numero_tarjeta_profesional) completed++;
     } else if (currentStep === 3) {
-      total = 1;
-      if (formData.test_completado) completed++;
-    } else if (currentStep === 4) {
       total = 4;
       if (formData.acepta_terminos) completed++;
       if (formData.acepta_datos) completed++;
@@ -236,80 +214,6 @@ export default function RegistroProfesionalInteligente({ setPage }: RegistroProf
     });
   };
 
-  const generateTestQuestions = async () => {
-    setAiProcessing(true);
-    
-    try {
-      const promptText = `Genera exactamente 20 preguntas de opción múltiple para evaluar competencias de un profesional en ${formData.categoria_profesional} especializado en cuidado de adultos mayores. 
-
-Cada pregunta debe tener:
-- Una pregunta clara y específica
-- 4 opciones de respuesta
-- Una respuesta correcta (índice 0-3)
-- Categoría (técnica, ética, práctica, emergencias)
-
-Las preguntas deben evaluar:
-- Conocimientos técnicos básicos
-- Habilidades de comunicación
-- Ética profesional
-- Manejo de situaciones comunes
-- Cuidados específicos para adultos mayores
-
-Retorna un objeto JSON con una propiedad "preguntas" que contenga el array de preguntas. Cada pregunta debe tener: pregunta (string), opciones (array de 4 strings), respuesta_correcta (número 0-3), categoria (string).`;
-
-      const response = await window.spark.llm(promptText, 'gpt-4o-mini', true);
-      const data = JSON.parse(response);
-      const questions: TestQuestion[] = data.preguntas.map((q: any, idx: number) => ({
-        id: idx + 1,
-        pregunta: q.pregunta,
-        opciones: q.opciones,
-        respuesta_correcta: q.respuesta_correcta,
-        categoria: q.categoria
-      }));
-      
-      setTestQuestions(questions);
-      setTestAnswers(new Array(questions.length).fill(-1));
-      setShowTestDialog(true);
-    } catch (error) {
-      console.error('Error generating test:', error);
-      toast.error('Error al generar test. Intenta nuevamente.');
-    } finally {
-      setAiProcessing(false);
-    }
-  };
-
-  const handleTestAnswer = (answerIndex: number) => {
-    const newAnswers = [...testAnswers];
-    newAnswers[currentTestQuestion] = answerIndex;
-    setTestAnswers(newAnswers);
-  };
-
-  const finishTest = () => {
-    let correct = 0;
-    testQuestions.forEach((q, idx) => {
-      if (testAnswers[idx] === q.respuesta_correcta) {
-        correct++;
-      }
-    });
-
-    const score = Math.round((correct / testQuestions.length) * 100);
-    
-    setFormData(prev => ({
-      ...prev,
-      test_completado: true,
-      test_score: score,
-      test_respuestas: testQuestions.map((q, idx) => ({
-        pregunta: q.pregunta,
-        respuesta_usuario: testAnswers[idx],
-        respuesta_correcta: q.respuesta_correcta,
-        correcta: testAnswers[idx] === q.respuesta_correcta
-      }))
-    }));
-
-    setShowTestDialog(false);
-    toast.success(`Test completado. Puntuación: ${score}/100`);
-  };
-
   const generateAIAnalysis = async () => {
     try {
       const promptText = `Analiza el siguiente perfil profesional y proporciona un informe EXHAUSTIVO de verificación:
@@ -319,16 +223,13 @@ Datos básicos:
 - Título: ${formData.titulo_profesional}
 - Categoría: ${formData.categoria_profesional}
 - Ciudad: ${formData.ciudad}
+- Precio por hora: $${formData.precio_hora} COP
 - Email: ${formData.email}
 - Teléfono: ${formData.telefono}
 - Disponibilidad: ${formData.dias_disponibles.join(', ')} - ${formData.horario_atencion}
 
 Descripción profesional:
 ${formData.descripcion_profesional}
-
-Test de competencias:
-- Puntuación: ${formData.test_score}/100
-- ${formData.test_respuestas.filter((r: any) => r.correcta).length} respuestas correctas de ${formData.test_respuestas.length}
 
 Documentos:
 - Cédula: ${formData.documento_cedula ? 'Adjuntada' : 'NO adjuntada'}
@@ -338,13 +239,13 @@ ${formData.requiere_tarjeta_profesional ? `- Tarjeta profesional: ${formData.num
 
 Genera un informe de verificación DETALLADO para el administrador que incluya:
 
-1. nivel_confianza (número 1-100): Basado en la completitud, coherencia de datos y puntuación del test
+1. nivel_confianza (número 1-100): Basado en la completitud y coherencia de datos
 2. recomendacion (string): "aprobar_automaticamente" | "revisar_manualmente" | "rechazar"
 3. alertas (array de strings): Inconsistencias, datos sospechosos, red flags
 4. fortalezas (array de strings): Aspectos positivos del perfil
 5. verificaciones_sugeridas (array de objetos): Búsquedas específicas recomendadas para validación manual con formato: { tipo: string, consulta: string, razon: string }
 6. areas_revision (array de strings): Aspectos que requieren verificación adicional
-7. coherencia_datos (objeto): { titulo_categoria: string, experiencia_test: string, disponibilidad: string }
+7. coherencia_datos (objeto): { titulo_categoria: string, precio_mercado: string, disponibilidad: string }
 8. comentario_general (string): Resumen ejecutivo para el administrador
 9. riesgo_general (string): "bajo" | "medio" | "alto"
 
@@ -365,7 +266,7 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
           { tipo: 'Google', consulta: formData.nombre_completo, razon: 'Verificación básica de identidad' }
         ],
         areas_revision: ['Revisar manualmente todos los datos'],
-        coherencia_datos: { titulo_categoria: 'revisar', experiencia_test: 'revisar', disponibilidad: 'revisar' },
+        coherencia_datos: { titulo_categoria: 'revisar', precio_mercado: 'revisar', disponibilidad: 'revisar' },
         comentario_general: 'Se requiere revisión manual completa',
         riesgo_general: 'medio'
       };
@@ -379,6 +280,7 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
         formData.titulo_profesional &&
         formData.categoria_profesional &&
         formData.ciudad &&
+        formData.precio_hora &&
         validatePhone(formData.telefono) &&
         validateEmail(formData.email) &&
         formData.dias_disponibles.length > 0 &&
@@ -395,8 +297,6 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
                               formData.numero_tarjeta_profesional;
       return !!(basicDocs && professionalCard);
     } else if (currentStep === 3) {
-      return formData.test_completado;
-    } else if (currentStep === 4) {
       return !!(
         formData.acepta_terminos &&
         formData.acepta_datos &&
@@ -495,8 +395,7 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
               <div className="flex justify-between text-xs text-muted-foreground">
                 <span className={currentStep === 1 ? 'text-primary font-semibold' : ''}>Perfil</span>
                 <span className={currentStep === 2 ? 'text-primary font-semibold' : ''}>Documentos</span>
-                <span className={currentStep === 3 ? 'text-primary font-semibold' : ''}>Test</span>
-                <span className={currentStep === 4 ? 'text-primary font-semibold' : ''}>Contrato</span>
+                <span className={currentStep === 3 ? 'text-primary font-semibold' : ''}>Contrato</span>
               </div>
 
               <div className="flex items-center gap-2 bg-primary-50 p-3 rounded-lg mt-4">
@@ -517,14 +416,12 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
             <CardTitle>
               {currentStep === 1 && 'Parte 1: Datos del Perfil'}
               {currentStep === 2 && 'Parte 2: Documentos'}
-              {currentStep === 3 && 'Parte 3: Test Inteligente'}
-              {currentStep === 4 && 'Parte 4: Contrato y Autorizaciones'}
+              {currentStep === 3 && 'Parte 3: Contrato y Autorizaciones'}
             </CardTitle>
             <CardDescription>
               {currentStep === 1 && 'Completa tu información profesional y de contacto'}
               {currentStep === 2 && 'Sube tus documentos de verificación'}
-              {currentStep === 3 && 'Evaluación de competencias adaptada a tu profesión'}
-              {currentStep === 4 && 'Acepta los términos y firma digitalmente'}
+              {currentStep === 3 && 'Acepta los términos y firma digitalmente'}
             </CardDescription>
           </CardHeader>
           
@@ -578,19 +475,25 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
 
                 <div>
                   <Label htmlFor="ciudad">Ciudad *</Label>
-                  <Select
+                  <Input
+                    id="ciudad"
                     value={formData.ciudad}
-                    onValueChange={(value) => handleFieldChange('ciudad', value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Ej: Bogotá" />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-[300px]">
-                      {colombianCities.map((city) => (
-                        <SelectItem key={city} value={city}>{city}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    onChange={(e) => handleFieldChange('ciudad', e.target.value)}
+                    placeholder="Ej: Bogotá"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="precio_hora">Precio por hora (COP) *</Label>
+                  <Input
+                    id="precio_hora"
+                    type="number"
+                    value={formData.precio_hora}
+                    onChange={(e) => handleFieldChange('precio_hora', e.target.value)}
+                    placeholder="Ej: 50000"
+                    min="0"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Tarifa en pesos colombianos por hora de servicio</p>
                 </div>
 
                 <div>
@@ -838,77 +741,8 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
               </div>
             )}
 
-            {/* PARTE 3 - TEST INTELIGENTE */}
+            {/* PARTE 3 - CONTRATO Y AUTORIZACIONES */}
             {currentStep === 3 && (
-              <div className="space-y-6">
-                <Alert className="bg-purple-50 border-purple-200">
-                  <Brain className="h-4 w-4 text-purple-600" />
-                  <AlertDescription>
-                    <strong>Test de competencias:</strong> 20 preguntas adaptadas a tu profesión. 
-                    La IA evaluará tus habilidades y conocimientos. Calificación de 1 a 100.
-                  </AlertDescription>
-                </Alert>
-
-                {!formData.test_completado ? (
-                  <div className="text-center py-8">
-                    <Brain className="mx-auto mb-4 text-primary" size={64} />
-                    <h3 className="text-xl font-semibold mb-2">Test Inteligente</h3>
-                    <p className="text-muted-foreground mb-6">
-                      Evaluación automática de 20 preguntas adaptadas a {formData.categoria_profesional}
-                    </p>
-                    <Button
-                      onClick={generateTestQuestions}
-                      disabled={aiProcessing}
-                      size="lg"
-                      className="bg-purple-600 hover:bg-purple-700"
-                    >
-                      {aiProcessing ? (
-                        <>
-                          <Clock className="mr-2 animate-spin" size={20} />
-                          Generando test...
-                        </>
-                      ) : (
-                        <>
-                          <Sparkle className="mr-2" size={20} />
-                          Iniciar Test
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <CheckCircle className="mx-auto mb-4 text-green-600" size={64} />
-                    <h3 className="text-xl font-semibold mb-2">Test Completado</h3>
-                    <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-6 mb-4">
-                      <p className="text-4xl font-bold text-purple-600 mb-2">
-                        {formData.test_score}/100
-                      </p>
-                      <p className="text-muted-foreground">
-                        {formData.test_score >= 80 ? 'Excelente desempeño' : 
-                         formData.test_score >= 60 ? 'Buen desempeño' : 
-                         'Desempeño aceptable'}
-                      </p>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      Resultado visible solo para el administrador
-                    </p>
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setFormData(prev => ({ ...prev, test_completado: false, test_score: 0 }));
-                        setTestQuestions([]);
-                        setTestAnswers([]);
-                      }}
-                    >
-                      Realizar test nuevamente
-                    </Button>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* PARTE 4 - CONTRATO Y AUTORIZACIONES */}
-            {currentStep === 4 && (
               <div className="space-y-6">
                 <Alert className="bg-green-50 border-green-200">
                   <ShieldCheck className="h-4 w-4 text-green-600" />
@@ -1085,84 +919,6 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
           </Alert>
         )}
       </div>
-
-      {/* TEST DIALOG */}
-      <Dialog open={showTestDialog} onOpenChange={setShowTestDialog}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Brain className="text-purple-600" size={24} />
-              Test de Competencias - {formData.categoria_profesional}
-            </DialogTitle>
-            <DialogDescription>
-              Pregunta {currentTestQuestion + 1} de {testQuestions.length}
-            </DialogDescription>
-          </DialogHeader>
-
-          {testQuestions.length > 0 && currentTestQuestion < testQuestions.length && (
-            <div className="space-y-6">
-              <Progress value={((currentTestQuestion + 1) / testQuestions.length) * 100} className="h-2" />
-              
-              <Card className="bg-muted/50">
-                <CardContent className="pt-6">
-                  <h3 className="text-lg font-semibold mb-4">
-                    {testQuestions[currentTestQuestion].pregunta}
-                  </h3>
-                  
-                  <RadioGroup
-                    value={testAnswers[currentTestQuestion]?.toString()}
-                    onValueChange={(value) => handleTestAnswer(parseInt(value))}
-                  >
-                    {testQuestions[currentTestQuestion].opciones.map((opcion, idx) => (
-                      <div key={idx} className="flex items-center space-x-2 p-3 rounded-lg hover:bg-muted transition-colors">
-                        <RadioGroupItem value={idx.toString()} id={`option-${idx}`} />
-                        <Label htmlFor={`option-${idx}`} className="cursor-pointer flex-1">
-                          {opcion}
-                        </Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
-                </CardContent>
-              </Card>
-
-              <div className="flex gap-4">
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentTestQuestion(prev => Math.max(0, prev - 1))}
-                  disabled={currentTestQuestion === 0}
-                  className="flex-1"
-                >
-                  Anterior
-                </Button>
-                
-                {currentTestQuestion < testQuestions.length - 1 ? (
-                  <Button
-                    onClick={() => setCurrentTestQuestion(prev => prev + 1)}
-                    disabled={testAnswers[currentTestQuestion] === -1}
-                    className="flex-1"
-                  >
-                    Siguiente
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={finishTest}
-                    disabled={testAnswers.some(a => a === -1)}
-                    className="flex-1 bg-green-600 hover:bg-green-700"
-                  >
-                    Finalizar Test
-                  </Button>
-                )}
-              </div>
-
-              <div className="text-center text-sm text-muted-foreground">
-                <Badge variant="secondary">
-                  {testQuestions[currentTestQuestion].categoria}
-                </Badge>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
