@@ -1,68 +1,68 @@
 export const professionalCategories = [
-  'Enfermero/a',
   'Geriatra',
-  'Fisioterapeuta',
-  'Terapeuta Ocupacional',
-  'Psicólogo/a Geriátrico',
+  'Terapeuta 
   'Nutricionista',
-  'Cuidador/a',
   'Trabajador/a Social',
-  'Médico General',
   'Auxiliar de Enfermería'
-]
 
-export const colombianCities = [
   'Pasto',
-  'Buesaco',
   'La Unión',
-  'San Lorenzo',
   'Tangua',
-  'Chachagüí',
   'Sandoná',
-  'Ipiales',
-  'Túquerres'
-]
+ 
 
-export const daysOfWeek = [
   'Lunes',
-  'Martes',
-  'Miércoles',
-  'Jueves',
+  'Miércol
   'Viernes',
-  'Sábado',
   'Domingo'
-]
 
-export interface Lead {
-  id?: string
-  name: string
-  email: string
-  phone?: string
-  message?: string
-  source?: string
-  status?: 'new' | 'contacted' | 'converted' | 'closed'
-  created_at?: string
-  updated_at?: string
-}
+  id?: stri
+  email: strin
+  message?: 
+  status?: '
+  updated_at?
 
-export interface ProfessionalProfile {
-  id?: string
-  user_id: string
+
   full_name: string
-  email: string
-  phone?: string
-  specialization: string
-  experience_years: number
-  certifications: string[]
-  availability: Record<string, any>
-  hourly_rate?: number
-  bio?: string
-  verified: boolean
-  rating?: number
-  total_reviews: number
-  created_at?: string
-  updated_at?: string
+  phone?: 
+  experienc
+  availability
+  bio?: str
+  rating?: n
+  created_a
 }
+e
+
+  category: string
+  salary_rang
+  status: 'act
+  updated_at?: 
+
+  id?: string
+  action_type: st
+  metadata?: Record<string, any>
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export interface JobOffer {
   id?: string
