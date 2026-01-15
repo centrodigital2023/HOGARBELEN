@@ -34,7 +34,8 @@ import {
   EnvelopeSimple,
   CurrencyCircleDollar,
 } from '@phosphor-icons/react';
-import { supabase, type ProfessionalProfile, type JobOffer, type Lead, type AdminAction } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase';
+import { type ProfessionalProfile, type JobOffer, type Lead, type AdminAction } from '@/lib/supabase-helpers';
 import { AIService } from '@/lib/aiService';
 
 interface SuperAdminDashboardProps {

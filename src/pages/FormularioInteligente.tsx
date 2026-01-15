@@ -8,7 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
-import { supabase, colombianCities, type Lead } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase';
+import { colombianCities, type Lead } from '@/lib/supabase-helpers';
 import { AIService } from '@/lib/aiService';
 import { MetaPixelService } from '@/lib/metaPixel';
 import { CheckCircle, EnvelopeSimple, Phone, MapPin, User } from '@phosphor-icons/react';

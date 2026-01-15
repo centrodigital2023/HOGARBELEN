@@ -8,7 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
-import { supabase, professionalCategories, colombianCities, daysOfWeek, type ProfessionalProfile } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase';
+import { professionalCategories, colombianCities, daysOfWeek, type ProfessionalProfile } from '@/lib/supabase-helpers';
 import { AIService } from '@/lib/aiService';
 import { CheckCircle, Warning, Upload, UserCheck } from '@phosphor-icons/react';
 
