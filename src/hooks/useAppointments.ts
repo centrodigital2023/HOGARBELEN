@@ -1,74 +1,111 @@
-import { useKV } from '@github/spark/hooks'
+import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/contextos/SupabaseAuthContext'
+import type { Database } from '@/lib/supabase'
 
-export interface Appointment {
-  id: string
-  user_id: string
-  professional_id?: string
-  service: string
-  date: string
-  time: string
-  status: 'pending' | 'confirmed' | 'cancelled' | 'completed'
-  notes?: string
-  created_at: string
-  updated_at: string
-}
+type AppointmentRow = Database['public']['Tables']['appointments']['Row']
+type AppointmentInsert = Database['public']['Tables']['appointments']['Insert']
+type AppointmentUpdate = Database['public']['Tables']['appointments']['Update']
+
+export interface Appointment extends AppointmentRow {}
 
 export function useAppointments() {
   const { user } = useAuth()
-  const [allAppointments, setAllAppointments] = useKV<Appointment[]>('all-appointments', [])
+  const [appointments, setAppointments] = useState<Appointment[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
 
-  const appointments = (allAppointments || []).filter(
-    (apt) => apt.user_id === user?.id || apt.professional_id === user?.id
-  ).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  const fetchAppointments = async () => {
+    if (!user) return
+
+    try {
+      setLoading(true)
+      setError(null)
+
+      const { data, error: fetchError } = await supabase
+        .from('appointments')
+        .select('*')
+        .or(`family_id.eq.${user.id},professional_id.eq.${user.id}`)
+        .order('scheduled_date', { ascending: true })
+
+      if (fetchError) throw fetchError
+
+      setAppointments(data || [])
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Error fetching appointments'))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchAppointments()
+  }, [user])
 
   const createAppointment = async (
-    appointment: Omit<Appointment, 'id' | 'created_at' | 'updated_at' | 'user_id'>
+    appointment: Omit<AppointmentInsert, 'id' | 'created_at' | 'updated_at' | 'family_id'>
   ) => {
     if (!user) throw new Error('User not authenticated')
 
-    const newAppointment: Appointment = {
-      ...appointment,
-      id: `apt-${Date.now()}`,
-      user_id: user.id,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    }
+    try {
+      const { data, error: insertError } = await supabase
+        .from('appointments')
+        .insert({
+          ...appointment,
+          family_id: user.id,
+        })
+        .select()
+        .single()
 
-    await setAllAppointments((current) => [...(current || []), newAppointment])
-    return newAppointment
+      if (insertError) throw insertError
+
+      await fetchAppointments()
+      return data
+    } catch (err) {
+      throw err instanceof Error ? err : new Error('Error creating appointment')
+    }
   }
 
-  const updateAppointment = async (id: string, updates: Partial<Appointment>) => {
-    await setAllAppointments((current) =>
-      (current || []).map((apt) =>
-        apt.id === id
-          ? { ...apt, ...updates, updated_at: new Date().toISOString() }
-          : apt
-      )
-    )
+  const updateAppointment = async (id: string, updates: AppointmentUpdate) => {
+    try {
+      const { data, error: updateError } = await supabase
+        .from('appointments')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single()
 
-    return (allAppointments || []).find((apt) => apt.id === id)
+      if (updateError) throw updateError
+
+      await fetchAppointments()
+      return data
+    } catch (err) {
+      throw err instanceof Error ? err : new Error('Error updating appointment')
+    }
   }
 
   const deleteAppointment = async (id: string) => {
-    await setAllAppointments((current) =>
-      (current || []).filter((apt) => apt.id !== id)
-    )
-  }
+    try {
+      const { error: deleteError } = await supabase
+        .from('appointments')
+        .delete()
+        .eq('id', id)
 
-  const refetch = async () => {
-    const current = await window.spark.kv.get<Appointment[]>('all-appointments')
-    setAllAppointments(current || [])
+      if (deleteError) throw deleteError
+
+      await fetchAppointments()
+    } catch (err) {
+      throw err instanceof Error ? err : new Error('Error deleting appointment')
+    }
   }
 
   return {
     appointments,
-    loading: false,
-    error: null,
+    loading,
+    error,
     createAppointment,
     updateAppointment,
     deleteAppointment,
-    refetch,
+    refetch: fetchAppointments,
   }
 }

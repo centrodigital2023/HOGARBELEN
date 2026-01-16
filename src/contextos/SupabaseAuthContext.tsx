@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useKV } from '@github/spark/hooks';
+import { supabase } from '@/lib/supabase';
+import type { User as SupabaseUser, Session as SupabaseSession } from '@supabase/supabase-js';
 
 interface User {
   id: string;
@@ -37,40 +38,88 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [currentSession, setCurrentSession] = useKV<Session | null>('auth-session', null);
-  const [profiles, setProfiles] = useKV<Record<string, UserData>>('user-profiles', {});
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const user = currentSession?.user ?? null;
-  const userData = user && profiles ? profiles[user.id] ?? null : null;
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email!,
+          login: session.user.email!.split('@')[0],
+        });
+        setSession({
+          user: {
+            id: session.user.id,
+            email: session.user.email!,
+            login: session.user.email!.split('@')[0],
+          },
+          accessToken: session.access_token,
+        });
+        loadUserProfile(session.user.id);
+      }
+      setLoading(false);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email!,
+          login: session.user.email!.split('@')[0],
+        });
+        setSession({
+          user: {
+            id: session.user.id,
+            email: session.user.email!,
+            login: session.user.email!.split('@')[0],
+          },
+          accessToken: session.access_token,
+        });
+        loadUserProfile(session.user.id);
+      } else {
+        setUser(null);
+        setUserData(null);
+        setSession(null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const loadUserProfile = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+      if (error) throw error;
+      
+      if (data) {
+        setUserData(data);
+      }
+    } catch (error) {
+      console.error('Error loading profile:', error);
+    }
+  };
 
   const signIn = async (email: string, password: string) => {
     try {
       setLoading(true);
-      
-      const existingProfiles = await window.spark.kv.get<Record<string, UserData>>('user-profiles') ?? {};
-      const userProfile = Object.values(existingProfiles).find((p: UserData) => p.email === email);
-      
-      if (!userProfile) {
-        return { error: new Error('Usuario no encontrado') };
-      }
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      const passwords = await window.spark.kv.get<Record<string, string>>('user-passwords') ?? {};
-      if (passwords[userProfile.id] !== password) {
-        return { error: new Error('Contraseña incorrecta') };
-      }
+      if (error) return { error };
 
-      const newSession: Session = {
-        user: {
-          id: userProfile.id,
-          email: userProfile.email,
-          login: userProfile.full_name,
-          avatarUrl: userProfile.photo_url,
-        },
-        accessToken: `token-${Date.now()}`,
-      };
-
-      setCurrentSession(newSession);
       return { error: null };
     } catch (error) {
       return { error };
@@ -88,41 +137,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       setLoading(true);
 
-      const existingProfiles = await window.spark.kv.get<Record<string, UserData>>('user-profiles') ?? {};
-      
-      if (Object.values(existingProfiles).some((p: UserData) => p.email === email)) {
-        return { error: new Error('El correo electrónico ya está registrado') };
-      }
-
-      const userId = `user-${Date.now()}`;
-      const newUserData: UserData = {
-        id: userId,
+      const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
-        full_name: fullName,
-        role,
-      };
-
-      await setProfiles((current) => ({
-        ...(current || {}),
-        [userId]: newUserData,
-      }));
-
-      const passwords = await window.spark.kv.get<Record<string, string>>('user-passwords') ?? {};
-      await window.spark.kv.set('user-passwords', {
-        ...passwords,
-        [userId]: password,
+        password,
       });
 
-      const newSession: Session = {
-        user: {
-          id: userId,
-          email,
-          login: fullName,
-        },
-        accessToken: `token-${Date.now()}`,
-      };
+      if (authError) return { error: authError };
 
-      setCurrentSession(newSession);
+      if (authData.user) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert({
+            id: authData.user.id,
+            email,
+            full_name: fullName,
+            role,
+          });
+
+        if (profileError) return { error: profileError };
+      }
+
       return { error: null };
     } catch (error) {
       return { error };
@@ -132,23 +166,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signOut = async () => {
-    setCurrentSession(null);
+    await supabase.auth.signOut();
   };
 
   const updateProfile = async (updates: Partial<UserData>) => {
     if (!user) return { error: new Error('No user logged in') };
 
     try {
-      await setProfiles((current) => {
-        const existingProfile = (current || {})[user.id];
-        return {
-          ...(current || {}),
-          [user.id]: {
-            ...existingProfile,
-            ...updates,
-          },
-        };
-      });
+      const { error } = await supabase
+        .from('profiles')
+        .update(updates)
+        .eq('id', user.id);
+
+      if (error) return { error };
+
+      setUserData((prev) => prev ? { ...prev, ...updates } : null);
 
       return { error: null };
     } catch (error) {
@@ -160,7 +192,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     user,
     userData,
     loading,
-    session: currentSession ?? null,
+    session,
     signIn,
     signUp,
     signOut,

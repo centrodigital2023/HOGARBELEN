@@ -1,75 +1,106 @@
-import { useKV } from '@github/spark/hooks'
+import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/contextos/SupabaseAuthContext'
+import type { Database } from '@/lib/supabase'
 
-export interface Subscription {
-  id: string
-  user_id: string
-  plan: string
-  status: 'active' | 'cancelled' | 'expired' | 'pending'
-  start_date: string
-  end_date?: string
-  payment_method?: string
-  amount: number
-  created_at: string
-  updated_at: string
-}
+type SubscriptionRow = Database['public']['Tables']['subscriptions']['Row']
+type SubscriptionInsert = Database['public']['Tables']['subscriptions']['Insert']
+type SubscriptionUpdate = Database['public']['Tables']['subscriptions']['Update']
+
+export interface Subscription extends SubscriptionRow {}
 
 export function useSubscriptions() {
   const { user } = useAuth()
-  const [allSubscriptions, setAllSubscriptions] = useKV<Subscription[]>('all-subscriptions', [])
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
 
-  const subscriptions = (allSubscriptions || [])
-    .filter((sub) => sub.user_id === user?.id)
-    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+  const fetchSubscriptions = async () => {
+    if (!user) return
+
+    try {
+      setLoading(true)
+      setError(null)
+
+      const { data, error: fetchError } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+
+      if (fetchError) throw fetchError
+
+      setSubscriptions(data || [])
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Error fetching subscriptions'))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchSubscriptions()
+  }, [user])
 
   const createSubscription = async (
-    subscription: Omit<Subscription, 'id' | 'created_at' | 'updated_at' | 'user_id'>
+    subscription: Omit<SubscriptionInsert, 'id' | 'created_at' | 'updated_at' | 'user_id'>
   ) => {
     if (!user) throw new Error('User not authenticated')
 
-    const newSubscription: Subscription = {
-      ...subscription,
-      id: `sub-${Date.now()}`,
-      user_id: user.id,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    }
+    try {
+      const { data, error: insertError } = await supabase
+        .from('subscriptions')
+        .insert({
+          ...subscription,
+          user_id: user.id,
+        })
+        .select()
+        .single()
 
-    await setAllSubscriptions((current) => [...(current || []), newSubscription])
-    return newSubscription
+      if (insertError) throw insertError
+
+      await fetchSubscriptions()
+      return data
+    } catch (err) {
+      throw err instanceof Error ? err : new Error('Error creating subscription')
+    }
   }
 
-  const updateSubscription = async (id: string, updates: Partial<Subscription>) => {
-    await setAllSubscriptions((current) =>
-      (current || []).map((sub) =>
-        sub.id === id
-          ? { ...sub, ...updates, updated_at: new Date().toISOString() }
-          : sub
-      )
-    )
+  const updateSubscription = async (id: string, updates: SubscriptionUpdate) => {
+    try {
+      const { data, error: updateError } = await supabase
+        .from('subscriptions')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single()
 
-    return (allSubscriptions || []).find((sub) => sub.id === id)
+      if (updateError) throw updateError
+
+      await fetchSubscriptions()
+      return data
+    } catch (err) {
+      throw err instanceof Error ? err : new Error('Error updating subscription')
+    }
   }
 
   const cancelSubscription = async (id: string) => {
-    return updateSubscription(id, { status: 'cancelled' })
+    return updateSubscription(id, { 
+      status: 'cancelled',
+      cancelled_at: new Date().toISOString()
+    })
   }
 
   const activeSubscription = subscriptions.find((sub) => sub.status === 'active')
 
-  const refetch = async () => {
-    const current = await window.spark.kv.get<Subscription[]>('all-subscriptions')
-    setAllSubscriptions(current || [])
-  }
-
   return {
     subscriptions,
     activeSubscription,
-    loading: false,
-    error: null,
+    loading,
+    error,
     createSubscription,
     updateSubscription,
     cancelSubscription,
-    refetch,
+    refetch: fetchSubscriptions,
   }
 }
