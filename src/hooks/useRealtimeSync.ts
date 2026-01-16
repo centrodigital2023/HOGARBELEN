@@ -4,12 +4,12 @@ import { useKV } from '@github/spark/hooks';
 interface SyncConfig {
   key: string;
   syncInterval?: number;
-  onUpdate?: (data: any) => void;
-}
 
-export function useRealtimeSync<T>(config: SyncConfig) {
-  const { key, syncInterval = 2000, onUpdate } = config;
-  const [data, setData] = useKV<T>(key, null as T);
+ 
+
+
+    try {
+      
   const lastUpdateRef = useRef<string>('');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -46,12 +46,12 @@ export function useRealtimeSync<T>(config: SyncConfig) {
       intervalRef.current = setInterval(checkForUpdates, syncInterval);
     }
 
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [checkForUpdates, syncInterval]);
-
-  return { data, updateData, refresh: checkForUpdates };
 }
+
+
+
+
+
+
+
+
