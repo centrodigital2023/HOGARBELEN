@@ -104,12 +104,3 @@ export function useSubscriptions() {
     refetch: fetchSubscriptions,
   }
 }
-    activeSubscription,
-    loading,
-    error,
-    createSubscription,
-    updateSubscription,
-    cancelSubscription,
-    refetch: fetchSubscriptions,
-  }
-}
