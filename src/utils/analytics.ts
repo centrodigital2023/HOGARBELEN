@@ -24,8 +24,8 @@ export function initGA4(measurementId: string): void {
 
   // Inicializar dataLayer
   window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag() {
-    window.dataLayer.push(arguments);
+  window.gtag = function gtag(...args: any[]) {
+    window.dataLayer.push(args);
   };
   window.gtag('js', new Date());
   window.gtag('config', measurementId, {
@@ -131,8 +131,8 @@ export const GAEvents = {
 /**
  * Hook para rastrear scroll depth
  */
-export function trackScrollDepth(): void {
-  if (typeof window === 'undefined') return;
+export function trackScrollDepth(): (() => void) {
+  if (typeof window === 'undefined') return () => {};
 
   const depths = [25, 50, 75, 100];
   const tracked = new Set<number>();
