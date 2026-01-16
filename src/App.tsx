@@ -4,10 +4,12 @@ import { AuthProvider, useAuth } from './contextos/SupabaseAuthContext';
 import { AdminAuthProvider } from './contextos/AdminAuthContext';
 import { AdminSetupInitializer } from './components/AdminSetupInitializer';
 import { LoadingFallback } from './components/LoadingFallback';
+import { usePrefetchRoutes } from './hooks/usePrefetch';
 import Navegación from './componentes/Navegación';
 import PieDePágina from './componentes/PieDePágina';
 import PáginaPrincipal from './páginas/PáginaPrincipal';
 
+// Lazy loading de componentes
 const AboutPage = lazy(() => import('./páginas/AboutPage'));
 const PáginaDePrecios = lazy(() => import('./páginas/PáginaDePrecios'));
 const PáginaDeServicios = lazy(() => import('./páginas/PáginaDeServicios'));
@@ -57,6 +59,24 @@ export interface User {
 const MainApp = () => {
   const { user, userData, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState('home');
+
+  // Precargar rutas importantes basadas en prioridad
+  usePrefetchRoutes([
+    // Alta prioridad: páginas más visitadas
+    { path: 'services', loader: () => import('./páginas/PáginaDeServicios'), priority: 'high' },
+    { path: 'pricing', loader: () => import('./páginas/PáginaDePrecios'), priority: 'high' },
+    { path: 'about', loader: () => import('./páginas/AboutPage'), priority: 'high' },
+    { path: 'contact', loader: () => import('./páginas/ContactPage'), priority: 'high' },
+    
+    // Prioridad media: páginas de conversión
+    { path: 'login', loader: () => import('./páginas/BelenConectaLogin'), priority: 'medium' },
+    { path: 'register', loader: () => import('./páginas/BelenConectaRegister'), priority: 'medium' },
+    { path: 'planes', loader: () => import('./páginas/PlanesVidaActiva'), priority: 'medium' },
+    
+    // Baja prioridad: resto de páginas
+    { path: 'centro-vida', loader: () => import('./páginas/CentroVida'), priority: 'low' },
+    { path: 'jobs', loader: () => import('./páginas/OfertasDeTrabajo'), priority: 'low' },
+  ]);
 
   useEffect(() => {
     if (user) {
