@@ -1,17 +1,19 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { useKV } from '@github/spark/hooks';
 
-interface SyncConfig {
-  key: string;
+interface UseRealtimeSyncOptions {
   syncInterval?: number;
-  onUpdate?: (data: any) => void;
 }
 
 type WithTimestamp<T> = T & { _lastUpdate?: string };
 
-export function useRealtimeSync<T>(config: SyncConfig, defaultValue: T) {
-  const { key, syncInterval = 3000, onUpdate } = config;
-  const [data, setData] = useKV<WithTimestamp<T>>(key, defaultValue as WithTimestamp<T>);
+export function useRealtimeSync<T>(
+  key: string,
+  options: UseRealtimeSyncOptions = {},
+  onUpdate?: (data: T) => void
+) {
+  const { syncInterval = 5000 } = options;
+  const [data, setData] = useKV<WithTimestamp<T>>(key);
   const lastUpdateRef = useRef<string>('');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -22,7 +24,7 @@ export function useRealtimeSync<T>(config: SyncConfig, defaultValue: T) {
       if (currentData && currentData._lastUpdate !== lastUpdateRef.current) {
         lastUpdateRef.current = currentData._lastUpdate || '';
         setData(currentData);
-        onUpdate?.(currentData);
+        onUpdate?.(currentData as T);
       }
     } catch (error) {
       console.error('Error checking for updates:', error);
@@ -31,16 +33,15 @@ export function useRealtimeSync<T>(config: SyncConfig, defaultValue: T) {
 
   const updateData = useCallback(async (newData: T | ((current: T) => T)) => {
     setData((current) => {
-      const baseData = (current || defaultValue) as T;
-      const updated = typeof newData === 'function' ? (newData as (current: T) => T)(baseData) : newData;
-      const withTimestamp: WithTimestamp<T> = {
+      const updated = typeof newData === 'function' ? (newData as (current: T) => T)(current as T) : newData;
+      const withTimestamp = {
         ...updated,
         _lastUpdate: new Date().toISOString()
       };
-      lastUpdateRef.current = withTimestamp._lastUpdate!;
-      return withTimestamp;
+      lastUpdateRef.current = withTimestamp._lastUpdate;
+      return withTimestamp as WithTimestamp<T>;
     });
-  }, [setData, defaultValue]);
+  }, [setData]);
 
   useEffect(() => {
     checkForUpdates();
@@ -58,6 +59,3 @@ export function useRealtimeSync<T>(config: SyncConfig, defaultValue: T) {
 
   return { data, updateData, refresh: checkForUpdates };
 }
-
-
-
