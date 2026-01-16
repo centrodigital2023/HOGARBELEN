@@ -31,7 +31,7 @@ export function useProfessionalsSync(options?: { onUpdate?: (data: Professional[
     key: 'professionals',
     syncInterval: 2000,
     onUpdate: options?.onUpdate
-  });
+  }, []);
 
   const addProfessional = useCallback(async (professional: Omit<Professional, 'id' | 'created_at' | 'updated_at'>) => {
     const newProfessional: Professional = {

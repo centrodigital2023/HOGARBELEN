@@ -43,12 +43,12 @@ export function useMessagesSync(userId?: string) {
         toast.info(`Nuevo mensaje de ${lastMessage.sender_name}`);
       }
     }
-  });
+  }, []);
 
   const { data: conversations, updateData: updateConversations, refresh: refreshConversations } = useRealtimeSync<Conversation[]>({
     key: 'conversations',
     syncInterval: 2000
-  });
+  }, []);
 
   const userMessages = userId 
     ? (messages || []).filter(m => m.sender_id === userId || m.recipient_id === userId)

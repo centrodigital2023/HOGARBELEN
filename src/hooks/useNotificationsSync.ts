@@ -32,7 +32,7 @@ export function useNotificationsSync(userId?: string, role?: string) {
         });
       }
     }
-  });
+  }, []);
 
   const notifications = userId 
     ? (allNotifications || []).filter(n => n.recipient_id === userId || n.recipient_role === role)

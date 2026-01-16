@@ -19,7 +19,7 @@ export function useActivitySync() {
   const { data: activities, updateData, refresh } = useRealtimeSync<ActivityLog[]>({
     key: 'activity_logs',
     syncInterval: 5000
-  });
+  }, []);
 
   const logActivity = useCallback(async (
     activity: Omit<ActivityLog, 'id' | 'created_at'>
