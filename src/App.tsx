@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Toaster } from 'sonner';
 import { AuthProvider, useAuth } from './contextos/SupabaseAuthContext';
 import { AdminAuthProvider } from './contextos/AdminAuthContext';
