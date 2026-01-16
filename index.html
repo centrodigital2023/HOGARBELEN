@@ -44,6 +44,26 @@
     
     <link rel="dns-prefetch" href="https://connect.facebook.net">
     <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    
+    <!-- Google Analytics 4 -->
+    <!-- Reemplazar G-XXXXXXXXXX con tu ID de medición real -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', {
+        'send_page_view': true,
+        'anonymize_ip': true,
+        'allow_ad_personalization_signals': false
+      });
+    </script>
+    
+    <!-- Google Search Console Verification -->
+    <!-- Reemplazar con tu código de verificación real -->
+    <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE_HERE" />
     
     <!-- Meta Pixel Code -->
     <script>

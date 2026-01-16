@@ -12,6 +12,13 @@ Sistema administrativo seguro para Hogar Belén que permite acceso completo a la
 
 ## Essential Features
 
+### Lazy Loading y Code Splitting
+- **Functionality**: Sistema de carga perezosa para todos los componentes de ruta usando React.lazy y Suspense
+- **Purpose**: Optimizar el rendimiento inicial reduciendo el tamaño del bundle principal en 40-60%
+- **Trigger**: Navegación a cualquier ruta
+- **Progression**: Route navigation → Suspense boundary → LoadingFallback display → Chunk download → Component render
+- **Success criteria**: Bundle principal < 200KB, Time to Interactive < 3s, loading indicator visible durante carga
+
 ### Acceso desde Sitio Público
 - **Functionality**: Link discreto en el footer que permite acceder al login administrativo
 - **Purpose**: Permitir acceso desde cualquier página del sitio en producción sin necesidad de URLs especiales
