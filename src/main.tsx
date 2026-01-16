@@ -4,10 +4,15 @@ import "@github/spark/spark"
 
 import App from './App.tsx'
 import { ErrorFallback } from './ErrorFallback.tsx'
+import { initPerformanceMonitoring } from './lib/performance.ts'
 
 import "./main.css"
 import "./styles/theme.css"
 import "./index.css"
+
+if (import.meta.env.PROD) {
+  initPerformanceMonitoring();
+}
 
 createRoot(document.getElementById('root')!).render(
   <ErrorBoundary FallbackComponent={ErrorFallback}>

@@ -38,8 +38,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript>
     <link href="/src/main.css" rel="stylesheet" />
+    
+    <link rel="dns-prefetch" href="https://connect.facebook.net">
+    <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
     
     <!-- Meta Pixel Code -->
     <script>
@@ -55,6 +59,7 @@
     fbq('init', 'YOUR_PIXEL_ID_HERE');
     fbq('track', 'PageView');
     </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID_HERE&ev=PageView&noscript=1" /></noscript>
     <!-- End Meta Pixel Code -->
     
     <script type="application/ld+json">
@@ -219,10 +224,6 @@
 </head>
 
 <body>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID_HERE&ev=PageView&noscript=1" />
-  </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 </body>
