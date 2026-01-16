@@ -27,11 +27,11 @@ export interface Professional {
 }
 
 export function useProfessionalsSync(options?: { onUpdate?: (data: Professional[]) => void }) {
-  const { data: professionals, updateData, refresh } = useRealtimeSync<Professional[]>({
-    key: 'professionals',
-    syncInterval: 2000,
-    onUpdate: options?.onUpdate
-  }, []);
+  const { data: professionals, updateData, refresh } = useRealtimeSync<Professional[]>(
+    'professionals',
+    { syncInterval: 2000 },
+    options?.onUpdate
+  );
 
   const addProfessional = useCallback(async (professional: Omit<Professional, 'id' | 'created_at' | 'updated_at'>) => {
     const newProfessional: Professional = {

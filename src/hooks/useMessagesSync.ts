@@ -28,10 +28,12 @@ export interface Conversation {
 }
 
 export function useMessagesSync(userId?: string) {
-  const { data: messages, updateData: updateMessages, refresh: refreshMessages } = useRealtimeSync<Message[]>({
-    key: 'messages',
-    syncInterval: 2000,
-    onUpdate: (data) => {
+  const { data: messages, updateData: updateMessages, refresh: refreshMessages } = useRealtimeSync<Message[]>(
+    'messages',
+    { 
+      syncInterval: 2000,
+    },
+    (data) => {
       if (!userId) return;
       
       const userMessages = data?.filter(
@@ -43,12 +45,12 @@ export function useMessagesSync(userId?: string) {
         toast.info(`Nuevo mensaje de ${lastMessage.sender_name}`);
       }
     }
-  }, []);
+  );
 
-  const { data: conversations, updateData: updateConversations, refresh: refreshConversations } = useRealtimeSync<Conversation[]>({
-    key: 'conversations',
-    syncInterval: 2000
-  }, []);
+  const { data: conversations, updateData: updateConversations, refresh: refreshConversations } = useRealtimeSync<Conversation[]>(
+    'conversations',
+    { syncInterval: 2000 }
+  );
 
   const userMessages = userId 
     ? (messages || []).filter(m => m.sender_id === userId || m.recipient_id === userId)

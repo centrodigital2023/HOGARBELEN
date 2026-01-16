@@ -15,10 +15,10 @@ export interface Notification {
 }
 
 export function useNotificationsSync(userId?: string, role?: string) {
-  const { data: allNotifications, updateData, refresh } = useRealtimeSync<Notification[]>({
-    key: 'notifications',
-    syncInterval: 3000,
-    onUpdate: (data) => {
+  const { data: allNotifications, updateData, refresh } = useRealtimeSync<Notification[]>(
+    'notifications',
+    { syncInterval: 3000 },
+    (data) => {
       if (!userId) return;
       
       const userNotifications = data?.filter(
@@ -32,7 +32,7 @@ export function useNotificationsSync(userId?: string, role?: string) {
         });
       }
     }
-  }, []);
+  );
 
   const notifications = userId 
     ? (allNotifications || []).filter(n => n.recipient_id === userId || n.recipient_role === role)

@@ -13,9 +13,9 @@ export function useRealtimeSync<T>(
   onUpdate?: (data: T) => void
 ) {
   const { syncInterval = 5000 } = options;
-  const [data, setData] = useKV<WithTimestamp<T>>(key);
+  const [data, setData] = useKV<WithTimestamp<T> | undefined>(key, undefined);
   const lastUpdateRef = useRef<string>('');
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const checkForUpdates = useCallback(async () => {
     try {
