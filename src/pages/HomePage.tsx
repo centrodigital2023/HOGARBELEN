@@ -3,6 +3,7 @@ import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import OptimizedImage from '../components/OptimizedImage';
 
 interface HomePageProps {
   setPage: (page: string) => void;
@@ -439,9 +440,11 @@ function KeyMessageSection({ setPage }: { setPage: (page: string) => void }) {
           viewport={{ once: true }}
           className="relative"
         >
-          <img
+          <OptimizedImage
             src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=600"
             alt="Residente feliz con llave"
+            width={600}
+            height={600}
             className="w-64 h-64 object-cover rounded-full mx-auto mb-8 shadow-2xl border-8 border-white"
           />
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
@@ -553,9 +556,11 @@ function HistoriaSection() {
               </p>
             </div>
           </div>
-          <img
+          <OptimizedImage
             src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200"
             alt="Historia Hogar Belén"
+            width={1200}
+            height={800}
             className="rounded-2xl shadow-2xl mx-auto max-w-3xl w-full"
           />
         </motion.div>

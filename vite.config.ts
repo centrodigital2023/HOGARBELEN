@@ -1,7 +1,6 @@
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig, PluginOption } from "vite";
-import viteImagemin from 'vite-plugin-webp';
 import { imagetools } from 'vite-imagetools';
 
 import sparkPlugin from "@github/spark/spark-vite-plugin";
@@ -27,19 +26,17 @@ export default defineConfig({
         return new URLSearchParams();
       },
     }),
-    viteImagemin({
-      webp: {
-        quality: 85,
-      },
-    }),
     // DO NOT REMOVE
     createIconImportProxy() as PluginOption,
     sparkPlugin() as PluginOption,
   ],
   resolve: {
     alias: {
-      '@': resolve(projectRoot, 'src')
-    }
+      '@': resolve(projectRoot, 'src'),
+      'react': resolve(projectRoot, 'node_modules/react'),
+      'react-dom': resolve(projectRoot, 'node_modules/react-dom'),
+    },
+    dedupe: ['react', 'react-dom']
   },
   build: {
     rollupOptions: {

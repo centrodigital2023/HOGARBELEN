@@ -64,9 +64,12 @@ const HeroNarrative = ({ setPage }: HeroNarrativeProps) => {
         
         <div className="relative">
           <div className="absolute -inset-4 bg-primary-200 rounded-full opacity-20 blur-3xl animate-pulse"></div>
-          <img 
+          <OptimizedImage
             src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800" 
             alt="Cuidado con amor" 
+            width={800}
+            height={600}
+            priority={true}
             className="relative rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition-all duration-500"
           />
         </div>

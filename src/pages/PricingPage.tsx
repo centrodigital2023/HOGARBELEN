@@ -9,6 +9,7 @@ import PlanComparison from '../components/PlanComparison';
 import PublicPromoCodes from '../components/PublicPromoCodes';
 import { useAuth } from '../contextos/SupabaseAuthContext';
 import { motion } from 'framer-motion';
+import OptimizedImage from '../components/OptimizedImage';
 
 interface PricingPageProps {
   setPage: (page: string) => void;
@@ -207,9 +208,11 @@ export default function PricingPage({ setPage }: PricingPageProps) {
             className="grid md:grid-cols-3 gap-6 mb-12"
           >
             <div className="relative rounded-2xl overflow-hidden shadow-xl group">
-              <img
+              <OptimizedImage
                 src="https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&w=800&q=80"
                 alt="Adulto mayor en actividad grupal"
+                width={800}
+                height={256}
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
@@ -217,9 +220,11 @@ export default function PricingPage({ setPage }: PricingPageProps) {
               </div>
             </div>
             <div className="relative rounded-2xl overflow-hidden shadow-xl group">
-              <img
+              <OptimizedImage
                 src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80"
                 alt="Cuidado profesional"
+                width={800}
+                height={256}
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
@@ -227,9 +232,11 @@ export default function PricingPage({ setPage }: PricingPageProps) {
               </div>
             </div>
             <div className="relative rounded-2xl overflow-hidden shadow-xl group">
-              <img
+              <OptimizedImage
                 src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=800&q=80"
                 alt="Jardines y naturaleza"
+                width={800}
+                height={256}
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">

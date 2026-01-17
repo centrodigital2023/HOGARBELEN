@@ -5,6 +5,7 @@ import { Clock } from '@phosphor-icons/react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useKV } from '@github/spark/hooks';
+import OptimizedImage from '@/components/OptimizedImage';
 
 const dayRangeMap: Record<string, number | number[]> = {
   'Lun': 1, 'Mar': 2, 'Mie': 3, 'Jue': 4, 'Vie': 5, 'Sáb': 6, 'Dom': 7,
@@ -436,11 +437,13 @@ export default function ProfesionalesServicios() {
       >
         <div className="flex items-start mb-4">
           <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-indigo-500/50 flex-shrink-0 mr-4">
-            <img 
+            <OptimizedImage
               src={pro.image} 
               alt={`Foto de ${pro.name}`} 
+              width={80}
+              height={80}
               className="w-full h-full object-cover"
-              onError={(e) => { (e.target as HTMLImageElement).src="https://placehold.co/80x80/6366F1/FFFFFF?text=PRO"; }}
+              fallback="https://placehold.co/80x80/6366F1/FFFFFF?text=PRO"
             />
           </div>
           <div className="flex-grow">
