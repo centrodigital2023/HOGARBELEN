@@ -1,7 +1,11 @@
 import ServicesPage from '../pages/ServicesPage';
 
-const PáginaDeServiciosWrapper = () => {
-  return <ServicesPage />;
+interface PáginaDeServiciosWrapperProps {
+  setPage?: (page: string) => void;
+}
+
+const PáginaDeServiciosWrapper = ({ setPage }: PáginaDeServiciosWrapperProps = {}) => {
+  return <ServicesPage setPage={setPage} />;
 };
 
 export default PáginaDeServiciosWrapper;

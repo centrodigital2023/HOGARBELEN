@@ -46,6 +46,9 @@ const AdminConfiguration = lazy(() => import('./páginas/AdminConfiguration'));
 const AdminAnalytics = lazy(() => import('./páginas/AdminAnalytics'));
 const RegistroProfesionalInteligente = lazy(() => import('./pages/RegistroProfesionalInteligente'));
 const TestDemoPage = lazy(() => import('./pages/TestDemoPage'));
+const ServicioCuidadoResidencial = lazy(() => import('./pages/ServicioCuidadoResidencial'));
+const ServicioDulceHogar = lazy(() => import('./pages/ServicioDulceHogar'));
+const ServicioBelenConecta = lazy(() => import('./pages/ServicioBelenConecta'));
 
 export interface User {
   id: string;
@@ -104,7 +107,13 @@ const MainApp = () => {
       case 'pricing': 
         return <Suspense fallback={<LoadingFallback />}><PáginaDePrecios setPage={setCurrentPage} /></Suspense>;
       case 'services': 
-        return <Suspense fallback={<LoadingFallback />}><PáginaDeServicios /></Suspense>;
+        return <Suspense fallback={<LoadingFallback />}><PáginaDeServicios setPage={setCurrentPage} /></Suspense>;
+      case 'servicio-cuidado-residencial': 
+        return <Suspense fallback={<LoadingFallback />}><ServicioCuidadoResidencial /></Suspense>;
+      case 'servicio-dulce-hogar': 
+        return <Suspense fallback={<LoadingFallback />}><ServicioDulceHogar /></Suspense>;
+      case 'servicio-belen-conecta': 
+        return <Suspense fallback={<LoadingFallback />}><ServicioBelenConecta /></Suspense>;
       case 'contact': 
         return <Suspense fallback={<LoadingFallback />}><ContactPage /></Suspense>;
       case 'centro-vida': 

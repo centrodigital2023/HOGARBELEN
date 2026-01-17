@@ -62,7 +62,19 @@ const Navegación = ({ setPage, user, userData }: NavegaciónProps) => {
                 Servicios
                 <ChevronDown size={16} />
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56">
+              <DropdownMenuContent align="start" className="w-64">
+                <DropdownMenuItem onClick={() => setPage('services')} className="cursor-pointer py-3">
+                  <span className="font-medium">Todos los Servicios</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setPage('servicio-cuidado-residencial')} className="cursor-pointer py-3">
+                  <span className="font-medium">Cuidado Residencial 24/7</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setPage('servicio-dulce-hogar')} className="cursor-pointer py-3">
+                  <span className="font-medium">Plan Dulce Hogar</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setPage('servicio-belen-conecta')} className="cursor-pointer py-3">
+                  <span className="font-medium">Belén Conecta</span>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setPage('centro-vida')} className="cursor-pointer py-3">
                   <span className="font-medium">Centro Vida</span>
                 </DropdownMenuItem>

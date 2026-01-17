@@ -4,7 +4,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import { Badge } from '../components/ui/badge';
 import CompactGallery from '../components/CompactGallery';
 
-export default function ServicesPage() {
+interface ServicesPageProps {
+  setPage?: (page: string) => void;
+}
+
+export default function ServicesPage({ setPage }: ServicesPageProps = {}) {
   const residencialImages = [
     'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&auto=format&fit=crop',
     'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop',
@@ -147,7 +151,7 @@ export default function ServicesPage() {
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                 Nuestro hogar ofrece un ambiente cálido y seguro donde cada residente recibe atención personalizada las 24 horas del día. Combinamos cuidado médico profesional con la calidez de un verdadero hogar, en un entorno que inspira alegría y tranquilidad.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 {residencialFeatures.map((feature, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -157,6 +161,11 @@ export default function ServicesPage() {
                   </div>
                 ))}
               </div>
+              {setPage && (
+                <Button size="lg" className="mt-6" onClick={() => setPage('servicio-cuidado-residencial')}>
+                  Conocer Más Sobre Este Servicio
+                </Button>
+              )}
             </div>
             <div className="order-1 lg:order-2">
               <CompactGallery images={residencialImages} alt="Cuidado Residencial" />
@@ -183,7 +192,7 @@ export default function ServicesPage() {
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                 Llevamos nuestro cuidado profesional y nuestra calidez directamente a la comodidad de su hogar. Nuestros cuidadores certificados brindan atención personalizada, permitiendo que sus seres queridos mantengan su independencia y rutina en un entorno familiar.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 {dulceHogarFeatures.map((feature, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <div className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -193,6 +202,11 @@ export default function ServicesPage() {
                   </div>
                 ))}
               </div>
+              {setPage && (
+                <Button size="lg" variant="default" className="bg-accent hover:bg-accent/90" onClick={() => setPage('servicio-dulce-hogar')}>
+                  Conocer Más Sobre Este Servicio
+                </Button>
+              )}
             </div>
           </div>
 
@@ -228,9 +242,15 @@ export default function ServicesPage() {
                   );
                 })}
               </div>
-              <Button size="lg" className="w-full sm:w-auto">
-                Acceder a la Plataforma
-              </Button>
+              {setPage ? (
+                <Button size="lg" className="w-full sm:w-auto" onClick={() => setPage('servicio-belen-conecta')}>
+                  Conocer Más Sobre Este Servicio
+                </Button>
+              ) : (
+                <Button size="lg" className="w-full sm:w-auto">
+                  Acceder a la Plataforma
+                </Button>
+              )}
             </div>
             <div className="order-1 lg:order-2">
               <img 
