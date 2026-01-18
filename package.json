@@ -7,9 +7,16 @@
         "dev": "vite",
         "kill": "fuser -k 5000/tcp",
         "build": "tsc -b --noCheck && vite build",
+        "build:prod": "NODE_ENV=production vite build",
         "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
         "optimize": "vite optimize",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "preview:prod": "vite preview --port 4173",
+        "type-check": "tsc --noEmit",
+        "clean": "rm -rf node_modules .vite dist",
+        "reinstall": "npm run clean && npm install",
+        "analyze": "npx vite-bundle-visualizer"
     },
     "dependencies": {
         "@github/spark": ">=0.43.1 <1",

@@ -2,9 +2,11 @@
   "name": "hogar-belen",
   "version": 2,
   "public": false,
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run build:prod",
   "outputDirectory": "dist",
-  "framework": null,
+  "framework": "vite",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
     {
       "source": "/(.*)",
