@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useToastContext } from './ToastContext';
 
-interface Toast {
+export interface Toast {
   id: string;
   message: string;
   type: 'success' | 'error' | 'info' | 'warning';
   duration?: number;
+}
+
+export interface UseToastReturn {
+  toasts: Toast[];
+  toast: (message: string, type: Toast['type'], duration?: number) => string;
+  success: (message: string, duration?: number) => string;
+  error: (message: string, duration?: number) => string;
+  info: (message: string, duration?: number) => string;
+  warning: (message: string, duration?: number) => string;
+  dismiss: (id: string) => void;
 }
 
 export function useToast() {

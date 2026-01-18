@@ -62,6 +62,11 @@ Devuelve SOLO un JSON válido con la siguiente estructura (sin texto adicional):
 
       const result = await window.spark.llm(prompt, 'gpt-4o-mini', true);
       
+      // Validar respuesta antes de parsear
+      if (!result || typeof result !== 'string') {
+        throw new Error('Respuesta inválida del LLM');
+      }
+      
       // Parsear el resultado
       const analysis: AIAnalysisResponse = JSON.parse(result);
       return analysis;
@@ -119,6 +124,12 @@ Devuelve SOLO un JSON válido con la siguiente estructura:
 }`;
 
       const result = await window.spark.llm(prompt, 'gpt-4o-mini', true);
+      
+      // Validar respuesta antes de parsear
+      if (!result || typeof result !== 'string') {
+        throw new Error('Respuesta inválida del LLM');
+      }
+      
       const analysis: AIAnalysisResponse = JSON.parse(result);
       return analysis;
     } catch (err) {
@@ -174,6 +185,12 @@ Devuelve SOLO un JSON válido con la siguiente estructura:
 }`;
 
       const result = await window.spark.llm(prompt, 'gpt-4o-mini', true);
+      
+      // Validar respuesta antes de parsear
+      if (!result || typeof result !== 'string') {
+        throw new Error('Respuesta inválida del LLM');
+      }
+      
       const analysis: AIAnalysisResponse = JSON.parse(result);
       return analysis;
     } catch (err) {
