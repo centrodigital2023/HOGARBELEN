@@ -1,153 +1,127 @@
 # Planning Guide
 
-Sistema administrativo seguro para Hogar Belén que permite acceso completo a la gestión del sitio web desde cualquier ubicación con autenticación robusta de doble factor.
+A next-generation intelligent dashboard that organizes information with futuristic design patterns, utilizing advanced layout systems, smooth animations, and AI-inspired visual elements to create a cutting-edge user experience.
 
-**Experience Qualities**:
-1. **Seguro** - Sistema de autenticación de doble factor con monitoreo de intentos de acceso y bloqueo automático tras intentos fallidos
-2. **Accesible** - Acceso discreto desde el footer del sitio público permitiendo ingreso desde cualquier página en producción
-3. **Profesional** - Interfaz administrativa completa con auditoría, gestión de profesionales, leads, ofertas de trabajo y análisis
+**Experience Qualities**: 
+1. **Futuristic** - Bleeding-edge visual design with holographic-inspired effects, glassmorphism, and dynamic gradients that feel like tomorrow's interfaces today
+2. **Intelligent** - Smart information hierarchy that adapts and responds to user interaction with contextual awareness and predictive UI patterns
+3. **Fluid** - Seamless animations and transitions that create a sense of continuous flow, with physics-based motion and micro-interactions throughout
 
-**Complexity Level**: Complex Application (advanced functionality, likely with multiple views)
-- El sistema incluye autenticación multifactor, gestión de múltiples tipos de recursos (profesionales, leads, ofertas), sistema de auditoría completo, y paneles analíticos con métricas en tiempo real.
+**Complexity Level**: Light Application (multiple features with basic state)
+Selected because this is a showcase application demonstrating futuristic organization patterns with multiple interactive sections, persistent user preferences, and dynamic content display - not overly complex but more than a simple tool.
 
 ## Essential Features
 
-### Lazy Loading y Code Splitting
-- **Functionality**: Sistema de carga perezosa para todos los componentes de ruta usando React.lazy y Suspense
-- **Purpose**: Optimizar el rendimiento inicial reduciendo el tamaño del bundle principal en 40-60%
-- **Trigger**: Navegación a cualquier ruta
-- **Progression**: Route navigation → Suspense boundary → LoadingFallback display → Chunk download → Component render
-- **Success criteria**: Bundle principal < 200KB, Time to Interactive < 3s, loading indicator visible durante carga
+### Smart Grid Layout System
+- **Functionality**: Adaptive card-based layout that reorganizes based on priority and user interaction patterns
+- **Purpose**: Demonstrates intelligent space utilization with modern grid systems
+- **Trigger**: Page load and user interaction with cards
+- **Progression**: Page loads → Cards animate in with stagger effect → User hovers/clicks cards → Cards respond with depth and glow effects → Layout adapts smoothly
+- **Success criteria**: All cards visible, smooth animations, responsive across devices, no layout shift
 
-### Acceso desde Sitio Público
-- **Functionality**: Link discreto en el footer que permite acceder al login administrativo
-- **Purpose**: Permitir acceso desde cualquier página del sitio en producción sin necesidad de URLs especiales
-- **Trigger**: Click en "Administrador del sitio · Hogar Belén" en el footer
-- **Progression**: Footer link → Admin Login page → Credenciales → 2FA verification → Admin Dashboard
-- **Success criteria**: El administrador puede acceder desde cualquier página pública del sitio
+### Holographic Data Widgets
+- **Functionality**: Interactive data visualization cards with glassmorphic design and animated statistics
+- **Purpose**: Showcase futuristic data presentation with depth and luminosity
+- **Trigger**: Card becomes visible in viewport
+- **Progression**: Card enters view → Background gradient animates → Stats count up smoothly → Hover reveals additional depth → Click expands for details
+- **Success criteria**: Smooth number animations, glass effect renders properly, interactions feel responsive
 
-### Autenticación de Doble Factor
-- **Functionality**: Sistema de login con email/contraseña + código TOTP de 6 dígitos
-- **Purpose**: Máxima seguridad para proteger el acceso administrativo
-- **Trigger**: Ingreso de credenciales correctas
-- **Progression**: Email/Password → Validation → TOTP prompt → Code entry (123012) → Dashboard access
-- **Success criteria**: Acceso solo con credenciales válidas + código 2FA correcto
+### AI Assistant Interface
+- **Functionality**: Conversational interface with typing indicators and intelligent suggestions
+- **Purpose**: Demonstrate futuristic AI interaction patterns
+- **Trigger**: User clicks AI assistant button or types in input
+- **Progression**: Click assistant → Panel slides in from edge → User types query → Typing indicator appears → Response streams in → Suggestions appear below
+- **Success criteria**: Smooth panel animation, typing effect works, suggestions are contextual
 
-### Bloqueo por Intentos Fallidos
-- **Functionality**: Sistema que bloquea la cuenta tras 3 intentos fallidos por 5 minutos
-- **Purpose**: Prevenir ataques de fuerza bruta
-- **Trigger**: Tres intentos de login fallidos consecutivos
-- **Progression**: Failed attempt → Counter increment → Lockout at 3 attempts → 5 minute wait
-- **Success criteria**: Sistema bloquea automáticamente tras 3 intentos fallidos
+### Neural Network Background
+- **Functionality**: Animated particle system creating connected nodes that respond to mouse movement
+- **Purpose**: Create immersive futuristic atmosphere with dynamic background
+- **Trigger**: Page load and mouse movement
+- **Progression**: Page loads → Particles initialize → Mouse moves → Particles respond subtly → Connections form and break → Parallax effect on scroll
+- **Success criteria**: 60fps animation, subtle mouse response, doesn't distract from content
 
-### Dashboard Administrativo
-- **Functionality**: Panel central con métricas, alertas y acceso a todas las secciones
-- **Purpose**: Vista unificada del estado del sistema
-- **Trigger**: Login exitoso
-- **Progression**: Login → Dashboard view → KPI cards → Quick actions → Section navigation
-- **Success criteria**: Métricas actualizadas en tiempo real, navegación fluida
-
-### Sistema de Auditoría
-- **Functionality**: Registro automático de todas las acciones administrativas
-- **Purpose**: Trazabilidad completa y seguridad
-- **Trigger**: Cualquier acción administrativa
-- **Progression**: Action performed → Audit log created → Stored with timestamp/IP/details
-- **Success criteria**: Todas las acciones quedan registradas con detalles completos
+### Theme Customizer
+- **Functionality**: Real-time color scheme adjuster with preset futuristic palettes
+- **Purpose**: Allow users to personalize the futuristic aesthetic
+- **Trigger**: User clicks theme button
+- **Progression**: Click theme button → Palette drawer opens → Select color scheme → Colors transition smoothly → Preference saved → UI reflects new theme
+- **Success criteria**: Smooth color transitions, preferences persist across sessions
 
 ## Edge Case Handling
 
-- **Sesión Expirada**: Redirección automática al login tras 8 horas de inactividad
-- **Múltiples Tabs**: Sincronización de sesión entre pestañas usando KV storage
-- **Código 2FA Inválido**: Máximo 3 intentos antes de requerir re-login completo
-- **Conexión Interrumpida**: Los datos se persisten localmente antes de guardar
-- **Acceso No Autorizado**: Verificación de autenticación en cada página administrativa
+- **Reduced Motion Preference**: Detect prefers-reduced-motion and disable/simplify animations for accessibility
+- **Low-End Devices**: Detect performance constraints and reduce particle count/animation complexity
+- **Extreme Viewport Sizes**: Grid system gracefully adapts from mobile to ultrawide displays
+- **Missing Data**: Empty states show futuristic placeholder graphics and constructive prompts
+- **Slow Connections**: Progressive loading with skeleton screens in futuristic style
 
 ## Design Direction
 
-El diseño debe transmitir **seguridad profesional y confianza institucional**. La interfaz administrativa contrasta con el sitio público mediante un esquema oscuro que proyecta seriedad, con elementos visuales que refuerzan la naturaleza crítica y segura del sistema.
+The design should evoke a sense of advanced technology, innovation, and intelligent systems - like stepping into a sci-fi command center or interacting with technology from the near future. Think holographic displays, energy flows, neural networks, and quantum computing aesthetics. The interface should feel alive, responsive, and impossibly sophisticated while remaining intuitive and accessible.
 
 ## Color Selection
 
-Esquema oscuro profesional con acentos de seguridad
+The color scheme draws from cyberpunk, sci-fi interfaces, and bioluminescent themes with high-tech neon accents against deep space backgrounds.
 
-- **Primary Color**: Azul profundo (oklch(0.45 0.15 250)) - Representa confianza, seguridad y profesionalismo institucional
+- **Primary Color**: Electric Cyan `oklch(0.70 0.20 210)` - Represents advanced technology, digital energy, and futuristic intelligence with a luminous quality
 - **Secondary Colors**: 
-  - Gris carbón (oklch(0.25 0.01 250)) - Fondos y superficies principales
-  - Gris medio (oklch(0.55 0.01 250)) - Texto secundario y bordes
-- **Accent Color**: Azul brillante (oklch(0.60 0.20 250)) - CTAs, estados activos y elementos interactivos importantes
-- **Foreground/Background Pairings**: 
-  - Primary Button (Azul oklch(0.60 0.20 250)): White text (oklch(0.98 0 0)) - Ratio 8.2:1 ✓
-  - Background Dark (oklch(0.15 0.02 250)): Light text (oklch(0.85 0.01 250)) - Ratio 12.5:1 ✓
-  - Card Surface (oklch(0.20 0.01 250)): Main text (oklch(0.90 0 0)) - Ratio 14.8:1 ✓
-  - Alert Critical (oklch(0.55 0.22 25)): White text - Ratio 4.8:1 ✓
+  - Deep Space Navy `oklch(0.15 0.03 250)` - Foundation color creating depth and sophistication
+  - Neon Purple `oklch(0.65 0.25 300)` - Accent for AI and intelligent features, mystical tech feeling
+  - Quantum Blue `oklch(0.75 0.18 230)` - Interactive elements and information display
+- **Accent Color**: Plasma Pink `oklch(0.72 0.24 340)` - High-energy call-to-action color for critical interactions and alerts
+- **Foreground/Background Pairings**:
+  - Primary (Electric Cyan #00D9FF): Deep Space Navy (#0A0E27) - Ratio 8.2:1 ✓
+  - Accent (Plasma Pink #FF4D9E): Deep Space Navy (#0A0E27) - Ratio 7.1:1 ✓
+  - Neon Purple (#B84DFF): Deep Space Navy (#0A0E27) - Ratio 6.8:1 ✓
+  - White text (#FFFFFF): Deep Space Navy (#0A0E27) - Ratio 14.5:1 ✓
 
 ## Font Selection
 
-Tipografía que proyecta autoridad y claridad, con excelente legibilidad en interfaces oscuras
+Typography should feel technical yet elegant, combining geometric precision with futuristic character - suggesting advanced interfaces and AI systems.
 
-- **Typographic Hierarchy**:
-  - H1 (Page Title): Inter Bold/32px/tight (-0.02em) - Títulos principales de sección
-  - H2 (Section Header): Inter Semibold/24px/tight (-0.01em) - Headers de cards y subsecciones
-  - Body (Main Content): Inter Regular/15px/relaxed (1.6) - Contenido principal
-  - Small (Metadata): Inter Medium/13px/normal - Timestamps, labels, badges
-  - Code (IDs/Technical): JetBrains Mono/14px/normal - IDs, códigos, datos técnicos
+- **Typographic Hierarchy**: 
+  - H1 (Main Title): Space Grotesk Bold/48px/tight spacing/-0.03em - Commands attention with geometric precision
+  - H2 (Section Headers): Space Grotesk SemiBold/32px/normal spacing/-0.02em - Clear hierarchy with tech character
+  - H3 (Card Titles): JetBrains Mono Medium/20px/normal spacing/0em - Monospace for technical authenticity
+  - Body (Content): Inter Regular/16px/relaxed spacing/1.6 line-height - Clean readability for extended content
+  - Caption (Metadata): JetBrains Mono Regular/14px/normal spacing - Technical details and system info
 
 ## Animations
 
-Las animaciones refuerzan la seguridad y profesionalismo con transiciones suaves y respuestas inmediatas
-
-- Transiciones de página: Fade in sutil (300ms) al cambiar entre secciones administrativas
-- Hover states: Elevación suave en cards y botones (150ms ease-out)
-- Loading states: Spinner minimalista con rotación fluida
-- Alerts/Toasts: Slide in desde esquina inferior derecha con bounce sutil
-- Form validation: Shake micro-animation en errores (200ms)
-- 2FA input: Focus auto-advance entre dígitos con highlight suave
+Animations should feel like energy flowing through circuits, quantum states shifting, and AI processing information - purposeful, smooth, and creating a sense of living technology. Balance subtle ambient motion (particles, glows) with deliberate interaction feedback (card lifts, panel slides) and moments of delight (success states, data reveals). All animations use easing curves that suggest advanced physics: elastic for playful interactions, anticipation for important actions, and smooth beziers for professional transitions.
 
 ## Component Selection
 
 - **Components**: 
-  - Dialogs (shadcn): Confirmaciones de acciones críticas (eliminar, aprobar)
-  - Cards (shadcn): Contenedores principales para métricas y secciones - con border sutil y background oscuro
-  - Tables (shadcn): Listados de profesionales, leads, ofertas - striped rows para mejor legibilidad
-  - Badges (shadcn): Estados (pending, approved, rejected) - colores semánticos
-  - Tabs (shadcn): Navegación entre secciones del dashboard
-  - Inputs (shadcn): Campos de búsqueda y filtros - background oscuro con border focus azul
-  - Buttons (shadcn): Primary (azul), Ghost (transparente), Destructive (rojo)
-  - Toasts (sonner): Notificaciones de éxito/error - posición bottom-right
-
-- **Customizations**:
-  - Security badge component: Badge con icono de escudo para indicar áreas protegidas
-  - KPI cards: Cards con gradientes sutiles y números grandes
-  - Audit log viewer: Timeline component con iconos por tipo de acción
-  - 2FA input: 6 inputs individuales con auto-focus y paste support
-
-- **States**:
-  - Buttons: Default (solid blue), Hover (brighter blue + lift), Active (darker + pressed), Disabled (gray + reduced opacity)
-  - Inputs: Default (gray border), Focus (blue border + ring), Error (red border), Disabled (reduced opacity)
-  - Cards: Default (subtle border), Hover (elevated shadow), Selected (blue border)
-  - Badges: Status colors (green=approved, yellow=pending, red=rejected, gray=inactive)
-
-- **Icon Selection**:
-  - Shield: Seguridad y autenticación
-  - LockKey: 2FA y verificación
-  - Users/UserCheck: Gestión de profesionales
-  - Briefcase: Ofertas de trabajo
-  - ChartBar/ChartLine: Analytics y métricas
-  - Warning: Alertas y notificaciones
-  - ClockCounterClockwise: Auditoría e historial
-  - Gear: Configuración
-  - SignOut: Cerrar sesión
-
-- **Spacing**: 
-  - Cards: p-6 para contenido, gap-4 entre elementos internos
-  - Grid layouts: gap-6 para desktop, gap-4 para mobile
-  - Form fields: space-y-4 entre inputs
-  - Sections: space-y-8 entre secciones principales
-  - Button groups: gap-3 horizontal
-
+  - Cards with glassmorphism (backdrop-blur-xl, border-glow effects)
+  - Dialog for AI assistant with slide-in animation
+  - Tabs for navigation with animated indicator
+  - Progress bars with gradient fills and glow
+  - Button with multiple states (idle glow, hover lift, active pulse)
+  - Badge for status indicators with subtle pulse animation
+  - Tooltip with fade-in and smart positioning
+  - Skeleton for loading states with shimmer effect
+  
+- **Customizations**: 
+  - Custom particle system background using Canvas API
+  - Gradient borders using CSS gradients and pseudo-elements
+  - Glow effects using multiple box-shadows with blur
+  - Custom number counter animation component
+  - Glassmorphic panels with backdrop-filter
+  
+- **States**: 
+  - Buttons: idle (subtle glow) → hover (lift + brightness increase) → active (scale down + intense glow) → disabled (opacity + no glow)
+  - Cards: resting (soft shadow) → hover (lift + glow border) → active (pressed state) → expanded (full glow + depth)
+  - Inputs: empty → focused (cyan glow ring) → typing (pulse) → filled (success glow) → error (red glow)
+  
+- **Icon Selection**: Phosphor icons duotone style for depth, focusing on tech themes (Brain, Cube, Lightning, Sparkle, CircuitBoard, Robot)
+  
+- **Spacing**: Consistent 8px base unit (spacing-2, 4, 6, 8, 12, 16, 24, 32) with generous gaps between cards (gap-8) and sections (mt-16, mb-24)
+  
 - **Mobile**: 
-  - Dashboard: KPIs en single column, cards stackeadas
-  - Tables: Scroll horizontal con sticky first column
-  - Navigation: Hamburger menu con sidebar drawer
-  - 2FA inputs: Grid responsive, mantiene spacing en mobile
-  - Formularios: Full width en mobile, max-w-2xl en desktop
+  - Single column layout on mobile with full-width cards
+  - Particle count reduced by 70% for performance
+  - Touch-optimized hit areas (min 44px)
+  - Simplified animations (remove parallax, reduce blur)
+  - Bottom sheet for AI assistant instead of side panel
+  - Gesture-based navigation with swipe indicators

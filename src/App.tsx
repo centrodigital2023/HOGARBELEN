@@ -1,211 +1,320 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { Toaster } from 'sonner';
-import { AuthProvider, useAuth } from './contextos/SupabaseAuthContext';
-import { AdminAuthProvider } from './contextos/AdminAuthContext';
-import { AdminSetupInitializer } from './components/AdminSetupInitializer';
-import { LoadingFallback } from './components/LoadingFallback';
-import { usePrefetchRoutes } from './hooks/usePrefetch';
-import Navegación from './componentes/Navegación';
-import PieDePágina from './componentes/PieDePágina';
-import PáginaPrincipal from './páginas/PáginaPrincipal';
+import { motion } from 'framer-motion'
+import { ParticleBackground } from '@/components/ParticleBackground'
+import { AnimatedStat } from '@/components/AnimatedStat'
+import { ThemeCustomizer } from '@/components/ThemeCustomizer'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { 
+  Brain, 
+  Cube, 
+  Lightning, 
+  Sparkle, 
+  Cpu, 
+  ChartBar,
+  Users,
+  Rocket
+} from '@phosphor-icons/react'
+import { Toaster } from '@/components/ui/sonner'
 
-// Lazy loading de componentes
-const AboutPage = lazy(() => import('./páginas/AboutPage'));
-const PáginaDePrecios = lazy(() => import('./páginas/PáginaDePrecios'));
-const PáginaDeServicios = lazy(() => import('./páginas/PáginaDeServicios'));
-const ContactPage = lazy(() => import('./páginas/ContactPage'));
-const BelenConectaLogin = lazy(() => import('./páginas/BelenConectaLogin'));
-const BelenConectaRegister = lazy(() => import('./páginas/BelenConectaRegister'));
-const FamilyDashboard = lazy(() => import('./páginas/FamilyDashboard'));
-const PanelDeControlProfesional = lazy(() => import('./páginas/PanelDeControlProfesional'));
-const AICareAssistant = lazy(() => import('./páginas/AICareAssistant'));
-const AdminPromoCodes = lazy(() => import('./páginas/AdminPromoCodes'));
-const SuperAdminDashboard = lazy(() => import('./páginas/SuperAdminDashboard'));
-const CentroVida = lazy(() => import('./páginas/CentroVida'));
-const OfertasDeTrabajo = lazy(() => import('./páginas/OfertasDeTrabajo'));
-const BelenConectaFamilias = lazy(() => import('./páginas/BelenConectaFamilias'));
-const BelenConectaProfesionales = lazy(() => import('./páginas/BelenConectaProfesionales'));
-const ProfesionalesServicios = lazy(() => import('./páginas/ProfesionalesServicios'));
-const PlanesVidaActiva = lazy(() => import('./páginas/PlanesVidaActiva'));
-const PlanAmigos = lazy(() => import('./páginas/PlanAmigos'));
-const PlanSolYCafe = lazy(() => import('./páginas/PlanSolYCafe'));
-const PlanSonreir = lazy(() => import('./páginas/PlanSonreir'));
-const PlanTurismoRural = lazy(() => import('./páginas/PlanTurismoRural'));
-const TerminosYCondiciones = lazy(() => import('./páginas/TerminosYCondiciones'));
-const PoliticaPrivacidad = lazy(() => import('./páginas/PoliticaPrivacidad'));
-const AdminLogin = lazy(() => import('./páginas/AdminLogin'));
-const Admin2FA = lazy(() => import('./páginas/Admin2FA'));
-const AdminDashboard = lazy(() => import('./páginas/AdminDashboard'));
-const AdminProfessionals = lazy(() => import('./páginas/AdminProfessionals'));
-const AdminLeads = lazy(() => import('./páginas/AdminLeads'));
-const AdminJobOffers = lazy(() => import('./páginas/AdminJobOffers'));
-const AdminContent = lazy(() => import('./páginas/AdminContent'));
-const AdminAIClassifications = lazy(() => import('./páginas/AdminAIClassifications'));
-const AdminAuditLog = lazy(() => import('./páginas/AdminAuditLog'));
-const AdminConfiguration = lazy(() => import('./páginas/AdminConfiguration'));
-const AdminAnalytics = lazy(() => import('./páginas/AdminAnalytics'));
-const RegistroProfesionalInteligente = lazy(() => import('./pages/RegistroProfesionalInteligente'));
-const TestDemoPage = lazy(() => import('./pages/TestDemoPage'));
-const ServicioCuidadoResidencial = lazy(() => import('./pages/ServicioCuidadoResidencial'));
-const ServicioDulceHogar = lazy(() => import('./pages/ServicioDulceHogar'));
-const ServicioBelenConecta = lazy(() => import('./pages/ServicioBelenConecta'));
-
-export interface User {
-  id: string;
-  email: string;
-  fullName: string;
-  role: 'family' | 'professional';
-  plan?: string;
-  photoUrl?: string;
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
 }
 
-const MainApp = () => {
-  const { user, userData, loading } = useAuth();
-  const [currentPage, setCurrentPage] = useState('home');
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+}
 
-  // Precargar rutas importantes basadas en prioridad
-  usePrefetchRoutes([
-    // Alta prioridad: páginas más visitadas
-    { path: 'services', loader: () => import('./páginas/PáginaDeServicios'), priority: 'high' },
-    { path: 'pricing', loader: () => import('./páginas/PáginaDePrecios'), priority: 'high' },
-    { path: 'about', loader: () => import('./páginas/AboutPage'), priority: 'high' },
-    { path: 'contact', loader: () => import('./páginas/ContactPage'), priority: 'high' },
-    
-    // Prioridad media: páginas de conversión
-    { path: 'login', loader: () => import('./páginas/BelenConectaLogin'), priority: 'medium' },
-    { path: 'register', loader: () => import('./páginas/BelenConectaRegister'), priority: 'medium' },
-    { path: 'planes', loader: () => import('./páginas/PlanesVidaActiva'), priority: 'medium' },
-    
-    // Baja prioridad: resto de páginas
-    { path: 'centro-vida', loader: () => import('./páginas/CentroVida'), priority: 'low' },
-    { path: 'jobs', loader: () => import('./páginas/OfertasDeTrabajo'), priority: 'low' },
-  ]);
-
-  useEffect(() => {
-    if (user) {
-      if (currentPage === 'login' || currentPage === 'register') {
-        setCurrentPage(userData?.role === 'professional' ? 'dashboard-pro' : 'dashboard-family');
-      }
-    }
-  }, [user, userData, currentPage]);
-
-  if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center text-primary-600">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-        <span className="ml-3 text-lg">Cargando Hogar Belén...</span>
-      </div>
-    );
-  }
-
-  const renderPage = () => {
-    switch(currentPage) {
-      case 'home': 
-        return <PáginaPrincipal setPage={setCurrentPage} />;
-      case 'about': 
-        return <Suspense fallback={<LoadingFallback />}><AboutPage /></Suspense>;
-      case 'pricing': 
-        return <Suspense fallback={<LoadingFallback />}><PáginaDePrecios setPage={setCurrentPage} /></Suspense>;
-      case 'services': 
-        return <Suspense fallback={<LoadingFallback />}><PáginaDeServicios setPage={setCurrentPage} /></Suspense>;
-      case 'servicio-cuidado-residencial': 
-        return <Suspense fallback={<LoadingFallback />}><ServicioCuidadoResidencial /></Suspense>;
-      case 'servicio-dulce-hogar': 
-        return <Suspense fallback={<LoadingFallback />}><ServicioDulceHogar /></Suspense>;
-      case 'servicio-belen-conecta': 
-        return <Suspense fallback={<LoadingFallback />}><ServicioBelenConecta /></Suspense>;
-      case 'contact': 
-        return <Suspense fallback={<LoadingFallback />}><ContactPage /></Suspense>;
-      case 'centro-vida': 
-        return <Suspense fallback={<LoadingFallback />}><CentroVida setPage={setCurrentPage} /></Suspense>;
-      case 'jobs': 
-        return <Suspense fallback={<LoadingFallback />}><OfertasDeTrabajo setPage={setCurrentPage} /></Suspense>;
-      case 'profesionales-servicios': 
-        return <Suspense fallback={<LoadingFallback />}><ProfesionalesServicios /></Suspense>;
-      case 'belen-familias': 
-        return <Suspense fallback={<LoadingFallback />}><BelenConectaFamilias setPage={setCurrentPage} /></Suspense>;
-      case 'belen-profesionales': 
-        return <Suspense fallback={<LoadingFallback />}><BelenConectaProfesionales setPage={setCurrentPage} /></Suspense>;
-      case 'planes-vida-activa': 
-        return <Suspense fallback={<LoadingFallback />}><PlanesVidaActiva setPage={setCurrentPage} /></Suspense>;
-      case 'plan-amigos': 
-        return <Suspense fallback={<LoadingFallback />}><PlanAmigos setPage={setCurrentPage} /></Suspense>;
-      case 'plan-sol-cafe': 
-        return <Suspense fallback={<LoadingFallback />}><PlanSolYCafe setPage={setCurrentPage} /></Suspense>;
-      case 'plan-sonreir': 
-        return <Suspense fallback={<LoadingFallback />}><PlanSonreir setPage={setCurrentPage} /></Suspense>;
-      case 'plan-turismo-rural': 
-        return <Suspense fallback={<LoadingFallback />}><PlanTurismoRural setPage={setCurrentPage} /></Suspense>;
-      case 'login': 
-        return <Suspense fallback={<LoadingFallback />}><BelenConectaLogin setPage={setCurrentPage} /></Suspense>;
-      case 'register': 
-        return <Suspense fallback={<LoadingFallback />}><BelenConectaRegister setPage={setCurrentPage} /></Suspense>;
-      case 'registro-profesional-inteligente': 
-        return <Suspense fallback={<LoadingFallback />}><RegistroProfesionalInteligente setPage={setCurrentPage} /></Suspense>;
-      case 'dashboard-family': 
-        return <Suspense fallback={<LoadingFallback />}><FamilyDashboard user={user} setPage={setCurrentPage} /></Suspense>;
-      case 'dashboard-pro': 
-        return <Suspense fallback={<LoadingFallback />}><PanelDeControlProfesional user={user} userData={userData} setPage={setCurrentPage} /></Suspense>;
-      case 'ai-assistant': 
-        return <Suspense fallback={<LoadingFallback />}><AICareAssistant setPage={setCurrentPage} /></Suspense>;
-      case 'admin-promo-codes': 
-        return <Suspense fallback={<LoadingFallback />}><AdminPromoCodes setPage={setCurrentPage} /></Suspense>;
-      case 'admin-verificar-profesionales': 
-        return <Suspense fallback={<LoadingFallback />}><AdminProfessionals setPage={setCurrentPage} /></Suspense>;
-      case 'super-admin-dashboard': 
-        return <Suspense fallback={<LoadingFallback />}><SuperAdminDashboard setPage={setCurrentPage} /></Suspense>;
-      case 'terminos-condiciones': 
-        return <Suspense fallback={<LoadingFallback />}><TerminosYCondiciones setPage={setCurrentPage} /></Suspense>;
-      case 'politica-privacidad': 
-        return <Suspense fallback={<LoadingFallback />}><PoliticaPrivacidad setPage={setCurrentPage} /></Suspense>;
-      case 'admin-login': 
-        return <Suspense fallback={<LoadingFallback />}><AdminLogin setPage={setCurrentPage} /></Suspense>;
-      case 'admin-2fa': 
-        return <Suspense fallback={<LoadingFallback />}><Admin2FA setPage={setCurrentPage} /></Suspense>;
-      case 'admin-dashboard': 
-        return <Suspense fallback={<LoadingFallback />}><AdminDashboard setPage={setCurrentPage} /></Suspense>;
-      case 'admin-profesionales': 
-        return <Suspense fallback={<LoadingFallback />}><AdminProfessionals setPage={setCurrentPage} /></Suspense>;
-      case 'admin-leads': 
-        return <Suspense fallback={<LoadingFallback />}><AdminLeads setPage={setCurrentPage} /></Suspense>;
-      case 'admin-ofertas': 
-        return <Suspense fallback={<LoadingFallback />}><AdminJobOffers setPage={setCurrentPage} /></Suspense>;
-      case 'admin-contenido': 
-        return <Suspense fallback={<LoadingFallback />}><AdminContent setPage={setCurrentPage} /></Suspense>;
-      case 'admin-ia': 
-        return <Suspense fallback={<LoadingFallback />}><AdminAIClassifications setPage={setCurrentPage} /></Suspense>;
-      case 'admin-auditoria': 
-        return <Suspense fallback={<LoadingFallback />}><AdminAuditLog setPage={setCurrentPage} /></Suspense>;
-      case 'admin-configuracion': 
-        return <Suspense fallback={<LoadingFallback />}><AdminConfiguration setPage={setCurrentPage} /></Suspense>;
-      case 'admin-analytics': 
-        return <Suspense fallback={<LoadingFallback />}><AdminAnalytics setPage={setCurrentPage} /></Suspense>;
-      case 'test-inteligente': 
-        return <Suspense fallback={<LoadingFallback />}><TestDemoPage setPage={setCurrentPage} /></Suspense>;
-      default: 
-        return <PáginaPrincipal setPage={setCurrentPage} />;
-    }
-  };
-
+export default function App() {
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
-      <AdminSetupInitializer />
-      <Navegación setPage={setCurrentPage} user={user} userData={userData} />
-      <main className="fade-in-page">
-        {renderPage()}
-      </main>
-      <PieDePágina setPage={setCurrentPage} />
-      <Toaster position="bottom-right" />
+    <div className="min-h-screen relative overflow-hidden">
+      <ParticleBackground />
+      
+      <div className="relative z-10">
+        <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50">
+          <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-3"
+            >
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center glow">
+                <Cpu size={24} weight="duotone" className="text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-gradient">NEXUS</h1>
+                <p className="text-xs text-muted-foreground font-mono">Command Center</p>
+              </div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-4"
+            >
+              <Badge variant="outline" className="glass border-primary/50">
+                <div className="w-2 h-2 rounded-full bg-primary mr-2 animate-pulse-glow" />
+                <span className="font-mono text-xs">ONLINE</span>
+              </Badge>
+              <ThemeCustomizer />
+            </motion.div>
+          </div>
+        </header>
+
+        <main className="container mx-auto px-4 pt-24 pb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-6xl font-bold mb-4">
+              <span className="text-gradient">Intelligent</span> Dashboard
+            </h2>
+            <p className="text-xl text-muted-foreground font-mono max-w-2xl mx-auto">
+              Advanced data visualization and control systems for the modern era
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
+          >
+            <motion.div variants={item}>
+              <AnimatedStat
+                value={12847}
+                label="Active Systems"
+                icon={<Cpu size={24} weight="duotone" />}
+              />
+            </motion.div>
+            <motion.div variants={item}>
+              <AnimatedStat
+                value={98}
+                label="Efficiency Score"
+                suffix="%"
+                icon={<ChartBar size={24} weight="duotone" />}
+                delay={0.1}
+              />
+            </motion.div>
+            <motion.div variants={item}>
+              <AnimatedStat
+                value={1543}
+                label="Connected Nodes"
+                icon={<Users size={24} weight="duotone" />}
+                delay={0.2}
+              />
+            </motion.div>
+            <motion.div variants={item}>
+              <AnimatedStat
+                value={247}
+                label="Quantum Threads"
+                icon={<Lightning size={24} weight="duotone" />}
+                delay={0.3}
+              />
+            </motion.div>
+          </motion.div>
+
+          <Tabs defaultValue="overview" className="space-y-8">
+            <TabsList className="glass-strong border border-border/50">
+              <TabsTrigger value="overview" className="data-[state=active]:glow">
+                <Brain size={18} weight="duotone" className="mr-2" />
+                Overview
+              </TabsTrigger>
+              <TabsTrigger value="neural" className="data-[state=active]:glow">
+                <Cube size={18} weight="duotone" className="mr-2" />
+                Neural Grid
+              </TabsTrigger>
+              <TabsTrigger value="quantum" className="data-[state=active]:glow">
+                <Sparkle size={18} weight="duotone" className="mr-2" />
+                Quantum Core
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="overview" className="space-y-8">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+              >
+                <Card className="glass-strong p-6 border-border/50 group hover:border-primary/50 transition-all duration-300">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 className="text-2xl font-bold mb-2 font-mono">System Status</h3>
+                      <p className="text-sm text-muted-foreground">Real-time monitoring</p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-primary/10 group-hover:glow transition-all duration-300">
+                      <Lightning size={24} weight="duotone" className="text-primary" />
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    {[
+                      { label: 'Neural Processing', value: 94 },
+                      { label: 'Quantum Computing', value: 87 },
+                      { label: 'Data Synchronization', value: 99 }
+                    ].map((metric, i) => (
+                      <div key={metric.label}>
+                        <div className="flex justify-between text-sm mb-2">
+                          <span className="font-mono">{metric.label}</span>
+                          <span className="text-primary font-bold">{metric.value}%</span>
+                        </div>
+                        <div className="h-2 bg-muted rounded-full overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${metric.value}%` }}
+                            transition={{ duration: 1, delay: i * 0.2 }}
+                            className="h-full bg-gradient-to-r from-primary to-accent rounded-full glow"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+
+                <Card className="glass-strong p-6 border-border/50 group hover:border-secondary/50 transition-all duration-300">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 className="text-2xl font-bold mb-2 font-mono">Active Processes</h3>
+                      <p className="text-sm text-muted-foreground">Current operations</p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-secondary/10 group-hover:glow-secondary transition-all duration-300">
+                      <Cube size={24} weight="duotone" className="text-secondary" />
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      { name: 'Data Analysis', status: 'Running', color: 'bg-primary' },
+                      { name: 'Neural Training', status: 'Active', color: 'bg-secondary' },
+                      { name: 'Quantum Sync', status: 'Processing', color: 'bg-accent' },
+                      { name: 'Pattern Recognition', status: 'Complete', color: 'bg-primary' }
+                    ].map((process, i) => (
+                      <motion.div
+                        key={process.name}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        className="flex items-center justify-between p-3 rounded-lg glass hover:bg-muted/5 transition-all duration-200"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-2 h-2 rounded-full ${process.color} animate-pulse-glow`} />
+                          <span className="font-mono text-sm">{process.name}</span>
+                        </div>
+                        <Badge variant="outline" className="text-xs font-mono">
+                          {process.status}
+                        </Badge>
+                      </motion.div>
+                    ))}
+                  </div>
+                </Card>
+              </motion.div>
+
+              <Card className="glass-strong p-8 border-border/50 text-center group hover:border-accent/50 transition-all duration-300">
+                <div className="inline-block p-4 rounded-2xl bg-accent/10 mb-4 group-hover:glow-accent transition-all duration-300">
+                  <Rocket size={48} weight="duotone" className="text-accent" />
+                </div>
+                <h3 className="text-3xl font-bold mb-2">Deploy New Module</h3>
+                <p className="text-muted-foreground mb-6 font-mono">
+                  Initialize advanced computational systems
+                </p>
+                <Button size="lg" className="glow bg-gradient-to-r from-primary via-accent to-secondary hover:scale-105 transition-transform duration-300">
+                  <Lightning size={20} weight="fill" className="mr-2" />
+                  Launch System
+                </Button>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="neural" className="space-y-6">
+              <Card className="glass-strong p-8 border-border/50">
+                <h3 className="text-2xl font-bold mb-4 font-mono flex items-center gap-2">
+                  <Cube size={28} weight="duotone" className="text-primary" />
+                  Neural Grid Architecture
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  Advanced artificial intelligence processing nodes with distributed computing capabilities
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {Array.from({ length: 9 }).map((_, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: i * 0.05 }}
+                      className="gradient-border p-4 hover:scale-105 transition-transform duration-300 cursor-pointer"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-mono text-sm text-muted-foreground">Node {i + 1}</span>
+                        <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                      </div>
+                      <div className="text-2xl font-bold text-gradient">
+                        {Math.floor(Math.random() * 100)}%
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="quantum" className="space-y-6">
+              <Card className="glass-strong p-8 border-border/50">
+                <h3 className="text-2xl font-bold mb-4 font-mono flex items-center gap-2">
+                  <Sparkle size={28} weight="duotone" className="text-secondary" />
+                  Quantum Processing Core
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  Next-generation quantum computing infrastructure for exponential performance
+                </p>
+                <div className="flex items-center justify-center py-12">
+                  <motion.div
+                    animate={{
+                      rotate: 360,
+                      scale: [1, 1.1, 1],
+                    }}
+                    transition={{
+                      rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+                      scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                    className="relative w-64 h-64"
+                  >
+                    <div className="absolute inset-0 rounded-full border-4 border-primary/30 border-t-primary glow" />
+                    <div className="absolute inset-4 rounded-full border-4 border-secondary/30 border-r-secondary glow-secondary" />
+                    <div className="absolute inset-8 rounded-full border-4 border-accent/30 border-b-accent glow-accent" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center">
+                        <div className="text-5xl font-bold text-gradient">Q</div>
+                        <div className="text-sm font-mono text-muted-foreground mt-2">CORE</div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </main>
+
+        <footer className="relative z-10 border-t border-border/50 glass mt-12">
+          <div className="container mx-auto px-4 py-6">
+            <div className="flex items-center justify-between text-sm text-muted-foreground font-mono">
+              <div>© 2024 NEXUS Command Center</div>
+              <div className="flex items-center gap-2">
+                <span>Powered by Quantum Intelligence</span>
+                <Sparkle size={16} weight="fill" className="text-primary" />
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+
+      <Toaster />
     </div>
-  );
-};
-
-const BelenConectaApp = () => (
-  <AuthProvider>
-    <AdminAuthProvider>
-      <MainApp />
-    </AdminAuthProvider>
-  </AuthProvider>
-);
-
-export default BelenConectaApp;
+  )
+}
