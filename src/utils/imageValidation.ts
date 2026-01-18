@@ -3,6 +3,30 @@
  * Ayuda a manejar rutas de imágenes y fallbacks
  */
 
+// Caché de imágenes disponibles
+let imageCache: Record<string, boolean> | null = null;
+
+/**
+ * Inicializa el caché de imágenes
+ * @returns Record con las rutas de imágenes disponibles
+ */
+const initImageCache = (): Record<string, boolean> => {
+  if (imageCache === null) {
+    try {
+      const images = import.meta.glob('@/assets/images/*', { eager: true });
+      imageCache = {};
+      Object.keys(images).forEach(key => {
+        // Normalizar la ruta removiendo el prefijo
+        const normalizedPath = key.replace(/^.*\/assets\/images\//, '');
+        imageCache![normalizedPath] = true;
+      });
+    } catch {
+      imageCache = {};
+    }
+  }
+  return imageCache;
+};
+
 /**
  * Valida si una ruta de imagen existe en los assets
  * @param path Ruta de la imagen a validar
@@ -10,10 +34,10 @@
  */
 export const validateImagePath = (path: string): boolean => {
   try {
-    // Intenta importar dinámicamente la imagen
-    const images = import.meta.glob('@/assets/images/*', { eager: true });
+    const cache = initImageCache();
     const normalizedPath = path.replace('@/assets/images/', '');
-    return Object.keys(images).some(key => key.includes(normalizedPath));
+    // Verificación exacta del nombre de archivo
+    return cache[normalizedPath] === true;
   } catch {
     return false;
   }

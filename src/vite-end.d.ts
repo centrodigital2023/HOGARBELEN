@@ -15,7 +15,11 @@ interface Window {
   spark?: {
     llm?: (prompt: string, model: string, stream: boolean) => Promise<string>;
     llmPrompt?: TemplateStringsArray;
-    kv?: any;
+    kv?: {
+      get: <T = any>(key: string) => Promise<T | null>;
+      set: (key: string, value: any) => Promise<void>;
+      delete: (key: string) => Promise<void>;
+    };
   };
 }
 
