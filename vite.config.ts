@@ -22,6 +22,7 @@ export default defineConfig({
           return new URLSearchParams({
             format: 'webp',
             quality: '85',
+            // Semicolon-separated widths for responsive images
             w: '800;1200;1600',
           });
         }
@@ -82,6 +83,7 @@ export default defineConfig({
       compress: {
         drop_console: true,
         drop_debugger: true,
+        // Keep console.warn and console.error for production debugging
         pure_funcs: ['console.log', 'console.info', 'console.debug'],
       },
       format: {
@@ -90,7 +92,7 @@ export default defineConfig({
     },
     reportCompressedSize: false,
     chunkSizeWarningLimit: 1000,
-    sourcemap: false, // Deshabilitar en producción
+    sourcemap: false, // Disable in production for security and performance
   },
   server: {
     headers: {
