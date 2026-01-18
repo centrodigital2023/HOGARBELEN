@@ -318,6 +318,16 @@ export const classifyWithAI = async (
   data: any
 ): Promise<{ score: number; label: string; concerns: string[] }> => {
   try {
+    // Validar Spark SDK
+    if (!window.spark?.llm) {
+      console.warn('Spark SDK no disponible, retornando análisis por defecto');
+      return {
+        score: 50,
+        label: 'revisar',
+        concerns: ['Análisis IA no disponible - revisar manualmente']
+      };
+    }
+
     let prompt = '';
 
     if (type === 'professional') {
@@ -381,6 +391,12 @@ Responde en formato JSON con:
     }
 
     const response = await window.spark.llm(prompt, 'gpt-4o-mini', true);
+    
+    // Validar respuesta antes de parsear
+    if (!response || typeof response !== 'string') {
+      throw new Error('Respuesta inválida del LLM');
+    }
+    
     const result = JSON.parse(response);
 
     return {
@@ -389,11 +405,11 @@ Responde en formato JSON con:
       concerns: result.concerns || [],
     };
   } catch (error) {
-    console.error('Error classifying with AI:', error);
+    console.error('Error en análisis IA:', error);
     return {
       score: 50,
-      label: 'medium',
-      concerns: ['Error en clasificación automática'],
+      label: 'revisar',
+      concerns: ['Error en análisis automático - requiere revisión manual']
     };
   }
 };
