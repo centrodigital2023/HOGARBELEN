@@ -1,153 +1,139 @@
 # Planning Guide
 
-Sistema administrativo seguro para Hogar Belén que permite acceso completo a la gestión del sitio web desde cualquier ubicación con autenticación robusta de doble factor.
+A clean, modern productivity dashboard application for managing tasks and tracking daily progress.
 
 **Experience Qualities**:
-1. **Seguro** - Sistema de autenticación de doble factor con monitoreo de intentos de acceso y bloqueo automático tras intentos fallidos
-2. **Accesible** - Acceso discreto desde el footer del sitio público permitiendo ingreso desde cualquier página en producción
-3. **Profesional** - Interfaz administrativa completa con auditoría, gestión de profesionales, leads, ofertas de trabajo y análisis
+1. **Efficient** - Streamlined workflows that help users accomplish tasks quickly without friction
+2. **Focused** - Clear visual hierarchy that directs attention to what matters most
+3. **Delightful** - Subtle animations and thoughtful interactions that make task management enjoyable
 
-**Complexity Level**: Complex Application (advanced functionality, likely with multiple views)
-- El sistema incluye autenticación multifactor, gestión de múltiples tipos de recursos (profesionales, leads, ofertas), sistema de auditoría completo, y paneles analíticos con métricas en tiempo real.
+**Complexity Level**: Light Application (multiple features with basic state)
+This is a task management app with persistence, filtering, and status tracking - core features that work together seamlessly without overwhelming complexity.
 
 ## Essential Features
 
-### Lazy Loading y Code Splitting
-- **Functionality**: Sistema de carga perezosa para todos los componentes de ruta usando React.lazy y Suspense
-- **Purpose**: Optimizar el rendimiento inicial reduciendo el tamaño del bundle principal en 40-60%
-- **Trigger**: Navegación a cualquier ruta
-- **Progression**: Route navigation → Suspense boundary → LoadingFallback display → Chunk download → Component render
-- **Success criteria**: Bundle principal < 200KB, Time to Interactive < 3s, loading indicator visible durante carga
+### Task Creation
+- **Functionality**: Add new tasks with title and optional description
+- **Purpose**: Capture ideas and todos quickly before they're forgotten
+- **Trigger**: Click "Add Task" button or press Enter in input field
+- **Progression**: Click button → Input appears → Type task → Press Enter or click Save → Task appears in list
+- **Success criteria**: Task persists in storage and appears immediately in the active tasks list
 
-### Acceso desde Sitio Público
-- **Functionality**: Link discreto en el footer que permite acceder al login administrativo
-- **Purpose**: Permitir acceso desde cualquier página del sitio en producción sin necesidad de URLs especiales
-- **Trigger**: Click en "Administrador del sitio · Hogar Belén" en el footer
-- **Progression**: Footer link → Admin Login page → Credenciales → 2FA verification → Admin Dashboard
-- **Success criteria**: El administrador puede acceder desde cualquier página pública del sitio
+### Task Status Management
+- **Functionality**: Toggle tasks between pending, in-progress, and completed states
+- **Purpose**: Track progress and maintain focus on current work
+- **Trigger**: Click task status indicator or checkbox
+- **Progression**: Click task → Status cycles (pending → in-progress → completed) → Visual feedback → List re-organizes
+- **Success criteria**: Status changes persist and tasks visually update to reflect current state
 
-### Autenticación de Doble Factor
-- **Functionality**: Sistema de login con email/contraseña + código TOTP de 6 dígitos
-- **Purpose**: Máxima seguridad para proteger el acceso administrativo
-- **Trigger**: Ingreso de credenciales correctas
-- **Progression**: Email/Password → Validation → TOTP prompt → Code entry (123012) → Dashboard access
-- **Success criteria**: Acceso solo con credenciales válidas + código 2FA correcto
+### Task Filtering
+- **Functionality**: View all tasks, only active tasks, or only completed tasks
+- **Purpose**: Reduce cognitive load by focusing on relevant tasks
+- **Trigger**: Click filter tabs (All, Active, Completed)
+- **Progression**: Click tab → Active tab highlights → Task list filters → Count updates
+- **Success criteria**: Correct tasks display for each filter, counts are accurate
 
-### Bloqueo por Intentos Fallidos
-- **Functionality**: Sistema que bloquea la cuenta tras 3 intentos fallidos por 5 minutos
-- **Purpose**: Prevenir ataques de fuerza bruta
-- **Trigger**: Tres intentos de login fallidos consecutivos
-- **Progression**: Failed attempt → Counter increment → Lockout at 3 attempts → 5 minute wait
-- **Success criteria**: Sistema bloquea automáticamente tras 3 intentos fallidos
-
-### Dashboard Administrativo
-- **Functionality**: Panel central con métricas, alertas y acceso a todas las secciones
-- **Purpose**: Vista unificada del estado del sistema
-- **Trigger**: Login exitoso
-- **Progression**: Login → Dashboard view → KPI cards → Quick actions → Section navigation
-- **Success criteria**: Métricas actualizadas en tiempo real, navegación fluida
-
-### Sistema de Auditoría
-- **Functionality**: Registro automático de todas las acciones administrativas
-- **Purpose**: Trazabilidad completa y seguridad
-- **Trigger**: Cualquier acción administrativa
-- **Progression**: Action performed → Audit log created → Stored with timestamp/IP/details
-- **Success criteria**: Todas las acciones quedan registradas con detalles completos
+### Task Deletion
+- **Functionality**: Remove tasks permanently from the list
+- **Purpose**: Clean up completed or irrelevant tasks
+- **Trigger**: Click delete icon on task
+- **Progression**: Hover task → Delete icon appears → Click → Brief animation → Task removed
+- **Success criteria**: Task is removed from storage and disappears with smooth animation
 
 ## Edge Case Handling
 
-- **Sesión Expirada**: Redirección automática al login tras 8 horas de inactividad
-- **Múltiples Tabs**: Sincronización de sesión entre pestañas usando KV storage
-- **Código 2FA Inválido**: Máximo 3 intentos antes de requerir re-login completo
-- **Conexión Interrumpida**: Los datos se persisten localmente antes de guardar
-- **Acceso No Autorizado**: Verificación de autenticación en cada página administrativa
+- **Empty States**: Show encouraging message with icon when no tasks exist for current filter
+- **Long Task Names**: Truncate with ellipsis and show full text on hover tooltip
+- **Rapid Interactions**: Debounce input and prevent double-clicks on action buttons
+- **Data Persistence Failure**: Show toast notification if save fails, keep task in memory
+- **Invalid Input**: Prevent empty task creation, show subtle error state on input
 
 ## Design Direction
 
-El diseño debe transmitir **seguridad profesional y confianza institucional**. La interfaz administrativa contrasta con el sitio público mediante un esquema oscuro que proyecta seriedad, con elementos visuales que refuerzan la naturaleza crítica y segura del sistema.
+The design should evoke feelings of calm productivity and gentle motivation. It should feel like a personal workspace that's both professional and approachable - not sterile or corporate, but also not overly playful. The aesthetic should inspire focus while celebrating small wins.
 
 ## Color Selection
 
-Esquema oscuro profesional con acentos de seguridad
+A fresh, energizing palette centered around teal/cyan tones that balance professionalism with approachability.
 
-- **Primary Color**: Azul profundo (oklch(0.45 0.15 250)) - Representa confianza, seguridad y profesionalismo institucional
-- **Secondary Colors**: 
-  - Gris carbón (oklch(0.25 0.01 250)) - Fondos y superficies principales
-  - Gris medio (oklch(0.55 0.01 250)) - Texto secundario y bordes
-- **Accent Color**: Azul brillante (oklch(0.60 0.20 250)) - CTAs, estados activos y elementos interactivos importantes
-- **Foreground/Background Pairings**: 
-  - Primary Button (Azul oklch(0.60 0.20 250)): White text (oklch(0.98 0 0)) - Ratio 8.2:1 ✓
-  - Background Dark (oklch(0.15 0.02 250)): Light text (oklch(0.85 0.01 250)) - Ratio 12.5:1 ✓
-  - Card Surface (oklch(0.20 0.01 250)): Main text (oklch(0.90 0 0)) - Ratio 14.8:1 ✓
-  - Alert Critical (oklch(0.55 0.22 25)): White text - Ratio 4.8:1 ✓
+- **Primary Color**: `oklch(0.65 0.15 200)` - A vibrant teal that communicates clarity and forward momentum, used for primary actions and task status indicators
+- **Secondary Colors**: `oklch(0.88 0.06 220)` - Soft blue-tinted backgrounds for cards and secondary elements providing visual breathing room
+- **Accent Color**: `oklch(0.70 0.18 140)` - Energetic green for completed tasks and success states, celebrating accomplishment
+- **Foreground/Background Pairings**:
+  - Background `oklch(0.98 0.005 220)`: Foreground `oklch(0.20 0.02 240)` - Ratio 11.5:1 ✓
+  - Card `oklch(1 0 0)`: Foreground `oklch(0.20 0.02 240)` - Ratio 13.2:1 ✓
+  - Primary `oklch(0.65 0.15 200)`: White `oklch(1 0 0)` - Ratio 4.9:1 ✓
+  - Accent `oklch(0.70 0.18 140)`: White `oklch(1 0 0)` - Ratio 5.2:1 ✓
 
 ## Font Selection
 
-Tipografía que proyecta autoridad y claridad, con excelente legibilidad en interfaces oscuras
+Typography should feel modern and readable with a hint of personality - professional but not corporate, friendly but not casual.
 
-- **Typographic Hierarchy**:
-  - H1 (Page Title): Inter Bold/32px/tight (-0.02em) - Títulos principales de sección
-  - H2 (Section Header): Inter Semibold/24px/tight (-0.01em) - Headers de cards y subsecciones
-  - Body (Main Content): Inter Regular/15px/relaxed (1.6) - Contenido principal
-  - Small (Metadata): Inter Medium/13px/normal - Timestamps, labels, badges
-  - Code (IDs/Technical): JetBrains Mono/14px/normal - IDs, códigos, datos técnicos
+- **Primary Font**: Space Grotesk - A geometric sans-serif with distinctive character that balances readability with visual interest
+- **Secondary Font**: Inter - For body text and UI elements, providing excellent readability at all sizes
+
+**Typographic Hierarchy**:
+- H1 (App Title): Space Grotesk Bold/32px/tight letter-spacing (-0.02em)
+- H2 (Section Headers): Space Grotesk SemiBold/20px/normal letter-spacing
+- Body (Task Text): Inter Regular/16px/1.5 line-height
+- Small (Metadata): Inter Medium/14px/muted color
 
 ## Animations
 
-Las animaciones refuerzan la seguridad y profesionalismo con transiciones suaves y respuestas inmediatas
+Animations should feel responsive and purposeful, reinforcing user actions without causing delays. Use subtle motion to create a sense of physical space and direct attention.
 
-- Transiciones de página: Fade in sutil (300ms) al cambiar entre secciones administrativas
-- Hover states: Elevación suave en cards y botones (150ms ease-out)
-- Loading states: Spinner minimalista con rotación fluida
-- Alerts/Toasts: Slide in desde esquina inferior derecha con bounce sutil
-- Form validation: Shake micro-animation en errores (200ms)
-- 2FA input: Focus auto-advance entre dígitos con highlight suave
+- **Task Addition**: Slide in from top with gentle bounce (300ms ease-out)
+- **Task Completion**: Scale down slightly and fade out checkbox, then slide to completed section (250ms)
+- **Task Deletion**: Scale to 0.95, fade out, then collapse height (200ms ease-in)
+- **Filter Transitions**: Crossfade task lists with 150ms overlap to maintain visual continuity
+- **Hover States**: Scale up to 1.02 on task cards (100ms ease-out)
+- **Success Feedback**: Brief confetti burst or checkmark animation for completing first task of the day
 
 ## Component Selection
 
 - **Components**: 
-  - Dialogs (shadcn): Confirmaciones de acciones críticas (eliminar, aprobar)
-  - Cards (shadcn): Contenedores principales para métricas y secciones - con border sutil y background oscuro
-  - Tables (shadcn): Listados de profesionales, leads, ofertas - striped rows para mejor legibilidad
-  - Badges (shadcn): Estados (pending, approved, rejected) - colores semánticos
-  - Tabs (shadcn): Navegación entre secciones del dashboard
-  - Inputs (shadcn): Campos de búsqueda y filtros - background oscuro con border focus azul
-  - Buttons (shadcn): Primary (azul), Ghost (transparente), Destructive (rojo)
-  - Toasts (sonner): Notificaciones de éxito/error - posición bottom-right
+  - Card (task containers with subtle shadow and border)
+  - Button (primary actions like "Add Task")
+  - Input (task title entry)
+  - Textarea (task description, optional)
+  - Checkbox (task completion toggle)
+  - Tabs (filter navigation: All, Active, Completed)
+  - Badge (task count indicators)
+  - Dialog (task details/edit modal if needed)
+  - Tooltip (full text for truncated tasks)
 
-- **Customizations**:
-  - Security badge component: Badge con icono de escudo para indicar áreas protegidas
-  - KPI cards: Cards con gradientes sutiles y números grandes
-  - Audit log viewer: Timeline component con iconos por tipo de acción
-  - 2FA input: 6 inputs individuales con auto-focus y paste support
+- **Customizations**: 
+  - Custom task card component with status indicator bar on left edge (3px wide, color changes with status)
+  - Custom empty state component with animated icon
+  - Progress ring showing completion percentage in header
 
-- **States**:
-  - Buttons: Default (solid blue), Hover (brighter blue + lift), Active (darker + pressed), Disabled (gray + reduced opacity)
-  - Inputs: Default (gray border), Focus (blue border + ring), Error (red border), Disabled (reduced opacity)
-  - Cards: Default (subtle border), Hover (elevated shadow), Selected (blue border)
-  - Badges: Status colors (green=approved, yellow=pending, red=rejected, gray=inactive)
+- **States**: 
+  - Buttons: Default has solid background, hover lifts with shadow, active scales down slightly, disabled shows reduced opacity with no-cursor
+  - Tasks: Default white background, hover shows light blue tint and delete icon, completed has strikethrough and muted colors
+  - Input: Default has border, focus shows primary-colored ring, error shows red border with shake animation
 
-- **Icon Selection**:
-  - Shield: Seguridad y autenticación
-  - LockKey: 2FA y verificación
-  - Users/UserCheck: Gestión de profesionales
-  - Briefcase: Ofertas de trabajo
-  - ChartBar/ChartLine: Analytics y métricas
-  - Warning: Alertas y notificaciones
-  - ClockCounterClockwise: Auditoría e historial
-  - Gear: Configuración
-  - SignOut: Cerrar sesión
+- **Icon Selection**: 
+  - Plus (add task)
+  - Check (complete task)
+  - Circle (pending task status)
+  - CircleNotch (in-progress task status)
+  - CheckCircle (completed task status)
+  - Trash (delete task)
+  - Funnel (filter dropdown alternative)
+  - SmileyWink (empty state encouragement)
 
 - **Spacing**: 
-  - Cards: p-6 para contenido, gap-4 entre elementos internos
-  - Grid layouts: gap-6 para desktop, gap-4 para mobile
-  - Form fields: space-y-4 entre inputs
-  - Sections: space-y-8 entre secciones principales
-  - Button groups: gap-3 horizontal
+  - Card padding: p-4 (16px)
+  - Task list gap: gap-3 (12px)
+  - Section margins: mb-6 (24px)
+  - Button padding: px-4 py-2
+  - Container max-width: max-w-3xl mx-auto
+  - Page padding: p-6 on desktop, p-4 on mobile
 
 - **Mobile**: 
-  - Dashboard: KPIs en single column, cards stackeadas
-  - Tables: Scroll horizontal con sticky first column
-  - Navigation: Hamburger menu con sidebar drawer
-  - 2FA inputs: Grid responsive, mantiene spacing en mobile
-  - Formularios: Full width en mobile, max-w-2xl en desktop
+  - Stack filter tabs vertically on <640px
+  - Reduce task card padding to p-3
+  - Make delete icons always visible (not just on hover)
+  - Increase touch targets to minimum 44x44px
+  - Full-width layout with reduced side margins (px-4)
+  - Sticky header with add task button always accessible
