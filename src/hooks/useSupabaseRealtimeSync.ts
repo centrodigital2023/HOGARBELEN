@@ -5,7 +5,7 @@ import { RealtimeChannel, RealtimePostgresChangesPayload } from '@supabase/supab
 export type RealtimeEvent = 'INSERT' | 'UPDATE' | 'DELETE' | '*';
 export type ConnectionStatus = 'connected' | 'connecting' | 'disconnected';
 
-interface UseSupabaseRealtimeSyncOptions<T> {
+interface UseSupabaseRealtimeSyncOptions<T extends Record<string, any>> {
   table: string;
   event?: RealtimeEvent;
   filter?: string;
@@ -30,7 +30,7 @@ interface UseSupabaseRealtimeSyncOptions<T> {
  * });
  * ```
  */
-export function useSupabaseRealtimeSync<T = any>(
+export function useSupabaseRealtimeSync<T extends Record<string, any> = Record<string, any>>(
   options: UseSupabaseRealtimeSyncOptions<T>
 ) {
   const {
