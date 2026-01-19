@@ -6,6 +6,7 @@ import "@github/spark/spark"
 import App from './App.tsx'
 import { ErrorFallback } from './ErrorFallback.tsx'
 import { initPerformanceMonitoring } from './lib/performance.ts'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 
 import "./main.css"
 import "./styles/theme.css"
@@ -21,5 +22,6 @@ if (!rootElement) throw new Error('Root element not found');
 createRoot(rootElement).render(
   <ErrorBoundary FallbackComponent={ErrorFallback}>
     <App />
+    <SpeedInsights />
   </ErrorBoundary>
 )
