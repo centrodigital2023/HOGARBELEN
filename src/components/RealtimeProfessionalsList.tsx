@@ -7,36 +7,47 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useProfessionalsSync } from '@/hooks/useProfessionalsSync';
+import { useProfessionalsSupabase } from '@/hooks/useProfessionalsSupabase';
 
 interface RealtimeProfessionalsListProps {
   onSelectProfessional?: (professional: any) => void;
 }
 
 export function RealtimeProfessionalsList({ onSelectProfessional }: RealtimeProfessionalsListProps) {
-  const { professionals } = useProfessionalsSync();
+  const { professionals, loading } = useProfessionalsSupabase({ status: 'approved' });
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
-  const approvedProfessionals = professionals.filter(p => p.status === 'approved');
+  const approvedProfessionals = professionals;
 
   const categories = useMemo(() => {
-    const cats = new Set(approvedProfessionals.map(p => p.category));
+    const cats = new Set(approvedProfessionals.map(p => p.specialization));
     return Array.from(cats).sort();
   }, [approvedProfessionals]);
 
   const filteredProfessionals = useMemo(() => {
     return approvedProfessionals.filter(prof => {
       const matchesSearch = !searchTerm || 
-        prof.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        prof.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        prof.city?.toLowerCase().includes(searchTerm.toLowerCase());
+        (prof.full_name && prof.full_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        prof.specialization.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (prof.bio && prof.bio.toLowerCase().includes(searchTerm.toLowerCase()));
       
-      const matchesCategory = categoryFilter === 'all' || prof.category === categoryFilter;
+      const matchesCategory = categoryFilter === 'all' || prof.specialization === categoryFilter;
       
       return matchesSearch && matchesCategory;
     });
   }, [approvedProfessionals, searchTerm, categoryFilter]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Cargando profesionales...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -87,16 +98,16 @@ export function RealtimeProfessionalsList({ onSelectProfessional }: RealtimeProf
                 <CardContent className="p-6 space-y-4">
                   <div className="flex items-start gap-4">
                     <Avatar className="h-16 w-16">
-                      <AvatarImage src={prof.avatar} alt={prof.name} />
+                      <AvatarImage src={prof.photo_url || undefined} alt={prof.full_name} />
                       <AvatarFallback>
-                        {prof.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+                        {(prof.full_name || 'UN').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-lg truncate">{prof.name}</h3>
-                      <p className="text-sm text-muted-foreground truncate">{prof.title}</p>
+                      <h3 className="font-semibold text-lg truncate">{prof.full_name || 'Sin nombre'}</h3>
+                      <p className="text-sm text-muted-foreground truncate">{prof.specialization}</p>
                       <Badge variant="secondary" className="mt-1">
-                        {prof.category}
+                        {prof.specialization}
                       </Badge>
                     </div>
                   </div>
@@ -108,32 +119,28 @@ export function RealtimeProfessionalsList({ onSelectProfessional }: RealtimeProf
                         <span className="ml-1 font-medium">{prof.rating.toFixed(1)}</span>
                       </div>
                       <span className="text-sm text-muted-foreground">
-                        ({prof.reviews || 0} reseñas)
+                        ({prof.total_reviews || 0} reseñas)
                       </span>
                     </div>
                   )}
 
-                  <p className="text-sm text-muted-foreground line-clamp-3">
-                    {prof.description}
-                  </p>
+                  {prof.bio && (
+                    <p className="text-sm text-muted-foreground line-clamp-3">
+                      {prof.bio}
+                    </p>
+                  )}
 
                   <div className="space-y-2 text-sm">
-                    {prof.years_experience && (
+                    {prof.experience_years && (
                       <div className="flex items-center gap-2 text-muted-foreground">
                         <CheckCircle weight="bold" className="h-4 w-4" />
-                        <span>{prof.years_experience} años de experiencia</span>
+                        <span>{prof.experience_years} años de experiencia</span>
                       </div>
                     )}
-                    {prof.city && (
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        <MapPin weight="bold" className="h-4 w-4" />
-                        <span>{prof.city}</span>
-                      </div>
-                    )}
-                    {prof.schedule && prof.schedule.length > 0 && (
+                    {prof.hourly_rate && (
                       <div className="flex items-center gap-2 text-muted-foreground">
                         <Clock weight="bold" className="h-4 w-4" />
-                        <span className="truncate">{prof.schedule[0]}</span>
+                        <span>${prof.hourly_rate}/hora</span>
                       </div>
                     )}
                   </div>
