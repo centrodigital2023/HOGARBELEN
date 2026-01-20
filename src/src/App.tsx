@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Suspense, lazy } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 
 // Lazy load pages from src/páginas/
 const PáginaPrincipal = lazy(() => import('./páginas/PáginaPrincipal'))
@@ -115,6 +116,7 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
+      <Analytics />
     </BrowserRouter>
   )
 }

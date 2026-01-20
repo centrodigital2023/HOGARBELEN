@@ -9,7 +9,6 @@ import { initPerformanceMonitoring } from './lib/performance.ts'
 
 import "./main.css"
 import "./styles/theme.css"
-import "./index.css"
 
 if (import.meta.env.PROD) {
   initPerformanceMonitoring();
