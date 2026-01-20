@@ -554,5 +554,71 @@ COMMENT ON TABLE promo_codes IS 'Códigos promocionales y descuentos';
 COMMENT ON TABLE reviews IS 'Reseñas y calificaciones de profesionales';
 
 -- ================================================================
+-- TABLA: legal_acceptances
+-- Registro de aceptación de términos legales
+-- ================================================================
+CREATE TABLE IF NOT EXISTS legal_acceptances (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  
+  -- Versión de documentos aceptados
+  terms_version TEXT NOT NULL,
+  privacy_version TEXT NOT NULL,
+  
+  -- Metadata de aceptación
+  accepted_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+  ip_hash TEXT NOT NULL, -- Hash SHA256 de la IP para privacidad
+  user_agent TEXT,
+  
+  -- Contexto de aceptación
+  acceptance_context TEXT NOT NULL CHECK (acceptance_context IN (
+    'professional_registration',
+    'family_registration',
+    'job_offer_publication',
+    'profile_update'
+  )),
+  
+  -- Auditoría
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Índices
+CREATE INDEX IF NOT EXISTS idx_legal_acceptances_user ON legal_acceptances(user_id);
+CREATE INDEX IF NOT EXISTS idx_legal_acceptances_date ON legal_acceptances(accepted_at);
+
+-- RLS
+ALTER TABLE legal_acceptances ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view their own acceptances"
+ON legal_acceptances FOR SELECT
+USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert their own acceptances"
+ON legal_acceptances FOR INSERT
+WITH CHECK (auth.uid() = user_id);
+
+COMMENT ON TABLE legal_acceptances IS 'Registro de aceptación de términos legales por usuarios';
+
+-- ================================================================
+-- FUNCIONES: Verificación de permisos de administrador
+-- ================================================================
+
+-- Crear función para verificar si usuario es SUPER_ADMIN
+CREATE OR REPLACE FUNCTION is_super_admin()
+RETURNS BOOLEAN AS $$
+BEGIN
+  RETURN (
+    SELECT (auth.jwt() -> 'user_metadata' ->> 'role') = 'SUPER_ADMIN'
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- RLS Policy para proteger tablas de admin
+CREATE POLICY "Only SUPER_ADMIN can manage professionals"
+ON professionals
+FOR ALL
+USING (is_super_admin());
+
+-- ================================================================
 -- FINALIZADO
 -- ================================================================
