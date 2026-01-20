@@ -1,34 +1,27 @@
 import { useState, useEffect, useRef } from 'react';
-import { useAdminAuth } from '@/contextos/AdminAuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Shield, LockKey, Warning } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 
-interface Admin2FAProps {
-  setPage: (page: string) => void;
-}
-
-const Admin2FA = ({ setPage }: Admin2FAProps) => {
-  const { verifyTOTP, totpRequired, isAuthenticated } = useAdminAuth();
+const Admin2FA = () => {
+  const navigate = useNavigate();
+  const { verifyMFA, isAuthenticated } = useAdminAuth();
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [attempts, setAttempts] = useState(0);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  useEffect(() => {
-    if (!totpRequired) {
-      setPage('admin-login');
-    }
-  }, [totpRequired]);
-
+  // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      setPage('admin-dashboard');
+      navigate('/admin/dashboard');
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   useEffect(() => {
     inputRefs.current[0]?.focus();
@@ -82,7 +75,7 @@ const Admin2FA = ({ setPage }: Admin2FAProps) => {
 
     if (attempts >= 3) {
       setError('Demasiados intentos fallidos. Por favor inicie sesión nuevamente.');
-      setTimeout(() => setPage('admin-login'), 2000);
+      setTimeout(() => navigate('/admin/login'), 2000);
       return;
     }
 
@@ -90,7 +83,7 @@ const Admin2FA = ({ setPage }: Admin2FAProps) => {
     setLoading(true);
 
     try {
-      const result = await verifyTOTP(fullCode);
+      const result = await verifyMFA(fullCode);
       
       if (!result.success) {
         setAttempts(prev => prev + 1);
@@ -102,7 +95,7 @@ const Admin2FA = ({ setPage }: Admin2FAProps) => {
       }
 
       toast.success('Autenticación exitosa');
-      setPage('admin-dashboard');
+      navigate('/admin/dashboard');
     } catch (err) {
       setError('Error inesperado al verificar código');
       toast.error('Error inesperado');
@@ -197,7 +190,7 @@ const Admin2FA = ({ setPage }: Admin2FAProps) => {
               type="button"
               variant="ghost"
               className="w-full text-gray-400 hover:text-gray-300"
-              onClick={() => setPage('admin-login')}
+              onClick={() => navigate('/admin/login')}
             >
               Volver al inicio de sesión
             </Button>

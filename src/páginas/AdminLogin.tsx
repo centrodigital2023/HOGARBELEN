@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useAdminAuth } from '@/contextos/AdminAuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,16 +9,19 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Shield, Lock, Warning } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 
-interface AdminLoginProps {
-  setPage: (page: string) => void;
-}
-
-const AdminLogin = ({ setPage }: AdminLoginProps) => {
-  const { loginWithCredentials, totpRequired } = useAdminAuth();
+const AdminLogin = () => {
+  const navigate = useNavigate();
+  const { login, isAuthenticated } = useAdminAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // Redirect if already authenticated
+  if (isAuthenticated) {
+    navigate('/admin/dashboard');
+    return null;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +29,7 @@ const AdminLogin = ({ setPage }: AdminLoginProps) => {
     setLoading(true);
 
     try {
-      const result = await loginWithCredentials(email, password);
+      const result = await login(email, password);
       
       if (!result.success) {
         setError(result.error || 'Error al iniciar sesión');
@@ -34,10 +38,10 @@ const AdminLogin = ({ setPage }: AdminLoginProps) => {
       }
 
       if (result.requiresTOTP) {
-        setPage('admin-2fa');
+        navigate('/admin/2fa');
       } else {
         toast.success('Sesión iniciada exitosamente');
-        setPage('admin-dashboard');
+        navigate('/admin/dashboard');
       }
     } catch (err) {
       setError('Error inesperado al iniciar sesión');
@@ -135,7 +139,7 @@ const AdminLogin = ({ setPage }: AdminLoginProps) => {
               type="button"
               variant="ghost"
               className="w-full text-gray-400 hover:text-gray-300"
-              onClick={() => setPage('home')}
+              onClick={() => navigate('/')}
             >
               Volver al sitio público
             </Button>
