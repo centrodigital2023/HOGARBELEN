@@ -1,12 +1,9 @@
 import { Heart, Mail, Phone, MapPin } from 'lucide-react';
 import { Facebook, Instagram, Youtube } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import logoHogarBelen from '@/assets/images/1c34217cb2391e5e8a9b6dfb6883af4b.png';
 
-interface FooterProps {
-  setPage: (page: string) => void;
-}
-
-export default function Footer({ setPage }: FooterProps) {
+export default function Footer() {
   const socialLinks = [
     { 
       name: 'TikTok', 
@@ -90,36 +87,36 @@ export default function Footer({ setPage }: FooterProps) {
             <h4 className="text-white font-semibold mb-4">Enlaces Rápidos</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <button
-                  onClick={() => setPage('home')}
+                <Link
+                  to="/"
                   className="hover:text-primary transition-colors"
                 >
                   Inicio
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => setPage('services')}
+                <Link
+                  to="/servicios"
                   className="hover:text-primary transition-colors"
                 >
                   Servicios
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => setPage('pricing')}
+                <Link
+                  to="/precios"
                   className="hover:text-primary transition-colors"
                 >
                   Planes
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => setPage('about')}
+                <Link
+                  to="/about"
                   className="hover:text-primary transition-colors"
                 >
                   Nosotros
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -128,14 +125,29 @@ export default function Footer({ setPage }: FooterProps) {
           <div>
             <h4 className="text-white font-semibold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li className="hover:text-primary transition-colors cursor-pointer">
-                Términos y Condiciones
+              <li>
+                <Link
+                  to="/terminos-y-condiciones"
+                  className="hover:text-primary transition-colors"
+                >
+                  Términos y Condiciones
+                </Link>
               </li>
-              <li className="hover:text-primary transition-colors cursor-pointer">
-                Política de Privacidad
+              <li>
+                <Link
+                  to="/politica-de-privacidad"
+                  className="hover:text-primary transition-colors"
+                >
+                  Política de Privacidad
+                </Link>
               </li>
-              <li className="hover:text-primary transition-colors cursor-pointer">
-                Aviso de Cookies
+              <li>
+                <Link
+                  to="/contact"
+                  className="hover:text-primary transition-colors"
+                >
+                  Contacto
+                </Link>
               </li>
             </ul>
           </div>

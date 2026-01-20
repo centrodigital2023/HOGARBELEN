@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, Lock, User as UserIcon, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -7,13 +8,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { useAuth } from '@/contextos/SupabaseAuthContext';
+import { LegalAcceptanceCheckbox } from '@/components/LegalAcceptanceCheckbox';
+import { useLegalAcceptance } from '@/hooks/useLegalAcceptance';
 
-interface BelenConectaRegisterProps {
-  setPage: (page: string) => void;
-}
-
-const BelenConectaRegister = ({ setPage }: BelenConectaRegisterProps) => {
+const BelenConectaRegister = () => {
+  const navigate = useNavigate();
   const { signUp } = useAuth();
+  const { recordAcceptance } = useLegalAcceptance();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,18 +22,25 @@ const BelenConectaRegister = ({ setPage }: BelenConectaRegisterProps) => {
     role: 'family' as 'family' | 'professional',
   });
   const [loading, setLoading] = useState(false);
+  const [legalAccepted, setLegalAccepted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!legalAccepted) {
+      toast.error('Debes aceptar los términos y condiciones para continuar');
+      return;
+    }
+    
     if (formData.role === 'professional') {
-      setPage('registro-profesional-inteligente');
+      // Navigate to professional registration
+      navigate('/belen-conecta/profesionales');
       return;
     }
     
     setLoading(true);
 
-    const { error } = await signUp(formData.email, formData.password, formData.name, formData.role);
+    const { error, data } = await signUp(formData.email, formData.password, formData.name, formData.role);
 
     if (error) {
       toast.error(error.message || 'Error al crear cuenta');
@@ -40,8 +48,17 @@ const BelenConectaRegister = ({ setPage }: BelenConectaRegisterProps) => {
       return;
     }
 
+    // Record legal acceptance
+    if (data?.user) {
+      const context = formData.role === 'professional' 
+        ? 'professional_registration' 
+        : 'family_registration';
+      await recordAcceptance(data.user.id, context);
+    }
+
     toast.success('Cuenta creada exitosamente');
     setLoading(false);
+    navigate('/'); // Redirect to home or dashboard
   };
 
   return (
@@ -116,9 +133,22 @@ const BelenConectaRegister = ({ setPage }: BelenConectaRegisterProps) => {
                 Mínimo 6 caracteres
               </p>
             </div>
+
+            {/* Legal Acceptance */}
+            <div className="pt-2">
+              <LegalAcceptanceCheckbox
+                checked={legalAccepted}
+                onCheckedChange={setLegalAccepted}
+                required={true}
+              />
+            </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button 
+              type="submit" 
+              className="w-full" 
+              disabled={loading || !legalAccepted}
+            >
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -132,7 +162,7 @@ const BelenConectaRegister = ({ setPage }: BelenConectaRegisterProps) => {
               <span className="text-muted-foreground">¿Ya tienes cuenta? </span>
               <button
                 type="button"
-                onClick={() => setPage('login')}
+                onClick={() => navigate('/belen-conecta/login')}
                 className="text-primary font-medium hover:underline"
               >
                 Inicia sesión aquí
@@ -140,7 +170,7 @@ const BelenConectaRegister = ({ setPage }: BelenConectaRegisterProps) => {
             </div>
             <button
               type="button"
-              onClick={() => setPage('home')}
+              onClick={() => navigate('/')}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               ← Volver al inicio
