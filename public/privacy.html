@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad - HOGARBELEN</title>
+    <meta name="description" content="Política de privacidad y protección de datos de HOGARBELEN">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #0066cc 0%, #004c99 100%);
+            color: white;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        nav {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        main > h1 {
+            color: #0066cc;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 0.5rem;
+        }
+        
+        section {
+            margin: 2rem 0;
+        }
+        
+        h2 {
+            color: #004c99;
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+        }
+        
+        h3 {
+            color: #333;
+            font-size: 1.2rem;
+            margin: 1rem 0 0.5rem;
+        }
+        
+        p {
+            margin: 0.8rem 0;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin: 0.8rem 0 0.8rem 2rem;
+        }
+        
+        li {
+            margin: 0.5rem 0;
+        }
+        
+        strong {
+            color: #0066cc;
+        }
+        
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            border-top: 1px solid #ddd;
+            margin-top: 3rem;
+        }
+        
+        footer p {
+            margin: 0.5rem 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            main {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            main > h1 {
+                font-size: 1.6rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            nav {
+                flex-direction: column;
+            }
+        }
+        
+        /* Impresión */
+        @media print {
+            header, nav { display: none; }
+            body { background: white; }
+            main { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HOGARBELEN</h1>
+        <nav>
+            <a href="/">Inicio</a>
+            <a href="/terms.html">Términos y Condiciones</a>
+        </nav>
+    </header>
+    
+    <main>
+        <h1>Política de Privacidad</h1>
+        <p><strong>Última actualización:</strong> 23 de enero de 2026</p>
+        
+        <section id="introduccion">
+            <h2>1. Introducción</h2>
+            <p>En HOGARBELEN (https://hogarbelen.org/), operado por centrodigital2023, valoramos y protegemos su privacidad. Esta política explica cómo recopilamos, usamos, almacenamos y protegemos sus datos personales cuando utiliza nuestros servicios.</p>
+            <p>Nos comprometemos a mantener la confidencialidad de su información y a cumplir con todas las leyes de protección de datos aplicables, incluyendo la Ley 1581 de 2012 de Colombia, el Reglamento General de Protección de Datos (GDPR) de la Unión Europea, y la Lei Geral de Proteção de Dados (LGPD) de Brasil.</p>
+            <p>Al utilizar HOGARBELEN, usted consiente la recopilación y uso de información de acuerdo con esta política. Si no está de acuerdo con algún aspecto de esta política, le recomendamos no utilizar nuestros servicios.</p>
+        </section>
+        
+        <section id="datos-recopilados">
+            <h2>2. Datos que Recopilamos</h2>
+            
+            <h3>2.1. Datos de Autenticación (Google OAuth)</h3>
+            <p>Cuando inicia sesión con Google OAuth 2.0, recopilamos automáticamente:</p>
+            <ul>
+                <li><strong>Nombre completo:</strong> Para personalizar su experiencia y mostrar su identidad en la plataforma</li>
+                <li><strong>Correo electrónico:</strong> Para identificación única, comunicaciones del servicio y recuperación de cuenta</li>
+                <li><strong>Foto de perfil:</strong> Para mostrar su avatar en la interfaz de usuario</li>
+                <li><strong>ID único de Google:</strong> Identificador permanente para autenticación y vinculación segura de cuenta</li>
+            </ul>
+            <p>Estos datos se obtienen directamente de Google con su autorización explícita al momento de iniciar sesión. Google nos proporciona esta información a través de su API OAuth 2.0 conforme a su <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Política de Privacidad</a>.</p>
+            
+            <h3>2.2. Datos de Uso</h3>
+            <p>Durante su uso de la plataforma, recopilamos:</p>
+            <ul>
+                <li><strong>Registros de actividad:</strong> Historial de acciones dentro de la plataforma para seguridad y auditoría</li>
+                <li><strong>Preferencias de configuración:</strong> Idioma, tema, notificaciones y otras personalizaciones</li>
+                <li><strong>Datos de gestión:</strong> Información que usted ingresa voluntariamente para gestionar su hogar (tareas, eventos, notas, etc.)</li>
+                <li><strong>Interacciones:</strong> Mensajes, comentarios y otras comunicaciones dentro de la plataforma</li>
+            </ul>
+            
+            <h3>2.3. Datos Técnicos</h3>
+            <p>Automáticamente recopilamos información técnica:</p>
+            <ul>
+                <li><strong>Dirección IP:</strong> Para seguridad, prevención de fraude y análisis geográfico</li>
+                <li><strong>Tipo de navegador:</strong> Para optimizar la experiencia de usuario</li>
+                <li><strong>Dispositivo y sistema operativo:</strong> Para asegurar compatibilidad</li>
+                <li><strong>Cookies técnicas:</strong> Para mantener sesión activa y funcionalidad (ver sección 7)</li>
+                <li><strong>Marcas de tiempo:</strong> Fecha y hora de acceso y acciones</li>
+                <li><strong>Páginas visitadas:</strong> Para análisis de uso y mejora del servicio</li>
+            </ul>
+        </section>
+        
+        <section id="uso-datos">
+            <h2>3. Cómo Usamos sus Datos</h2>
+            <p>Utilizamos sus datos personales únicamente para los siguientes propósitos legítimos:</p>
+            <ul>
+                <li><strong>Autenticación y Seguridad:</strong> Verificar su identidad, gestionar sesiones de usuario, detectar y prevenir actividades fraudulentas o accesos no autorizados</li>
+                <li><strong>Provisión del Servicio:</strong> Proporcionar todas las funcionalidades de gestión de hogar contratadas, incluyendo almacenamiento, procesamiento y visualización de sus datos</li>
+                <li><strong>Comunicación:</strong> Enviar notificaciones importantes del servicio, actualizaciones de seguridad, cambios en términos y políticas, y responder a sus consultas de soporte</li>
+                <li><strong>Mejora y Desarrollo:</strong> Analizar patrones de uso para optimizar la plataforma, desarrollar nuevas funcionalidades y mejorar la experiencia del usuario</li>
+                <li><strong>Cumplimiento Legal:</strong> Cumplir con obligaciones legales, responder a solicitudes de autoridades competentes y proteger nuestros derechos legales</li>
+                <li><strong>Personalización:</strong> Adaptar la interfaz y funcionalidades según sus preferencias y patrones de uso</li>
+            </ul>
+            <p><strong>No utilizamos sus datos para:</strong> Publicidad de terceros, venta a data brokers, perfilado discriminatorio o cualquier propósito no relacionado directamente con la provisión del servicio.</p>
+        </section>
+        
+        <section id="almacenamiento">
+            <h2>4. Almacenamiento y Seguridad</h2>
+            
+            <h3>4.1. Base de Datos</h3>
+            <p>Sus datos se almacenan en bases de datos PostgreSQL con las siguientes medidas de seguridad:</p>
+            <ul>
+                <li>Cifrado en reposo (encryption at rest) usando AES-256</li>
+                <li>Cifrado en tránsito mediante TLS 1.3</li>
+                <li>Respaldos automáticos diarios con retención de 30 días</li>
+                <li>Replicación geográfica para alta disponibilidad</li>
+            </ul>
+            
+            <h3>4.2. Infraestructura</h3>
+            <p>Utilizamos servicios de infraestructura en la nube con certificaciones de seguridad reconocidas internacionalmente, incluyendo:</p>
+            <ul>
+                <li>ISO 27001 (Sistema de Gestión de Seguridad de la Información)</li>
+                <li>SOC 2 Type II (Control de Seguridad y Disponibilidad)</li>
+                <li>Cumplimiento con estándares GDPR y otras regulaciones</li>
+            </ul>
+            
+            <h3>4.3. Control de Acceso</h3>
+            <p>Implementamos controles estrictos de acceso:</p>
+            <ul>
+                <li>Solo personal autorizado con necesidad legítima puede acceder a datos personales</li>
+                <li>Autenticación multifactor (MFA) obligatoria para administradores</li>
+                <li>Auditoría y registro de todos los accesos a datos sensibles</li>
+                <li>Revisión periódica de permisos de acceso</li>
+            </ul>
+            
+            <h3>4.4. Transmisión Segura</h3>
+            <p>Todas las comunicaciones entre su navegador y nuestros servidores utilizan HTTPS con certificados TLS/SSL válidos, asegurando que sus datos no puedan ser interceptados durante la transmisión.</p>
+        </section>
+        
+        <section id="terceros">
+            <h2>5. Compartir con Terceros</h2>
+            <p>Compartimos sus datos solo en las siguientes circunstancias limitadas y necesarias:</p>
+            
+            <h3>5.1. Proveedores de Servicios Esenciales</h3>
+            <ul>
+                <li><strong>Google LLC:</strong> Para autenticación OAuth. Google procesa datos según su <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Política de Privacidad</a> y solo recibe los datos mínimos necesarios para autenticación</li>
+                <li><strong>Proveedores de hosting:</strong> Servicios de infraestructura en la nube necesarios para la operación del servicio, bajo acuerdos estrictos de confidencialidad</li>
+                <li><strong>Servicios de análisis:</strong> Datos anonimizados y agregados para análisis de uso (Vercel Analytics), sin identificación personal</li>
+            </ul>
+            
+            <h3>5.2. Requerimientos Legales</h3>
+            <p>Podemos divulgar información si es requerido por:</p>
+            <ul>
+                <li>Orden judicial o citación legal válida</li>
+                <li>Investigación de autoridades competentes</li>
+                <li>Protección de derechos, propiedad o seguridad de HOGARBELEN, usuarios o el público</li>
+            </ul>
+            
+            <h3>5.3. Compromiso de No Venta</h3>
+            <p><strong>Nunca vendemos, alquilamos o comercializamos</strong> sus datos personales a terceros con fines comerciales, publicitarios o de marketing.</p>
+        </section>
+        
+        <section id="derechos">
+            <h2>6. Sus Derechos (GDPR/LGPD Compatible)</h2>
+            <p>Usted tiene los siguientes derechos sobre sus datos personales:</p>
+            
+            <h3>6.1. Derecho de Acceso</h3>
+            <p>Solicitar una copia completa de todos los datos personales que tenemos sobre usted en formato estructurado y legible.</p>
+            
+            <h3>6.2. Derecho de Rectificación</h3>
+            <p>Corregir datos incorrectos, inexactos o desactualizados en cualquier momento desde su perfil o contactándonos.</p>
+            
+            <h3>6.3. Derecho de Eliminación (Derecho al Olvido)</h3>
+            <p>Solicitar la eliminación completa de su cuenta y todos los datos asociados, excepto aquellos que debamos retener por obligaciones legales.</p>
+            
+            <h3>6.4. Derecho a la Portabilidad</h3>
+            <p>Exportar sus datos en formato CSV o JSON para transferirlos a otro servicio.</p>
+            
+            <h3>6.5. Derecho de Oposición</h3>
+            <p>Oponerse al procesamiento de sus datos para ciertos propósitos, como marketing (aunque no realizamos marketing directo).</p>
+            
+            <h3>6.6. Derecho de Limitación</h3>
+            <p>Solicitar que restrinjamos temporalmente el procesamiento de sus datos mientras se resuelve una disputa sobre exactitud o legalidad.</p>
+            
+            <h3>6.7. Derecho a Retirar Consentimiento</h3>
+            <p>Retirar su consentimiento en cualquier momento para procesamiento basado en consentimiento, sin afectar la legalidad del procesamiento previo.</p>
+            
+            <h3>Ejercicio de Derechos</h3>
+            <p>Para ejercer cualquiera de estos derechos, contacte a: <strong>privacy@hogarbelen.org</strong></p>
+            <p>Responderemos a su solicitud dentro de 15 días hábiles (Colombia) o 30 días naturales (GDPR/LGPD). En algunos casos, podemos solicitar verificación de identidad antes de procesar solicitudes sensibles.</p>
+        </section>
+        
+        <section id="cookies">
+            <h2>7. Cookies y Tracking</h2>
+            <p>Utilizamos cookies y tecnologías similares para mejorar su experiencia. Las cookies son pequeños archivos de texto almacenados en su dispositivo.</p>
+            
+            <h3>7.1. Tipos de Cookies</h3>
+            <ul>
+                <li><strong>Esenciales (Obligatorias):</strong> Necesarias para mantener su sesión activa y funcionalidad básica. No pueden ser deshabilitadas. Incluyen tokens de autenticación y preferencias de sesión.</li>
+                <li><strong>Analíticas (Opcionales):</strong> Miden el uso del sitio para mejoras. Usamos Vercel Analytics con datos anonimizados que no identifican individuos.</li>
+                <li><strong>Funcionales (Opcionales):</strong> Recuerdan preferencias como idioma, tema oscuro/claro y otras configuraciones de interfaz.</li>
+            </ul>
+            
+            <h3>7.2. Gestión de Cookies</h3>
+            <p>Puede gestionar cookies desde la configuración de su navegador:</p>
+            <ul>
+                <li>Chrome: Configuración → Privacidad y seguridad → Cookies</li>
+                <li>Firefox: Opciones → Privacidad y seguridad → Cookies</li>
+                <li>Safari: Preferencias → Privacidad</li>
+            </ul>
+            <p>Nota: Deshabilitar cookies esenciales impedirá el funcionamiento correcto de la plataforma.</p>
+            
+            <h3>7.3. No Rastreamos</h3>
+            <p>No utilizamos cookies de terceros para publicidad ni rastreo entre sitios. Respetamos las señales "Do Not Track" de su navegador.</p>
+        </section>
+        
+        <section id="retencion">
+            <h2>8. Retención de Datos</h2>
+            <p>Mantenemos sus datos durante los siguientes períodos:</p>
+            
+            <h3>8.1. Datos de Cuenta Activa</h3>
+            <ul>
+                <li><strong>Datos de perfil y contenido:</strong> Mientras su cuenta esté activa y hasta 30 días después de eliminación voluntaria</li>
+                <li><strong>Datos de autenticación:</strong> Hasta el cierre de sesión o expiración del token (24 horas)</li>
+            </ul>
+            
+            <h3>8.2. Datos de Seguridad y Auditoría</h3>
+            <ul>
+                <li><strong>Logs de acceso y seguridad:</strong> 90 días desde la generación</li>
+                <li><strong>Registros de transacciones:</strong> Según requerimientos legales (generalmente 5 años)</li>
+            </ul>
+            
+            <h3>8.3. Datos de Respaldo</h3>
+            <ul>
+                <li><strong>Backups automáticos:</strong> 30 días, después se eliminan permanentemente</li>
+                <li><strong>Backups de cumplimiento legal:</strong> Según obligaciones regulatorias aplicables</li>
+            </ul>
+            
+            <h3>8.4. Después de Eliminación de Cuenta</h3>
+            <p>Cuando elimina su cuenta voluntariamente o por inactividad prolongada:</p>
+            <ul>
+                <li>Datos personales se eliminan de sistemas activos dentro de 30 días</li>
+                <li>Datos anonimizados pueden retenerse para análisis estadísticos agregados</li>
+                <li>Información requerida por ley se retiene según plazos legales</li>
+            </ul>
+        </section>
+        
+        <section id="menores">
+            <h2>9. Menores de Edad</h2>
+            <p>HOGARBELEN no está dirigido a menores de 18 años. No recopilamos intencionalmente información de menores sin consentimiento parental verificable.</p>
+            <p>Si descubrimos que hemos recopilado datos de un menor sin consentimiento apropiado:</p>
+            <ul>
+                <li>Suspenderemos la cuenta inmediatamente</li>
+                <li>Notificaremos a los representantes legales</li>
+                <li>Eliminaremos todos los datos del menor dentro de 7 días</li>
+            </ul>
+            <p>Si cree que un menor ha proporcionado información sin autorización, contacte inmediatamente a: <strong>privacy@hogarbelen.org</strong></p>
+        </section>
+        
+        <section id="cambios">
+            <h2>10. Cambios en esta Política</h2>
+            <p>Actualizaremos esta política periódicamente para reflejar cambios en nuestras prácticas, tecnologías o requisitos legales.</p>
+            
+            <h3>10.1. Notificación de Cambios</h3>
+            <p>Para cambios materiales que afecten significativamente cómo manejamos sus datos:</p>
+            <ul>
+                <li>Enviaremos notificación por email con 30 días de anticipación</li>
+                <li>Mostraremos aviso prominente al iniciar sesión</li>
+                <li>Actualizaremos la fecha de "Última actualización" al inicio de este documento</li>
+                <li>Mantendremos un historial de versiones disponible bajo solicitud</li>
+            </ul>
+            
+            <h3>10.2. Su Consentimiento</h3>
+            <p>El uso continuado del servicio después de cambios constituye aceptación de la política actualizada. Si no está de acuerdo, debe dejar de usar el servicio y solicitar eliminación de su cuenta.</p>
+        </section>
+        
+        <section id="contacto">
+            <h2>11. Contacto - Protección de Datos</h2>
+            <p>Para cualquier consulta, solicitud o preocupación sobre privacidad y protección de datos:</p>
+            
+            <h3>11.1. Canales de Contacto</h3>
+            <ul>
+                <li><strong>Email de Privacidad:</strong> privacy@hogarbelen.org</li>
+                <li><strong>Email Legal:</strong> legal@hogarbelen.org</li>
+                <li><strong>Sitio web:</strong> <a href="https://hogarbelen.org/">https://hogarbelen.org/</a></li>
+            </ul>
+            
+            <h3>11.2. Datos de Contacto del Responsable</h3>
+            <p><strong>Responsable del Tratamiento:</strong> centrodigital2023</p>
+            <p><strong>Domicilio:</strong> Colombia</p>
+            <p><strong>Sitio web:</strong> https://hogarbelen.org/</p>
+            
+            <h3>11.3. Tiempo de Respuesta</h3>
+            <ul>
+                <li><strong>Consultas generales:</strong> 5 días hábiles</li>
+                <li><strong>Ejercicio de derechos:</strong> 15 días hábiles (Colombia) o 30 días naturales (GDPR/LGPD)</li>
+                <li><strong>Urgencias de seguridad:</strong> 24-48 horas</li>
+            </ul>
+            
+            <h3>11.4. Quejas y Recursos</h3>
+            <p>Si considera que no hemos manejado sus datos correctamente, puede:</p>
+            <ul>
+                <li>Presentar queja ante la Superintendencia de Industria y Comercio (Colombia)</li>
+                <li>Contactar autoridades de protección de datos de su jurisdicción</li>
+                <li>Ejercer recursos legales disponibles bajo leyes aplicables</li>
+            </ul>
+        </section>
+        
+        <section id="legislacion">
+            <h2>12. Marco Legal</h2>
+            <p>Esta política de privacidad cumple con las siguientes normativas:</p>
+            
+            <h3>12.1. Legislación Colombiana</h3>
+            <ul>
+                <li><strong>Ley 1581 de 2012:</strong> Régimen General de Protección de Datos Personales</li>
+                <li><strong>Decreto 1377 de 2013:</strong> Reglamentación parcial de la Ley 1581</li>
+                <li><strong>Ley 1266 de 2008:</strong> Habeas Data</li>
+            </ul>
+            
+            <h3>12.2. Regulaciones Internacionales</h3>
+            <ul>
+                <li><strong>GDPR (Reglamento (UE) 2016/679):</strong> Reglamento General de Protección de Datos de la Unión Europea</li>
+                <li><strong>LGPD (Lei nº 13.709/2018):</strong> Lei Geral de Proteção de Dados Pessoais de Brasil</li>
+            </ul>
+            
+            <h3>12.3. Principios Rectores</h3>
+            <p>Nos adherimos a los principios fundamentales de protección de datos:</p>
+            <ul>
+                <li><strong>Legalidad, Lealtad y Transparencia:</strong> Procesamiento legal, justo y transparente</li>
+                <li><strong>Limitación de Finalidad:</strong> Datos recopilados para propósitos específicos y legítimos</li>
+                <li><strong>Minimización de Datos:</strong> Solo recopilamos lo estrictamente necesario</li>
+                <li><strong>Exactitud:</strong> Mantenemos datos actualizados y precisos</li>
+                <li><strong>Limitación del Plazo:</strong> Conservación solo por tiempo necesario</li>
+                <li><strong>Integridad y Confidencialidad:</strong> Seguridad apropiada de los datos</li>
+                <li><strong>Responsabilidad Proactiva:</strong> Demostramos cumplimiento activo</li>
+            </ul>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2026 HOGARBELEN - centrodigital2023. Todos los derechos reservados.</p>
+        <p>Versión 1.0 - Última actualización: 23/01/2026</p>
+    </footer>
+</body>
+</html>

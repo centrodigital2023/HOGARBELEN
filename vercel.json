@@ -7,11 +7,37 @@
   "framework": null,
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!terms\\.html|privacy\\.html).*)",
       "destination": "/index.html"
     }
   ],
   "headers": [
+    {
+      "source": "/terms.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, s-maxage=86400"
+        },
+        {
+          "key": "Content-Type",
+          "value": "text/html; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "source": "/privacy.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, s-maxage=86400"
+        },
+        {
+          "key": "Content-Type",
+          "value": "text/html; charset=utf-8"
+        }
+      ]
+    },
     {
       "source": "/index.html",
       "headers": [
