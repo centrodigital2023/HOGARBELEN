@@ -1,11 +1,9 @@
 import { ShieldCheck } from '@phosphor-icons/react';
 import { Card } from '@/components/ui/card';
+import { Link, useNavigate } from 'react-router-dom';
 
-interface PoliticaPrivacidadProps {
-  setPage: (page: string) => void;
-}
-
-const PoliticaPrivacidad = ({ setPage }: PoliticaPrivacidadProps) => {
+const PoliticaPrivacidad = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background to-primary-50/30 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
@@ -20,7 +18,7 @@ const PoliticaPrivacidad = ({ setPage }: PoliticaPrivacidadProps) => {
             Hogar Belén
           </p>
           <p className="text-sm text-muted-foreground mt-2">
-            Última actualización: Enero 2025
+            Última actualización: 23 de Enero de 2026 (v1.0)
           </p>
         </div>
 
@@ -63,7 +61,26 @@ const PoliticaPrivacidad = ({ setPage }: PoliticaPrivacidadProps) => {
 
               <div className="ml-4 mb-6">
                 <h3 className="text-xl font-semibold text-foreground mb-3">
-                  a) Datos de familiares o responsables
+                  a) Datos recopilados vía Google OAuth 2.0
+                </h3>
+                <p className="text-foreground/80 leading-relaxed mb-3">
+                  Cuando los usuarios se autentican mediante Google, recopilamos:
+                </p>
+                <ul className="space-y-2 text-foreground/80 ml-6 list-disc">
+                  <li><strong>Nombre completo:</strong> Para personalizar la experiencia del usuario</li>
+                  <li><strong>Correo electrónico:</strong> Para identificación y comunicaciones del servicio</li>
+                  <li><strong>Foto de perfil:</strong> Para mostrar en su cuenta (opcional)</li>
+                  <li><strong>ID de Google:</strong> Para vincular su cuenta de forma segura</li>
+                </ul>
+                <p className="text-foreground/80 leading-relaxed mt-3 text-sm">
+                  <strong>Nota:</strong> Solo solicitamos acceso a información básica de perfil. 
+                  No accedemos a sus correos, contactos u otros datos de Google.
+                </p>
+              </div>
+
+              <div className="ml-4 mb-6">
+                <h3 className="text-xl font-semibold text-foreground mb-3">
+                  b) Datos de familiares o responsables
                 </h3>
                 <ul className="space-y-2 text-foreground/80 ml-6 list-disc">
                   <li>Nombre completo</li>
@@ -77,7 +94,7 @@ const PoliticaPrivacidad = ({ setPage }: PoliticaPrivacidadProps) => {
 
               <div className="ml-4 mb-6">
                 <h3 className="text-xl font-semibold text-foreground mb-3">
-                  b) Datos del adulto mayor
+                  c) Datos del adulto mayor
                 </h3>
                 <ul className="space-y-2 text-foreground/80 ml-6 list-disc">
                   <li>Nombre completo</li>
@@ -102,14 +119,32 @@ const PoliticaPrivacidad = ({ setPage }: PoliticaPrivacidadProps) => {
               <p className="text-foreground/80 leading-relaxed mb-3">
                 Los datos personales serán utilizados para:
               </p>
-              <ul className="space-y-2 text-foreground/80 ml-6 list-disc">
-                <li>Procesos de admisión y estadía en Hogar Belén</li>
-                <li>Prestación adecuada de los servicios de cuidado al adulto mayor</li>
-                <li>Comunicación permanente con familiares o responsables</li>
-                <li>Atención de solicitudes, consultas, reservas o reclamos</li>
-                <li>Cumplimiento de obligaciones legales, contractuales y administrativas</li>
-                <li>Envío de información relacionada con los servicios del hogar (previa autorización)</li>
-              </ul>
+              
+              <div className="ml-4 mb-4">
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  Datos de Google OAuth:
+                </h3>
+                <ul className="space-y-2 text-foreground/80 ml-6 list-disc">
+                  <li><strong>Autenticación:</strong> Verificar su identidad y permitir acceso seguro a la plataforma</li>
+                  <li><strong>Personalización:</strong> Mostrar su nombre y foto en su perfil de usuario</li>
+                  <li><strong>Comunicaciones:</strong> Enviar notificaciones importantes sobre su cuenta y servicios</li>
+                  <li><strong>Soporte técnico:</strong> Brindar asistencia cuando sea necesario</li>
+                </ul>
+              </div>
+
+              <div className="ml-4">
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  Otros datos:
+                </h3>
+                <ul className="space-y-2 text-foreground/80 ml-6 list-disc">
+                  <li>Procesos de admisión y estadía en Hogar Belén</li>
+                  <li>Prestación adecuada de los servicios de cuidado al adulto mayor</li>
+                  <li>Comunicación permanente con familiares o responsables</li>
+                  <li>Atención de solicitudes, consultas, reservas o reclamos</li>
+                  <li>Cumplimiento de obligaciones legales, contractuales y administrativas</li>
+                  <li>Envío de información relacionada con los servicios del hogar (previa autorización)</li>
+                </ul>
+              </div>
             </section>
 
             <section className="mb-8">
@@ -171,20 +206,49 @@ const PoliticaPrivacidad = ({ setPage }: PoliticaPrivacidadProps) => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                7. Seguridad de la Información
+                7. Almacenamiento y Seguridad
               </h2>
               <p className="text-foreground/80 leading-relaxed mb-3">
-                Hogar Belén implementa medidas técnicas, humanas y administrativas razonables para proteger 
-                los datos personales contra acceso no autorizado, pérdida, alteración o uso indebido.
+                <strong>Infraestructura:</strong> Los datos se almacenan en una base de datos PostgreSQL segura 
+                alojada en Supabase, con respaldo automatizado y encriptación en tránsito y en reposo.
               </p>
-              <p className="text-foreground/80 leading-relaxed">
+              <p className="text-foreground/80 leading-relaxed mb-3">
+                <strong>Medidas de seguridad:</strong> Implementamos:
+              </p>
+              <ul className="space-y-2 text-foreground/80 ml-6 list-disc">
+                <li>Encriptación SSL/TLS para todas las comunicaciones</li>
+                <li>Autenticación segura mediante Google OAuth 2.0</li>
+                <li>Control de acceso basado en roles (Row Level Security)</li>
+                <li>Monitoreo continuo de seguridad</li>
+                <li>Auditoría de accesos</li>
+              </ul>
+              <p className="text-foreground/80 leading-relaxed mt-3">
                 El acceso a la información está restringido únicamente a personal autorizado.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                8. Uso de Cookies
+                8. Compartir Datos con Terceros
+              </h2>
+              <p className="text-foreground/80 leading-relaxed mb-3">
+                Hogar Belén puede compartir datos con:
+              </p>
+              <ul className="space-y-2 text-foreground/80 ml-6 list-disc">
+                <li><strong>Google LLC:</strong> Para autenticación mediante Google OAuth 2.0</li>
+                <li><strong>Supabase (PostgreSQL):</strong> Proveedor de infraestructura de base de datos</li>
+                <li><strong>Vercel:</strong> Proveedor de hosting y servicios de infraestructura</li>
+                <li><strong>Servicios de analítica:</strong> Para mejorar la experiencia del usuario (datos anonimizados)</li>
+              </ul>
+              <p className="text-foreground/80 leading-relaxed mt-3">
+                Todos los terceros están obligados contractualmente a proteger sus datos y no pueden 
+                utilizarlos para fines propios.
+              </p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-foreground mb-4">
+                9. Uso de Cookies
               </h2>
               <p className="text-foreground/80 leading-relaxed">
                 El sitio web de Hogar Belén puede utilizar cookies con fines informativos, estadísticos 
@@ -195,7 +259,7 @@ const PoliticaPrivacidad = ({ setPage }: PoliticaPrivacidadProps) => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                9. Modificaciones a la Política
+                10. Modificaciones a la Política
               </h2>
               <p className="text-foreground/80 leading-relaxed">
                 Hogar Belén se reserva el derecho de modificar esta política en cualquier momento. 
@@ -205,7 +269,7 @@ const PoliticaPrivacidad = ({ setPage }: PoliticaPrivacidadProps) => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                10. Vigencia
+                11. Vigencia
               </h2>
               <p className="text-foreground/80 leading-relaxed">
                 Esta política rige a partir de su publicación y permanecerá vigente mientras Hogar Belén 
@@ -225,19 +289,19 @@ const PoliticaPrivacidad = ({ setPage }: PoliticaPrivacidadProps) => {
 
           <div className="mt-12 pt-8 border-t border-border">
             <div className="flex gap-4">
-              <button
-                onClick={() => setPage('home')}
+              <Link
+                to="/"
                 className="text-primary hover:text-primary-600 font-medium transition-colors"
               >
                 ← Volver al inicio
-              </button>
+              </Link>
               <span className="text-muted-foreground">|</span>
-              <button
-                onClick={() => setPage('terminos-condiciones')}
+              <Link
+                to="/terminos"
                 className="text-primary hover:text-primary-600 font-medium transition-colors"
               >
                 Ver Términos y Condiciones
-              </button>
+              </Link>
             </div>
           </div>
         </Card>

@@ -1,11 +1,9 @@
 import { FileText } from '@phosphor-icons/react';
 import { Card } from '@/components/ui/card';
+import { Link, useNavigate } from 'react-router-dom';
 
-interface TerminosYCondicionesProps {
-  setPage: (page: string) => void;
-}
-
-const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
+const TerminosYCondiciones = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background to-primary-50/30 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
@@ -20,7 +18,7 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
             Hogar Belén – Fundación Hogar Belén
           </p>
           <p className="text-sm text-muted-foreground mt-2">
-            Última actualización: Enero 2025
+            Última actualización: 23 de Enero de 2026 (v1.0)
           </p>
         </div>
 
@@ -64,19 +62,41 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
                 3. Objeto del Sitio Web
               </h2>
               <p className="text-foreground/80 leading-relaxed mb-3">
-                Hogar Belén tiene como finalidad:
+                Hogar Belén (https://www.hogarbelen.org) es una plataforma web integral que tiene como finalidad:
               </p>
               <ul className="space-y-2 text-foreground/80 ml-6 list-disc">
                 <li>Brindar información sobre servicios de residencia geriátrica y cuidado del adulto mayor.</li>
                 <li>Ofrecer servicios en sede y a domicilio.</li>
                 <li>Facilitar la conexión entre usuarios/clientes y profesionales del sector salud y cuidado geriátrico mediante la plataforma Belén Conecta.</li>
                 <li>Publicar contenido informativo, educativo y de orientación.</li>
+                <li>Proporcionar acceso seguro mediante autenticación con Google OAuth 2.0.</li>
               </ul>
             </section>
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                4. Condiciones de Uso
+                4. Autenticación y Uso de Google OAuth
+              </h2>
+              <p className="text-foreground/80 leading-relaxed mb-3">
+                Hogar Belén utiliza <strong>Google OAuth 2.0</strong> como método de autenticación seguro:
+              </p>
+              <ul className="space-y-2 text-foreground/80 ml-6 list-disc">
+                <li>Al iniciar sesión con Google, autorizas el acceso a tu <strong>información básica de perfil</strong> (nombre, correo electrónico, foto).</li>
+                <li>Solo accedemos a los datos necesarios para tu identificación. <strong>NO</strong> accedemos a tus correos, contactos u otros datos privados de Google.</li>
+                <li>Puedes revocar el acceso en cualquier momento desde tu cuenta de Google.</li>
+                <li>Los datos obtenidos se utilizan exclusivamente según nuestra <Link to="/privacidad" className="text-primary hover:underline font-medium">Política de Privacidad</Link>.</li>
+              </ul>
+              <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg mt-4">
+                <p className="text-foreground/90 text-sm">
+                  ℹ️ <strong>Nota:</strong> El uso de Google OAuth proporciona una capa adicional de seguridad, 
+                  ya que no necesitas crear ni recordar otra contraseña.
+                </p>
+              </div>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-foreground mb-4">
+                5. Condiciones de Uso
               </h2>
               <p className="text-foreground/80 leading-relaxed mb-3">
                 El usuario se compromete a:
@@ -94,7 +114,7 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                5. Registro de Usuarios y Profesionales
+                6. Registro de Usuarios y Profesionales
               </h2>
               <p className="text-foreground/80 leading-relaxed mb-3">
                 Al registrarse en el sitio o en la plataforma Belén Conecta:
@@ -108,7 +128,7 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                6. Verificación de Profesionales (Check Azul)
+                7. Verificación de Profesionales (Check Azul)
               </h2>
               <p className="text-foreground/80 leading-relaxed mb-3">
                 El distintivo de profesional verificado:
@@ -122,7 +142,7 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                7. Publicación de Ofertas de Trabajo
+                8. Publicación de Ofertas de Trabajo
               </h2>
               <ul className="space-y-2 text-foreground/80 ml-6 list-disc">
                 <li>Solo se permiten ofertas relacionadas con salud y cuidado del adulto mayor.</li>
@@ -133,7 +153,7 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                8. Responsabilidad y Limitaciones
+                9. Responsabilidad y Limitaciones
               </h2>
               <p className="text-foreground/80 leading-relaxed mb-3">
                 Hogar Belén:
@@ -147,7 +167,7 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                9. Propiedad Intelectual
+                10. Propiedad Intelectual
               </h2>
               <p className="text-foreground/80 leading-relaxed">
                 Todos los contenidos del sitio (textos, imágenes, logotipos, diseño, estructura) son propiedad de Hogar Belén o se utilizan con autorización.
@@ -159,16 +179,16 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                10. Protección de Datos Personales
+                11. Protección de Datos Personales
               </h2>
               <p className="text-foreground/80 leading-relaxed mb-3">
                 El tratamiento de datos personales se rige por nuestra{' '}
-                <button
-                  onClick={() => setPage('politica-privacidad')}
+                <Link
+                  to="/privacidad"
                   className="text-primary hover:underline font-medium"
                 >
                   Política de Privacidad
-                </button>
+                </Link>
                 , conforme a la Ley 1581 de 2012.
               </p>
               <p className="text-foreground/80 leading-relaxed">
@@ -181,7 +201,7 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                11. Uso de Cookies
+                12. Uso de Cookies
               </h2>
               <p className="text-foreground/80 leading-relaxed mb-3">
                 Este sitio utiliza cookies propias y de terceros con fines estadísticos, funcionales y publicitarios.
@@ -194,7 +214,7 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                12. Modificaciones
+                13. Modificaciones
               </h2>
               <p className="text-foreground/80 leading-relaxed">
                 Hogar Belén podrá modificar estos Términos y Condiciones en cualquier momento.
@@ -204,7 +224,7 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                13. Legislación Aplicable y Jurisdicción
+                14. Legislación Aplicable y Jurisdicción
               </h2>
               <p className="text-foreground/80 leading-relaxed mb-3">
                 Estos términos se rigen por las leyes de la República de Colombia.
@@ -216,7 +236,7 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-foreground mb-4">
-                14. Contacto
+                15. Contacto
               </h2>
               <p className="text-foreground/80 leading-relaxed mb-3">
                 Para consultas relacionadas con estos términos, puede comunicarse a:
@@ -235,12 +255,21 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
           </div>
 
           <div className="mt-12 pt-8 border-t border-border">
-            <button
-              onClick={() => setPage('home')}
-              className="text-primary hover:text-primary-600 font-medium transition-colors"
-            >
-              ← Volver al inicio
-            </button>
+            <div className="flex gap-4">
+              <Link
+                to="/"
+                className="text-primary hover:text-primary-600 font-medium transition-colors"
+              >
+                ← Volver al inicio
+              </Link>
+              <span className="text-muted-foreground">|</span>
+              <Link
+                to="/privacidad"
+                className="text-primary hover:text-primary-600 font-medium transition-colors"
+              >
+                Ver Política de Privacidad
+              </Link>
+            </div>
           </div>
         </Card>
       </div>
