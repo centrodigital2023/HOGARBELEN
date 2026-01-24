@@ -84,8 +84,12 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
 
 ## 📚 Documentación
 
-- [🚀 Deploy en Vercel](./DEPLOY-VERCEL.md)
+### Despliegue y Producción
+- [🚀 **Guía de Despliegue en Vercel**](./DEPLOYMENT-GUIDE.md) - Guía completa actualizada
+- [🚀 Deploy en Vercel (Alternativa)](./DEPLOY-VERCEL.md)
 - [🌐 Configuración del Dominio](./CONFIGURACION-DOMINIO.md)
+
+### Configuración y Desarrollo
 - [Configuración de Supabase](./SUPABASE-CONFIG.md)
 - [PRD - Documento de Requisitos](./PRD.md)
 - [Sistema de Descuentos](./SISTEMA-DESCUENTOS.md)
@@ -95,6 +99,10 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
 ## 🚢 Deploy a Producción
 
 ### Vercel (Recomendado)
+
+**📖 [Consulta la Guía Completa de Despliegue](./DEPLOYMENT-GUIDE.md)**
+
+Resumen rápido:
 
 1. **Conecta tu repositorio con Vercel:**
    - Ve a [vercel.com](https://vercel.com)
