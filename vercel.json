@@ -1,6 +1,7 @@
 {
   "rewrites": [
     {
+      "comment": "Rewrite all routes to index.html for SPA, except static files (terms.html, privacy.html, robots.txt, sitemap.xml)",
       "source": "/((?!terms\\.html|privacy\\.html|robots\\.txt|sitemap\\.xml).*)",
       "destination": "/index.html"
     }
