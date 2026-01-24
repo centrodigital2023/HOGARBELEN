@@ -120,9 +120,24 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
 
 El sistema utiliza Supabase Auth con:
 - Email y contraseña
+- **Google OAuth** - Autenticación con cuenta de Google
 - Roles: `family` (familias) y `professional` (profesionales)
 - Sesiones persistentes
 - Protección RLS en todas las tablas
+
+## ⚖️ Páginas Legales
+
+Las siguientes páginas legales están disponibles para cumplir con los requisitos de Google OAuth y protección de datos:
+
+- **Términos y Condiciones**: [https://hogarbelen.org/terms.html](https://hogarbelen.org/terms.html)
+- **Política de Privacidad**: [https://hogarbelen.org/privacy.html](https://hogarbelen.org/privacy.html)
+
+Estas páginas incluyen información detallada sobre:
+- Datos recopilados mediante Google OAuth (nombre, email, foto, ID de Google)
+- Propósito y uso de los datos
+- Derechos del usuario (GDPR, LGPD, Ley Colombiana)
+- Procedimientos de revocación de permisos
+- Contactos: legal@hogarbelen.org y privacy@hogarbelen.org
 
 ## 🔗 Enlaces Sociales
 
