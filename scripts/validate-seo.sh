@@ -52,8 +52,8 @@ if [ -f "public/sitemap.xml" ]; then
     warning "Sitemap has fewer URLs than expected ($URL_COUNT)"
   fi
   
-  # Check for admin URLs (shouldn't be there)
-  ADMIN_COUNT=$(grep "<loc>.*\/admin" public/sitemap.xml | wc -l || true)
+  # Check for admin URLs (shouldn't be there) - only in <loc> tags
+  ADMIN_COUNT=$(grep -c '<loc>[^<]*\/admin[^<]*<\/loc>' public/sitemap.xml || true)
   if [ $ADMIN_COUNT -eq 0 ]; then
     success "No admin URLs found in sitemap (correct)"
   else

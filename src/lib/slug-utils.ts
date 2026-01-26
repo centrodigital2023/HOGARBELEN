@@ -80,12 +80,16 @@ export function parseProfessionalSlug(slug: string): {
   // Everything else is name (preserves hyphens in multi-word names)
   const name = parts.slice(0, -2).join('-')
   
-  // Validate against known categories and cities
+  // Validate against known categories and cities separately
   const validCategories = ['enfermeria', 'cuidadores', 'medicos', 'terapia', 'otros']
   const validCities = ['bogota', 'cali', 'medellin', 'pasto', 'buesaco']
   
-  if (!validCategories.includes(category) && !validCities.includes(city)) {
-    // If both category and city seem invalid, this might not be a valid slug
+  // Return null if either category or city is invalid
+  if (!validCategories.includes(category)) {
+    return null
+  }
+  
+  if (!validCities.includes(city)) {
     return null
   }
   

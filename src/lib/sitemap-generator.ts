@@ -205,8 +205,11 @@ export async function saveSitemap(): Promise<void> {
 /**
  * Express/API route handler for dynamic sitemap
  * Use this in production to serve sitemap.xml dynamically
+ * 
+ * Note: Requires Express to be installed and types imported:
+ * import { Request, Response } from 'express'
  */
-export async function sitemapHandler(_req: Request, res: Response): Promise<void> {
+export async function sitemapHandler(_req: any, res: any): Promise<void> {
   const xml = await generateSitemap()
   res.header('Content-Type', 'application/xml')
   res.send(xml)
