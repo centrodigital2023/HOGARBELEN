@@ -86,6 +86,7 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
 
 - [🚀 Deploy en Vercel](./DEPLOY-VERCEL.md)
 - [🌐 Configuración del Dominio](./CONFIGURACION-DOMINIO.md)
+- [📋 Estructura de URLs y Routing](./ROUTING-STRUCTURE.md) ⭐ NUEVO
 - [Configuración de Supabase](./SUPABASE-CONFIG.md)
 - [PRD - Documento de Requisitos](./PRD.md)
 - [Sistema de Descuentos](./SISTEMA-DESCUENTOS.md)
