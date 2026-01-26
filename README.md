@@ -84,6 +84,7 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
 
 ## 📚 Documentación
 
+- [🎨 Frontend - SEO y Despliegue](./FRONTEND-README.md) - **NUEVO**
 - [🚀 Deploy en Vercel](./DEPLOY-VERCEL.md)
 - [🌐 Configuración del Dominio](./CONFIGURACION-DOMINIO.md)
 - [Configuración de Supabase](./SUPABASE-CONFIG.md)
@@ -120,9 +121,29 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
 
 El sistema utiliza Supabase Auth con:
 - Email y contraseña
+- **Google OAuth** - Autenticación con cuenta de Google
 - Roles: `family` (familias) y `professional` (profesionales)
 - Sesiones persistentes
 - Protección RLS en todas las tablas
+
+## ⚖️ Páginas Legales
+
+El sitio incluye todas las páginas legales requeridas para Google OAuth y cumplimiento normativo:
+
+- **[Términos y Condiciones](/terminos)** - Condiciones de uso y servicios
+- **[Política de Privacidad](/privacidad)** - Ley 1581 de 2012 (Colombia), GDPR, LGPD
+- **[Política de Cookies](/cookies)** - Gestión de cookies y tracking
+
+**URLs Públicas:**
+- https://hogarbelen.org/terminos
+- https://hogarbelen.org/privacidad
+- https://hogarbelen.org/cookies
+
+Todas las páginas cumplen con:
+- ✅ Ley 1581 de 2012 (Colombia)
+- ✅ GDPR (Unión Europea)
+- ✅ LGPD (Brasil)
+- ✅ Requisitos de Google OAuth Consent Screen
 
 ## 🔗 Enlaces Sociales
 
