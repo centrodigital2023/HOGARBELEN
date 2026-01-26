@@ -1,6 +1,9 @@
 import { SEOHead } from '../components/SEOHead';
 import { Navigation } from '../components/Navigation';
 
+// Default placeholder content
+const DEFAULT_PLACEHOLDER = 'Esta página está en desarrollo. Pronto estará disponible con contenido completo.';
+
 interface PageTemplateProps {
   title: string;
   description: string;
@@ -35,7 +38,7 @@ export const PageTemplate: React.FC<PageTemplateProps> = ({
         <div className="prose prose-lg max-w-none">
           {content || (
             <p className="text-gray-600">
-              Esta página está en desarrollo. Pronto estará disponible con contenido completo.
+              {DEFAULT_PLACEHOLDER}
             </p>
           )}
         </div>

@@ -3,7 +3,6 @@ import { Suspense, lazy } from 'react'
 
 // Lazy load pages from src/páginas/
 const PáginaPrincipal = lazy(() => import('./páginas/PáginaPrincipal'))
-const AboutPage = lazy(() => import('./páginas/AboutPage'))
 const Nosotros = lazy(() => import('./páginas/Nosotros'))
 const ContactPage = lazy(() => import('./páginas/ContactPage'))
 

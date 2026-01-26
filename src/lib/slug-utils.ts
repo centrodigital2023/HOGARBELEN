@@ -147,28 +147,38 @@ export function generateUniqueSlug(
 
 /**
  * Category names mapping for URL normalization
+ * Maps various category names to standardized routing categories
  */
-export const PROFESSIONAL_CATEGORIES = {
-  enfermeria: 'enfermeria',
-  enfermero: 'enfermeria',
-  enfermera: 'enfermeria',
-  cuidador: 'cuidadores',
-  cuidadora: 'cuidadores',
-  cuidadores: 'cuidadores',
-  medico: 'medicos',
-  medica: 'medicos',
-  medicos: 'medicos',
-  doctor: 'medicos',
-  doctora: 'medicos',
-  fisioterapeuta: 'terapia',
-  terapeuta: 'terapia',
-  terapia: 'terapia',
-  nutricionista: 'otros',
-  psicologo: 'otros',
-  psicologa: 'otros',
-  trabajador_social: 'otros',
-  otro: 'otros'
-} as const;
+export const PROFESSIONAL_CATEGORIES: Record<string, string> = {
+  // Enfermería
+  'enfermeria': 'enfermeria',
+  'enfermero': 'enfermeria',
+  'enfermera': 'enfermeria',
+  
+  // Cuidadores
+  'cuidador': 'cuidadores',
+  'cuidadora': 'cuidadores',
+  'cuidadores': 'cuidadores',
+  
+  // Médicos
+  'medico': 'medicos',
+  'medica': 'medicos',
+  'medicos': 'medicos',
+  'doctor': 'medicos',
+  'doctora': 'medicos',
+  
+  // Terapia
+  'fisioterapeuta': 'terapia',
+  'terapeuta': 'terapia',
+  'terapia': 'terapia',
+  
+  // Otros
+  'nutricionista': 'otros',
+  'psicologo': 'otros',
+  'psicologa': 'otros',
+  'trabajador_social': 'otros',
+  'otro': 'otros'
+};
 
 /**
  * Normalizes a category name to match routing structure
@@ -182,7 +192,7 @@ export const PROFESSIONAL_CATEGORIES = {
  */
 export function normalizeCategoryForRoute(category: string): string {
   const normalized = normalizeString(category);
-  return PROFESSIONAL_CATEGORIES[normalized as keyof typeof PROFESSIONAL_CATEGORIES] || 'otros';
+  return PROFESSIONAL_CATEGORIES[normalized] || 'otros';
 }
 
 /**
