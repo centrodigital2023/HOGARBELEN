@@ -1,10 +1,19 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /superadmin
 
-Sitemap: https://hogarbelen.org/sitemap.xml
+Sitemap: https://hogarbelen.com/sitemap.xml
 
 User-agent: Googlebot
 Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /superadmin
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /superadmin
