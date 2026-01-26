@@ -3,83 +3,274 @@
 
   <!-- HOME -->
   <url>
-    <loc>https://hogarbelen.org/</loc>
+    <loc>https://hogarbelen.com/</loc>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
   </url>
 
-  <!-- AUTORIDAD / CONFIANZA -->
-  <url><loc>https://hogarbelen.org/quienes-somos-hogar-geriatrico-narino</loc><priority>0.9</priority></url>
-  <url><loc>https://hogarbelen.org/mision-vision-hogar-geriatrico</loc><priority>0.8</priority></url>
-  <url><loc>https://hogarbelen.org/equipo-humano-cuidado-adulto-mayor</loc><priority>0.8</priority></url>
-  <url><loc>https://hogarbelen.org/instalaciones-finca-descanso-adultos-mayores</loc><priority>0.8</priority></url>
+  <!-- MAIN NAVIGATION -->
+  <url>
+    <loc>https://hogarbelen.com/nosotros</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/servicios</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/planes</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
 
-  <!-- SEO LOCAL -->
-  <url><loc>https://hogarbelen.org/hogar-geriatrico-en-buesaco</loc><priority>0.9</priority></url>
-  <url><loc>https://hogarbelen.org/hogar-geriatrico-en-pasto</loc><priority>0.9</priority></url>
-  <url><loc>https://hogarbelen.org/hogar-geriatrico-narino-clima-templado</loc><priority>0.8</priority></url>
-  <url><loc>https://hogarbelen.org/contacto-hogar-geriatrico-buesaco</loc><priority>0.7</priority></url>
+  <!-- INSPIRATIONAL SECTIONS -->
+  <url>
+    <loc>https://hogarbelen.com/lugar-sonado</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/por-que-hogar-belen</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/modo-vacaciones-permanentes</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/lo-que-nos-hace-unicos</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/testimonios</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
 
-  <!-- RESIDENCIA -->
-  <url><loc>https://hogarbelen.org/residencia-adulto-mayor-narino</loc><priority>0.9</priority></url>
-  <url><loc>https://hogarbelen.org/residencia-geriatrica-buesaco</loc><priority>0.9</priority></url>
-  <url><loc>https://hogarbelen.org/servicios-cuidado-adulto-mayor</loc><priority>0.9</priority></url>
+  <!-- CENTRO VIDA -->
+  <url>
+    <loc>https://hogarbelen.com/centro-vida</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/centro-vida/buesaco</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/centro-vida/instalaciones</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/centro-vida/planes</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/centro-vida/agenda-visita</loc>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/centro-vida/planes/compartida</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/centro-vida/planes/individual</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
 
-  <!-- HABITACIONES -->
-  <url><loc>https://hogarbelen.org/residencia/habitacion-compartida-adulto-mayor</loc><priority>0.8</priority></url>
-  <url><loc>https://hogarbelen.org/residencia/habitacion-privada-adulto-mayor</loc><priority>0.8</priority></url>
-  <url><loc>https://hogarbelen.org/residencia/habitacion-suite-adulto-mayor</loc><priority>0.8</priority></url>
-  <url><loc>https://hogarbelen.org/residencia/habitacion-temporal-recuperacion</loc><priority>0.8</priority></url>
+  <!-- SERVICES -->
+  <url>
+    <loc>https://hogarbelen.com/servicios/cuidado-en-casa</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/servicios/cuidado-residencial</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/servicios/atencion-medica</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/servicios/vida-activa</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
 
-  <!-- SERVICIOS EN SEDE -->
-  <url><loc>https://hogarbelen.org/servicios/centro-dia-adulto-mayor-buesaco</loc><priority>0.8</priority></url>
-  <url><loc>https://hogarbelen.org/servicios/rehabilitacion-adulto-mayor-narino</loc><priority>0.8</priority></url>
-  <url><loc>https://hogarbelen.org/servicios/enfermeria-geriatrica-en-sede</loc><priority>0.8</priority></url>
-  <url><loc>https://hogarbelen.org/servicios/atencion-medica-basica-adulto-mayor</loc><priority>0.8</priority></url>
-
-  <!-- SERVICIOS A DOMICILIO -->
-  <url><loc>https://hogarbelen.org/servicios/cuidadores-adulto-mayor-pasto</loc><priority>0.9</priority></url>
-  <url><loc>https://hogarbelen.org/servicios/cuidadores-adulto-mayor-narino</loc><priority>0.9</priority></url>
-  <url><loc>https://hogarbelen.org/servicios/enfermeria-geriatrica-domiciliaria</loc><priority>0.9</priority></url>
-  <url><loc>https://hogarbelen.org/servicios/acompanamiento-adulto-mayor-en-casa</loc><priority>0.9</priority></url>
-  <url><loc>https://hogarbelen.org/servicios/cuidado-adulto-mayor-24-horas</loc><priority>0.9</priority></url>
-
-  <!-- PLANES -->
-  <url><loc>https://hogarbelen.org/planes-adultos-mayores-narino</loc><priority>0.8</priority></url>
-  <url><loc>https://hogarbelen.org/planes-recreativos-adulto-mayor</loc><priority>0.8</priority></url>
-
-  <url><loc>https://hogarbelen.org/planes/dia-de-sol-adulto-mayor-amigos</loc><priority>0.7</priority></url>
-  <url><loc>https://hogarbelen.org/planes/turismo-cafetero-buesaco-adultos-mayores</loc><priority>0.7</priority></url>
-  <url><loc>https://hogarbelen.org/planes/celebracion-cumpleanos-adulto-mayor</loc><priority>0.7</priority></url>
-  <url><loc>https://hogarbelen.org/planes/ecoturismo-zooterapia-tercera-edad</loc><priority>0.7</priority></url>
-  <url><loc>https://hogarbelen.org/planes/estancia-temporal-adulto-mayor</loc><priority>0.7</priority></url>
+  <!-- PLANES VIDA ACTIVA -->
+  <url>
+    <loc>https://hogarbelen.com/planes-vida-activa</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/planes-vida-activa/plan-amigos</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/planes-vida-activa/plan-sol-y-cafe</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/planes-vida-activa/plan-sonreir</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/planes-vida-activa/plan-turismo-rural</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/planes-vida-activa/plan-amigos/galeria</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/planes-vida-activa/plan-sol-y-cafe/galeria</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 
   <!-- BELÉN CONECTA -->
-  <url><loc>https://hogarbelen.org/belen-conecta</loc><priority>0.9</priority></url>
-  <url><loc>https://hogarbelen.org/belen-conecta/contratar-cuidador-verificado</loc><priority>0.9</priority></url>
-  <url><loc>https://hogarbelen.org/belen-conecta/cuidadores-verificados-narino</loc><priority>0.9</priority></url>
-  <url><loc>https://hogarbelen.org/belen-conecta/enfermeras-verificadas-pasto</loc><priority>0.9</priority></url>
-  <url><loc>https://hogarbelen.org/belen-conecta/empleo-profesionales-salud-narino</loc><priority>0.8</priority></url>
-  <url><loc>https://hogarbelen.org/belen-conecta/empleo-cuidadores-adulto-mayor</loc><priority>0.8</priority></url>
-  <url><loc>https://hogarbelen.org/belen-conecta/ofertas-cuidado-adulto-mayor</loc><priority>0.8</priority></url>
+  <url>
+    <loc>https://hogarbelen.com/belen-conecta</loc>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/belen-conecta/familias</loc>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/belen-conecta/familias/buscar-profesionales</loc>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/belen-conecta/familias/publicar-oferta</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/belen-conecta/familias/como-funciona</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/belen-conecta/profesionales</loc>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/belen-conecta/profesionales/registro</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/belen-conecta/profesionales/ofertas</loc>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/belen-conecta/profesionales/beneficios</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 
-  <!-- PROFESIONALES -->
-  <url><loc>https://hogarbelen.org/profesionales-cuidado-adulto-mayor</loc><priority>0.8</priority></url>
+  <!-- AUTH -->
+  <url>
+    <loc>https://hogarbelen.com/ingresar</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/registrarse</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 
-  <!-- EMPLEO -->
-  <url><loc>https://hogarbelen.org/empleo-cuidadores-adulto-mayor</loc><priority>0.8</priority></url>
-  <url><loc>https://hogarbelen.org/ofertas-salud-narino</loc><priority>0.8</priority></url>
+  <!-- PROFESSIONALS -->
+  <url>
+    <loc>https://hogarbelen.com/profesionales</loc>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/profesionales/enfermeria</loc>
+    <priority>0.8</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/profesionales/cuidadores</loc>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/profesionales/medicos</loc>
+    <priority>0.8</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/profesionales/terapia</loc>
+    <priority>0.8</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/profesionales/otros</loc>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
 
-  <!-- BLOG -->
-  <url><loc>https://hogarbelen.org/blog</loc><priority>0.7</priority></url>
-  <url><loc>https://hogarbelen.org/blog/cuidado-adulto-mayor-en-casa</loc><priority>0.7</priority></url>
-  <url><loc>https://hogarbelen.org/blog/cuando-contratar-cuidador-adulto-mayor</loc><priority>0.7</priority></url>
-  <url><loc>https://hogarbelen.org/blog/actividades-tercera-edad-narino</loc><priority>0.7</priority></url>
-  <url><loc>https://hogarbelen.org/blog/asilo-vs-finca-descanso-adultos-mayores</loc><priority>0.7</priority></url>
+  <!-- JOB OFFERS -->
+  <url>
+    <loc>https://hogarbelen.com/ofertas</loc>
+    <priority>0.8</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/trabaja-con-nosotros</loc>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
 
-  <!-- LEGALES -->
-  <url><loc>https://hogarbelen.org/legales/terminos-y-condiciones</loc><priority>0.4</priority></url>
-  <url><loc>https://hogarbelen.org/legales/politica-privacidad-datos</loc><priority>0.4</priority></url>
-  <url><loc>https://hogarbelen.org/legales/politica-cookies</loc><priority>0.4</priority></url>
+  <!-- LEGAL -->
+  <url>
+    <loc>https://hogarbelen.com/terminos-y-condiciones</loc>
+    <priority>0.4</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/politica-de-privacidad</loc>
+    <priority>0.4</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/politica-de-cookies</loc>
+    <priority>0.4</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://hogarbelen.com/tratamiento-de-datos</loc>
+    <priority>0.4</priority>
+    <changefreq>yearly</changefreq>
+  </url>
 
 </urlset>

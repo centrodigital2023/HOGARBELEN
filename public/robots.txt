@@ -1,10 +1,22 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hogarbelen.org/sitemap.xml
+# Block admin routes from indexing
+Disallow: /admin
+Disallow: /admin/
+Disallow: /superadmin
+Disallow: /familia/dashboard
+
+Sitemap: https://hogarbelen.com/sitemap.xml
 
 User-agent: Googlebot
 Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /superadmin
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /superadmin
