@@ -51,9 +51,13 @@ export function generateProfessionalSlug(
 
 /**
  * Parses a professional slug back into its components
+ * Note: This function handles multi-word names correctly by keeping
+ * all hyphens in the name part (everything before the last two segments)
  * 
- * Example: parseProfessionalSlug("maria-garcia-enfermeria-bogota")
- * Returns: { name: "maria-garcia", category: "enfermeria", city: "bogota" }
+ * Examples:
+ * - "maria-garcia-enfermeria-bogota" → { name: "maria-garcia", category: "enfermeria", city: "bogota" }
+ * - "maria-jose-garcia-enfermeria-bogota" → { name: "maria-jose-garcia", category: "enfermeria", city: "bogota" }
+ * - "ana-maria-lopez-rodriguez-medicos-medellin" → { name: "ana-maria-lopez-rodriguez", category: "medicos", city: "medellin" }
  */
 export function parseProfessionalSlug(slug: string): {
   name: string
@@ -62,6 +66,7 @@ export function parseProfessionalSlug(slug: string): {
 } | null {
   const parts = slug.split('-')
   
+  // Minimum: one-word name + category + city = 3 parts
   if (parts.length < 3) {
     return null
   }
@@ -72,8 +77,17 @@ export function parseProfessionalSlug(slug: string): {
   // Second to last is category
   const category = parts[parts.length - 2]
   
-  // Everything else is name
+  // Everything else is name (preserves hyphens in multi-word names)
   const name = parts.slice(0, -2).join('-')
+  
+  // Validate against known categories and cities
+  const validCategories = ['enfermeria', 'cuidadores', 'medicos', 'terapia', 'otros']
+  const validCities = ['bogota', 'cali', 'medellin', 'pasto', 'buesaco']
+  
+  if (!validCategories.includes(category) && !validCities.includes(city)) {
+    // If both category and city seem invalid, this might not be a valid slug
+    return null
+  }
   
   return { name, category, city }
 }

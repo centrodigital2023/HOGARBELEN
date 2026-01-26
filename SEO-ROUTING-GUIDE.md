@@ -621,5 +621,84 @@ export default function PlanAmigos() {
 
 ---
 
+## 🔄 Generación Dinámica de Sitemap
+
+### Para Entornos Múltiples
+
+El proyecto incluye un generador dinámico de sitemap en `src/lib/sitemap-generator.ts` que:
+
+- ✅ Detecta automáticamente el dominio según el entorno
+- ✅ Soporta variables de entorno (`VITE_APP_URL`)
+- ✅ Puede incluir URLs dinámicas desde base de datos
+- ✅ Genera XML válido con todas las URLs
+
+### Uso Básico
+
+```typescript
+import { generateSitemap, getBaseUrl } from '../lib/sitemap-generator'
+
+// Obtener dominio del entorno
+const baseUrl = getBaseUrl()
+// → Development: 'http://localhost:5173'
+// → Production: 'https://hogarbelen.com'
+
+// Generar sitemap completo
+const xml = await generateSitemap()
+console.log(xml)
+```
+
+### Configuración de Dominio
+
+**Variables de entorno (.env):**
+```env
+# Development
+VITE_APP_URL=http://localhost:5173
+
+# Staging
+VITE_APP_URL=https://staging.hogarbelen.com
+
+# Production
+VITE_APP_URL=https://hogarbelen.com
+```
+
+### Agregar URLs Dinámicas
+
+```typescript
+// En src/lib/sitemap-generator.ts
+
+export async function getDynamicProfessionalUrls(): Promise<SitemapUrl[]> {
+  // Fetch from database
+  const { data: professionals } = await supabase
+    .from('professionals')
+    .select('slug, updated_at')
+    .eq('verified', true)
+    .eq('active', true)
+  
+  return professionals.map(prof => ({
+    loc: `/profesional/${prof.slug}`,
+    priority: 0.8,
+    changefreq: 'weekly',
+    lastmod: prof.updated_at
+  }))
+}
+```
+
+### Build Script
+
+Para regenerar sitemap.xml antes del build:
+
+```json
+// package.json
+{
+  "scripts": {
+    "generate:sitemap": "node scripts/generate-sitemap.js",
+    "prebuild": "npm run generate:sitemap",
+    "build": "tsc -b --noCheck && vite build"
+  }
+}
+```
+
+---
+
 **Documentación actualizada:** Enero 2026
 **Contacto:** desarrollo@hogarbelen.com

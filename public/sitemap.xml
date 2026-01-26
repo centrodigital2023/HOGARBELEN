@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
+  <!-- 
+    NOTA: Este archivo usa el dominio de producción (hogarbelen.com).
+    Para entornos de desarrollo/staging, considere usar el generador dinámico
+    en src/lib/sitemap-generator.ts que detecta automáticamente el dominio
+    basándose en variables de entorno (VITE_APP_URL).
+    
+    Para generar sitemap dinámico: Vea documentación en SEO-ROUTING-GUIDE.md
+  -->
+
   <!-- HOME -->
   <url>
     <loc>https://hogarbelen.com/</loc>
