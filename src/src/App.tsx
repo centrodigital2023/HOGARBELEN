@@ -48,6 +48,7 @@ const PáginaDePrecios = lazy(() => import('./páginas/PáginaDePrecios'))
 const ResultadosDeBúsqueda = lazy(() => import('./páginas/ResultadosDeBúsqueda'))
 const PoliticaPrivacidad = lazy(() => import('./páginas/PoliticaPrivacidad'))
 const TerminosYCondiciones = lazy(() => import('./páginas/TerminosYCondiciones'))
+const PoliticaCookies = lazy(() => import('./páginas/PoliticaCookies'))
 const AICareAssistant = lazy(() => import('./páginas/AICareAssistant'))
 
 // Loading component
@@ -71,6 +72,7 @@ export default function App() {
           <Route path="/busqueda" element={<ResultadosDeBúsqueda />} />
           <Route path="/privacidad" element={<PoliticaPrivacidad />} />
           <Route path="/terminos" element={<TerminosYCondiciones />} />
+          <Route path="/cookies" element={<PoliticaCookies />} />
 
           {/* Admin routes */}
           <Route path="/admin/login" element={<AdminLogin />} />

@@ -1,10 +1,22 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /superadmin/
+Disallow: /familia/
+Disallow: /profesional/
 
 Sitemap: https://hogarbelen.org/sitemap.xml
 
 User-agent: Googlebot
 Allow: /
+Disallow: /admin/
+Disallow: /superadmin/
+Disallow: /familia/
+Disallow: /profesional/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin/
+Disallow: /superadmin/
+Disallow: /familia/
+Disallow: /profesional/
