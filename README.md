@@ -72,6 +72,30 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
 - 💳 **Sistema de Pagos**: Gestión de suscripciones y pagos
 - 🎁 **Códigos Promocionales**: Sistema de descuentos
 - 📅 **Reservas**: Gestión de citas y servicios
+- 🔍 **SEO Optimizado**: 90+ rutas con meta tags y Schema.org
+
+## 🗺️ Estructura de Rutas
+
+El sitio implementa una **estructura de URLs SEO-optimizada** con más de 90 rutas:
+
+### Principales secciones:
+- **Centro Vida** (`/centro-vida/*`) - 7 páginas
+- **Servicios** (`/servicios/*`) - 4 páginas
+- **Planes** (`/planes-vida-activa/*`) - 7 páginas
+- **Profesionales** (`/profesionales/*`) - 11 páginas + perfiles dinámicos
+- **Belén Conecta** (`/belen-conecta/*`) - 7 páginas
+- **Ofertas** (`/ofertas/*`) - 3 páginas
+
+**📖 Ver documentación completa:** [SEO-ROUTING-GUIDE.md](./SEO-ROUTING-GUIDE.md)
+
+### Características SEO:
+✅ Meta tags personalizadas (title, description, og:*, twitter:*)  
+✅ Sitemap.xml con 60+ URLs públicas  
+✅ Robots.txt bloqueando rutas admin  
+✅ Schema.org (LocalBusiness, MedicalBusiness, Person)  
+✅ URLs amigables sin acentos ni espacios  
+✅ Slugs automáticos para perfiles profesionales  
+✅ Lazy loading en todas las rutas
 
 ## 🛠️ Tecnologías
 
@@ -86,6 +110,7 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
 
 - [🚀 Deploy en Vercel](./DEPLOY-VERCEL.md)
 - [🌐 Configuración del Dominio](./CONFIGURACION-DOMINIO.md)
+- [🔍 Estructura de URLs y SEO](./SEO-ROUTING-GUIDE.md) ⭐ **Nuevo**
 - [Configuración de Supabase](./SUPABASE-CONFIG.md)
 - [PRD - Documento de Requisitos](./PRD.md)
 - [Sistema de Descuentos](./SISTEMA-DESCUENTOS.md)
