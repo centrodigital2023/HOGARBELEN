@@ -14,18 +14,21 @@ Centro de Vida para Adultos Mayores en Buesaco, Nariño, Colombia.
 
 ### 1. Configurar Variables de Entorno
 
-Crea un archivo `.env` en la raíz del proyecto:
+Crea un archivo `.env.local` en la raíz del proyecto:
 
 ```bash
-cp .env.example .env
+cp .env.example .env.local
 ```
 
-Edita `.env` y agrega tus credenciales de Supabase:
+Edita `.env.local` y agrega tus credenciales de Supabase:
 
 ```env
-VITE_SUPABASE_URL=tu_url_de_supabase
+VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=tu_clave_anonima_de_supabase
+VITE_SITE_URL=http://localhost:5173
 ```
+
+**📖 Para más detalles, consulta la [Guía de Integración Completa](./INTEGRACION-FRONTEND-BACKEND-SUPABASE.md)**
 
 ### 2. Configurar Supabase
 
@@ -84,9 +87,17 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
 
 ## 📚 Documentación
 
-- [🚀 Deploy en Vercel](./DEPLOY-VERCEL.md)
+### Integración y Arquitectura
+- [🔗 Integración Frontend-Backend-Supabase](./INTEGRACION-FRONTEND-BACKEND-SUPABASE.md) ⭐ **NUEVO**
 - [🌐 Configuración del Dominio](./CONFIGURACION-DOMINIO.md)
 - [Configuración de Supabase](./SUPABASE-CONFIG.md)
+- [Conexión Inteligente](./CONEXION-INTELIGENTE.md)
+
+### Deployment
+- [🚀 Deploy en Vercel](./DEPLOY-VERCEL.md)
+- [Deploy Quick Start](./DEPLOY-QUICK-START.md)
+
+### Features y Funcionalidades
 - [PRD - Documento de Requisitos](./PRD.md)
 - [Sistema de Descuentos](./SISTEMA-DESCUENTOS.md)
 - [Sistema de Pagos](./SISTEMA-PAGOS.md)
@@ -102,17 +113,41 @@ El proyecto utiliza **Supabase** como backend, incluyendo:
    - Configura las variables de entorno
 
 2. **Variables de Entorno en Vercel:**
+   
+   **⚠️ IMPORTANTE**: Configura estas variables en Vercel Dashboard antes del primer deploy:
+   
    ```
-   VITE_SUPABASE_URL=https://cgfpwlqnhgclzzaiqhwz.supabase.co
-   VITE_SUPABASE_ANON_KEY=tu_clave_aqui
+   Variable: VITE_SUPABASE_URL
+   Value: https://cgfpwlqnhgclzzaiqhwz.supabase.co
+   Environments: ✓ Production ✓ Preview ✓ Development
+   
+   Variable: VITE_SUPABASE_ANON_KEY
+   Value: tu_clave_aqui
+   Environments: ✓ Production ✓ Preview ✓ Development
+   
+   Variable: VITE_SITE_URL
+   Value: https://www.hogarbelen.org
+   Environments: ✓ Production
    ```
+   
+   **Cómo agregar variables:**
+   - Settings → Environment Variables → Add New
+   - Ingresa el nombre y valor
+   - Selecciona los ambientes apropiados
+   - Clic en "Save"
+   - **Redeploy** el proyecto para aplicar cambios
 
-3. **Configura el dominio:**
+3. **Deploy Automático:**
+   - ✅ Cada push a `main` → Deploy automático a Production
+   - ✅ Cada Pull Request → Preview deployment automático
+   - ✅ Logs disponibles en tiempo real
+
+4. **Configura el dominio:**
    - Settings → Domains
    - Agrega: `www.hogarbelen.org`
    - Configura DNS según instrucciones
 
-**📖 Guía completa:** [DEPLOY-VERCEL.md](./DEPLOY-VERCEL.md)
+**📖 Guía completa:** [DEPLOY-VERCEL.md](./DEPLOY-VERCEL.md) | [Integración Completa](./INTEGRACION-FRONTEND-BACKEND-SUPABASE.md)
 
 ---
 
