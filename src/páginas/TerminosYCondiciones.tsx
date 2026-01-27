@@ -1,8 +1,10 @@
-import { FileText } from '@phosphor-icons/react';
+import { FileText, ArrowLeft } from '@phosphor-icons/react';
+import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 interface TerminosYCondicionesProps {
-  setPage: (page: string) => void;
+  setPage?: (page: string) => void; // Made optional for backward compatibility
 }
 
 const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
@@ -163,12 +165,12 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
               </h2>
               <p className="text-foreground/80 leading-relaxed mb-3">
                 El tratamiento de datos personales se rige por nuestra{' '}
-                <button
-                  onClick={() => setPage('politica-privacidad')}
+                <Link
+                  to="/politica-de-privacidad"
                   className="text-primary hover:underline font-medium"
                 >
                   Política de Privacidad
-                </button>
+                </Link>
                 , conforme a la Ley 1581 de 2012.
               </p>
               <p className="text-foreground/80 leading-relaxed">
@@ -235,12 +237,13 @@ const TerminosYCondiciones = ({ setPage }: TerminosYCondicionesProps) => {
           </div>
 
           <div className="mt-12 pt-8 border-t border-border">
-            <button
-              onClick={() => setPage('home')}
-              className="text-primary hover:text-primary-600 font-medium transition-colors"
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-primary hover:text-primary-600 font-medium transition-colors"
             >
-              ← Volver al inicio
-            </button>
+              <ArrowLeft size={20} />
+              Volver al inicio
+            </Link>
           </div>
         </Card>
       </div>

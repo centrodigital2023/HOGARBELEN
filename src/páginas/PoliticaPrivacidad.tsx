@@ -1,8 +1,9 @@
-import { ShieldCheck } from '@phosphor-icons/react';
+import { ShieldCheck, ArrowLeft } from '@phosphor-icons/react';
+import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 
 interface PoliticaPrivacidadProps {
-  setPage: (page: string) => void;
+  setPage?: (page: string) => void; // Made optional for backward compatibility
 }
 
 const PoliticaPrivacidad = ({ setPage }: PoliticaPrivacidadProps) => {
@@ -224,20 +225,21 @@ const PoliticaPrivacidad = ({ setPage }: PoliticaPrivacidadProps) => {
           </div>
 
           <div className="mt-12 pt-8 border-t border-border">
-            <div className="flex gap-4">
-              <button
-                onClick={() => setPage('home')}
-                className="text-primary hover:text-primary-600 font-medium transition-colors"
+            <div className="flex gap-4 items-center">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary-600 font-medium transition-colors"
               >
-                ← Volver al inicio
-              </button>
+                <ArrowLeft size={20} />
+                Volver al inicio
+              </Link>
               <span className="text-muted-foreground">|</span>
-              <button
-                onClick={() => setPage('terminos-condiciones')}
+              <Link
+                to="/terminos-y-condiciones"
                 className="text-primary hover:text-primary-600 font-medium transition-colors"
               >
                 Ver Términos y Condiciones
-              </button>
+              </Link>
             </div>
           </div>
         </Card>

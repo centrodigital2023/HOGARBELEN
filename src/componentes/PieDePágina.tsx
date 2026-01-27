@@ -1,8 +1,9 @@
 import { Heart, Phone, Mail, MessageCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import logoHogarBelen from '@/assets/images/Logo_hogar_belen1.png';
 
 interface PieDePáginaProps {
-  setPage: (page: string) => void;
+  setPage?: (page: string) => void; // Made optional for backward compatibility
 }
 
 const PieDePágina = ({ setPage }: PieDePáginaProps) => {
@@ -26,28 +27,28 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
             <h4 className="text-white font-semibold mb-4">Empresa</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <button 
-                  onClick={() => setPage('about')}
+                <Link 
+                  to="/about"
                   className="hover:text-teal-400 transition-colors cursor-pointer"
                 >
                   Nosotros
-                </button>
+                </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => setPage('contact')}
+                <Link 
+                  to="/contact"
                   className="hover:text-teal-400 transition-colors cursor-pointer"
                 >
                   Contacto
-                </button>
+                </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => setPage('centro-vida')}
+                <Link 
+                  to="/centro-vida"
                   className="hover:text-teal-400 transition-colors cursor-pointer"
                 >
                   Centro Vida
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -56,22 +57,22 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
             <h4 className="text-white font-semibold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <button 
-                  onClick={() => setPage('terminos-condiciones')}
+                <Link 
+                  to="/terminos-y-condiciones"
                   className="hover:text-teal-400 transition-colors cursor-pointer"
                 >
                   Términos y Condiciones
-                </button>
+                </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => setPage('politica-privacidad')}
+                <Link 
+                  to="/politica-de-privacidad"
                   className="hover:text-teal-400 transition-colors cursor-pointer"
                 >
                   Política de Privacidad
-                </button>
+                </Link>
               </li>
-              <li className="hover:text-teal-400 transition-colors cursor-pointer">
+              <li className="hover:text-teal-400 transition-colors cursor-pointer text-gray-500">
                 Cookies
               </li>
             </ul>
@@ -175,12 +176,12 @@ const PieDePágina = ({ setPage }: PieDePáginaProps) => {
         <div className="border-t border-gray-800 mt-8 pt-8 text-sm text-gray-400">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p>&copy; 2024 Hogar Belén. Todos los derechos reservados.</p>
-            <button
-              onClick={() => setPage('admin-login')}
+            <Link
+              to="/admin/login"
               className="text-gray-600 hover:text-gray-400 transition-colors text-xs"
             >
               Administrador del sitio · Hogar Belén
-            </button>
+            </Link>
           </div>
         </div>
       </div>
