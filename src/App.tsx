@@ -6,6 +6,7 @@ import LoadingFallback from './components/LoadingFallback';
 import SEOHead from './components/SEOHead';
 import AdminSetupInitializer from './components/AdminSetupInitializer';
 import { Toaster } from 'sonner';
+import { AuthProvider } from './contextos/SupabaseAuthContext';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
@@ -88,28 +89,30 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <AdminSetupInitializer />
-      <SEOHead page={currentPage} />
-      <Toaster position="top-right" expand={true} richColors />
-      
-      <Navigation 
-        setPage={setCurrentPage}
-        currentPage={currentPage}
-        isAuthenticated={isAuthenticated}
-        userRole={userRole}
-        onLogout={handleLogout}
-        isAdminAuthenticated={isAdminAuthenticated}
-      />
-      
-      <main className="flex-1">
-        <Suspense fallback={<LoadingFallback />}>
-          {renderPage()}
-        </Suspense>
-      </main>
-      
-      <Footer setPage={setCurrentPage} />
-    </div>
+    <AuthProvider>
+      <div className="min-h-screen flex flex-col bg-background">
+        <AdminSetupInitializer />
+        <SEOHead page={currentPage} />
+        <Toaster position="top-right" expand={true} richColors />
+        
+        <Navigation 
+          setPage={setCurrentPage}
+          currentPage={currentPage}
+          isAuthenticated={isAuthenticated}
+          userRole={userRole}
+          onLogout={handleLogout}
+          isAdminAuthenticated={isAdminAuthenticated}
+        />
+        
+        <main className="flex-1">
+          <Suspense fallback={<LoadingFallback />}>
+            {renderPage()}
+          </Suspense>
+        </main>
+        
+        <Footer setPage={setCurrentPage} />
+      </div>
+    </AuthProvider>
   );
 }
 
