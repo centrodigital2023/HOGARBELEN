@@ -1,4 +1,4 @@
-export const LoadingFallback = () => {
+export default function LoadingFallback() {
   return (
     <div className="h-screen flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
@@ -10,4 +10,4 @@ export const LoadingFallback = () => {
       </div>
     </div>
   );
-};
+}

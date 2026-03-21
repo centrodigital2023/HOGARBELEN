@@ -1,39 +1,40 @@
 import { useState } from 'react';
-import { Heart, Menu, X, LogOut, ChevronDown, Home, Users, Briefcase, Building, UserPlus } from 'lucide-react';
+import { Heart, Menu, X, LogOut, ChevronDown, Home, Users, Briefcase, Building, UserPlus, Shield } from 'lucide-react';
 import { Button } from './ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Badge } from './ui/badge';
 import { toast } from 'sonner';
-import type { User } from '../App';
 import logoHogarBelen from '@/assets/images/1c34217cb2391e5e8a9b6dfb6883af4b.png';
 
 interface NavigationProps {
   setPage: (page: string) => void;
-  user: User | null;
-  setUser: (user: User | null) => void;
   currentPage: string;
+  isAuthenticated: boolean;
+  userRole: string;
+  onLogout: () => void;
+  isAdminAuthenticated: boolean;
 }
 
-export default function Navigation({ setPage, user, setUser, currentPage }: NavigationProps) {
+export default function Navigation({ setPage, currentPage, isAuthenticated, userRole, onLogout, isAdminAuthenticated }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [serviciosDropdownOpen, setServiciosDropdownOpen] = useState(false);
   const [belenConectaDropdownOpen, setBelenConectaDropdownOpen] = useState(false);
 
   const handleLogout = () => {
-    setUser(null);
-    setPage('home');
+    onLogout();
     toast.success('Sesión cerrada correctamente');
     setMobileMenuOpen(false);
   };
 
   const serviciosMenu = [
-    { id: 'centro-vida', label: 'Centro Vida', icon: Home },
-    { id: 'professionals', label: 'Profesionales', icon: Users },
-    { id: 'jobs', label: 'Ofertas de Trabajo', icon: Briefcase },
+    { id: 'servicio-cuidado-residencial', label: 'Centro Vida', icon: Home },
+    { id: 'services', label: 'Profesionales', icon: Users },
+    { id: 'servicio-dulce-hogar', label: 'Dulce Hogar', icon: Heart },
   ];
 
   const belenConectaMenu = [
-    { id: 'family-platform', label: 'Para Familias', icon: Heart },
-    { id: 'professional-platform', label: 'Para Profesionales', icon: UserPlus },
+    { id: 'servicio-belen-conecta', label: 'Para Familias', icon: Heart },
+    { id: 'registro-profesional', label: 'Para Profesionales', icon: UserPlus },
   ];
 
   return (
@@ -153,22 +154,39 @@ export default function Navigation({ setPage, user, setUser, currentPage }: Navi
               )}
             </div>
 
-            {user ? (
+            {isAuthenticated ? (
               <div className="flex items-center gap-4 border-l pl-4 ml-4">
+                {isAdminAuthenticated && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPage('admin')}
+                    className="gap-2"
+                  >
+                    <Shield size={16} />
+                    Panel Admin
+                  </Button>
+                )}
                 <button
-                  onClick={() => setPage('dashboard')}
+                  onClick={() => {
+                    if (userRole === 'family') {
+                      setPage('family-dashboard');
+                    } else if (userRole === 'professional') {
+                      setPage('professional-dashboard');
+                    } else {
+                      setPage('home');
+                    }
+                  }}
                   className="flex items-center gap-3 hover:bg-muted rounded-lg p-2 transition-colors"
                 >
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={user.photoUrl} />
-                    <AvatarFallback>{user.fullName.charAt(0)}</AvatarFallback>
+                    <AvatarFallback>
+                      {userRole === 'family' ? 'F' : userRole === 'professional' ? 'P' : 'U'}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="text-left">
-                    <p className="font-semibold text-sm text-foreground">
-                      {user.fullName}
-                    </p>
                     <p className="text-xs text-muted-foreground capitalize">
-                      {user.role === 'professional' ? 'Profesional' : 'Familia'}
+                      {userRole === 'professional' ? 'Profesional' : userRole === 'family' ? 'Familia' : 'Usuario'}
                     </p>
                   </div>
                 </button>
@@ -273,7 +291,7 @@ export default function Navigation({ setPage, user, setUser, currentPage }: Navi
               ))}
             </div>
 
-            {!user ? (
+            {!isAuthenticated ? (
               <div className="px-4 pt-2 space-y-2 border-t">
                 <Button
                   onClick={() => {
@@ -297,9 +315,26 @@ export default function Navigation({ setPage, user, setUser, currentPage }: Navi
               </div>
             ) : (
               <div className="px-4 pt-2 space-y-2 border-t">
+                {isAdminAuthenticated && (
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setPage('admin');
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full gap-2"
+                  >
+                    <Shield size={16} />
+                    Panel Admin
+                  </Button>
+                )}
                 <button
                   onClick={() => {
-                    setPage('dashboard');
+                    if (userRole === 'family') {
+                      setPage('family-dashboard');
+                    } else if (userRole === 'professional') {
+                      setPage('professional-dashboard');
+                    }
                     setMobileMenuOpen(false);
                   }}
                   className="block w-full text-left px-4 py-2 text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
