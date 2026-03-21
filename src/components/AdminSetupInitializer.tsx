@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { setupAdminUser, verifyAdminSetup } from '@/lib/admin-setup';
 
-export const AdminSetupInitializer = () => {
+const AdminSetupInitializer = () => {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
@@ -24,3 +24,5 @@ export const AdminSetupInitializer = () => {
 
   return null;
 };
+
+export default AdminSetupInitializer;
