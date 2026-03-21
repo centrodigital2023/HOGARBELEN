@@ -1,10 +1,22 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Suspense, lazy } from 'react'
 
-// Lazy load pages from src/páginas/
+// Import from src/pages/ (English names)
+const HomePage = lazy(() => import('./pages/HomePage'))
+const AboutPage = lazy(() => import('./pages/AboutPage'))
+const ContactPage = lazy(() => import('./pages/ContactPage'))
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const RegisterPage = lazy(() => import('./pages/RegisterPage'))
+const PricingPage = lazy(() => import('./pages/PricingPage'))
+const ServicesPage = lazy(() => import('./pages/ServicesPage'))
+const SuperAdminDashboard = lazy(() => import('./pages/SuperAdminDashboard'))
+const ServicioDulceHogar = lazy(() => import('./pages/ServicioDulceHogar'))
+const ServicioBelenConecta = lazy(() => import('./pages/ServicioBelenConecta'))
+
+// Import from src/páginas/ (Spanish names - primary system)
 const PáginaPrincipal = lazy(() => import('./páginas/PáginaPrincipal'))
-const AboutPage = lazy(() => import('./páginas/AboutPage'))
-const ContactPage = lazy(() => import('./páginas/ContactPage'))
+const AboutPageES = lazy(() => import('./páginas/AboutPage'))
+const ContactPageES = lazy(() => import('./páginas/ContactPage'))
 
 // Admin pages
 const AdminLogin = lazy(() => import('./páginas/AdminLogin'))
@@ -19,7 +31,6 @@ const AdminContent = lazy(() => import('./páginas/AdminContent'))
 const AdminAuditLog = lazy(() => import('./páginas/AdminAuditLog'))
 const AdminAIClassifications = lazy(() => import('./páginas/AdminAIClassifications'))
 const AdminPromoCodes = lazy(() => import('./páginas/AdminPromoCodes'))
-const SuperAdminDashboard = lazy(() => import('./páginas/SuperAdminDashboard'))
 
 // Family pages
 const FamilyDashboard = lazy(() => import('./páginas/FamilyDashboard'))
@@ -52,8 +63,11 @@ const AICareAssistant = lazy(() => import('./páginas/AICareAssistant'))
 
 // Loading component
 const LoadingSpinner = () => (
-  <div className="flex items-center justify-center min-h-screen">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+  <div className="flex items-center justify-center min-h-screen bg-background">
+    <div className="flex flex-col items-center gap-4">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      <p className="text-muted-foreground">Cargando...</p>
+    </div>
   </div>
 )
 
