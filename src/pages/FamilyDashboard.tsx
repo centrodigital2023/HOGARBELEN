@@ -17,7 +17,11 @@ import {
   Zap,
   Loader2,
   CreditCard,
+  Activity,
+  SlidersHorizontal,
 } from 'lucide-react';
+import VitalSignsDashboard from '../components/VitalSignsDashboard';
+import ThresholdsConfig from '../components/ThresholdsConfig';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
@@ -181,10 +185,14 @@ export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps)
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <Tabs defaultValue="overview" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-6 lg:w-auto lg:inline-grid">
+          <TabsList className="grid w-full grid-cols-7 lg:w-auto lg:inline-grid">
             <TabsTrigger value="overview" className="gap-2">
               <Heart size={16} />
               <span className="hidden sm:inline">Resumen</span>
+            </TabsTrigger>
+            <TabsTrigger value="monitoreo" className="gap-2">
+              <Activity size={16} />
+              <span className="hidden sm:inline">Monitoreo</span>
             </TabsTrigger>
             <TabsTrigger value="professionals" className="gap-2">
               <Users size={16} />
@@ -293,6 +301,38 @@ export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps)
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          {/* ── Monitoreo de signos vitales ─────────────────────────────────── */}
+          <TabsContent value="monitoreo" className="space-y-6">
+            <Tabs defaultValue="vitals" className="space-y-4">
+              <TabsList>
+                <TabsTrigger value="vitals" className="gap-2">
+                  <Activity size={14} />
+                  Signos vitales
+                </TabsTrigger>
+                <TabsTrigger value="alertas" className="gap-2">
+                  <SlidersHorizontal size={14} />
+                  Configurar alertas
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="vitals">
+                <VitalSignsDashboard
+                  patientId="demo-patient-001"
+                  patientName={user?.fullName || 'Paciente'}
+                  serviceId="demo-service-001"
+                />
+              </TabsContent>
+
+              <TabsContent value="alertas">
+                <ThresholdsConfig
+                  patientId="demo-patient-001"
+                  familyId="demo-family-001"
+                  patientName={user?.fullName || 'Paciente'}
+                />
+              </TabsContent>
+            </Tabs>
           </TabsContent>
 
           <TabsContent value="professionals" className="space-y-6">

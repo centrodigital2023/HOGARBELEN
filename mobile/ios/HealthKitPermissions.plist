@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Copiar estas claves dentro del <dict> principal de ios/HumanixApp/Info.plist
+-->
+<plist version="1.0">
+<dict>
+
+  <!-- ── HealthKit ─────────────────────────────────────────── -->
+  <key>NSHealthShareUsageDescription</key>
+  <string>Humanix necesita leer tus signos vitales para monitorear al paciente en tiempo real y alertar a la familia en caso de emergencia.</string>
+
+  <key>NSHealthUpdateUsageDescription</key>
+  <string>Humanix puede registrar eventos de cuidado en tu historial de Salud.</string>
+
+  <!-- ── Ubicación ──────────────────────────────────────────── -->
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>Humanix usa tu ubicación para la función SOS y para verificar la llegada al domicilio del paciente.</string>
+
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>Humanix usa tu ubicación en segundo plano durante el turno activo para la función SOS de emergencia.</string>
+
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>Humanix usa tu ubicación en segundo plano durante el turno activo para la función SOS de emergencia.</string>
+
+  <!-- ── Background modes ───────────────────────────────────── -->
+  <key>UIBackgroundModes</key>
+  <array>
+    <string>fetch</string>
+    <string>processing</string>
+    <string>location</string>
+    <string>remote-notification</string>
+  </array>
+
+  <!-- ── BGTaskScheduler (iOS 13+) ─────────────────────────── -->
+  <key>BGTaskSchedulerPermittedIdentifiers</key>
+  <array>
+    <string>com.humanix.vitals-sync</string>
+  </array>
+
+</dict>
+</plist>

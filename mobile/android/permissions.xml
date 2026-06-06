@@ -1,0 +1,42 @@
+<!--
+  Copiar estos <uses-permission> dentro de <manifest> en
+  android/app/src/main/AndroidManifest.xml
+  (antes de la etiqueta <application>)
+-->
+
+<!-- ── Google Health Connect ─────────────────────────────────────────── -->
+<uses-permission android:name="android.permission.health.READ_HEART_RATE"/>
+<uses-permission android:name="android.permission.health.READ_STEPS"/>
+<uses-permission android:name="android.permission.health.READ_BLOOD_OXYGEN"/>
+<uses-permission android:name="android.permission.health.READ_BODY_TEMPERATURE"/>
+<uses-permission android:name="android.permission.health.READ_RESPIRATORY_RATE"/>
+<uses-permission android:name="android.permission.health.READ_BLOOD_PRESSURE"/>
+<uses-permission android:name="android.permission.health.READ_HEART_RATE_VARIABILITY"/>
+
+<!-- ── Ubicación ──────────────────────────────────────────────────────── -->
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
+<!-- ── Servicios en segundo plano ────────────────────────────────────── -->
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE_HEALTH"/>
+<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+
+<!-- ── Notificaciones push ───────────────────────────────────────────── -->
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+<uses-permission android:name="android.permission.VIBRATE"/>
+<uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+<!--
+  Dentro de <application>, agregar también:
+
+  <activity
+    android:name="androidx.health.connect.client.PermissionController"
+    android:exported="true" />
+
+  <service
+    android:name="com.transistorsoft.rnbackgroundfetch.BackgroundFetchHeadlessTask"
+    android:exported="false" />
+-->
