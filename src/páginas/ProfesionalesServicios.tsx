@@ -1,11 +1,14 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, MapPin, Zap, Loader2, MessageCircle, CheckCircle, XCircle, MinusCircle, UserCheck, NotebookText } from 'lucide-react';
+import { Star, MapPin, Zap, Loader2, MessageCircle, CheckCircle, XCircle, MinusCircle, UserCheck, NotebookText, Navigation } from 'lucide-react';
 import { Clock } from '@phosphor-icons/react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { useKV } from '@github/spark/hooks';
+import { toast } from 'sonner';
 import OptimizedImage from '@/components/OptimizedImage';
+import LiveMapProfessionals from '@/components/LiveMapProfessionals';
 
 const dayRangeMap: Record<string, number | number[]> = {
   'Lun': 1, 'Mar': 2, 'Mie': 3, 'Jue': 4, 'Vie': 5, 'Sáb': 6, 'Dom': 7,
@@ -272,11 +275,35 @@ export default function ProfesionalesServicios() {
   const [aiSummary, setAiSummary] = useState<{ id: number; text: string; sources: any[] } | null>(null);
   const [loadingId, setLoadingId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [proForContact, setProForContact] = useState<Professional | null>(null);
   const [contactPlan, setContactPlan] = useState<ContactPlan | null>(null);
   const [isContactLoading, setIsContactLoading] = useState(false);
   const [contactError, setContactError] = useState<string | null>(null);
+  const [userCity, setUserCity] = useState<string | null>(null);
+
+  // Auto-presencia: captura ubicación en segundo plano para saber en qué ciudad está el usuario
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        // Reverse geocode con nominatim (sin key, uso libre)
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=es`)
+          .then(r => r.json())
+          .then(data => {
+            const city = data.address?.city || data.address?.town || data.address?.municipality || data.address?.county;
+            if (city) {
+              setUserCity(city);
+              toast.success(`Ubicación detectada: ${city}`, { description: 'Mostrando profesionales cerca de ti', duration: 3000 });
+            }
+          })
+          .catch(() => {});
+      },
+      () => {},
+      { timeout: 8000, maximumAge: 300000 }
+    );
+  }, []);
 
   useEffect(() => {
     const approved = (approvedProfessionals || []).filter(p => p.status === 'approved' && p.verified);
@@ -386,7 +413,7 @@ export default function ProfesionalesServicios() {
     setContactPlan(null);
     setContactError(null);
     setIsContactLoading(true);
-    setIsModalOpen(true);
+    setIsSheetOpen(true);
 
     const prompt = (window as any).spark.llmPrompt`Profesional: ${pro.name}, Rol: ${pro.role}, Especialidad: ${pro.role}, Categoría: ${pro.category}. Genera un plan de contacto en español con un mensaje inicial de WhatsApp profesional (máximo 3 líneas) y 3 preguntas clave que el usuario debe hacer para evaluar al profesional.`;
     
@@ -535,26 +562,44 @@ export default function ProfesionalesServicios() {
     );
   };
 
+  // Construye lista de pines para el mapa con estado calculado
+  const mapPins = filteredPros.map(pro => ({
+    id: pro.id,
+    name: pro.name,
+    role: pro.role,
+    status: getCalculatedStatus(pro.schedule).status,
+    location: pro.location,
+  }));
+
   return (
     <div className="bg-gray-50 min-h-screen p-4 sm:p-8 font-sans">
-      <header className="mb-8">
-        <h1 className="text-3xl sm:text-4xl font-black text-indigo-800 flex items-center">
-          <UserCheck className="w-7 h-7 mr-3" />
+      <header className="mb-6">
+        <h1 className="text-3xl sm:text-4xl font-black text-indigo-800 flex items-center gap-3">
+          <UserCheck className="w-7 h-7" />
           Profesionales Cerca de Usted
+          {userCity && (
+            <Badge className="bg-green-100 text-green-700 border-green-200 font-medium text-sm ml-2">
+              <Navigation className="w-3 h-3 mr-1" />
+              {userCity}
+            </Badge>
+          )}
         </h1>
         <p className="text-lg text-gray-600 mt-1">Encuentra y valida enfermeros, cuidadores, médicos y terapeutas en Colombia.</p>
       </header>
-      
+
+      {/* Mapa en vivo */}
+      <div className="mb-8">
+        <LiveMapProfessionals professionals={mapPins} />
+      </div>
+
+      {/* Filtros */}
       <div className="mb-8 p-4 bg-white rounded-xl shadow-lg border border-gray-100 flex flex-wrap gap-2 sticky top-0 z-10">
         <span className="font-bold text-gray-700 self-center mr-2">Filtrar por:</span>
         {filters.map(f => (
-          <Button 
+          <Button
             key={f}
             variant={filter === f ? 'default' : 'secondary'}
-            onClick={() => {
-              setFilter(f);
-              setAiSummary(null);
-            }}
+            onClick={() => { setFilter(f); setAiSummary(null); }}
             className={`transition-all duration-200 text-sm ${f === 'Disponible Ahora' && (filter === 'Disponible Ahora' ? 'bg-green-600 hover:bg-green-700' : 'text-green-700 hover:bg-green-100')}`}
           >
             {f}
@@ -582,18 +627,83 @@ export default function ProfesionalesServicios() {
       </motion.div>
 
       <footer className="mt-12 text-center text-sm text-gray-500 p-4">
-        <p>La validación con IA utiliza el modelo GPT-4 para generar un resumen fáctico basado en información disponible. Los estados de disponibilidad se calculan en tiempo real usando el horario local de tu navegador.</p>
+        <p>La validación con IA utiliza el modelo GPT-4 para generar un resumen fáctico. Los estados de disponibilidad se calculan en tiempo real usando el horario local de tu navegador.</p>
       </footer>
 
-      <ContactPlanModal 
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        professional={proForContact}
-        contactPlan={contactPlan}
-        loading={isContactLoading}
-        error={contactError}
-        onStartChat={(pro, message) => contactViaWhatsApp(pro, getCalculatedStatus(pro.schedule).status, message)}
-      />
+      {/* Sheet lateral — reemplaza el modal bloqueante */}
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+        <SheetContent side="right" className="w-full sm:max-w-lg overflow-y-auto">
+          <SheetHeader className="mb-4">
+            <SheetTitle className="text-indigo-700 flex items-center gap-2">
+              <NotebookText className="w-5 h-5 text-purple-600" />
+              Plan de Contacto ✨
+            </SheetTitle>
+            {proForContact && (
+              <SheetDescription>
+                Estrategia de contacto para <strong>{proForContact.name}</strong> — {proForContact.role}
+              </SheetDescription>
+            )}
+          </SheetHeader>
+
+          {isContactLoading && (
+            <div className="flex flex-col items-center justify-center py-16 text-gray-500 gap-3">
+              <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
+              <p className="font-semibold">Generando estrategia de contacto...</p>
+              <p className="text-sm">Esto puede tomar unos segundos.</p>
+            </div>
+          )}
+
+          {contactError && !isContactLoading && (
+            <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg">
+              <p className="font-semibold">Error:</p>
+              <p className="text-sm">{contactError}</p>
+            </div>
+          )}
+
+          {contactPlan && !isContactLoading && (
+            <div className="space-y-6">
+              <div className="bg-purple-50 p-4 rounded-xl border border-purple-200">
+                <h4 className="font-bold text-purple-700 flex items-center mb-2">
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  Mensaje Inicial Sugerido:
+                </h4>
+                <div className="bg-white p-3 rounded-lg border border-gray-100 shadow-inner">
+                  <p className="text-sm text-gray-800 whitespace-pre-line">{contactPlan.initialMessage}</p>
+                </div>
+                <p className="text-xs text-purple-600 mt-2">Copia y pega en WhatsApp para un primer contacto efectivo.</p>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-indigo-700 flex items-center mb-3">
+                  <NotebookText className="w-5 h-5 mr-2" />
+                  3 Preguntas Clave:
+                </h4>
+                <ul className="space-y-2 text-gray-700">
+                  {contactPlan.keyQuestions.map((q: string, index: number) => (
+                    <li key={index} className="flex items-start">
+                      <span className="font-bold text-purple-600 mr-2 flex-shrink-0">{index + 1}.</span>
+                      <p className="text-sm">{q}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <Button
+                className="w-full bg-green-500 hover:bg-green-600"
+                onClick={() => {
+                  if (proForContact) {
+                    contactViaWhatsApp(proForContact, getCalculatedStatus(proForContact.schedule).status, contactPlan.initialMessage);
+                  }
+                  setIsSheetOpen(false);
+                }}
+              >
+                <MessageCircle className="w-5 h-5 mr-2" />
+                Iniciar Chat en WhatsApp
+              </Button>
+            </div>
+          )}
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

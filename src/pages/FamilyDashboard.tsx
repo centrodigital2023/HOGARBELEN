@@ -19,7 +19,10 @@ import {
   CreditCard,
   Activity,
   SlidersHorizontal,
+  Phone,
+  AlertTriangle,
 } from 'lucide-react';
+import { toast } from 'sonner';
 import VitalSignsDashboard from '../components/VitalSignsDashboard';
 import ThresholdsConfig from '../components/ThresholdsConfig';
 import { Button } from '../components/ui/button';
@@ -32,10 +35,14 @@ import SubscriptionManager from '../components/SubscriptionManager';
 import UpgradeBanner from '../components/UpgradeBanner';
 import { BookingCalendar } from '../components/BookingCalendar';
 import { AppointmentsView } from '../components/AppointmentsView';
-import type { User } from '../App';
+interface User {
+  fullName?: string;
+  photoUrl?: string;
+  plan?: string;
+}
 
 interface FamilyDashboardProps {
-  user: User | null;
+  user?: User | null;
   setPage: (page: string) => void;
 }
 
@@ -59,6 +66,40 @@ export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps)
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
   const [bookingProfessional, setBookingProfessional] = useState<Professional | null>(null);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [sosConfirm, setSosConfirm] = useState(false);
+  const [sosSending, setSosSending] = useState(false);
+
+  const handleSOS = () => {
+    if (!sosConfirm) { setSosConfirm(true); return; }
+    setSosSending(true);
+    setSosConfirm(false);
+
+    const sendAlert = (lat: number | null, lon: number | null) => {
+      const locationText = lat && lon
+        ? `Mi ubicación: https://maps.google.com/?q=${lat},${lon}`
+        : 'Ubicación no disponible';
+      const msg = encodeURIComponent(
+        `🆘 *EMERGENCIA — Hogar Belén*\n${locationText}\nNecesito ayuda urgente con mi familiar. Por favor contactar de inmediato.`
+      );
+      window.open(`https://wa.me/?text=${msg}`, '_blank');
+      toast.error('🆘 Alerta SOS enviada', {
+        description: 'Se abrió WhatsApp con la alerta de emergencia. Contacta también al profesional asignado.',
+        duration: 8000,
+      });
+      setSosSending(false);
+    };
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => sendAlert(pos.coords.latitude, pos.coords.longitude),
+        () => sendAlert(null, null),
+        { timeout: 6000 }
+      );
+    } else {
+      sendAlert(null, null);
+    }
+  };
 
   const professionals: Professional[] = [
     {
@@ -184,7 +225,7 @@ export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps)
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <Tabs defaultValue="overview" className="space-y-8">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
           <TabsList className="grid w-full grid-cols-7 lg:w-auto lg:inline-grid">
             <TabsTrigger value="overview" className="gap-2">
               <Heart size={16} />
@@ -239,6 +280,34 @@ export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps)
                 </Card>
               ))}
             </div>
+
+            {/* Seguimiento en tiempo real — tarjeta destacada */}
+            <Card
+              className="border-2 border-red-200 bg-gradient-to-r from-red-50 to-pink-50 cursor-pointer hover:shadow-lg transition-all"
+              onClick={() => setActiveTab('monitoreo')}
+            >
+              <CardContent className="pt-5">
+                <div className="flex items-center justify-between flex-wrap gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center animate-pulse">
+                      <Activity size={28} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg text-red-800">Seguimiento de Paciente en Vivo</h3>
+                      <p className="text-sm text-red-600">Signos vitales · alertas · SOS — ver datos en tiempo real</p>
+                    </div>
+                  </div>
+                  <Button
+                    size="sm"
+                    className="bg-red-600 hover:bg-red-700 text-white gap-2"
+                    onClick={(e) => { e.stopPropagation(); setActiveTab('monitoreo'); }}
+                  >
+                    <Activity size={14} />
+                    Abrir Monitoreo
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Health Metrics */}
             <Card>
@@ -460,6 +529,54 @@ export default function FamilyDashboard({ user, setPage }: FamilyDashboardProps)
           onClose={() => setBookingProfessional(null)}
         />
       )}
+
+      {/* Botón SOS flotante */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
+        {sosConfirm && (
+          <div className="bg-white border-2 border-red-500 rounded-2xl shadow-2xl p-4 max-w-xs animate-in slide-in-from-bottom-4">
+            <div className="flex items-center gap-2 mb-2">
+              <AlertTriangle size={18} className="text-red-600" />
+              <p className="font-bold text-red-700 text-sm">¿Confirmar emergencia?</p>
+            </div>
+            <p className="text-xs text-gray-600 mb-3">
+              Se enviará tu ubicación por WhatsApp a los contactos de emergencia y al profesional asignado.
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={handleSOS}
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white text-sm font-bold py-2 rounded-lg transition-colors"
+              >
+                Sí, enviar SOS
+              </button>
+              <button
+                onClick={() => setSosConfirm(false)}
+                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm py-2 rounded-lg transition-colors"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        )}
+
+        <button
+          onClick={handleSOS}
+          disabled={sosSending}
+          className={`flex items-center gap-2 px-5 py-3 rounded-full shadow-2xl font-bold text-white text-sm transition-all
+            ${sosSending
+              ? 'bg-red-400 cursor-not-allowed'
+              : sosConfirm
+              ? 'bg-red-700 scale-110 ring-4 ring-red-300 animate-pulse'
+              : 'bg-red-600 hover:bg-red-700 hover:scale-105 active:scale-95'
+            }`}
+        >
+          {sosSending ? (
+            <Loader2 size={18} className="animate-spin" />
+          ) : (
+            <Phone size={18} />
+          )}
+          SOS Emergencia
+        </button>
+      </div>
     </div>
   );
 }

@@ -45,13 +45,15 @@ interface FormData {
   dias_disponibles: string[];
   horario_atencion: string;
   descripcion_profesional: string;
-  
+
   documento_cedula: string | null;
   documento_hoja_vida: string | null;
   documento_antecedentes: string | null;
   requiere_tarjeta_profesional: boolean;
   numero_tarjeta_profesional: string;
-  
+  numero_rethus: string;
+  documento_sgsst: string | null;
+
   acepta_terminos: boolean;
   acepta_datos: boolean;
   acepta_foto: boolean;
@@ -125,6 +127,8 @@ export default function RegistroProfesionalInteligente({ setPage }: RegistroProf
     documento_antecedentes: null,
     requiere_tarjeta_profesional: false,
     numero_tarjeta_profesional: '',
+    numero_rethus: '',
+    documento_sgsst: null,
     acepta_terminos: false,
     acepta_datos: false,
     acepta_foto: false,
@@ -243,6 +247,8 @@ Documentos:
 - Hoja de vida: ${formData.documento_hoja_vida ? 'Adjuntada' : 'NO adjuntada'}
 - Antecedentes: ${formData.documento_antecedentes ? 'Adjuntados' : 'NO adjuntados'}
 ${formData.requiere_tarjeta_profesional ? `- Tarjeta profesional: ${formData.numero_tarjeta_profesional}` : '- Tarjeta profesional: No aplica'}
+- RETHUS: ${formData.numero_rethus || 'No proporcionado'}
+- SG-SST: ${formData.documento_sgsst ? 'Certificado adjunto' : 'No adjunto'}
 
 Genera un informe de verificación DETALLADO para el administrador que incluya:
 
@@ -778,11 +784,66 @@ Retorna SOLO un objeto JSON válido con todas estas propiedades.`;
                   </div>
                 )}
 
+                {/* RETHUS */}
+                <div className="p-4 border border-blue-200 rounded-lg bg-blue-50/50">
+                  <Label htmlFor="numero_rethus" className="text-blue-800 font-semibold">
+                    Número RETHUS (opcional para profesionales de salud)
+                  </Label>
+                  <p className="text-xs text-blue-600 mb-2">
+                    Registro del Talento Humano en Salud — aplica a médicos, enfermeros, fisioterapeutas, etc.
+                  </p>
+                  <Input
+                    id="numero_rethus"
+                    value={formData.numero_rethus}
+                    onChange={(e) => handleFieldChange('numero_rethus', e.target.value)}
+                    placeholder="Ej: ENF-2025-001234"
+                    className="bg-white"
+                  />
+                  {formData.numero_rethus && (
+                    <div className="flex items-center gap-2 mt-2 text-sm text-green-600">
+                      <CheckCircle size={16} />
+                      RETHUS registrado
+                    </div>
+                  )}
+                </div>
+
+                {/* SG-SST */}
+                <div className="p-4 border border-orange-200 rounded-lg bg-orange-50/50">
+                  <Label htmlFor="documento_sgsst" className="text-orange-800 font-semibold">
+                    Certificado SG-SST (opcional)
+                  </Label>
+                  <p className="text-xs text-orange-600 mb-2">
+                    Sistema de Gestión de Seguridad y Salud en el Trabajo — recomendado para cuidadores a domicilio.
+                  </p>
+                  <Input
+                    id="documento_sgsst"
+                    type="file"
+                    accept="application/pdf,image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          handleFieldChange('documento_sgsst', reader.result as string);
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                    className="bg-white"
+                  />
+                  {formData.documento_sgsst && (
+                    <div className="flex items-center gap-2 mt-2 text-sm text-green-600">
+                      <CheckCircle size={16} />
+                      Certificado SG-SST cargado
+                    </div>
+                  )}
+                </div>
+
                 <Alert className="bg-amber-50 border-amber-200">
                   <Sparkle className="h-4 w-4 text-amber-600" />
                   <AlertDescription>
-                    <strong>Verificación IA:</strong> La inteligencia artificial puede consultar información adicional 
-                    en web y redes sociales para generar un informe al administrador. 
+                    <strong>Verificación IA:</strong> La inteligencia artificial puede consultar información adicional
+                    en web y redes sociales para generar un informe al administrador.
                     Esta información NO es visible para el profesional.
                   </AlertDescription>
                 </Alert>
