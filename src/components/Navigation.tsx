@@ -38,7 +38,7 @@ export default function Navigation({ setPage, currentPage, isAuthenticated, user
   ];
 
   return (
-    <nav className="bg-white shadow-sm sticky top-0 z-50 border-b">
+    <nav className="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -49,22 +49,22 @@ export default function Navigation({ setPage, currentPage, isAuthenticated, user
             <img 
               src={logoHogarBelen} 
               alt="Hogar Belén Logo" 
-              className="h-12 w-12 object-contain group-hover:scale-105 transition-transform"
+              className="h-11 w-11 object-contain group-hover:scale-105 transition-transform"
             />
-            <span className="text-2xl font-bold tracking-tight">
+            <span className="text-xl font-bold tracking-tight">
               <span className="text-foreground">Hogar</span>
-              <span className="text-primary"> Belén</span>
+              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"> Belén</span>
             </span>
           </button>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-1">
             <button
               onClick={() => setPage('home')}
-              className={`text-sm font-medium transition-colors ${
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
                 currentPage === 'home'
-                  ? 'text-primary border-b-2 border-primary'
-                  : 'text-muted-foreground hover:text-primary'
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-muted-foreground hover:text-primary hover:bg-muted'
               }`}
             >
               Inicio
@@ -72,10 +72,10 @@ export default function Navigation({ setPage, currentPage, isAuthenticated, user
 
             <button
               onClick={() => setPage('about')}
-              className={`text-sm font-medium transition-colors ${
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
                 currentPage === 'about'
-                  ? 'text-primary border-b-2 border-primary'
-                  : 'text-muted-foreground hover:text-primary'
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-muted-foreground hover:text-primary hover:bg-muted'
               }`}
             >
               Nosotros

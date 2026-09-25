@@ -30,58 +30,61 @@ export default function HomePage({ setPage }: HomePageProps) {
 
 function HeroSection({ setPage }: { setPage: (page: string) => void }) {
   return (
-    <div
-      className="relative bg-gradient-to-br from-primary/10 via-background to-accent/10 py-20 overflow-hidden"
-      style={{
-        backgroundImage: 'url("https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=2000")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
-      <div className="absolute inset-0 bg-black/40" />
+    <div className="relative bg-gradient-to-br from-primary/5 via-background to-accent/5 py-24 md:py-32 overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 35px, currentColor 35px, currentColor 36px)`,
+      }} />
       
-      <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center relative z-10">
+      <div className="container-custom grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-white"
         >
-          <Badge className="mb-4 bg-white/20 text-white border-white/30 backdrop-blur-sm">
-            <Sparkles size={12} className="inline mr-1" />
-            IA Integrada
+          <Badge className="mb-6 bg-gradient-ai text-white border-0 px-4 py-1.5">
+            <Sparkles size={14} className="inline mr-1.5" />
+            Tecnología IA Integrada
           </Badge>
 
-          <h1 className="text-4xl md:text-6xl font-bold mt-4 mb-6 leading-tight">
-            Encuentre el Lugar Soñado
+          <h1 className="heading-xl mb-6 text-balance bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+            Un Hogar Donde la Vida Florece
           </h1>
 
-          <p className="text-xl mb-6 leading-relaxed opacity-90">
-            Un despertar. Una finca de descanso en el corazón de Buesaco donde la vida no solo continúa, florece.
+          <p className="text-xl md:text-2xl mb-8 leading-relaxed text-muted-foreground max-w-xl">
+            Centro de vida para adultos mayores en Buesaco, Nariño. Cuidado profesional, calidez familiar y vida activa.
           </p>
 
-          <div className="space-y-4 mb-8">
-            <p className="text-lg font-semibold opacity-90">
-              Descubra por qué somos diferentes
-            </p>
-          </div>
-
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-col sm:flex-row gap-4 mb-12">
             <Button
-              onClick={() => setPage('services')}
+              onClick={() => setPage('pricing')}
               size="lg"
-              className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 text-lg"
+              className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-lg hover-lift"
             >
-              Buscar Profesional
+              Ver Planes
+              <ArrowRight className="ml-2" size={20} />
             </Button>
             <Button
               onClick={() => setPage('ai-assistant')}
               size="lg"
-              className="bg-gradient-to-r from-[var(--ai-gradient-from)] to-[var(--ai-gradient-to)] hover:shadow-lg px-8 py-4 text-lg font-bold"
+              variant="outline"
+              className="border-2 px-8 py-6 text-lg font-semibold rounded-xl hover:bg-muted"
             >
               <Brain className="mr-2" size={20} />
               Asistente IA
             </Button>
+          </div>
+
+          <div className="grid grid-cols-3 gap-6 pt-8 border-t border-border">
+            {[
+              { value: '24/7', label: 'Atención' },
+              { value: '100%', label: 'Verificados' },
+              { value: '5★', label: 'Calificación' },
+            ].map((stat, i) => (
+              <div key={i} className="text-center">
+                <div className="text-3xl font-bold text-primary mb-1">{stat.value}</div>
+                <div className="text-sm text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </motion.div>
 
@@ -89,30 +92,30 @@ function HeroSection({ setPage }: { setPage: (page: string) => void }) {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative"
+          className="relative hidden lg:block"
         >
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-4">
               {[
-                { icon: Users, title: 'Centro de Día', desc: 'Actividades terapéuticas diarias' },
-                { icon: Heart, title: 'Cuidado en Casa', desc: 'Profesionales certificados' },
+                { icon: Users, title: 'Centro de Día', desc: 'Actividades diarias enriquecedoras' },
+                { icon: Heart, title: 'Cuidado en Casa', desc: 'Profesionales a domicilio' },
               ].map((item, i) => (
-                <div key={i} className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-white">
-                  <item.icon className="w-8 h-8 mb-3 text-primary-foreground" />
-                  <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-                  <p className="text-sm opacity-80">{item.desc}</p>
+                <div key={i} className="glass-effect rounded-2xl p-6 border border-border/50 hover-lift">
+                  <item.icon className="w-10 h-10 mb-4 text-primary" />
+                  <h3 className="font-bold text-lg mb-2 text-foreground">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground">{item.desc}</p>
                 </div>
               ))}
             </div>
             <div className="space-y-4 mt-8">
               {[
-                { icon: Shield, title: 'Monitoreo', desc: 'Seguimiento constante' },
-                { icon: Brain, title: 'IA Predictiva', desc: 'Alertas tempranas' },
+                { icon: Shield, title: 'Seguridad 24/7', desc: 'Monitoreo constante' },
+                { icon: Brain, title: 'IA Predictiva', desc: 'Cuidado inteligente' },
               ].map((item, i) => (
-                <div key={i} className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-white">
-                  <item.icon className="w-8 h-8 mb-3 text-primary-foreground" />
-                  <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-                  <p className="text-sm opacity-80">{item.desc}</p>
+                <div key={i} className="glass-effect rounded-2xl p-6 border border-border/50 hover-lift">
+                  <item.icon className="w-10 h-10 mb-4 text-primary" />
+                  <h3 className="font-bold text-lg mb-2 text-foreground">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -633,28 +636,53 @@ function TodoIncluidoSection({ setPage }: { setPage: (page: string) => void }) {
 
 function CTASection({ setPage }: { setPage: (page: string) => void }) {
   return (
-    <section className="py-20 bg-gradient-to-br from-primary to-primary-600">
-      <div className="max-w-5xl mx-auto px-4 text-center">
+    <section className="relative py-24 md:py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/95 to-accent"></div>
+      <div className="absolute inset-0 opacity-10" style={{
+        backgroundImage: `radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 80%, white 1px, transparent 1px)`,
+        backgroundSize: '50px 50px'
+      }}></div>
+      
+      <div className="container-custom text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
+          className="max-w-4xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <Badge className="mb-6 bg-white/20 text-white border-white/30 backdrop-blur-sm text-base px-6 py-2">
+            <Sparkles size={16} className="inline mr-2" />
+            Visita sin compromiso
+          </Badge>
+          
+          <h2 className="heading-xl text-white mb-8 text-balance">
             ¿Listo para unas vacaciones permanentes?
           </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
+          
+          <p className="text-xl md:text-2xl text-white/95 mb-12 leading-relaxed max-w-3xl mx-auto">
             Deje de imaginar y venga a vivir la experiencia Hogar Belén. Le invitamos a conocer nuestra familia, 
-            nuestros espacios y a tomar un delicioso café de Buesaco sin ningún compromiso.
+            nuestros espacios y a tomar un delicioso café de Buesaco.
           </p>
-          <Button
-            onClick={() => setPage('contact')}
-            size="lg"
-            className="bg-white text-primary hover:bg-gray-100 px-10 py-6 text-xl font-bold shadow-xl"
-          >
-            ¡QUIERO AGENDAR MI VISITA!
-          </Button>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button
+              onClick={() => setPage('contact')}
+              size="lg"
+              className="bg-white text-primary hover:bg-gray-100 px-10 py-7 text-xl font-bold shadow-2xl rounded-xl hover-lift"
+            >
+              ¡Agendar Mi Visita!
+              <ArrowRight className="ml-2" size={24} />
+            </Button>
+            <Button
+              onClick={() => setPage('pricing')}
+              size="lg"
+              variant="outline"
+              className="border-2 border-white text-white hover:bg-white/10 px-10 py-7 text-xl font-semibold rounded-xl backdrop-blur-sm"
+            >
+              Ver Planes
+            </Button>
+          </div>
         </motion.div>
       </div>
     </section>
